@@ -8,7 +8,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-       screens: {
+      screens: {
       sm: "480px",
       nav: "720px",
       md: "850px",
@@ -18,7 +18,7 @@ const config: Config = {
       backgroundColor: {
       darkmode: "#202124",
       searchbar: '#525355',
-        activebar: '#41331C',
+      activebar: '#41331C',
       hover: '#313235'
       },
       backgroundImage: {
