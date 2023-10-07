@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 import {BsPin} from 'react-icons/bs'
 type Props = {}
