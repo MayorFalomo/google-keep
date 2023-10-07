@@ -8,9 +8,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
+       screens: {
+      sm: "480px",
+      nav: "720px",
+      md: "850px",
+      lg: "1100px",
+      xl: "1440px",
+    },
       backgroundColor: {
-      darkmode: "202124",
+      darkmode: "#202124",
       searchbar: '#525355',
+        activebar: '#41331C',
+      hover: '#313235'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

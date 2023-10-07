@@ -1,40 +1,43 @@
-'use client'
-import Image from 'next/image'
 import React from 'react'
-import { FiMenu } from 'react-icons/fi'
-import { HiSearch  } from 'react-icons/hi'
-import { IoRefreshSharp, IoSettingsOutline } from 'react-icons/io5'
-import { CiGrid2H } from 'react-icons/ci'
-import { CgMenuGridO } from 'react-icons/cg'
-
+import {MdLightbulbOutline} from 'react-icons/md'
+import {IoMdNotificationsOutline} from 'react-icons/io'
+import {MdOutlineLabel} from 'react-icons/md'
+import {BiArchiveIn, BiPencil} from 'react-icons/bi'
+import { TfiTrash } from 'react-icons/tfi'
 
 type Props = {}
 
 const Navbar = (props: Props) => {
   return (
-    <nav className="flex justify-between px-6 py-2 border-2 border-[#525355] border-y-[#525355]"  >
-      <div  className='flex items-center gap-16 w-2/4' >
-      <div className='flex items-center gap-4' >
-      <span>{<FiMenu fontSize='30px' />} </span>
-      <Image src='/keep.png' width="100" height='100' alt='img' />
-        <h1 className='text-[30px]' >Keep </h1>
-      </div>
-      <form className='flex items-center bg-searchbar min-w-[80%] w-full rounded-xl py-2 px-6' >
-        <span>{<HiSearch fontSize='30px' color='#fff'  />} </span>
-        <input className='p-4 bg-searchbar placeholder: text-white text-[20px] ' type='text' placeholder='Search' />
-        </form>
-        </div>
-      <div className='flex items-center gap-6 min-w-[400px] justify-between ' >
-        <div  className='flex items-center gap-8 ' >
-        <span>{<IoRefreshSharp  fontSize='35px' />} </span>
-        <span>{<CiGrid2H   fontSize='35px' />} </span>
-          <span>{<IoSettingsOutline  fontSize='30px' />} </span>
-        </div>
-        <div  className='flex items-center gap-8' >
-          <span>{<CgMenuGridO  fontSize='35px' />} </span>
-          <Image className='rounded-full' src='/irene.jpg' width="50" height='50' alt='img' />
-        </div>
-      </div>
+    <nav className='h-[90vh] flex flex-col ' >
+      <ul className=' h-full max-[600px]:flex flex-col items-center' >
+        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <span>{<MdLightbulbOutline className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />}  </span>
+          <span className='max-md:hidden' >Notes </span>
+        </li>
+        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <span>{<IoMdNotificationsOutline className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />}
+          </span>
+          <span  className='max-md:hidden' > Remainders</span>
+        </li>
+        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <span>{<MdOutlineLabel className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />}  </span>
+          <span  className='max-md:hidden' > 7 </span>
+        </li>
+        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <span>{<BiPencil className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />} </span>
+          <span  className='max-md:hidden' >Edit labels </span>
+          </li>
+        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <span>{<BiArchiveIn className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />} </span>
+         <span  className='max-md:hidden' >Archive </span>
+        </li>
+        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <span>{<TfiTrash className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />} </span>
+        <span className='max-md:hidden' >Trash </span>
+        </li>
+      </ul>
+      <p className='max-[850px]:hidden px-4 text-[#9AA0A6] text-[18px] hover:text-white cursor-pointer' > Open-source licenses </p>
     </nav>
   )
 }

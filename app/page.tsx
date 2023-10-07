@@ -1,15 +1,16 @@
 import Image from 'next/image'
-import Homepage from './home/page'
+import Homepage from './pages/home/page'
 import Head from 'next/head'
+import Navbar from '@/components/navbar/Navbar'
+import Notes from '@/components/notes/Notes'
+import style from './Home.module.css'
+
 
 export default function Home() {
   return (
-    <main>
-      <Head>
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/keep.png"></link>
-        <meta name="theme-color" content="#202124" />
-      </Head>
-    </main>
+    <div className={style.container} >
+      <Navbar />
+      <Notes/>
+    </div>
   )
 }
