@@ -22,7 +22,7 @@ const Headerbar = (props: Props) => {
         {mobileSearchBar ?
           <form className='bg-white flex items-center rounded-xl px-4 ' >
             <span className='bg-#fff border-2 px-1 outline-none border-none  ' >{<BiLeftArrowAlt className='max-sm:text-[20px] max-md:text-[30px] max-lg:text-[30px]' onClick={() => setMobileSearchBar(false) } color="#000"  cursor='pointer' />} </span>
-            <input className='bg-white w-full rounded-xl text-#000 py-2 border-none outline-none placeholder: text-white text-[16px] font-weight: black ' placeholder="Search" type="text" />
+            <input className='bg-white text-black w-full rounded-xl text-#000 py-2 border-none outline-none placeholder:text-[16px] font-weight: black ' placeholder="Search" type="text" />
             <span className='bg-#fff border-2 px-1 outline-none border-none ' >{<LiaTimesSolid className='max-sm:text-[20px] max-md:text-[30px] max-lg:text-[30px]' onClick={() => setMobileSearchBar(false) } color="#000"  cursor='pointer' />} </span>
           </form> :
           <div className='flex items-center gap-2' >
