@@ -16,30 +16,30 @@ const Headerbar = (props: Props) => {
   const [mobileSearchBar, setMobileSearchBar] = useState(false)
 
   return (
-    <nav className="flex justify-between mb-4 p-2 border-2 border-[#525355] border-y-[#525355]"  >
-      <div className='flex items-center  ' >
+    <nav className="flex justify-between mb-4 p-4 border-2 border-[#525355] border-y-[#525355]"  >
+      <div className='flex items-center justify-between gap-16 w-[60%] min-[850px]:  ' >
       <div className='flex items-center gap-2' >
-      <span >{<FiMenu className='max-sm:text-[22px] md:text-3x1 max-lg:text-3xl xl:text-4xl ' cursor='pointer' />} </span>
+      <span >{<FiMenu className='sm:text-[24px] md:text-3x1 ' cursor='pointer' />} </span>
       <img src='./keep.png' className="max-w-8 max-w-8"  />
-        <h1 className='max-lg:text-2xl text-[30px]' >Keep </h1>
+        <h1 className='max-lg:text-2xl text-[30px]'> Keep </h1>
       </div>
         <form
           onClick={() => setActiveInput(true)}
           className={activeInput ?
-            'flex items-center bg-white w-full rounded-xl py-2 px-6' :
+            'max-md:hidden flex items-center bg-white w-full rounded-xl py-2 px-6' :
             'max-md:hidden flex items-center bg-searchbar w-full rounded-xl py-2 px-6 '} >
-        <span>{<HiSearch className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color={activeInput ? "black" : '#fff'} cursor='pointer' />} </span>
+        <span>{<HiSearch className='sm:text-2xl md:text-3x1 lg:text-3xl' color={activeInput ? "black" : '#fff'} cursor='pointer' />} </span>
           <input
             className={activeInput ?
               'min-p-[2px] p-2 bg-white w-full border-none outline-none placeholder: text-black text-[20px] font-weight: black'
-              : 'min-p-[4px]  p-2 bg-searchbar w-full border-none outline-none placeholder: text-white text-[20px] font-weight: black'}
+              : 'p-2 bg-searchbar border-none outline-none placeholder: text-white text-[20px] font-weight: black'}
             type='text'
             placeholder='Search' />
           {activeInput ?
             <span>{<LiaTimesSolid  color={activeInput ? "black" : '#fff'} cursor='pointer' />} </span> : ""}
         </form>
         </div>
-      <div className=' flex items-center justify-between gap-2' >
+      <div className=' flex items-center justify-between gap-2 min-w-[15%] ' >
         <div className='flex items-center gap-2 ' >
         <span className='min-[850px]:hidden  ' >{<HiSearch  className=' sm:text-[24px] md:text-[26px] lg:text-3xl ' cursor='pointer' />} </span>
         <span className='p-1 rounded-full hover:bg-hover' >{<IoRefreshSharp className=' text-[#9AA0A6] sm:text-[24px] md:text-[26px] lg:text-3xl ' cursor='pointer' />} </span>

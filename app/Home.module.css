@@ -3,7 +3,6 @@
     grid-template-columns: 350px auto;
     overflow: hidden; 
     height: 95vh;
-    border: 1px solid red;
 }
 @media (max-width: 850px ) {
     .container{
