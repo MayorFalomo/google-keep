@@ -40,7 +40,7 @@ const Headerbar = (props: Props) => {
           <input
             className={activeInput ?
               'min-p-[2px] p-2 bg-white w-full border-none outline-none placeholder: text-black text-[20px] font-weight: black'
-              : 'p-2 bg-searchbar border-none outline-none placeholder: text-white text-[20px] font-weight: black'}
+              : 'p-2 bg-searchbar border-none outline-none placeholder:text-[#E9E9E9] text-[22px] font-weight: black'}
             type='text'
             placeholder='Search' />
           {activeInput ?

@@ -13,7 +13,7 @@ const Navbar = (props: Props) => {
       <ul className=' h-full max-[600px]:flex flex-col items-center' >
         <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           <span>{<MdLightbulbOutline className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />}  </span>
-          <span className='max-md:hidden' >Notes </span>
+          <span className='font-[Cinzel]  max-md:hidden' >Notes </span>
         </li>
         <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           <span>{<IoMdNotificationsOutline className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />}
