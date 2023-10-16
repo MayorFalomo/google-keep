@@ -14,7 +14,7 @@ const Notes = (props: Props) => {
 
 
   return (
-    <div clsssName='bg-red' >
+    <div clsssName='bg-red'>
       <form className='flex justify-center' >
         {openTextArea ? <div className='p-4  rounded-[10px] border-2 border-[#525355] ' >
           <div className='flex items-center justify-between ' >
