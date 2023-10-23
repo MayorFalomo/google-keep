@@ -13,5 +13,6 @@ body{
   background-color: #202124;
   color: #fff;
   overflow-x: hidden;
+  overflow-y: hidden;
   font-family: 'Cinzel', sans-serif;
 }
