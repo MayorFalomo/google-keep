@@ -13,9 +13,12 @@ import { BiLeftArrowAlt } from 'react-icons/bi'
 type Props = {}
 
 const Headerbar = (props: Props) => {
-  const [activeInput, setActiveInput] = useState(false)
-  const [mobileSearchBar, setMobileSearchBar] = useState(false)
-
+  const [activeInput, setActiveInput] = useState(false) //Changes the background colour
+  const [mobileSearchBar, setMobileSearchBar] = useState(false)//This state controls the mobile search bar whether it shows or not
+  const [times, setTimes] = useState(false)
+  
+  console.log(times);
+  
   return (
     <nav className="flex justify-between mb-4 p-4 border-y-[#525355]"  >
       <div className='flex items-center justify-between gap-16 w-[60%] min-[850px]:  ' >
@@ -32,19 +35,18 @@ const Headerbar = (props: Props) => {
           </div>
         }
         <form
-          onClick={() => setActiveInput(true)}
           className={activeInput ?
             'max-md:hidden flex items-center bg-white w-full rounded-xl py-2 px-6' :
             'max-md:hidden flex items-center bg-searchbar w-full rounded-xl py-2 px-6 '} >
         <span>{<HiSearch className='sm:text-2xl md:text-3x1 lg:text-3xl' color={activeInput ? "black" : '#fff'} cursor='pointer' />} </span>
-          <input
+          <input onClick={() => { setActiveInput(true); setTimes(true) } }
             className={activeInput ?
               'min-p-[2px] p-2 bg-white w-full border-none outline-none placeholder: text-black text-[20px] font-weight: black'
               : 'p-2 bg-searchbar border-none outline-none placeholder:text-[#E9E9E9] text-[22px] font-weight: black'}
             type='text'
             placeholder='Search' />
           {activeInput ?
-            <span>{<LiaTimesSolid className='sm:text-2xl md:text-3x1 lg:text-3xl'  color={activeInput ? "black" : '#fff'} cursor='pointer' />} </span> : ""}
+            <span className=' ' onClick={() => setTimes(!times) } > {times ? <LiaTimesSolid className='sm:text-2xl md:text-3x1 lg:text-3xl'  color={activeInput ? "black" : '#fff'} cursor='pointer' /> : ""} </span> : ""}
         </form>
         </div>
       <div className=' flex items-center justify-between gap-2 min-w-[15%] ' >
