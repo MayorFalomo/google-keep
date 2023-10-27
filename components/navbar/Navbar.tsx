@@ -4,6 +4,7 @@ import {IoMdNotificationsOutline} from 'react-icons/io'
 import {MdOutlineLabel} from 'react-icons/md'
 import {BiArchiveIn, BiPencil} from 'react-icons/bi'
 import { TfiTrash } from 'react-icons/tfi'
+import Link from 'next/link'
 
 type Props = {}
 
@@ -33,7 +34,7 @@ const Navbar = (props: Props) => {
          <span  className='max-md:hidden' >Archive </span>
         </li>
         <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
-          <span>{<TfiTrash className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />} </span>
+          <Link href="/about" ><span>{<TfiTrash className='max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl' color='#9AA0A6' cursor='pointer' />} </span></Link>
         <span className='max-md:hidden' >Trash </span>
         </li>
       </ul>
