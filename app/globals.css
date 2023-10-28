@@ -12,7 +12,8 @@
 body{
   background-color: #202124;
   color: #fff;
+  min-height: 100vh;
   overflow-x: hidden;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   font-family: 'Cinzel', sans-serif;
 }
