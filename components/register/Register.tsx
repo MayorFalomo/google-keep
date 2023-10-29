@@ -12,7 +12,7 @@ const Register = (props: Props) => {
               <div  className='border-2 border-black-200 rounded-xl p-8 mt-2 flex flex-col justify-end mx-[auto] gap-6 w-[90%] ' >
               <div  className='flex flex-col items-center gap-3' >
                   <Image className='flex justify-center m-auto' src='./google.svg' width="120" height="120" alt='Google' />
-              <h1 className='text-[27px] text-center' >Create a Hi-Notepad account </h1>
+              <h1 className='text-[25px] text-center' >Create a Hi-Notepad account </h1>
               <button className='w-[60%] text-[22px] border-2 border-black-500 rounded-[35px] flex justify-center gap-2 p-4' >{<FcGoogle size={30}  />} Sign Up With Google</button>
               </div>
                       <form className='flex flex-col items-end gap-4' >
@@ -25,7 +25,7 @@ const Register = (props: Props) => {
           <div className=' w-[90%]' >
           <ul className='flex items-start justify-between w-full  ' >
               <li className='flex items-center gap-8' >English (United States)  <span>{<MdOutlineArrowDropDown />} </span> </li>
-              <div className='flex items-center gap-4 ' >
+              <div className='flex items-center gap-4'>
                   <span>Help </span>
                   <span>Privacy </span>
                   <span>Terms </span>
