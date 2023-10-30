@@ -8,6 +8,25 @@ import Headerbar from '@/components/header/Headerbar'
 
 
 export default function Home() {
+
+
+//    const getCurrentUser = async(id: string) => {
+//  await fetch(`https://twitter-clone-server-nu.vercel.app/api/users/${id}`)
+//     .then((res) => {
+//       if (res.ok) {
+//         return res.json();
+//       } else {
+//         throw new Error("User ID not found");
+//       }
+//     })
+//    .then((res) => {      
+//       setUser(res.user);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       router.push("/login"); // Redirect to login page if user ID is not found
+//     });
+// };
   return (
     <div  >
       <Headerbar />

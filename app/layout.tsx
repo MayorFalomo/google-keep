@@ -1,8 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Headerbar from '@/components/header/Headerbar'
-
+import { AppContextProvider} from '@/helpers/Helpers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -13,6 +12,8 @@ export const metadata: Metadata = {
   themeColor: '#202124',
 }
 
+
+
 export default function RootLayout({
   children,
 }: {
@@ -21,8 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-              {/* <Headerbar/> */}
-        {children}
+        <AppContextProvider>
+          {children}
+          </AppContextProvider>
       </body>
     </html>
   )
