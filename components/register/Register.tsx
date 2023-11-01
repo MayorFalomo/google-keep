@@ -4,12 +4,18 @@ import { MdOutlineArrowDropDown } from 'react-icons/md'
 import { FcGoogle} from 'react-icons/fc'
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
+import { signInWithPopup } from 'firebase/auth'
+import { Router, useRouter } from 'next/router'
+import { AppContextProvider } from '@/helpers/Helpers'
+import { createUserWithEmailAndPassword } from 'firebase/auth/cordova'
+import { auth, provider } from "../../firebase.config";
 
 type Props = {}
 
 const Register = (props: Props) => {
-
-  const {getCurrentUser} = useContext(AppContext)
+  
+  const router = useRouter()
+  // const {getCurrentUser} = useContext(AppContextProvider)
   const [email, setEmail] = useState<string>("")
   const [userNames, setUserName] = useState<string>("")
   const [passwords, setPasswords] = useState<string>("")
@@ -38,22 +44,13 @@ const Register = (props: Props) => {
         location: "Lagos, Nigeria",
         birthday: "April 19th, 2023",
         links: "https://mayowa-falomo.netlify.app"
-
       }
-      axios.post("https://twitter-clone-server-nu.vercel.app/api/users/register", userInfo)
+      axios.post("http://localhost:5000/api/users/register", userInfo)
         .then(() => router.push("/"))
         .then(() => window.location.reload())
         .catch((err) => console.log(err)
         )
-      setDoc(doc(db, "users", res.user.uid), {
-        uid: res.user.uid,
-        username: res.user.displayName,
-        usersAt: `@${res.user.displayName}`,
-        email: res.user.email,
-        profilePic: "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
-      })
-      setDoc(doc(db, "userChats", res.user.uid), {})
-      getCurrentUser(res.user.uid)
+      // getCurrentUser(res.user.uid)
       
     })
     } catch (err) {
@@ -89,15 +86,7 @@ const Register = (props: Props) => {
       axios.post("https://twitter-clone-server-nu.vercel.app/api/users/register", userInfo).then(() => router.push("/"))
         .then(() => window.location.reload())
         .catch((err) => err && setIsAuth(true))
-        setDoc(doc(db, "users", res.user.uid), {
-            uid: res.user.uid,
-            username: userNames,
-            usersAt: `@${userNames}`,
-            email: res.user.email,
-            profilePic: 'https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg',
-        })
-      setDoc(doc(db, "userChats", res.user.uid), {})
-      getCurrentUser(res.user.uid)
+      // getCurrentUser(res.user.uid)
     }).catch((err) => console.log(err))
   }
 
