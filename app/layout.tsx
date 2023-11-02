@@ -1,7 +1,7 @@
+import AppContextProvider from '@/helpers/ContextProvider'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { AppContextProvider} from '@/helpers/Helpers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {

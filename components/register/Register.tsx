@@ -1,3 +1,4 @@
+"use client"
 import Image from 'next/image'
 import React, { useContext, useState } from 'react'
 import { MdOutlineArrowDropDown } from 'react-icons/md'
@@ -5,90 +6,93 @@ import { FcGoogle} from 'react-icons/fc'
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
 import { signInWithPopup } from 'firebase/auth'
-import { Router, useRouter } from 'next/router'
-import { AppContextProvider } from '@/helpers/Helpers'
+import {  AppContext, useAppContext } from '@/helpers/Helpers'
 import { createUserWithEmailAndPassword } from 'firebase/auth/cordova'
 import { auth, provider } from "../../firebase.config";
 
-type Props = {}
+type Props = {
+}
 
 const Register = (props: Props) => {
+
+  const { contextValue } = useAppContext()
+  console.log(contextValue.isAuth);
   
-  const router = useRouter()
+  // const router = useRouter()
   // const {getCurrentUser} = useContext(AppContextProvider)
   const [email, setEmail] = useState<string>("")
   const [userNames, setUserName] = useState<string>("")
   const [passwords, setPasswords] = useState<string>("")
   const [cookies, setCookie] = useCookies(["user"])
   const [name, setName] = useState("")
-  const [isAuth, setIsAuth] = useState<boolean>(false)
+  // const [isAuth, setIsAuth] = useState<boolean>(false)
 
   //Sign Up With Google
-  const signUpWithGoogle = async () => {
-    try{
-    signInWithPopup(auth, provider).then((res) => {
-      setCookie("user", res.user.uid, { path: "/" })            
-      let userInfo = {
-        id: res.user.uid,
-        username: res.user.displayName,
-        password: "12345",
-        email: res.user.email,
-        profilePic: res.user.photoURL == null || "" ? "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg" : res.user.photoURL ,
-        coverPhoto: "https://blog.contentstudio.io/wp-content/uploads/2022/04/twitter-header.jpg",
-        usersAt: `@${res.user.displayName}`,
-        following: [],
-        followers: [],
-        notifications: [],
-        retweeted: [],
-        bio: "Regular Human",
-        location: "Lagos, Nigeria",
-        birthday: "April 19th, 2023",
-        links: "https://mayowa-falomo.netlify.app"
-      }
-      axios.post("http://localhost:5000/api/users/register", userInfo)
-        .then(() => router.push("/"))
-        .then(() => window.location.reload())
-        .catch((err) => console.log(err)
-        )
-      // getCurrentUser(res.user.uid)
+  // const signUpWithGoogle = async () => {
+  //   try{
+  //   signInWithPopup(auth, provider).then((res) => {
+  //     setCookie("user", res.user.uid, { path: "/" })            
+  //     let userInfo = {
+  //       id: res.user.uid,
+  //       username: res.user.displayName,
+  //       password: "12345",
+  //       email: res.user.email,
+  //       profilePic: res.user.photoURL == null || "" ? "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg" : res.user.photoURL ,
+  //       coverPhoto: "https://blog.contentstudio.io/wp-content/uploads/2022/04/twitter-header.jpg",
+  //       usersAt: `@${res.user.displayName}`,
+  //       following: [],
+  //       followers: [],
+  //       notifications: [],
+  //       retweeted: [],
+  //       bio: "Regular Human",
+  //       location: "Lagos, Nigeria",
+  //       birthday: "April 19th, 2023",
+  //       links: "https://mayowa-falomo.netlify.app"
+  //     }
+  //     axios.post("http://localhost:5000/api/users/register", userInfo)
+  //       .then(() => router.push("/"))
+  //       .then(() => window.location.reload())
+  //       .catch((err) => console.log(err)
+  //       )
+  //     // getCurrentUser(res.user.uid)
       
-    })
-    } catch (err) {
-      console.log("Sign up with Google error:", err) 
-    }
-  }
+  //   })
+  //   } catch (err) {
+  //     console.log("Sign up with Google error:", err) 
+  //   }
+  // }
   
 
 //Sign up by creating account
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    createUserWithEmailAndPassword(auth, email, passwords).then((res) => {
-      setCookie("user", res.user.uid, { path: "/" })
+  // const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   createUserWithEmailAndPassword(auth, email, passwords).then((res) => {
+  //     setCookie("user", res.user.uid, { path: "/" })
       
-      const userInfo = {
-        id: res.user.uid,
-        username: userNames,
-        email: email,
-        password: passwords,
-        profileDp: "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
-        coverPhoto: "https://blog.contentstudio.io/wp-content/uploads/2022/04/twitter-header.jpg",
-        usersAt: `@${userNames}`,
-        following: [],
-        followers: [],
-        notifications: [],
-        retweeted: [],
-        bio: "Regular Human",
-        // location: "Lagos, Nigeria",
-        // birthday: "April 19th, 1999",
-        // links: "https://mayowa-falomo.netlify.app"
-      }
+  //     const userInfo = {
+  //       id: res.user.uid,
+  //       username: userNames,
+  //       email: email,
+  //       password: passwords,
+  //       profileDp: "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
+  //       coverPhoto: "https://blog.contentstudio.io/wp-content/uploads/2022/04/twitter-header.jpg",
+  //       usersAt: `@${userNames}`,
+  //       following: [],
+  //       followers: [],
+  //       notifications: [],
+  //       retweeted: [],
+  //       bio: "Regular Human",
+  //       // location: "Lagos, Nigeria",
+  //       // birthday: "April 19th, 1999",
+  //       // links: "https://mayowa-falomo.netlify.app"
+  //     }
      
-      axios.post("https://twitter-clone-server-nu.vercel.app/api/users/register", userInfo).then(() => router.push("/"))
-        .then(() => window.location.reload())
-        .catch((err) => err && setIsAuth(true))
-      // getCurrentUser(res.user.uid)
-    }).catch((err) => console.log(err))
-  }
+  //     axios.post("https://twitter-clone-server-nu.vercel.app/api/users/register", userInfo).then(() => router.push("/"))
+  //       .then(() => window.location.reload())
+  //       .catch((err) => err && setIsAuth(true))
+  //     // getCurrentUser(res.user.uid)
+  //   }).catch((err) => console.log(err))
+  // }
 
   const getRandomEmail = () => {
     if (name.length > 0) {
