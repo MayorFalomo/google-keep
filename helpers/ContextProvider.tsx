@@ -1,5 +1,5 @@
 "use client"
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { AppContext } from './Helpers';
 import { useCookies } from 'react-cookie';
@@ -8,6 +8,7 @@ type Props = {}
 
 const AppContextProvider = ({children}: any) => {
 
+    const router = useRouter()
 
   const [isAuth, setIsAuth] = useState(true);
   const [user, setUser] = useState(null);
@@ -29,10 +30,26 @@ const AppContextProvider = ({children}: any) => {
   };
 
   //getCurrentUser takes in a parameter called Id which we'll get from cookies.user
-  const getCurrentUser = async(id: string) => {};
-
+ const getCurrentUser = async(id: string) => {
+ await fetch(`http://localhost:5000/api/users/${id}`)
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("User ID not found");
+      }
+    })
+   .then((res) => {      
+      setUser(res.user);
+    })
+    .catch((err) => {
+      console.log(err);
+      router.push("/login"); // Redirect to login page if user ID is not found
+    });
+};
   const contextValue = {
     isAuth,
+    setIsAuth,
     user,
     notes,
     currentUser,
