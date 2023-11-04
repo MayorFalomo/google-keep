@@ -17,7 +17,6 @@ const AppContextProvider = ({children}: any) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [cookies, setCookies] = useCookies(["user"])
 
-
   //Define functions for updating state
   const login = (user:any) => {
     setIsAuth(true);
@@ -31,7 +30,7 @@ const AppContextProvider = ({children}: any) => {
 
   //getCurrentUser takes in a parameter called Id which we'll get from cookies.user
  const getCurrentUser = async(id: string) => {
- await fetch(`http://localhost:5000/api/users/${id}`)
+ await fetch(`http://localhost:5000/api/users/get-user/${id}`)
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -54,6 +53,7 @@ const AppContextProvider = ({children}: any) => {
     notes,
     currentUser,
     bookmarks,
+    getCurrentUser,
   };
 
   return (

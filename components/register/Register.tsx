@@ -5,9 +5,8 @@ import { MdOutlineArrowDropDown } from 'react-icons/md'
 import { FcGoogle} from 'react-icons/fc'
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
-import { signInWithPopup } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import {  AppContext, useAppContext } from '@/helpers/Helpers'
-import { createUserWithEmailAndPassword } from 'firebase/auth/cordova'
 import { auth, provider } from "../../firebase.config";
 import { useRouter } from 'next/navigation'
 
@@ -33,29 +32,25 @@ const Register = (props: Props) => {
     signInWithPopup(auth, provider).then((res) => {
       setCookie("user", res.user.uid, { path: "/" })            
       let userInfo = {
-        id: res.user.uid,
+        userId: res.user.uid,
         username: res.user.displayName,
         password: "12345",
         email: res.user.email,
         profilePic: res.user.photoURL == null || "" ? "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg" : res.user.photoURL ,
-        coverPhoto: "https://blog.contentstudio.io/wp-content/uploads/2022/04/twitter-header.jpg",
-        usersAt: `@${res.user.displayName}`,
-        following: [],
-        followers: [],
         notifications: [],
-        retweeted: [],
-        bio: "Regular Human",
-        location: "Lagos, Nigeria",
-        birthday: "April 19th, 2023",
-        links: "https://mayowa-falomo.netlify.app"
+        // bio: "Regular Human",
+        // location: "Lagos, Nigeria",
+        // links: "https://mayowa-falomo.netlify.app"
       }
+      // console.log(userInfo);
       axios.post("http://localhost:5000/api/users/register", userInfo)
         .then(() => router.push("/"))
         .then(() => window.location.reload())
+        .then(() => console.log(userInfo))
         .catch((err) => console.log(err)
-        )
-      // getCurrentUser(res.user.uid)
-      
+      )
+      contextValue?.getCurrentUser(res.user.uid)
+      // console.log(userInfo);
     })
     } catch (err) {
       console.log("Sign up with Google error:", err) 
@@ -70,22 +65,20 @@ const Register = (props: Props) => {
       setCookie("user", res.user.uid, { path: "/" })
       
       const userInfo = {
-        id: res.user.uid,
+        // id: res.user.uid,
         username: userNames,
         email: email,
         password: passwords,
         profileDp: "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
-        coverPhoto: "https://blog.contentstudio.io/wp-content/uploads/2022/04/twitter-header.jpg",
-        usersAt: `@${userNames}`,
         notifications: [],
-        retweeted: [],
         bio: "Regular Human",
         // location: "Lagos, Nigeria",
         // birthday: "April 19th, 1999",
         // links: "https://mayowa-falomo.netlify.app"
       }
      
-      axios.post("https://twitter-clone-server-nu.vercel.app/api/users/register", userInfo).then(() => router.push("/"))
+      axios.post("http://localhost:5000/api/users/register", userInfo)
+        .then(() => router.push("/"))
         .then(() => window.location.reload())
         .catch((err) => err && contextValue.setIsAuth(true))
       // getCurrentUser(res.user.uid)
@@ -139,7 +132,7 @@ const Register = (props: Props) => {
               <div  className='flex flex-col items-center gap-3' >
                   <Image className='flex justify-center m-auto' src='./google.svg' width="120" height="120" alt='Google' />
               <h1 className='text-[25px] text-center' >Create a Hi-Notepad account </h1>
-              <button className='w-[60%] text-[22px] border-2 border-black-500 rounded-[35px] flex justify-center gap-2 p-4' >{<FcGoogle size={30}  />} Sign Up With Google</button>
+              <button onClick={signUpWithGoogle} className='w-[60%] text-[22px] border-2 border-black-500 rounded-[35px] flex justify-center gap-2 p-4' >{<FcGoogle size={30}  />} Sign Up With Google</button>
               </div>
                       <form className='flex flex-col items-end gap-4' >
                   <input className='p-4 w-full rounded-[6px] bg-white border-2 border-black-500 placeholder:px-3' type="text" name="username" placeholder="Username" />
