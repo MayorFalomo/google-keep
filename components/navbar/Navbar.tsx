@@ -7,16 +7,19 @@ import { BiArchiveIn, BiPencil } from "react-icons/bi";
 import { TfiTrash } from "react-icons/tfi";
 import Link from "next/link";
 import { useAppContext } from "@/helpers/Helpers";
-
+import { getCookie } from "cookies-next";
+// import "../../app/Home.module.css"
 type Props = {};
 
 const Navbar = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  console.log(contextValue.user, "this is logged user");
+  // console.log(contextValue.user, "this is logged user");
+
+  // console.log(getCookie("user"), "This is cookies");
 
   return (
-    <nav className="h-[90vh] flex flex-col ">
+    <nav className="h-[85vh] flex flex-col overflow-auto">
       <ul className=" h-full max-[600px]:flex flex-col items-center">
         <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           <span>

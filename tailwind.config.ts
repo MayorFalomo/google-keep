@@ -19,7 +19,8 @@ const config: Config = {
       darkmode: "#202124",
       searchbar: '#525355',
       activebar: '#41331C',
-      hover: '#313235'
+      hover: '#41331C',
+      borderColor: '#313235',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

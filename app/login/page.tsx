@@ -7,11 +7,16 @@ import axios from "axios";
 import { BsTwitter } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
 import Link from "next/link";
+import Login from "@/components/login/Login";
 
 type Props = {};
 
 const login = (props: Props) => {
-  return <div></div>;
+  return (
+    <div>
+      <Login />
+    </div>
+  );
 };
 
 export default login;

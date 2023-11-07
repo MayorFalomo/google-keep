@@ -3,16 +3,18 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import axios from "axios";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useAppContext } from "@/helpers/Helpers";
 import { auth, provider } from "../../firebase.config";
 import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
+import { cookies } from "next/headers";
 
 type Props = {};
 
-const Register = (props: Props) => {
+const Register = (req: any, res: any) => {
   const { contextValue }: any = useAppContext();
 
   const router = useRouter();
@@ -32,7 +34,7 @@ const Register = (props: Props) => {
   const [email, setEmail] = useState<string>("");
   const [userNames, setUserName] = useState<string>("");
   const [passwords, setPasswords] = useState<string>("");
-  const [cookies, setCookie] = useCookies(["user"]);
+  // const [cookies, setCookie] = useCookies(["user"]);
   const [name, setName] = useState("");
   // const [isAuth, setIsAuth] = useState<boolean>(false)
 
@@ -41,18 +43,20 @@ const Register = (props: Props) => {
     const generatedId = generateId(24);
 
     try {
-      signInWithPopup(auth, provider).then((res) => {
-        setCookie("user", generatedId, { path: "/" });
+      signInWithPopup(auth, provider).then((response) => {
+        // setCookie("user", generatedId, { path: "/" });
+        setCookie("user", generateId, { req, res });
+        // setCookie("user", generatedId, { path: "/" });
         let userInfo = {
           id: generatedId,
-          userId: res.user.uid,
-          username: res.user.displayName,
+          userId: response.user.uid,
+          username: response.user.displayName,
           password: "12345",
-          email: res.user.email,
+          email: response.user.email,
           profilePic:
-            res.user.photoURL == null || ""
+            response.user.photoURL == null || ""
               ? "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg"
-              : res.user.photoURL,
+              : response.user.photoURL,
           notifications: [],
           // bio: "Regular Human",
           // location: "Lagos, Nigeria",
@@ -78,14 +82,13 @@ const Register = (props: Props) => {
     e.preventDefault();
     const generatedId = generateId(24);
     createUserWithEmailAndPassword(auth, email, passwords)
-      .then((res) => {
-        setCookie("user", generatedId, { path: "/" });
-        // console.log(res.user.uid);
-
+      .then((response) => {
+        setCookie("user", generatedId, { req, res });
+        // cookies().set("name", "lee");
         //Since monogoDb can't find google's id since it's 28 digits, i generated my 24 digit id for each user id
         const userInfo = {
           id: generatedId, //Self generated
-          userId: res.user.uid, //userId is from google
+          userId: response.user.uid, //userId is from google
           username: userNames,
           email: email,
           password: passwords,

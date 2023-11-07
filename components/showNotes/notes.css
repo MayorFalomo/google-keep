@@ -1,0 +1,13 @@
+.grid{
+    /* border: 2px red solid; */
+   margin-top: 50px;
+   width: 100% !important;
+   /* width: 80vw !important; */
+}
+.grid-item{
+    border: 2px red solid;
+}
+/* .notesContainer > div{
+    grid-column: span 1;
+    grid-row: span 1;
+} */

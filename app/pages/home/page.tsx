@@ -8,6 +8,7 @@ import style from "./Home.module.css";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import axios from "axios";
+import ShowNotes from "@/components/showNotes/ShowNotes";
 
 async function getData(id: any) {
   // const res = await fetch(`http://localhost:5000/api/users/get-user/${id}`);
@@ -39,8 +40,12 @@ export default async function Home() {
       {/* {data.map((value: any) => {
         <div>{value} </div>;
       })} */}
-      <Navbar />
-      <Notes />
+      {/* <Navbar /> */}
+      <div className="">
+        {/* <Notes /> */}
+        {/* <h1>This is the notes Component </h1>
+        <ShowNotes /> */}
+      </div>
     </div>
   );
 }

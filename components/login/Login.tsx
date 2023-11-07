@@ -50,6 +50,7 @@ const Login = (props: Props) => {
       .then(() => window.location.reload())
       .catch(() => setIsAuth(true));
   };
+
   return (
     <div className="bg-white border-2 border-blue-600 text-black h-[100vh] flex justify-center items-center">
       <div className="flex flex-col justify-between items-center w-[650px] h-[90%]">
@@ -62,9 +63,7 @@ const Login = (props: Props) => {
               height="120"
               alt="Google"
             />
-            <h1 className="text-[25px] text-center">
-              Create a Hi-Notepad account{" "}
-            </h1>
+            <h1 className="text-[25px] text-center">Login to Hi-Notepad </h1>
             <button className="w-[60%] text-[22px] border-2 border-black-500 rounded-[35px] flex justify-center gap-2 p-4">
               {<FcGoogle size={30} />} Sign in With Google
             </button>
