@@ -1,13 +1,18 @@
 .grid{
-    /* border: 2px red solid; */
    margin-top: 50px;
    width: 100% !important;
-   /* width: 80vw !important; */
+   margin-bottom: 150px;
+   margin-left: 30px;
+   position: relative;
 }
-.grid-item{
-    border: 2px red solid;
+
+.overlay{
+      background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(7.6px);
+        -webkit-backdrop-filter: blur(7.6px);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
 }
-/* .notesContainer > div{
-    grid-column: span 1;
-    grid-row: span 1;
-} */

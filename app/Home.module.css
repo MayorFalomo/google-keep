@@ -1,12 +1,20 @@
 .container{
     display: grid;
     grid-template-columns: 350px auto;
-    overflow: auto; 
-    min-height: 95vh;
+    /* overflow: hidden;  */
+    /* height: 100vh; */
     /* border: 2px green solid; */
 }
-.container ::-webkit-scrollbar{
+/* .container ::-webkit-scrollbar{
     width: 0 !important;
+} */
+
+.notesContain{
+    position: relative;
+    height: 100vh;
+        overflow: auto !important;
+    margin-top: 130px;
+    margin-bottom: 130px;
 }
 
 @media (max-width: 850px ) {

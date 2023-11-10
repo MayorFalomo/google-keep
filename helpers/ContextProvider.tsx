@@ -17,7 +17,8 @@ const AppContextProvider = ({ children }: any) => {
   const currentUser = getCookie("user");
   const [bookmarks, setBookmarks] = useState([]);
   const [openTextArea, setOpenTextArea] = useState(false);
-
+  const [noteModal, setNoteModal] = useState(false); //toggle create note modal
+  const [pinnedNote, setPinnedNote] = useState([]);
   // const [currentUser, setCurrentUser] = useState()
   // const [cookies, setCookies] = useCookies(["user"]);
 
@@ -69,6 +70,10 @@ const AppContextProvider = ({ children }: any) => {
     getCurrentUser,
     openTextArea,
     setOpenTextArea,
+    noteModal,
+    setNoteModal,
+    pinnedNote,
+    setPinnedNote,
   };
 
   return (

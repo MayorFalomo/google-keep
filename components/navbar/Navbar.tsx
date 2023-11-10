@@ -19,8 +19,8 @@ const Navbar = (props: any) => {
   // console.log(getCookie("user"), "This is cookies");
 
   return (
-    <nav className="h-[85vh] flex flex-col overflow-auto">
-      <ul className=" h-full max-[600px]:flex flex-col items-center">
+    <nav className="h-[100vh] flex flex-col overflow-none ">
+      <ul className=" h-full max-[600px]:flex flex-col items-center mt-[100px] ">
         <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           <span>
             {

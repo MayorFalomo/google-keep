@@ -12,8 +12,8 @@
 body{
   background-color: #202124;
   color: #fff;
-  min-height: 100vh;
-  overflow-x: hidden;
+  /* min-height: 100vh; */
+  overflow: hidden;
   /* overflow-y: hidden; */
-  font-family: 'Cinzel', sans-serif;
+  /* font-family: 'Cinzel', sans-serif; */
 }
