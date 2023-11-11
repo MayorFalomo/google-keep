@@ -1,24 +1,20 @@
-"use client";
-import React, { useState } from "react";
+import { useAppContext } from "@/helpers/Helpers";
+import axios from "axios";
+import React from "react";
 import NoteModal from "../createNoteModal/NoteModal";
-import { BsCheck, BsCheck2, BsCheckCircle, BsPin } from "react-icons/bs";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import { BsCheck, BsPin, BsPinFill } from "react-icons/bs";
 import {
   BiArchiveIn,
   BiBellPlus,
   BiDotsVerticalRounded,
   BiImageAlt,
-  BiUndo,
 } from "react-icons/bi";
-import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { IoColorPaletteOutline } from "react-icons/io5";
-import { GrRedo } from "react-icons/gr";
-import axios from "axios";
-import { useAppContext } from "@/helpers/Helpers";
+import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 
 type Props = {};
 
-const ShowNote = (props: any) => {
+const ShowPinned = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
@@ -33,32 +29,16 @@ const ShowNote = (props: any) => {
     props.setOverLayBg(true);
   };
 
-  const pinNote = async (e: any) => {
+  const unPinNote = async (e: any) => {
     e.preventDefault();
-    const pinThisNote = {
-      pinnedId: props.note?._id,
-      userId: props.note?.userId,
-      usernames: props.note?.username,
-      title: props.note?.title,
-      note: props.note?.note,
-      picture: props.note?.picture,
-      drawing: props.note?.drawing,
-      bgImage: props.note?.bgImage,
-      color: props.note?.color,
-      remainder: props.note?.remainder,
-      collaborator: props.note?.collaborator,
-      label: props.note?.label,
-      createdAt: props?.note.createdAt,
-    };
     try {
-      await axios.post(
-        `http://localhost:5000/api/notes/add-pinned`,
-        pinThisNote
+      await axios.delete(
+        `http://localhost:5000/api/notes/remove-pinned/${props?.pinned?.pinnedId}`
       );
-      contextValue.setPinnedNote(
-        [...contextValue?.pinnedNote, pinThisNote].reverse()
+      let filtered = contextValue.pinnedNote.filter(
+        (pinned: any) => pinned.pinnedId !== props.pinned?.pinnedId
       );
-      console.log("Note has been pinned");
+      contextValue?.setPinnedNote(filtered);
     } catch (err) {
       console.log(err);
     }
@@ -143,10 +123,10 @@ const ShowNote = (props: any) => {
       )}
       {showIconsOnHover ? (
         <span
-          onClick={pinNote}
+          onClick={unPinNote}
           className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] "
         >
-          <BsPin
+          <BsPinFill
             className="  text-[18px] max-sm:text-[18px] max-md:text-[26px] "
             cursor="pointer"
           />
@@ -168,4 +148,4 @@ const ShowNote = (props: any) => {
   );
 };
 
-export default ShowNote;
+export default ShowPinned;

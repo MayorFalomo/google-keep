@@ -16,7 +16,7 @@ export default function Home() {
         <Navbar />
         <div className={style.notesContain}>
           <Notes />
-          <Pinned />
+          {/* <Pinned /> */}
           <ShowNotes />
         </div>
       </div>
