@@ -24,6 +24,7 @@ const ShowNote = (props: any) => {
   const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
   const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
+  const [trackId, setTrackId] = React.useState("");
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -33,18 +34,31 @@ const ShowNote = (props: any) => {
     props.setOverLayBg(true);
   };
 
+  //generateId
+  function dec2hex(dec: any) {
+    return dec.toString(16).padStart(2, "0");
+  }
+
+  // generateId :: Integer -> String
+  function generateId(len: any) {
+    var arr = new Uint8Array((len || 40) / 2);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, dec2hex).join("");
+  }
+
   const pinNote = async (e: any) => {
     e.preventDefault();
     const pinThisNote = {
-      pinnedId: props.note?._id,
-      userId: props.note?.userId,
-      usernames: props.note?.username,
+      _id: generateId(24),
+      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.note?.username,
       title: props.note?.title,
       note: props.note?.note,
       picture: props.note?.picture,
       drawing: props.note?.drawing,
       bgImage: props.note?.bgImage,
-      color: props.note?.color,
+      bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
       label: props.note?.label,
@@ -58,15 +72,19 @@ const ShowNote = (props: any) => {
       contextValue.setPinnedNote(
         [...contextValue?.pinnedNote, pinThisNote].reverse()
       );
-      console.log("Note has been pinned");
+      // console.log("Note has been pinned");
     } catch (err) {
       console.log(err);
     }
   };
 
+  console.log(contextValue?.pinnedNote, "Pinned Note id");
+
   return (
     <div
-      onMouseOver={() => setShowIconsOnHover(true)}
+      onMouseOver={() => {
+        setShowIconsOnHover(true), setTrackId(props?.note?._id);
+      }}
       onMouseOut={() => setShowIconsOnHover(false)}
       className="mapped"
     >
@@ -91,7 +109,7 @@ const ShowNote = (props: any) => {
         " "
       )}
       {showIconsOnHover ? (
-        <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center ">
+        <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
           <span className="p-2 rounded-full hover:bg-hover">
             {
               <BiBellPlus
@@ -141,7 +159,10 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-      {showIconsOnHover ? (
+      {showIconsOnHover &&
+      contextValue?.pinnedNote?.filter(
+        (pinned: any) => pinned?.pinnedId !== trackId
+      ) ? (
         <span
           onClick={pinNote}
           className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] "

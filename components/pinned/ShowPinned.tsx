@@ -1,7 +1,6 @@
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import React from "react";
-import NoteModal from "../createNoteModal/NoteModal";
 import { BsCheck, BsPin, BsPinFill } from "react-icons/bs";
 import {
   BiArchiveIn,
@@ -11,6 +10,7 @@ import {
 } from "react-icons/bi";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
+import PinnedModal from "../pinnedModal/PinnedModal";
 
 type Props = {};
 
@@ -23,7 +23,7 @@ const ShowPinned = (props: any) => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    setNoteUrlParams(props.note?._id);
+    setNoteUrlParams(props.pinned?._id);
     // console.log(props.note?.createdAt, "This is the id");
     setNoteModal(true);
     props.setOverLayBg(true);
@@ -33,16 +33,18 @@ const ShowPinned = (props: any) => {
     e.preventDefault();
     try {
       await axios.delete(
-        `http://localhost:5000/api/notes/remove-pinned/${props?.pinned?.pinnedId}`
+        `http://localhost:5000/api/notes/remove-pinned/${props?.pinned?._id}`
       );
-      let filtered = contextValue.pinnedNote.filter(
-        (pinned: any) => pinned.pinnedId !== props.pinned?.pinnedId
+      let filtered = contextValue.pinnedNote?.filter(
+        (pinned: any) => pinned?._id !== props.pinned?._id
       );
       contextValue?.setPinnedNote(filtered);
     } catch (err) {
       console.log(err);
     }
   };
+
+  console.log(contextValue?.pinnedNote);
 
   return (
     <div
@@ -51,7 +53,7 @@ const ShowPinned = (props: any) => {
       className="mapped"
     >
       <div onClick={handleClick} className="subContainer">
-        {props.note.title.length == 0 && props.note.note.length == 0 ? (
+        {props.pinned?.title?.length == 0 && props.pinned?.note?.length == 0 ? (
           <div className="p-4">
             <input
               className="bg-transparent border-none outline-none "
@@ -60,8 +62,10 @@ const ShowPinned = (props: any) => {
           </div>
         ) : (
           <div className="p-4">
-            <h1 className="text-[20px]">{props.note?.title}</h1>
-            <p className="text-[16px]">{props.note?.note.slice(0, 600)}...</p>
+            <h1 className="text-[20px]">{props.pinned?.title}</h1>
+            <p className="text-[16px]">
+              {props.pinned?.note?.slice(0, 600)}...
+            </p>
           </div>
         )}
       </div>
@@ -136,7 +140,7 @@ const ShowPinned = (props: any) => {
       )}
       <div className="">
         {noteModal ? (
-          <NoteModal
+          <PinnedModal
             noteUrlParams={noteUrlParams}
             setNoteModal={setNoteModal}
             noteModal={noteModal}

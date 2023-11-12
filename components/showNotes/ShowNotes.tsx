@@ -16,19 +16,22 @@ export default function ShowNotes(req: any, res: any) {
 
   const [overLayBg, setOverLayBg] = useState(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
+  const [postLoaded, setPostLoaded] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/notes/get-notes/${userCookie}`)
-      .then((res) => contextValue.setNotes(res.data.notes))
-      .catch((err) => console.log(err));
-  }, [userCookie]);
+    if (!postLoaded) {
+      axios
+        .get(`http://localhost:5000/api/notes/get-notes/${userCookie}`)
+        .then((res) => contextValue.setNotes(res.data.notes))
+        .catch((err) => console.log(err));
+      setPostLoaded(true);
+    }
+  }, [userCookie, postLoaded]);
 
   //   const items = contextValue?.notes.map(function(note:any) {
   //   return <div key={note._id}>{note.name}</div>
   // });
-  const containerRef = useRef(null);
-
   var elem = document.querySelector(".grid");
   var msnry = new Masonry(elem, {
     // options
@@ -43,11 +46,11 @@ export default function ShowNotes(req: any, res: any) {
     initLayout: false,
   });
 
-  // element argument can be a selector string
-  //   for an individual element
   var msnry = new Masonry(".grid", {
     // options
   });
+  // element argument can be a selector string
+  //   for an individual element
 
   useEffect(() => {
     const imgLoad = imagesLoaded(containerRef.current);
@@ -56,42 +59,40 @@ export default function ShowNotes(req: any, res: any) {
     });
   }, [contextValue.notes]);
 
-  // const handleClose = () => {
-  //   contextValue.setOpenTextArea(false);
-  //   contextValue.setNoteModal(false)
-  // }
-
   return (
-    <div
-      onClick={() => contextValue.setOpenTextArea(false)}
-      className="grid"
-      ref={containerRef}
-      data-masonry='{ "itemSelector": ".grid-item", 
+    <>
+      <h1 className="ml-[50px] mb-[20px]">OTHERS </h1>
+      <div
+        onClick={() => contextValue.setOpenTextArea(false)}
+        className="grid"
+        ref={containerRef}
+        data-masonry='{ "itemSelector": ".grid-item", 
       "columnWidth": 300  
      }'
-    >
-      {contextValue?.notes?.map((note: any) => (
-        <div
-          // onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
-          // onMouseLeave={() => setShowIconsOnHover(showIconsOnHover)}
-          className="relative max-w-[350px] min-w-[250px] min-h-[100px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
-          key={note._id}
-        >
-          <ShowNote
-            note={note}
-            overLayBg={overLayBg}
-            setOverLayBg={setOverLayBg}
-            showIconsOnHover={showIconsOnHover}
-            setShowIconsOnHover={setShowIconsOnHover}
-          />
-        </div>
-      ))}
+      >
+        {contextValue?.notes?.map((note: any) => (
+          <div
+            // onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
+            // onMouseLeave={() => setShowIconsOnHover(showIconsOnHover)}
+            className="relative max-w-[350px] min-w-[250px] min-h-[100px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
+            key={note._id}
+          >
+            <ShowNote
+              note={note}
+              overLayBg={overLayBg}
+              setOverLayBg={setOverLayBg}
+              showIconsOnHover={showIconsOnHover}
+              setShowIconsOnHover={setShowIconsOnHover}
+            />
+          </div>
+        ))}
 
-      {overLayBg ? (
-        <div className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "></div>
-      ) : (
-        ""
-      )}
-    </div>
+        {overLayBg ? (
+          <div className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "></div>
+        ) : (
+          ""
+        )}
+      </div>
+    </>
   );
 }

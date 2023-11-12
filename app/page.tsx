@@ -16,7 +16,9 @@ export default function Home() {
         <Navbar />
         <div className={style.notesContain}>
           <Notes />
-          {/* <Pinned /> */}
+          <div className="my-[50px]">
+            <Pinned />
+          </div>
           <ShowNotes />
         </div>
       </div>

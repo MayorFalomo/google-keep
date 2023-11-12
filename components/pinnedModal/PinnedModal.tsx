@@ -16,14 +16,14 @@ import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 
 type Props = {};
 
-const NoteModal = (props: any) => {
+const PinnedModal = (props: any) => {
   const [singleNote, setSingleNote] = useState();
-  const [editTitle, setEditTitle] = useState<string>("");
-  const [editNote, setEditNote] = useState<string>("");
+  const [editTitle, setEditTitle] = useState("");
+  const [editNote, setEditNote] = useState("");
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/notes/get-notes/${props.noteUrlParams}`)
+      .get(`http://localhost:5000/api/notes/get-pinned/${props.noteUrlParams}`)
       .then((res) => setSingleNote(res.data))
       .catch((err) => console.log(err));
   }, [props.noteUrlParams]);
@@ -151,4 +151,4 @@ const NoteModal = (props: any) => {
   );
 };
 
-export default NoteModal;
+export default PinnedModal;

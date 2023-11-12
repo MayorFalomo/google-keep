@@ -24,7 +24,7 @@ const Notes = (props: Props) => {
   const [picture, setPicture] = useState<string>("");
   const [drawing, setDrawing] = useState<string>("");
   const [bgImage, setBgImage] = useState<string>("");
-  const [color, setColor] = useState<string>("");
+  const [bgColor, setBgColor] = useState<string>("");
   const [remainder, setRemainder] = useState<string>("");
   const [collaborator, setCollaborator] = useState<string>("");
   const [label, setLabel] = useState<string>("");
@@ -52,7 +52,7 @@ const Notes = (props: Props) => {
       picture,
       drawing,
       bgImage,
-      color,
+      bgColor,
       remainder,
       collaborator,
       label,
