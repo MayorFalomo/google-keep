@@ -22,7 +22,7 @@ export default function ShowNotes(req: any, res: any) {
   useEffect(() => {
     if (!postLoaded) {
       axios
-        .get(`http://localhost:5000/api/notes/get-notes/${userCookie}`)
+        .get(`http://localhost:5000/api/notes/get-all-notes/${userCookie}`)
         .then((res) => contextValue.setNotes(res.data.notes))
         .catch((err) => console.log(err));
       setPostLoaded(true);

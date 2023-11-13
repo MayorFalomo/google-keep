@@ -44,7 +44,7 @@ const ShowPinned = (props: any) => {
     }
   };
 
-  console.log(contextValue?.pinnedNote);
+  // console.log(contextValue?.pinnedNote);
 
   return (
     <div
@@ -75,7 +75,7 @@ const ShowPinned = (props: any) => {
         " "
       )}
       {showIconsOnHover ? (
-        <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center ">
+        <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
           <span className="p-2 rounded-full hover:bg-hover">
             {
               <BiBellPlus

@@ -32,7 +32,11 @@ const Pinned = (req: any, res: any) => {
 
   return (
     <>
-      {contextValue?.pinnedNote?.length > 0 ? <h1>PINNED </h1> : ""}
+      {contextValue?.pinnedNote?.length > 0 ? (
+        <h1 className="ml-[50px] mb-[20px]">PINNED </h1>
+      ) : (
+        ""
+      )}
       {contextValue?.pinnedNote?.length > 0 ? (
         <div
           onClick={() => contextValue.setOpenTextArea(false)}

@@ -65,7 +65,7 @@ const PinnedModal = (props: any) => {
             />
           </div>
           <p className="flex justify-end m-2 ">
-            Edited {moment().format("MMMM do")}{" "}
+            Edited {moment(singleNote?.createdAt).format("MMMM do")}{" "}
           </p>
           <div className="flex justify-between item-center gap-4 ">
             <div className="flex item-center gap-4 ">

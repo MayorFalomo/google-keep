@@ -1,7 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NoteModal from "../createNoteModal/NoteModal";
-import { BsCheck, BsCheck2, BsCheckCircle, BsPin } from "react-icons/bs";
+import {
+  Bs0CircleFill,
+  BsCheck,
+  BsCheck2,
+  BsCheckCircle,
+  BsPin,
+} from "react-icons/bs";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import {
   BiArchiveIn,
@@ -25,6 +31,7 @@ const ShowNote = (props: any) => {
   const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [trackId, setTrackId] = React.useState("");
+  const [pinId, setPinId] = React.useState<boolean>();
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -78,13 +85,9 @@ const ShowNote = (props: any) => {
     }
   };
 
-  console.log(contextValue?.pinnedNote, "Pinned Note id");
-
   return (
     <div
-      onMouseOver={() => {
-        setShowIconsOnHover(true), setTrackId(props?.note?._id);
-      }}
+      onMouseOver={() => setShowIconsOnHover(true)}
       onMouseOut={() => setShowIconsOnHover(false)}
       className="mapped"
     >
@@ -159,21 +162,26 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-      {showIconsOnHover &&
-      contextValue?.pinnedNote?.filter(
-        (pinned: any) => pinned?.pinnedId !== trackId
-      ) ? (
-        <span
-          onClick={pinNote}
-          className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] "
-        >
-          <BsPin
-            className="  text-[18px] max-sm:text-[18px] max-md:text-[26px] "
-            cursor="pointer"
-          />
-        </span>
+      {showIconsOnHover ? (
+        contextValue?.pinnedNote?.some(
+          (pinned: any) => pinned.pinnedId === props?.note?._id
+        ) ? (
+          <button
+            disabled
+            className="absolute top-[10px] right-[5px] z-10 p-2 text-[#5F6368] border-none outline-none cursor-not-allowed"
+          >
+            <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />{" "}
+          </button>
+        ) : (
+          <span
+            onClick={pinNote}
+            className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] cursor-pointer "
+          >
+            <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />
+          </span>
+        )
       ) : (
-        " "
+        ""
       )}
       <div className="">
         {noteModal ? (

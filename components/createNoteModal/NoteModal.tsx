@@ -16,21 +16,55 @@ import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 
 type Props = {};
 
+//Parent component is ShowNote.tsx
 const NoteModal = (props: any) => {
-  const [singleNote, setSingleNote] = useState();
+  const [singleNote, setSingleNote] = useState<any>();
   const [editTitle, setEditTitle] = useState<string>("");
   const [editNote, setEditNote] = useState<string>("");
+  const [editPicture, setEditPicture] = useState<string>("");
+  const [editDrawing, setEditDrawing] = useState<string>("");
+  const [editBgImage, setEditBGImage] = useState<string>("");
+  const [editBgColor, setEditBGColor] = useState<string>("");
+  const [editRemainder, setEditRemainder] = useState<string>("");
+  const [editCollaborator, setEditCollaborator] = useState<string>("");
+  const [label, setLabel] = useState<string>("");
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/notes/get-notes/${props.noteUrlParams}`)
+      .get(`http://localhost:5000/api/notes/get-note/${props.noteUrlParams}`)
       .then((res) => setSingleNote(res.data))
       .catch((err) => console.log(err));
   }, [props.noteUrlParams]);
   // console.log(singleNote);
 
-  const handleEditNote = (e: any) => {
+  const handleEditNote = async (e: any) => {
     e.preventDefault();
+    const updatedNote = {
+      _id: singleNote?._id,
+      note: editNote.length > 1 ? editNote : singleNote?.note,
+      title: editTitle.length > 1 ? editTitle : singleNote?.title,
+      picture: editPicture.length > 1 ? editPicture : singleNote?.picture,
+      drawing: editDrawing.length > 1 ? editDrawing : singleNote?.drawing,
+      bgImage: editBgImage.length > 1 ? editBgImage : singleNote?.bgImage,
+      bgColor: editBgColor.length > 1 ? editBgColor : singleNote?.bgColor,
+      remainder:
+        editRemainder.length > 1 ? editRemainder : singleNote?.remainder,
+      collaborator:
+        editCollaborator.length > 1
+          ? editCollaborator
+          : singleNote?.collaborator,
+      label: label.length > 1 ? label : singleNote?.label,
+    };
+    console.log(updatedNote);
+
+    try {
+      await axios.put(
+        `http://localhost:5000/api/notes/update-note/${props.noteUrlParams}`,
+        updatedNote
+      );
+    } catch (error) {
+      console.log(error);
+    }
     props.setNoteModal(false);
     props.setOverLayBg(false);
   };
@@ -65,7 +99,7 @@ const NoteModal = (props: any) => {
             />
           </div>
           <p className="flex justify-end m-2 ">
-            Edited {moment().format("MMMM do")}{" "}
+            Edited {moment(singleNote?.createdAt).format("MMMM do")}{" "}
           </p>
           <div className="flex justify-between item-center gap-4 ">
             <div className="flex item-center gap-4 ">
