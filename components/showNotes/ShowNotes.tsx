@@ -74,7 +74,7 @@ export default function ShowNotes(req: any, res: any) {
           <div
             // onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
             // onMouseLeave={() => setShowIconsOnHover(showIconsOnHover)}
-            className="relative max-w-[350px] min-w-[250px] min-h-[100px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
+            className="relative max-w-[350px] min-w-[250px] min-h-[150px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
             key={note._id}
           >
             <ShowNote

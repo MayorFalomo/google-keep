@@ -41,6 +41,8 @@ const Notes = (props: Props) => {
     return Array.from(arr, dec2hex).join("");
   }
 
+  // console.log(contextValue?.currentUser);
+
   const createNote = async (e: any) => {
     e.preventDefault();
     const newNote = {

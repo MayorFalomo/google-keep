@@ -53,10 +53,14 @@ const ShowNote = (props: any) => {
     return Array.from(arr, dec2hex).join("");
   }
 
+  // console.log(props.note);
+
   const pinNote = async (e: any) => {
     e.preventDefault();
+    // console.log(props.note?._id, "noteurlparams");
+
     const pinThisNote = {
-      _id: generateId(24),
+      _id: props.note?._id,
       userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
       pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
       username: props.note?.username,

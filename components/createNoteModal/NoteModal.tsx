@@ -96,6 +96,7 @@ const NoteModal = (props: any) => {
               // className="bg-darkmode w-full "
               defaultValue={singleNote?.note || editNote}
               placeholder="Note"
+              onChange={(e) => setEditNote(e.target.value)}
             />
           </div>
           <p className="flex justify-end m-2 ">
