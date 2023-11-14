@@ -11,7 +11,9 @@ import {
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import PinnedModal from "../pinnedModal/PinnedModal";
-
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import "./showPinned.css";
 type Props = {};
 
 const ShowPinned = (props: any) => {
@@ -20,6 +22,7 @@ const ShowPinned = (props: any) => {
   const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
   const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
+  const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -76,7 +79,10 @@ const ShowPinned = (props: any) => {
       )}
       {showIconsOnHover ? (
         <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
-          <span className="p-2 rounded-full hover:bg-hover">
+          <span
+            className="p-2 rounded-full hover:bg-hover"
+            onClick={() => setOpenNotifyModal(true)}
+          >
             {
               <BiBellPlus
                 className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
@@ -84,6 +90,16 @@ const ShowPinned = (props: any) => {
               />
             }{" "}
           </span>
+          <Modal
+            open={openNotifyModal}
+            onClose={() => setOpenNotifyModal(false)}
+            classNames={{
+              overlay: "customOverlay",
+              modal: "customModal",
+            }}
+          >
+            hello world{" "}
+          </Modal>
           <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
             {
               <MdOutlinePersonAddAlt1

@@ -57,7 +57,6 @@ const ShowNote = (props: any) => {
 
   const pinNote = async (e: any) => {
     e.preventDefault();
-    // console.log(props.note?._id, "noteurlparams");
 
     const pinThisNote = {
       _id: props.note?._id,

@@ -20,7 +20,8 @@
     "react": "^18",
     "react-cookie": "^6.1.1",
     "react-dom": "^18",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "react-responsive-modal": "^6.4.2"
   },
   "devDependencies": {
     "@types/imagesloaded": "^4.1.5",

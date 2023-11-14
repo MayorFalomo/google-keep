@@ -17,24 +17,56 @@ import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 type Props = {};
 
 const PinnedModal = (props: any) => {
-  const [singleNote, setSingleNote] = useState();
-  const [editTitle, setEditTitle] = useState("");
-  const [editNote, setEditNote] = useState("");
+  const [singleNote, setSingleNote] = useState<any>();
+  const [editTitle, setEditTitle] = useState<string>("");
+  const [editNote, setEditNote] = useState<string>("");
+  const [editPicture, setEditPicture] = useState<string>("");
+  const [editDrawing, setEditDrawing] = useState<string>("");
+  const [editBgImage, setEditBGImage] = useState<string>("");
+  const [editBgColor, setEditBGColor] = useState<string>("");
+  const [editRemainder, setEditRemainder] = useState<string>("");
+  const [editCollaborator, setEditCollaborator] = useState<string>("");
+  const [label, setLabel] = useState<string>("");
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/notes/get-pinned/${props.noteUrlParams}`)
+      .get(`http://localhost:5000/api/notes/pinned-id/${props.noteUrlParams}`)
       .then((res) => setSingleNote(res.data))
       .catch((err) => console.log(err));
   }, [props.noteUrlParams]);
   // console.log(singleNote);
 
-  const handleEditNote = (e: any) => {
+  const handleEditNote = async (e: any) => {
     e.preventDefault();
-    props.setNoteModal(false);
-    props.setOverLayBg(false);
+    const updatedNote = {
+      _id: singleNote?._id,
+      note: editNote.length > 1 ? editNote : singleNote?.note,
+      title: editTitle.length > 1 ? editTitle : singleNote?.title,
+      picture: editPicture.length > 1 ? editPicture : singleNote?.picture,
+      drawing: editDrawing.length > 1 ? editDrawing : singleNote?.drawing,
+      bgImage: editBgImage.length > 1 ? editBgImage : singleNote?.bgImage,
+      bgColor: editBgColor.length > 1 ? editBgColor : singleNote?.bgColor,
+      remainder:
+        editRemainder.length > 1 ? editRemainder : singleNote?.remainder,
+      collaborator:
+        editCollaborator.length > 1
+          ? editCollaborator
+          : singleNote?.collaborator,
+      label: label.length > 1 ? label : singleNote?.label,
+    };
+    try {
+      await axios.put(
+        `http://localhost:5000/api/notes/update-note/${props.noteUrlParams}`,
+        updatedNote
+      );
+      props.setNoteModal(false);
+      props.setOverLayBg(false);
+    } catch (error) {
+      console.log(error);
+    }
+    // props.setNoteModal(false);
+    // props.setOverLayBg(false);
   };
-
   return (
     <div className="bg-darkmode fixed z-20 min-h-[200px] h-auto max-h-[300px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px]">
       <div className="h-[100%]">
@@ -59,7 +91,7 @@ const PinnedModal = (props: any) => {
           <div className=" h-[50%]">
             <textarea
               className="bg-transparent text-white h-full w-full text-[16px] outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
-              // className="bg-darkmode w-full "
+              onChange={(e) => setEditNote(e.target.value)}
               defaultValue={singleNote?.note || editNote}
               placeholder="Note"
             />

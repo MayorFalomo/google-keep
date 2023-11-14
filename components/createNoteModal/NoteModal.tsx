@@ -55,8 +55,6 @@ const NoteModal = (props: any) => {
           : singleNote?.collaborator,
       label: label.length > 1 ? label : singleNote?.label,
     };
-    console.log(updatedNote);
-
     try {
       await axios.put(
         `http://localhost:5000/api/notes/update-note/${props.noteUrlParams}`,
