@@ -95,7 +95,7 @@ const Notes = (props: Props) => {
             </div>
             <textarea
               onChange={(e) => setNote(e.target.value)}
-              className="bg-transparent text-white w-full text-[18px] border-none outline-none resize-none overflow-y-hidden "
+              className="bg-transparent text-white w-full text-[18px] border-none outline-none resize-none whitespace-break-spaces [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
               placeholder="Take a note..."
             />
             <div className="flex item-center gap-6 ">

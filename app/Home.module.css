@@ -12,7 +12,8 @@
 .notesContain{
     position: relative;
     height: 100vh;
-        overflow: auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
     margin-top: 130px;
     margin-bottom: 130px;
 }

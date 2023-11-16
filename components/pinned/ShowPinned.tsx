@@ -94,29 +94,7 @@ const ShowPinned = (props: any) => {
               />
             }
           </span>
-          {/* {openNotifyModal ? (
-            <div>
-              <div className="bg-darkmode absolute bottom-[-40px] left-0 z-30 p-2 rounded-[20px]">
-                <p>Remainder: </p>
-                <ul>
-                  <li className="hover:bg-hover p-2 cursor-pointer ">
-                    Tomorrow <span>8am </span>{" "}
-                  </li>
-                  <li className="hover:bg-hover p-2 cursor-pointer">
-                    Next Week <span>8am </span>{" "}
-                  </li>
-                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
-                    <LuClock /> Pick date and time{" "}
-                  </li>
-                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
-                    <IoLocationOutline /> Pick place and time{" "}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          ) : (
-            ""
-          )} */}
+
           {openNotifyModal ? (
             <div className="absolute left-0 bottom-[-210px] z-20 p-4 rounded-[10px] bg-darkmode text-white">
               <div className=" ">

@@ -60,7 +60,7 @@ export default function ShowNotes(req: any, res: any) {
   }, [contextValue.notes]);
 
   return (
-    <>
+    <div className=" mb-[200px] ">
       <h1 className="ml-[50px] mb-[20px]">OTHERS </h1>
       <div
         onClick={() => contextValue.setOpenTextArea(false)}
@@ -93,6 +93,6 @@ export default function ShowNotes(req: any, res: any) {
           ""
         )}
       </div>
-    </>
+    </div>
   );
 }
