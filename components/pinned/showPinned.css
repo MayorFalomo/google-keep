@@ -1,12 +1,25 @@
 .customOverlay {
   /* background: #202124; */
-  background: rgba(36, 123, 160, 0.7);
+  /* background: rgba(36, 123, 160, 0.7); */
 }
+
+.mapped{
+  /* position: relative;
+  border: 2px solid GREEN; */
+}
+.modalCon{
+  border: 3px solid blue;
+}
+
 .customModal {
-  background: #b2dbbf;
+  background: #202124; 
   color: #fff;
-  max-width: 500px;
-  width: 100%;
-  position: absolute;
-  z-index: 99;
+  /* max-width: 500px; */
+  /* width: 100%; */
+  /* position: fixed; */
+  bottom : 0px;
+  left : 0px;
+  z-index: 999;
+  padding: 20px;
+  border-radius: 10px;
 }

@@ -16,6 +16,8 @@ import {
   BiImageAlt,
   BiUndo,
 } from "react-icons/bi";
+import { LuClock } from "react-icons/lu";
+import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { GrRedo } from "react-icons/gr";
@@ -31,7 +33,7 @@ const ShowNote = (props: any) => {
   const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [trackId, setTrackId] = React.useState("");
-  const [pinId, setPinId] = React.useState<boolean>();
+  const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -124,6 +126,29 @@ const ShowNote = (props: any) => {
               />
             }{" "}
           </span>
+          {openNotifyModal ? (
+            <div>
+              <div className="bg-darkmode absolute bottom-[-40px] left-0 z-30 p-2 rounded-[20px]">
+                <p>Remainder: </p>
+                <ul>
+                  <li className="hover:bg-hover p-2 cursor-pointer ">
+                    Tomorrow <span>8am </span>{" "}
+                  </li>
+                  <li className="hover:bg-hover p-2 cursor-pointer">
+                    Next Week <span>8am </span>{" "}
+                  </li>
+                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                    <LuClock /> Pick date and time{" "}
+                  </li>
+                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                    <IoLocationOutline /> Pick place and time{" "}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
           <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
             {
               <MdOutlinePersonAddAlt1

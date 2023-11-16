@@ -2,6 +2,8 @@ import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import React from "react";
 import { BsCheck, BsPin, BsPinFill } from "react-icons/bs";
+import { LuClock } from "react-icons/lu";
+import { IoLocationOutline } from "react-icons/io5";
 import {
   BiArchiveIn,
   BiBellPlus,
@@ -23,6 +25,7 @@ const ShowPinned = (props: any) => {
   const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
+  const myRef = React.useRef(null);
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -53,7 +56,8 @@ const ShowPinned = (props: any) => {
     <div
       onMouseOver={() => setShowIconsOnHover(true)}
       onMouseOut={() => setShowIconsOnHover(false)}
-      className="mapped"
+      style={{ position: "relative" }}
+      // ref={myRef}
     >
       <div onClick={handleClick} className="subContainer">
         {props.pinned?.title?.length == 0 && props.pinned?.note?.length == 0 ? (
@@ -88,18 +92,55 @@ const ShowPinned = (props: any) => {
                 className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
                 cursor="pointer"
               />
-            }{" "}
+            }
           </span>
-          <Modal
-            open={openNotifyModal}
-            onClose={() => setOpenNotifyModal(false)}
-            classNames={{
-              overlay: "customOverlay",
-              modal: "customModal",
-            }}
-          >
-            hello world{" "}
-          </Modal>
+          {/* {openNotifyModal ? (
+            <div>
+              <div className="bg-darkmode absolute bottom-[-40px] left-0 z-30 p-2 rounded-[20px]">
+                <p>Remainder: </p>
+                <ul>
+                  <li className="hover:bg-hover p-2 cursor-pointer ">
+                    Tomorrow <span>8am </span>{" "}
+                  </li>
+                  <li className="hover:bg-hover p-2 cursor-pointer">
+                    Next Week <span>8am </span>{" "}
+                  </li>
+                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                    <LuClock /> Pick date and time{" "}
+                  </li>
+                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                    <IoLocationOutline /> Pick place and time{" "}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            ""
+          )} */}
+          {openNotifyModal ? (
+            <div className="absolute left-0 bottom-[-210px] z-20 p-4 rounded-[10px] bg-darkmode text-white">
+              <div className=" ">
+                <p>Remainder: </p>
+                <ul>
+                  <li className="hover:bg-hover p-2 cursor-pointer ">
+                    Tomorrow <span>8am </span>{" "}
+                  </li>
+                  <li className="hover:bg-hover p-2 cursor-pointer">
+                    Next Week <span>8am </span>{" "}
+                  </li>
+                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                    <LuClock /> Pick date and time{" "}
+                  </li>
+                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                    <IoLocationOutline /> Pick place and time{" "}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+
           <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
             {
               <MdOutlinePersonAddAlt1

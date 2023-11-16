@@ -13,6 +13,7 @@ const Pinned = (req: any, res: any) => {
   const { contextValue }: any = useAppContext();
   const [overLayBg, setOverLayBg] = useState(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
+  const myRef = React.useRef(null);
 
   useEffect(() => {
     axios
@@ -40,6 +41,8 @@ const Pinned = (req: any, res: any) => {
       {contextValue?.pinnedNote?.length > 0 ? (
         <div
           onClick={() => contextValue.setOpenTextArea(false)}
+          ref={myRef}
+          style={{ position: "relative" }}
           className="flex items-start flex-wrap ml-[50px] mt-[20px] gap-20px "
           //       ref={containerRef}
           //       data-masonry='{ "itemSelector": ".grid-item",
@@ -62,6 +65,7 @@ const Pinned = (req: any, res: any) => {
                 setShowIconsOnHover={setShowIconsOnHover}
                 overLayBg={overLayBg}
                 setOverLayBg={setOverLayBg}
+                myRef={myRef}
               />
             </div>
           ))}
