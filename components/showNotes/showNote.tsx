@@ -116,7 +116,7 @@ const ShowNote = (props: any) => {
     const tomorrow = new Date(now);
     console.log(tomorrow, "This is tomorrow");
     tomorrow.setDate(now.getDate() + 1);
-    tomorrow.setHours(21, 40, 0, 0); // Set time to 8 AM
+    tomorrow.setHours(21, 42, 0, 0); // Set time to 8 AM
 
     const timeUntilTomorrow8AM = tomorrow.getTime() - now.getTime();
     setTimeout(() => {
