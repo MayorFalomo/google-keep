@@ -218,7 +218,10 @@ const ShowNote = (props: any) => {
                   >
                     Next Week <span>8:00 AM </span>{" "}
                   </li>
-                  <li className=" flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                  <li
+                    onClick={() => setPickADayModal(true)}
+                    className=" flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2"
+                  >
                     <LuClock /> Pick date and time{" "}
                   </li>
                   <li className="flex gap-[10px] cursor-pointer hover:bg-hover p-2">
