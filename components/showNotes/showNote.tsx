@@ -36,6 +36,7 @@ const ShowNote = (props: any) => {
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [trackId, setTrackId] = React.useState("");
   const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
+  const [pickADayModal, setPickADayModal] = React.useState(false);
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -203,13 +204,19 @@ const ShowNote = (props: any) => {
                     onClick={tomorrowRemainder}
                     className="flex justify-between items-center hover:bg-hover p-2 cursor-pointer "
                   >
-                    Tomorrow <span>8am </span>{" "}
+                    Later Today <span>8:00 PM </span>{" "}
+                  </li>
+                  <li
+                    onClick={tomorrowRemainder}
+                    className="flex justify-between items-center hover:bg-hover p-2 cursor-pointer "
+                  >
+                    Tomorrow <span>8:00 AM </span>{" "}
                   </li>
                   <li
                     onClick={nextMondayRemainder}
                     className="flex justify-between items-center hover:bg-hover p-2 cursor-pointer"
                   >
-                    Next Week <span>8am </span>{" "}
+                    Next Week <span>8:00 AM </span>{" "}
                   </li>
                   <li className=" flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
                     <LuClock /> Pick date and time{" "}
