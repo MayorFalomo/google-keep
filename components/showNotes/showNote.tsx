@@ -92,54 +92,11 @@ const ShowNote = (props: any) => {
     }
   };
 
-  // useEffect(() => {
-  //   const now = new Date();
-  //   const tomorrow = new Date(now);
-  //   tomorrow.setDate(now.getDate() + 1);
-  //   tomorrow.setHours(8, 0, 0, 0); // Set time to 8 AM
-
-  //   const timeUntilTomorrow8AM = tomorrow.getTime() - now.getTime();
-
-  //   const timeOut = setTimeout(() => {
-  //     // Do something after timeUntilTomorrow
-  //     tomorrowRemainder();
-  //   }, timeUntilTomorrow8AM);
-
-  //   return () => clearTimeout(timeOut); // Cleanup on component unmount
-  // }, []);
-
-  const setRemainderTomorrow = async (e: any) => {
+  const tomorrowRemainder = (e: any) => {
     e.preventDefault();
-
-    // Calculate the time until 8 AM tomorrow
-    const now = new Date();
-    const tomorrow = new Date(now);
-    console.log(tomorrow, "This is tomorrow");
-    tomorrow.setDate(now.getDate() + 1);
-    tomorrow.setHours(21, 42, 0, 0); // Set time to 8 AM
-
-    const timeUntilTomorrow8AM = tomorrow.getTime() - now.getTime();
-    setTimeout(() => {
-      // Do something after timeUntilTomorrow
-      tomorrowRemainder();
-    }, timeUntilTomorrow8AM);
-    // return () => clearTimeout(timeOut);
-
-    // useEffect(() => {
-    //   const timeOut = setTimeout(() => {
-    //     // Do something after timeUntilTomorrow
-    //     tomorrowRemainder();
-    //   }, timeUntilTomorrow8AM);
-    //   return () => clearTimeout(timeOut);
-    // }, []);
-    // console.log("Remainder set");
-  };
-
-  const tomorrowRemainder = () => {
     const noteRemainder = {
       _id: props.note?._id,
       userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
-      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
       username: props.note?.username,
       title: props.note?.title,
       note: props.note?.note,
@@ -147,47 +104,26 @@ const ShowNote = (props: any) => {
       drawing: props.note?.drawing,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
+      // remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
       label: props.note?.label,
       createdAt: new Date(),
     };
+    console.log(noteRemainder);
+
     try {
       axios.post(
-        "http://localhost:5000/api/notes/set-notification",
+        "http://localhost:5000/api/notes/set-notification/tomorrow",
         noteRemainder
       );
     } catch (error) {
       console.log(error, "This did not work");
     }
+    setOpenNotifyModal(false);
   };
 
-  const setRemainderNextMonday = (e: any) => {
+  const nextMondayRemainder = async (e: any) => {
     e.preventDefault();
-
-    // Calculate the time until next Monday at 8 AM
-    const now = new Date();
-    const daysUntilNextMonday = ((1 - now.getDay() + 7) % 7) + 1; // Calculate days until next Monday
-    const nextMonday = new Date(now);
-    nextMonday.setDate(now.getDate() + daysUntilNextMonday);
-    nextMonday.setHours(8, 0, 0, 0); // Set time to 8 AM
-
-    const timeUntilNextMonday8AM = nextMonday.getTime() - now.getTime();
-    setTimeout(() => {
-      // Do something after timeUntilNextMonday
-      nextMondayRemainder();
-    }, timeUntilNextMonday8AM);
-    // useEffect(() => {
-    //   const timeOut = setTimeout(() => {
-    //     // Do something after timeUntilNextMonday
-    //     nextMondayRemainder();
-    //   }, timeUntilNextMonday8AM);
-    //   return () => clearTimeout(timeOut);
-    // }, []);
-    console.log("It is done");
-  };
-
-  const nextMondayRemainder = async () => {
     const noteRemainder = {
       _id: props.note?._id,
       userId: props.note?.userId,
@@ -207,28 +143,14 @@ const ShowNote = (props: any) => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/notes/set-notification",
+        "http://localhost:5000/api/notes/set-notification/next-week",
         noteRemainder
       );
     } catch (error) {
       console.log(error, "This did not work");
     }
+    setOpenNotifyModal(false);
   };
-
-  // const now = new Date();
-  // const tomorrow = new Date(now);
-  // console.log(tomorrow, "This is tomorrow");
-  // tomorrow.setDate(now.getDate() + 1);
-  // tomorrow.setHours(8, 0, 0, 0); // Set time to 8 AM
-
-  // const timeUntilTomorrow8AM = tomorrow.getTime() - now.getTime();
-  // console.log(timeUntilTomorrow8AM, "This is timeUntilTomorrow8AM");
-  // console.log(moment(timeUntilTomorrow8AM).format("HH"));
-  // console.log(new Date(), "New Date");
-  // console.log(new Date().toLocaleString(), "Date.LocaleString()");
-  // console.log(new Date().toLocaleTimeString(), "Date.toLocaleSTimeString");
-
-  // console.log(new Date().toLocaleDateString(), "Date.toLocaleDateString()");
 
   return (
     <div
@@ -278,13 +200,13 @@ const ShowNote = (props: any) => {
                 <p>Remainder: </p>
                 <ul>
                   <li
-                    onClick={setRemainderTomorrow}
+                    onClick={tomorrowRemainder}
                     className="flex justify-between items-center hover:bg-hover p-2 cursor-pointer "
                   >
                     Tomorrow <span>8am </span>{" "}
                   </li>
                   <li
-                    onClick={setRemainderNextMonday}
+                    onClick={nextMondayRemainder}
                     className="flex justify-between items-center hover:bg-hover p-2 cursor-pointer"
                   >
                     Next Week <span>8am </span>{" "}

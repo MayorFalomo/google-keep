@@ -45,11 +45,12 @@ const AppContextProvider = ({ children }: any) => {
       })
       .then((res) => {
         router.push("/");
+        // console.log(res, "This is res");
         setUser(res);
       })
       .catch((err) => {
         console.log(err);
-        // router.push("/login"); // Redirect to login page if user ID is not found
+        router.push("/login"); // Redirect to login page if user ID is not found
       });
   };
 

@@ -34,6 +34,8 @@ const Register = (req: any, res: any) => {
   const [email, setEmail] = useState<string>("");
   const [userNames, setUserName] = useState<string>("");
   const [passwords, setPasswords] = useState<string>("");
+  const [notifications, setNotifications] = useState<any>([]);
+
   // const [cookies, setCookie] = useCookies(["user"]);
   const [name, setName] = useState("");
   // const [isAuth, setIsAuth] = useState<boolean>(false)
@@ -57,7 +59,7 @@ const Register = (req: any, res: any) => {
             response.user.photoURL == null || ""
               ? "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg"
               : response.user.photoURL,
-          notifications: [],
+          notifications: notifications,
           // bio: "Regular Human",
           // location: "Lagos, Nigeria",
           // links: "https://mayowa-falomo.netlify.app"
@@ -94,13 +96,8 @@ const Register = (req: any, res: any) => {
           password: passwords,
           profileDp:
             "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
-          notifications: [],
-          // bio: "Regular Human",
-          // location: "Lagos, Nigeria",
-          // birthday: "April 19th, 1999",
-          // links: "https://mayowa-falomo.netlify.app"
+          notifications: notifications,
         };
-        // console.log(userInfo);
 
         axios
           .post("http://localhost:5000/api/users/register", userInfo)

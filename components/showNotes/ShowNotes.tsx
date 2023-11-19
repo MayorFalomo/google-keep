@@ -18,16 +18,19 @@ export default function ShowNotes(req: any, res: any) {
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [postLoaded, setPostLoaded] = useState(false);
   const containerRef = useRef(null);
+  const [currentUser, setCurrentUser] = useState(contextValue?.user?._id);
 
   useEffect(() => {
-    if (!postLoaded) {
-      axios
-        .get(`http://localhost:5000/api/notes/getall-notes/${userCookie}`)
-        .then((res) => contextValue.setNotes(res.data.notes))
-        .catch((err) => console.log(err));
-      setPostLoaded(true);
-    }
-  }, [userCookie, postLoaded]);
+    axios
+      .get(`http://localhost:5000/api/notes/getall-notes/${userCookie}`)
+      .then((res) => contextValue?.setNotes(res.data.notes))
+      .catch((err) => console.log(err));
+    // setPostLoaded(true);
+  }, []);
+
+  // console.log(currentUser, "this is currentUser");
+  // console.log(contextValue.notes);
+  // console.log(contextValue.notes);
 
   //   const items = contextValue?.notes.map(function(note:any) {
   //   return <div key={note._id}>{note.name}</div>
@@ -61,7 +64,7 @@ export default function ShowNotes(req: any, res: any) {
 
   return (
     <div className=" mb-[200px] ">
-      <h1 className="ml-[50px] mb-[20px]">OTHERS </h1>
+      <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
       <div
         onClick={() => contextValue.setOpenTextArea(false)}
         className="grid"
@@ -70,22 +73,28 @@ export default function ShowNotes(req: any, res: any) {
       "columnWidth": 300  
      }'
       >
-        {contextValue?.notes?.map((note: any) => (
-          <div
-            // onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
-            // onMouseLeave={() => setShowIconsOnHover(showIconsOnHover)}
-            className="relative max-w-[350px] min-w-[250px] min-h-[150px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
-            key={note._id}
-          >
-            <ShowNote
-              note={note}
-              overLayBg={overLayBg}
-              setOverLayBg={setOverLayBg}
-              showIconsOnHover={showIconsOnHover}
-              setShowIconsOnHover={setShowIconsOnHover}
-            />
+        {contextValue?.notes.length > 0 ? (
+          contextValue.notes.map((note: any) => (
+            <div
+              // onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
+              // onMouseLeave={() => setShowIconsOnHover(showIconsOnHover)}
+              className="relative max-w-[350px] min-w-[250px] min-h-[150px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
+              key={note._id}
+            >
+              <ShowNote
+                note={note}
+                overLayBg={overLayBg}
+                setOverLayBg={setOverLayBg}
+                showIconsOnHover={showIconsOnHover}
+                setShowIconsOnHover={setShowIconsOnHover}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="empty ">
+            <p className="text-[22px] text-center"> You have no Notes </p>
           </div>
-        ))}
+        )}
 
         {overLayBg ? (
           <div className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "></div>
