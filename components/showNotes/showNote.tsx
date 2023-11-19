@@ -25,18 +25,21 @@ import axios from "axios";
 import { useAppContext } from "@/helpers/Helpers";
 import "./notes.css";
 import moment from "moment";
+import PickDate from "../pickdateandtime/PickDate";
 
 type Props = {};
 
 const ShowNote = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
-  const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
-  const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
-  const [trackId, setTrackId] = React.useState("");
-  const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
-  const [pickADayModal, setPickADayModal] = React.useState(false);
+  const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
+  const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
+  const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
+    false
+  );
+  const [trackId, setTrackId] = React.useState<string>("");
+  const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
+  const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -229,6 +232,11 @@ const ShowNote = (props: any) => {
                   </li>
                 </ul>
               </div>
+              {pickADayModal ? (
+                <PickDate setPickADayModal={setPickADayModal} />
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             ""
