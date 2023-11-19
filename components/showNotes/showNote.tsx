@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import NoteModal from "../createNoteModal/NoteModal";
 import {
   Bs0CircleFill,
@@ -26,6 +26,8 @@ import { useAppContext } from "@/helpers/Helpers";
 import "./notes.css";
 import moment from "moment";
 import PickDate from "../pickdateandtime/PickDate";
+import Select from "react-select";
+import countryList from "react-select-country-list";
 
 type Props = {};
 
@@ -40,6 +42,13 @@ const ShowNote = (props: any) => {
   const [trackId, setTrackId] = React.useState<string>("");
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
+  const [countryValue, setCountryValue] = React.useState<string>("");
+  const options = useMemo(() => countryList().getData(), []);
+
+  const changeHandler = (countryValue: any) => {
+    setCountryValue(countryValue);
+  };
+  console.log(countryValue);
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -186,7 +195,7 @@ const ShowNote = (props: any) => {
       )}
       {showIconsOnHover ? (
         <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
-          <span className="p-2 rounded-full hover:bg-hover">
+          <span className="p-2 rounded-full hover:bg-[#313236]r">
             {
               <BiBellPlus
                 className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
@@ -228,7 +237,12 @@ const ShowNote = (props: any) => {
                     <LuClock /> Pick date and time{" "}
                   </li>
                   <li className="flex gap-[10px] cursor-pointer hover:bg-hover p-2">
-                    <IoLocationOutline /> Pick place and time{" "}
+                    <IoLocationOutline /> Pick place{" "}
+                    <Select
+                      options={options}
+                      value={countryValue}
+                      onChange={changeHandler}
+                    />
                   </li>
                 </ul>
               </div>
@@ -241,7 +255,7 @@ const ShowNote = (props: any) => {
           ) : (
             ""
           )}
-          <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
+          <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
             {
               <MdOutlinePersonAddAlt1
                 className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
@@ -249,12 +263,12 @@ const ShowNote = (props: any) => {
               />
             }{" "}
           </span>
-          <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 cursor-pointer ">
+          <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer ">
             {
               <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
             }{" "}
           </span>
-          <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
+          <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
             {
               <BiImageAlt
                 className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
@@ -262,7 +276,7 @@ const ShowNote = (props: any) => {
               />
             }{" "}
           </span>
-          <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
+          <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
             {
               <BiArchiveIn
                 className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
@@ -270,7 +284,7 @@ const ShowNote = (props: any) => {
               />
             }{" "}
           </span>
-          <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
+          <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
             {
               <BiDotsVerticalRounded
                 className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "

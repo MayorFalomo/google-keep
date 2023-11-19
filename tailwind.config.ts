@@ -19,7 +19,7 @@ const config: Config = {
       darkmode: "#202124",
       searchbar: '#525355',
       activebar: '#41331C',
-        hover: '#41331C',
+      hover: '#41331C',
       lighterHover: '#444547',
       borderColor: '#313235',
       },

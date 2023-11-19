@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoArrowBackSharp } from "react-icons/io5";
 import Calendar from "react-calendar";
@@ -15,8 +15,6 @@ const PickDate = (props: any) => {
   const [showCalendar, setShowCalendar] = React.useState<boolean>(false);
   const [showTime, setShowTime] = React.useState<boolean>(false);
 
-  console.log(value);
-
   return (
     <div className="absolute z-40 left-0 top-[0px] w-[320px] p-4 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] ">
       <div>
@@ -32,7 +30,10 @@ const PickDate = (props: any) => {
         </h1>
         <ul>
           <li
-            onClick={() => setShowCalendar(true)}
+            onClick={() => {
+              setShowCalendar(true);
+              setShowTime(false);
+            }}
             className="flex items-center justify-between w-[90%] pt-3 pb-2 mt-1 border-2 border-[#313235] border-t-0 border-l-0 border-r-0 cursor-pointer "
           >
             {moment(value).format("MMM DD, YYYY")}
@@ -46,7 +47,10 @@ const PickDate = (props: any) => {
             ""
           )}
           <li
-            onClick={() => setShowTime(true)}
+            onClick={() => {
+              setShowTime(true);
+              setShowCalendar(false);
+            }}
             className="flex items-center justify-between w-[90%] pt-3 pb-2 mt-1 border-2 border-[#313235]  border-t-0 border-l-0 border-r-0  cursor-pointer "
           >
             8:00 AM
