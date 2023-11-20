@@ -17,7 +17,7 @@ import {
   BiUndo,
 } from "react-icons/bi";
 import { LuClock } from "react-icons/lu";
-import { IoLocationOutline } from "react-icons/io5";
+import { IoArrowBackSharp, IoLocationOutline } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { GrRedo } from "react-icons/gr";
@@ -44,6 +44,7 @@ const ShowNote = (props: any) => {
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
   const [countryValue, setCountryValue] = React.useState<string>("");
   const options = useMemo(() => countryList().getData(), []);
+  const [pickALocation, setPickALocation] = React.useState<boolean>(false);
 
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
@@ -236,13 +237,14 @@ const ShowNote = (props: any) => {
                   >
                     <LuClock /> Pick date and time{" "}
                   </li>
-                  <li className="flex gap-[10px] cursor-pointer hover:bg-hover p-2">
+                  <li
+                    onClick={() => {
+                      setPickALocation(true);
+                      setOpenNotifyModal(false);
+                    }}
+                    className="flex gap-[10px] cursor-pointer hover:bg-hover p-2"
+                  >
                     <IoLocationOutline /> Pick place{" "}
-                    <Select
-                      options={options}
-                      value={countryValue}
-                      onChange={changeHandler}
-                    />
                   </li>
                 </ul>
               </div>
@@ -251,6 +253,31 @@ const ShowNote = (props: any) => {
               ) : (
                 ""
               )}
+            </div>
+          ) : (
+            ""
+          )}
+          {pickALocation ? (
+            <div className="absolute z-50 left-0 top-[0px] w-[320px] p-4 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] ">
+              <h1 className="flex items-center gap-[8px] py-3 text-[20px] border-1 border-[#313235]">
+                {
+                  <IoArrowBackSharp
+                    onClick={() => {
+                      setPickALocation(false);
+                      setOpenNotifyModal(true);
+                    }}
+                    className="text-[24px] cursor-pointer "
+                    color="#9AA0A6"
+                  />
+                }{" "}
+                Pick a Location{" "}
+              </h1>
+              <Select
+                options={options}
+                value={countryValue}
+                onChange={changeHandler}
+                className="bg-darkmode border-2 border-red-700"
+              />
             </div>
           ) : (
             ""
