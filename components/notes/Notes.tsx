@@ -25,9 +25,10 @@ const Notes = (props: Props) => {
   const [drawing, setDrawing] = useState<string>("");
   const [bgImage, setBgImage] = useState<string>("");
   const [bgColor, setBgColor] = useState<string>("");
-  const [remainder, setRemainder] = useState<string>("");
+  const [remainder, setRemainder] = useState<boolean>(false);
   const [collaborator, setCollaborator] = useState<string>("");
   const [label, setLabel] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
 
   //generateId
   function dec2hex(dec: any) {
@@ -58,6 +59,7 @@ const Notes = (props: Props) => {
       remainder,
       collaborator,
       label,
+      location,
     };
     try {
       await axios.post(`http://localhost:5000/api/notes/create-note`, newNote);

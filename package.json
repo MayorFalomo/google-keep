@@ -24,7 +24,8 @@
     "react-icons": "^4.11.0",
     "react-responsive-modal": "^6.4.2",
     "react-select": "^5.8.0",
-    "react-select-country-list": "^2.2.3"
+    "react-select-country-list": "^2.2.3",
+    "tailwindcss-neumorphism": "^0.1.0"
   },
   "devDependencies": {
     "@types/imagesloaded": "^4.1.5",

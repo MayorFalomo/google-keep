@@ -4,6 +4,7 @@ import { IoArrowBackSharp } from "react-icons/io5";
 import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 import moment from "moment";
+import "./PickADate.css";
 
 type ValuePiece = Date | null;
 
@@ -16,19 +17,19 @@ const PickDate = (props: any) => {
   const [showTime, setShowTime] = React.useState<boolean>(false);
 
   return (
-    <div className="absolute z-40 left-0 top-[0px] w-[320px] p-4 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] ">
-      <div>
-        <h1 className="flex items-center gap-[8px] py-3 text-[20px] border-1 border-[#313235]">
+    <div className="pickCon">
+      <form className="sub">
+        <h1 className="flex items-center gap-[8px] w-[90%] py-3 text-[20px] border-1 border-[#313235]">
           {
             <IoArrowBackSharp
               onClick={() => props.setPickADayModal(false)}
-              className="text-[24px] cursor-pointer "
+              className="text-[24px] cursor-pointer rounded-[50%] hover:bg-lighterHover "
               color="#9AA0A6"
             />
           }{" "}
           Pick date & time{" "}
         </h1>
-        <ul>
+        <ul className="w-[90%] ">
           <li
             onClick={() => {
               setShowCalendar(true);
@@ -57,7 +58,10 @@ const PickDate = (props: any) => {
             <span>{<IoMdArrowDropdown />} </span>{" "}
           </li>
           {showTime ? (
-            <div className="absolute z-50 left-0 top-[170px] w-[320px] p-4 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124]  ">
+            <div
+              className="customTime "
+              // className="absolute z-50 left-0 top-[170px] w-[320px] p-4 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124]  "
+            >
               <ul>
                 <li className="flex items-center justify-between px-3 pt-3 pb-2 mt-1 cursor-pointer  hover:bg-lighterHover ">
                   Morning <span>8:000 AM </span>{" "}
@@ -82,7 +86,15 @@ const PickDate = (props: any) => {
             <span>{<IoMdArrowDropdown />} </span>{" "}
           </li>
         </ul>
-      </div>
+        <div className="flex justify-end w-[90%] mt-2 ">
+          <button
+            className="p-3 outline-none border-none hover:bg-lighterHover cursor-pointer"
+            type="submit"
+          >
+            Save{" "}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

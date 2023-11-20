@@ -30,6 +30,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+ require('tailwindcss-neumorphism'),
+ ],
 }
 export default config

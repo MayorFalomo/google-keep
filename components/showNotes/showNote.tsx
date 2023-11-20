@@ -17,7 +17,11 @@ import {
   BiUndo,
 } from "react-icons/bi";
 import { LuClock } from "react-icons/lu";
-import { IoArrowBackSharp, IoLocationOutline } from "react-icons/io5";
+import {
+  IoArrowBackSharp,
+  IoCloseOutline,
+  IoLocationOutline,
+} from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { GrRedo } from "react-icons/gr";
@@ -36,20 +40,22 @@ const ShowNote = (props: any) => {
 
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
-  const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
-    false
-  );
+  // const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
+  //   false
+  // );
   const [trackId, setTrackId] = React.useState<string>("");
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
-  const [countryValue, setCountryValue] = React.useState<string>("");
+  const [countryValue, setCountryValue] = React.useState<any>("");
   const options = useMemo(() => countryList().getData(), []);
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
+  const [closeIcon, setCloseIcon] = useState(false);
 
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
   };
-  console.log(countryValue);
+
+  console.log(countryValue, "This is country Value");
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -70,8 +76,6 @@ const ShowNote = (props: any) => {
     window.crypto.getRandomValues(arr);
     return Array.from(arr, dec2hex).join("");
   }
-
-  // console.log(props.note);
 
   const pinNote = async (e: any) => {
     e.preventDefault();
@@ -123,7 +127,7 @@ const ShowNote = (props: any) => {
       label: props.note?.label,
       createdAt: new Date(),
     };
-    console.log(noteRemainder);
+    // console.log(noteRemainder);
 
     try {
       axios.post(
@@ -166,12 +170,66 @@ const ShowNote = (props: any) => {
     setOpenNotifyModal(false);
   };
 
+  const CustomStyle = {
+    option: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: state.isSelected ? "#444547" : "#202124",
+    }),
+    menuList: (base: any) => ({
+      ...base,
+
+      "::-webkit-scrollbar": {
+        width: "4px",
+        height: "0px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: "#f1f1f1",
+      },
+      "::-webkit-scrollbar-thumb": {
+        background: "#444547",
+      },
+      "::-webkit-scrollbar-thumb:hover": {
+        background: "red",
+      },
+    }),
+  };
+
+  const setLocation = (e: any) => {
+    e.preventDefault();
+    const country = {
+      _id: props.note?._id,
+      userId: props.note?.userId,
+      note: props.note?.note,
+      title: props.note?.title,
+      picture: props.note?.picture,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note.collaborator,
+      label: props.note?.label,
+      location:
+        countryValue?.label.length > 1
+          ? countryValue.label
+          : props.note?.location,
+    };
+    try {
+      axios.put(
+        `http://localhost:5000/api/notes/update-note/${props.note?._id}`,
+        country
+      );
+      contextValue?.setNotes((prevState: any) => [
+        { ...prevState, ...country },
+      ]);
+    } catch (err) {
+      console.log(err);
+    }
+    setPickALocation(false);
+  };
+
+  // console.log(countryValue?.label, "Country Value");
+
   return (
-    <div
-      onMouseOver={() => setShowIconsOnHover(true)}
-      onMouseOut={() => setShowIconsOnHover(false)}
-      className="mapped"
-    >
+    <div className="mapped">
       <div onClick={handleClick} className="subContainer">
         {props.note.title.length == 0 && props.note.note.length == 0 ? (
           <div className="p-4">
@@ -186,15 +244,27 @@ const ShowNote = (props: any) => {
             <p className="text-[16px] whitespace-break-spaces ">
               {props.note?.note.slice(0, 600)}...
             </p>
+            {props.note.location.length > 1 ? (
+              <p
+                // onMouseEnter={() => setCloseIcon(true)}
+                // onMouseLeave={() => setCloseIcon(false)}
+                className=" flex items-center gap-2 w-auto py-1 px-3 rounded-[30px] border-2 border-[#313235]"
+              >
+                <IoLocationOutline />
+                {props.note.location} <span>{<IoCloseOutline />} </span>
+              </p>
+            ) : (
+              ""
+            )}
           </div>
         )}
       </div>
-      {showIconsOnHover ? (
+      {props?.showIconsOnHover ? (
         <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
       ) : (
         " "
       )}
-      {showIconsOnHover ? (
+      {props?.showIconsOnHover ? (
         <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
           <span className="p-2 rounded-full hover:bg-[#313236]r">
             {
@@ -208,32 +278,33 @@ const ShowNote = (props: any) => {
           {openNotifyModal ? (
             <div
               id="shadow"
-              className="absolute bottom-[-200px] left-0 z-30 w-[300px] p-2 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] "
+              className="convex"
+              // className="absolute bottom-[-200px] left-0 z-30 w-[300px] p-2 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] "
             >
               <div className="rounded-[20px]  ">
                 <p>Remainder: </p>
                 <ul>
                   <li
                     onClick={tomorrowRemainder}
-                    className="flex justify-between items-center hover:bg-hover p-2 cursor-pointer "
+                    className="flex justify-between items-center hover:bg-lighterHover p-2 cursor-pointer "
                   >
                     Later Today <span>8:00 PM </span>{" "}
                   </li>
                   <li
                     onClick={tomorrowRemainder}
-                    className="flex justify-between items-center hover:bg-hover p-2 cursor-pointer "
+                    className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer "
                   >
                     Tomorrow <span>8:00 AM </span>{" "}
                   </li>
                   <li
                     onClick={nextMondayRemainder}
-                    className="flex justify-between items-center hover:bg-hover p-2 cursor-pointer"
+                    className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer"
                   >
                     Next Week <span>8:00 AM </span>{" "}
                   </li>
                   <li
                     onClick={() => setPickADayModal(true)}
-                    className=" flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2"
+                    className=" flex items-center gap-[10px] cursor-pointer hover:bg-lighterHover  p-2"
                   >
                     <LuClock /> Pick date and time{" "}
                   </li>
@@ -242,7 +313,7 @@ const ShowNote = (props: any) => {
                       setPickALocation(true);
                       setOpenNotifyModal(false);
                     }}
-                    className="flex gap-[10px] cursor-pointer hover:bg-hover p-2"
+                    className="flex gap-[10px] cursor-pointer hover:bg-lighterHover  p-2"
                   >
                     <IoLocationOutline /> Pick place{" "}
                   </li>
@@ -258,7 +329,7 @@ const ShowNote = (props: any) => {
             ""
           )}
           {pickALocation ? (
-            <div className="absolute z-50 left-0 top-[0px] w-[320px] p-4 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] ">
+            <form onSubmit={setLocation} className="pickLocation ">
               <h1 className="flex items-center gap-[8px] py-3 text-[20px] border-1 border-[#313235]">
                 {
                   <IoArrowBackSharp
@@ -266,19 +337,29 @@ const ShowNote = (props: any) => {
                       setPickALocation(false);
                       setOpenNotifyModal(true);
                     }}
-                    className="text-[24px] cursor-pointer "
+                    className="text-[24px] cursor-pointer hover:bg-lighterHover rounded-[50%]"
                     color="#9AA0A6"
                   />
                 }{" "}
                 Pick a Location{" "}
               </h1>
               <Select
+                styles={CustomStyle}
+                placeholder="Choose a location"
                 options={options}
                 value={countryValue}
                 onChange={changeHandler}
-                className="bg-darkmode border-2 border-red-700"
+                className="bg-transparent"
               />
-            </div>
+              <div className="flex justify-end w-[90%] mt-2 ">
+                <button
+                  className="p-3 outline-none border-none hover:bg-lighterHover cursor-pointer"
+                  type="submit"
+                >
+                  Save{" "}
+                </button>
+              </div>
+            </form>
           ) : (
             ""
           )}
@@ -323,7 +404,7 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-      {showIconsOnHover ? (
+      {props?.showIconsOnHover ? (
         contextValue?.pinnedNote?.some(
           (pinned: any) => pinned.pinnedId === props?.note?._id
         ) ? (

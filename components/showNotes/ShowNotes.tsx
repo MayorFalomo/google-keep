@@ -62,6 +62,8 @@ export default function ShowNotes(req: any, res: any) {
     });
   }, [contextValue.notes]);
 
+  console.log(showIconsOnHover);
+
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
@@ -76,9 +78,9 @@ export default function ShowNotes(req: any, res: any) {
         {contextValue?.notes.length > 0 ? (
           contextValue.notes.map((note: any) => (
             <div
-              // onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
-              // onMouseLeave={() => setShowIconsOnHover(showIconsOnHover)}
-              className="relative max-w-[350px] min-w-[250px] min-h-[150px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
+              onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
+              onMouseLeave={() => setShowIconsOnHover(showIconsOnHover)}
+              className="relative max-w-[350px] min-w-[250px] min-h-[170px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
               key={note._id}
             >
               <ShowNote

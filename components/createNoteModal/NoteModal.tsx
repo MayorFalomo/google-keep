@@ -1,4 +1,5 @@
 "use client";
+import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -18,6 +19,8 @@ type Props = {};
 
 //Parent component is ShowNote.tsx
 const NoteModal = (props: any) => {
+  const { contextValue }: any = useAppContext();
+
   const [singleNote, setSingleNote] = useState<any>();
   const [editTitle, setEditTitle] = useState<string>("");
   const [editNote, setEditNote] = useState<string>("");
@@ -25,9 +28,10 @@ const NoteModal = (props: any) => {
   const [editDrawing, setEditDrawing] = useState<string>("");
   const [editBgImage, setEditBGImage] = useState<string>("");
   const [editBgColor, setEditBGColor] = useState<string>("");
-  const [editRemainder, setEditRemainder] = useState<string>("");
+  const [editRemainder, setEditRemainder] = useState<boolean>(false);
   const [editCollaborator, setEditCollaborator] = useState<string>("");
   const [label, setLabel] = useState<string>("");
+  const [editLocation, EditLocation] = useState<string>("");
 
   useEffect(() => {
     axios
@@ -36,9 +40,12 @@ const NoteModal = (props: any) => {
       .catch((err) => console.log(err));
   }, [props.noteUrlParams]);
   // console.log(singleNote);
+  console.log(props.noteUrlParams, "This is noteUrlParams");
+  console.log(singleNote?._id, "This is single note");
 
   const handleEditNote = async (e: any) => {
     e.preventDefault();
+
     const updatedNote = {
       _id: singleNote?._id,
       note: editNote.length > 1 ? editNote : singleNote?.note,
@@ -47,19 +54,24 @@ const NoteModal = (props: any) => {
       drawing: editDrawing.length > 1 ? editDrawing : singleNote?.drawing,
       bgImage: editBgImage.length > 1 ? editBgImage : singleNote?.bgImage,
       bgColor: editBgColor.length > 1 ? editBgColor : singleNote?.bgColor,
-      remainder:
-        editRemainder.length > 1 ? editRemainder : singleNote?.remainder,
+      remainder: editRemainder ? editRemainder : singleNote?.remainder,
       collaborator:
         editCollaborator.length > 1
           ? editCollaborator
           : singleNote?.collaborator,
       label: label.length > 1 ? label : singleNote?.label,
+      location: editLocation.length > 1 ? editLocation : singleNote?.location,
     };
     try {
+      // console.log(updatedNote);
+
       await axios.put(
         `http://localhost:5000/api/notes/update-note/${props.noteUrlParams}`,
         updatedNote
       );
+      contextValue?.setNotes((prevNotes: any) => [
+        { ...prevNotes, ...updatedNote },
+      ]);
     } catch (error) {
       console.log(error);
     }

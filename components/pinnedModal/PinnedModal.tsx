@@ -24,9 +24,10 @@ const PinnedModal = (props: any) => {
   const [editDrawing, setEditDrawing] = useState<string>("");
   const [editBgImage, setEditBGImage] = useState<string>("");
   const [editBgColor, setEditBGColor] = useState<string>("");
-  const [editRemainder, setEditRemainder] = useState<string>("");
+  const [editRemainder, setEditRemainder] = useState<boolean>(false);
   const [editCollaborator, setEditCollaborator] = useState<string>("");
   const [label, setLabel] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
 
   useEffect(() => {
     axios
@@ -46,13 +47,13 @@ const PinnedModal = (props: any) => {
       drawing: editDrawing.length > 1 ? editDrawing : singleNote?.drawing,
       bgImage: editBgImage.length > 1 ? editBgImage : singleNote?.bgImage,
       bgColor: editBgColor.length > 1 ? editBgColor : singleNote?.bgColor,
-      remainder:
-        editRemainder.length > 1 ? editRemainder : singleNote?.remainder,
+      remainder: editRemainder ? editRemainder : singleNote?.remainder,
       collaborator:
         editCollaborator.length > 1
           ? editCollaborator
           : singleNote?.collaborator,
       label: label.length > 1 ? label : singleNote?.label,
+      location: location.length > 1 ? location : singleNote?.location,
     };
     try {
       await axios.put(

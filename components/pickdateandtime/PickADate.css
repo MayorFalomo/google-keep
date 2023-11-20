@@ -1,0 +1,33 @@
+.pickCon {
+position: absolute;
+top: 0px;
+left: 0;
+width: 380px;
+z-index: 999999;
+background-color: #202124;
+    box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) rgb(0,0,0, 0.4) !important;
+}
+
+.sub{
+  /* padding: 8px !important; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 3px;
+  align-items: center;
+  width: 100%;
+
+}
+
+.customTime{
+  position: absolute;
+  align-items: center;
+  justify-content: space-between;
+  top: 170px;
+  left: 0;
+  z-index: 9999;
+  width: 380px;
+  background-color: #202124;
+    box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) rgb(0,0,0, 0.4) !important;
+
+}
