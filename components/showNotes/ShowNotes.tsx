@@ -13,7 +13,7 @@ type Props = {};
 export default function ShowNotes(req: any, res: any) {
   const userCookie = getCookie("user", { req, res });
   const { contextValue }: any = useAppContext();
-
+  const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
   const [overLayBg, setOverLayBg] = useState(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [postLoaded, setPostLoaded] = useState(false);
@@ -62,7 +62,7 @@ export default function ShowNotes(req: any, res: any) {
     });
   }, [contextValue.notes]);
 
-  console.log(showIconsOnHover);
+  // console.log(showIconsOnHover);
 
   return (
     <div className=" mb-[200px] ">
@@ -75,16 +75,18 @@ export default function ShowNotes(req: any, res: any) {
       "columnWidth": 300  
      }'
       >
-        {contextValue?.notes.length > 0 ? (
-          contextValue.notes.map((note: any) => (
+        {contextValue?.notes?.length > 0 ? (
+          contextValue.notes?.map((note: any) => (
             <div
               onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
-              onMouseLeave={() => setShowIconsOnHover(showIconsOnHover)}
-              className="relative max-w-[350px] min-w-[250px] min-h-[170px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
+              onMouseLeave={() => setShowIconsOnHover(false)}
+              className="relative max-w-[350px] min-w-[250px] h-fit min-h-[170px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
               key={note._id}
             >
               <ShowNote
                 note={note}
+                noteModal={noteModal}
+                setNoteModal={setNoteModal}
                 overLayBg={overLayBg}
                 setOverLayBg={setOverLayBg}
                 showIconsOnHover={showIconsOnHover}
@@ -99,7 +101,13 @@ export default function ShowNotes(req: any, res: any) {
         )}
 
         {overLayBg ? (
-          <div className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "></div>
+          <div
+            onClick={() => {
+              setNoteModal(false);
+              setOverLayBg(false);
+            }}
+            className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+          ></div>
         ) : (
           ""
         )}

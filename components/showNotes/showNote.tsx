@@ -38,7 +38,7 @@ type Props = {};
 const ShowNote = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
+  // const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
   //   false
@@ -50,18 +50,20 @@ const ShowNote = (props: any) => {
   const options = useMemo(() => countryList().getData(), []);
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [closeIcon, setCloseIcon] = useState(false);
+  const [closeIconState, setCloseIconState] = useState(false);
 
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
   };
 
-  console.log(countryValue, "This is country Value");
+  // console.log(countryValue, "This is country Value");
 
   const handleClick = (e: any) => {
     e.preventDefault();
+    e.stopPropagation();
     setNoteUrlParams(props.note?._id);
     // console.log(props.note?.createdAt, "This is the id");
-    setNoteModal(true);
+    props?.setNoteModal(true);
     props.setOverLayBg(true);
   };
 
@@ -94,6 +96,7 @@ const ShowNote = (props: any) => {
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
       label: props.note?.label,
+      location: props.note?.location,
       createdAt: props?.note.createdAt,
     };
     try {
@@ -122,9 +125,10 @@ const ShowNote = (props: any) => {
       drawing: props.note?.drawing,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
-      // remainder: props.note?.remainder,
+      remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
       label: props.note?.label,
+      location: props.note?.location,
       createdAt: new Date(),
     };
     // console.log(noteRemainder);
@@ -156,6 +160,7 @@ const ShowNote = (props: any) => {
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
       label: props.note?.label,
+      location: props.note?.location,
       createdAt: new Date(),
     };
 
@@ -226,12 +231,50 @@ const ShowNote = (props: any) => {
     setPickALocation(false);
   };
 
+  const removeLocation = async (e: any) => {
+    e.preventDefault();
+    props?.setNoteModal(false);
+
+    const noteId = props.note?._id;
+
+    try {
+      props?.setNoteModal(false);
+      await axios.put(
+        `http://localhost:5000/api/notes/delete-country/${noteId}`
+      );
+      console.log(noteId, "This is noteId");
+
+      contextValue?.setNotes((prevNotes: any) => {
+        const updatedNotes = prevNotes.map((note: any) => {
+          if (note._id == noteId) {
+            console.log(note?._id, "Same thing");
+
+            // Update the location to an empty string for the specific note
+            return { ...note, location: " " };
+          }
+          return note;
+        });
+        return updatedNotes;
+      });
+      // contextValue?.setNotes((prevNotes: any) => [
+      //   { ...prevNotes, location: " " },
+      // ]);
+      setPickALocation(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // console.log(props.note, "show note");
+
   // console.log(countryValue?.label, "Country Value");
+  // console.log(props.noteModal, "This is noteModal");
+  // console.log(closeIconState, "This is closeIconState");
 
   return (
     <div className="mapped">
       <div onClick={handleClick} className="subContainer">
-        {props.note.title.length == 0 && props.note.note.length == 0 ? (
+        {props.note?.title?.length == 0 && props.note?.note?.length == 0 ? (
           <div className="p-4">
             <input
               className="bg-transparent border-none outline-none "
@@ -242,17 +285,32 @@ const ShowNote = (props: any) => {
           <div className="p-4">
             <h1 className="text-[20px]">{props.note?.title}</h1>
             <p className="text-[16px] whitespace-break-spaces ">
-              {props.note?.note.slice(0, 600)}...
+              {props.note?.note?.slice(0, 600)}...
             </p>
-            {props.note.location.length > 1 ? (
-              <p
-                // onMouseEnter={() => setCloseIcon(true)}
-                // onMouseLeave={() => setCloseIcon(false)}
-                className=" flex items-center gap-2 w-auto py-1 px-3 rounded-[30px] border-2 border-[#313235]"
-              >
-                <IoLocationOutline />
-                {props.note.location} <span>{<IoCloseOutline />} </span>
-              </p>
+            {props.note?.location?.length > 1 ? (
+              <form onSubmit={removeLocation}>
+                <p
+                  onMouseOver={() => {
+                    setCloseIcon(true);
+                  }}
+                  onMouseLeave={() => setCloseIcon(false)}
+                  className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
+                >
+                  <IoLocationOutline />
+                  {props.note?.location}{" "}
+                  <button
+                    type="submit"
+                    // onMouseEnter={() => setCloseIconState(true)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    // style={{ cursor: "pointer" }}
+                    className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
+                  >
+                    {closeIcon ? <IoCloseOutline /> : ""}{" "}
+                  </button>
+                </p>
+              </form>
             ) : (
               ""
             )}
@@ -320,7 +378,10 @@ const ShowNote = (props: any) => {
                 </ul>
               </div>
               {pickADayModal ? (
-                <PickDate setPickADayModal={setPickADayModal} />
+                <PickDate
+                  setPickADayModal={setPickADayModal}
+                  notepad={props.note}
+                />
               ) : (
                 ""
               )}
@@ -332,14 +393,16 @@ const ShowNote = (props: any) => {
             <form onSubmit={setLocation} className="pickLocation ">
               <h1 className="flex items-center gap-[8px] py-3 text-[20px] border-1 border-[#313235]">
                 {
-                  <IoArrowBackSharp
-                    onClick={() => {
-                      setPickALocation(false);
-                      setOpenNotifyModal(true);
-                    }}
-                    className="text-[24px] cursor-pointer hover:bg-lighterHover rounded-[50%]"
-                    color="#9AA0A6"
-                  />
+                  <span className="p-2 rounded-full hover:bg-lighterHover">
+                    <IoArrowBackSharp
+                      onClick={() => {
+                        setPickALocation(false);
+                        setOpenNotifyModal(true);
+                      }}
+                      className="text-[24px] cursor-pointer hover:bg-lighterHover rounded-[50%]"
+                      color="#9AA0A6"
+                    />
+                  </span>
                 }{" "}
                 Pick a Location{" "}
               </h1>
@@ -426,11 +489,11 @@ const ShowNote = (props: any) => {
         ""
       )}
       <div className="">
-        {noteModal ? (
+        {props?.noteModal ? (
           <NoteModal
             noteUrlParams={noteUrlParams}
-            setNoteModal={setNoteModal}
-            noteModal={noteModal}
+            setNoteModal={props?.setNoteModal}
+            noteModal={props?.noteModal}
             setOverLayBg={props.setOverLayBg}
           />
         ) : null}
