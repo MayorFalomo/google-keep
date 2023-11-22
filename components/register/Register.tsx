@@ -83,22 +83,21 @@ const Register = (req: any, res: any) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const generatedId = generateId(24);
-    createUserWithEmailAndPassword(auth, email, passwords)
-      .then((response) => {
-        setCookie("user", generatedId, { req, res });
-        // cookies().set("name", "lee");
-        //Since monogoDb can't find google's id since it's 28 digits, i generated my 24 digit id for each user id
-        const userInfo = {
-          id: generatedId, //Self generated
-          userId: response.user.uid, //userId is from google
-          username: userNames,
-          email: email,
-          password: passwords,
-          profileDp:
-            "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
-          notifications: notifications,
-        };
-
+    createUserWithEmailAndPassword(auth, email, passwords).then((response) => {
+      setCookie("user", generatedId, { req, res });
+      // cookies().set("name", "lee");
+      //Since monogoDb can't find google's id since it's 28 digits, i generated my 24 digit id for each user id
+      const userInfo = {
+        id: generatedId, //Self generated
+        userId: response.user.uid, //userId is from google
+        username: userNames,
+        email: email,
+        password: passwords,
+        profileDp:
+          "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
+        notifications: notifications,
+      };
+      try {
         axios
           .post("http://localhost:5000/api/users/register", userInfo)
           .then(() => router.push("/"))
@@ -106,10 +105,11 @@ const Register = (req: any, res: any) => {
           .then(() => contextValue?.getCurrentUser(userInfo?.id))
           .catch((err) => err && contextValue.setIsAuth(true));
         console.log(userInfo);
-
-        // contextValue?.getCurrentUser(userInfo?.id);
-      })
-      .catch((err) => console.log(err));
+      } catch (error) {
+        console.log(error);
+      }
+      // contextValue?.getCurrentUser(userInfo?.id);
+    });
   };
 
   const getRandomName = () => {

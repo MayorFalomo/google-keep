@@ -32,6 +32,8 @@ import moment from "moment";
 import PickDate from "../pickdateandtime/PickDate";
 import Select from "react-select";
 import countryList from "react-select-country-list";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {};
 
@@ -39,11 +41,9 @@ const ShowNote = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   // const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
-  const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
   //   false
   // );
-  const [trackId, setTrackId] = React.useState<string>("");
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
   const [countryValue, setCountryValue] = React.useState<any>("");
@@ -60,12 +60,14 @@ const ShowNote = (props: any) => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    e.stopPropagation();
-    setNoteUrlParams(props.note?._id);
+    // e.stopPropagation();
+    props.setNoteUrlParams(props.note?._id);
     // console.log(props.note?.createdAt, "This is the id");
     props?.setNoteModal(true);
-    props.setOverLayBg(true);
+    props?.setOverLay(true);
   };
+
+  // console.log(props?.overLay, "overlay");
 
   //generateId
   function dec2hex(dec: any) {
@@ -107,6 +109,7 @@ const ShowNote = (props: any) => {
       contextValue.setPinnedNote(
         [...contextValue?.pinnedNote, pinThisNote].reverse()
       );
+      toast("Note has been pinned!");
       // console.log("Note has been pinned");
     } catch (err) {
       console.log(err);
@@ -212,19 +215,22 @@ const ShowNote = (props: any) => {
       remainder: props.note?.remainder,
       collaborator: props.note.collaborator,
       label: props.note?.label,
-      location:
-        countryValue?.label.length > 1
-          ? countryValue.label
-          : props.note?.location,
+      location: countryValue?.label || props.note?.location || "",
     };
+    // console.log(country);
+
     try {
       axios.put(
         `http://localhost:5000/api/notes/update-note/${props.note?._id}`,
         country
       );
-      contextValue?.setNotes((prevState: any) => [
-        { ...prevState, ...country },
-      ]);
+      contextValue?.setNotes((prevState: any) =>
+        prevState.map((note: any) =>
+          note._id == props.note?._id
+            ? { ...note, location: country.location }
+            : note
+        )
+      );
     } catch (err) {
       console.log(err);
     }
@@ -300,11 +306,9 @@ const ShowNote = (props: any) => {
                   {props.note?.location}{" "}
                   <button
                     type="submit"
-                    // onMouseEnter={() => setCloseIconState(true)}
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    // style={{ cursor: "pointer" }}
                     className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
                   >
                     {closeIcon ? <IoCloseOutline /> : ""}{" "}
@@ -491,13 +495,15 @@ const ShowNote = (props: any) => {
       <div className="">
         {props?.noteModal ? (
           <NoteModal
-            noteUrlParams={noteUrlParams}
+            noteUrlParams={props.noteUrlParams}
             setNoteModal={props?.setNoteModal}
             noteModal={props?.noteModal}
-            setOverLayBg={props.setOverLayBg}
+            setNoteUrlParams={props.setNoteUrlParams}
+            setOverLay={props.setOverLay}
           />
         ) : null}
       </div>
+      {/* <ToastContainer /> */}
     </div>
   );
 };

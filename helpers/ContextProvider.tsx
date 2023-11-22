@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import { AppContext } from "./Helpers";
 import { useCookies } from "react-cookie";
 import { getCookie } from "cookies-next";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {};
 
@@ -19,6 +21,8 @@ const AppContextProvider = ({ children }: any) => {
   const [openTextArea, setOpenTextArea] = useState(false);
   const [noteModal, setNoteModal] = useState(false); //toggle create note modal
   const [pinnedNote, setPinnedNote] = useState([]);
+  const [overLay, setOverLay] = useState(false);
+
   // const [currentUser, setCurrentUser] = useState()
   // const [cookies, setCookies] = useCookies(["user"]);
 
@@ -47,6 +51,7 @@ const AppContextProvider = ({ children }: any) => {
         router.push("/");
         // console.log(res, "This is res");
         setUser(res);
+        toast("User log in successfull");
       })
       .catch((err) => {
         console.log(err);
@@ -73,12 +78,22 @@ const AppContextProvider = ({ children }: any) => {
     setOpenTextArea,
     noteModal,
     setNoteModal,
+    // overLay,
+    // setOverLay,
     pinnedNote,
     setPinnedNote,
   };
 
   return (
     <AppContext.Provider value={{ contextValue }}>
+      {/* <ToastContainer /> */}
+      {/* {overLay ? (
+        <div className="fixed border-5 border-green-700 z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 v">
+          {" "}
+        </div>
+      ) : (
+        ""
+      )} */}
       {children}
     </AppContext.Provider>
   );

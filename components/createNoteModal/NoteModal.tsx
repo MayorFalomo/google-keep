@@ -32,51 +32,80 @@ const NoteModal = (props: any) => {
   const [editCollaborator, setEditCollaborator] = useState<string>("");
   const [label, setLabel] = useState<string>("");
   const [editLocation, EditLocation] = useState<string>("");
+  const [id, setId] = useState<string>(props.noteUrlParams);
+
+  const storeId = props.noteUrlParams;
+  console.log(id, "This is Id");
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/notes/get-note/${props.noteUrlParams}`)
-      .then((res) => setSingleNote(res.data))
-      .catch((err) => console.log(err));
+    if (props.noteUrlParams) {
+      axios
+        .get(`http://localhost:5000/api/notes/get-note/${props.noteUrlParams}`)
+        .then((res) => setSingleNote(res.data))
+        .catch((err) => console.log(err));
+    }
   }, [props.noteUrlParams]);
-  // console.log(singleNote);
-  console.log(props.noteUrlParams, "This is noteUrlParams");
-  console.log(singleNote?._id, "This is single note");
+
+  // console.log(singleNote?._id, "THIS IS Single Note Id");
+  // console.log(props.noteUrlParams, "This is noteUrlParams");
+  // console.log(props, "This is props");
 
   const handleEditNote = async (e: any) => {
     e.preventDefault();
+    // console.log(singleNote?._id, "This is single note id");
 
     const updatedNote = {
-      _id: singleNote?._id,
-      note: editNote.length > 1 ? editNote : singleNote?.note,
-      title: editTitle.length > 1 ? editTitle : singleNote?.title,
-      picture: editPicture.length > 1 ? editPicture : singleNote?.picture,
-      drawing: editDrawing.length > 1 ? editDrawing : singleNote?.drawing,
-      bgImage: editBgImage.length > 1 ? editBgImage : singleNote?.bgImage,
-      bgColor: editBgColor.length > 1 ? editBgColor : singleNote?.bgColor,
-      remainder: editRemainder ? editRemainder : singleNote?.remainder,
-      collaborator:
-        editCollaborator.length > 1
-          ? editCollaborator
-          : singleNote?.collaborator,
-      label: label.length > 1 ? label : singleNote?.label,
-      location: editLocation.length > 1 ? editLocation : singleNote?.location,
+      _id: props.noteUrlParams,
+      note: editNote || singleNote?.note,
+      title: editTitle || singleNote?.title,
+      picture: editPicture || singleNote?.picture,
+      drawing: editDrawing || singleNote?.drawing,
+      bgImage: editBgImage || singleNote?.bgImage,
+      bgColor: editBgColor || singleNote?.bgColor,
+      remainder: editRemainder || singleNote?.remainder,
+      collaborator: editCollaborator || singleNote?.collaborator,
+      label: label || singleNote?.label,
+      location: editLocation || singleNote?.location,
     };
     try {
-      // console.log(updatedNote);
-
       await axios.put(
-        `http://localhost:5000/api/notes/update-note/${props.noteUrlParams}`,
+        `http://localhost:5000/api/notes/update-note/${storeId}`,
         updatedNote
       );
-      contextValue?.setNotes((prevNotes: any) => [
-        { ...prevNotes, ...updatedNote },
-      ]);
+
+      contextValue?.setNotes((prevNotes: any) => {
+        const index = prevNotes.findIndex(
+          (note: any) => note._id == singleNote?._id
+        );
+
+        if (index !== -1) {
+          // If the note is found, update it
+          const updatedNotes = [...prevNotes];
+          updatedNotes[index] = { ...prevNotes[index], ...updatedNote };
+          return updatedNotes;
+        }
+
+        // If the note is not found, return the original array
+        return prevNotes;
+      });
+      // contextValue?.setNotes((prevNotes: any) =>
+      //   prevNotes.map((note: any) =>
+      //     note._id == singleNote?._id ? { ...note, ...updatedNote } : note
+      //   )
+      // );
+      // contextValue?.setNotes((prevNotes: any) => [
+      //   { ...prevNotes, ...updatedNote },
+      // ]);
+      // console.log(
+      //   contextValue?.notes,
+      //   [{ ...updatedNote }],
+      //   "This is note modal"
+      // );
+      props.setNoteModal(false);
+      props.setOverLay(false);
     } catch (error) {
       console.log(error);
     }
-    props.setNoteModal(false);
-    props.setOverLayBg(false);
   };
 
   return (
@@ -87,9 +116,13 @@ const NoteModal = (props: any) => {
             <input
               className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"
               type="text"
-              defaultValue={singleNote?.title || editTitle}
+              defaultValue={singleNote?.title}
               placeholder="Title"
-              onChange={(e) => setEditTitle(e.target.value)}
+              autoFocus
+              onChange={(e: any) => {
+                setEditTitle(e.target.value);
+                // e.stopPropagation();
+              }}
             />
             <span className="p-3 rounded-full hover:bg-hover">
               {
@@ -102,11 +135,15 @@ const NoteModal = (props: any) => {
           </div>
           <div className=" h-[50%]">
             <textarea
+              typeof="text"
               className="bg-transparent text-white h-full w-full text-[16px] outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
               // className="bg-darkmode w-full "
               defaultValue={singleNote?.note || editNote}
               placeholder="Note"
-              onChange={(e) => setEditNote(e.target.value)}
+              onChange={(e: any) => {
+                setEditNote(e.target.value);
+                // e.stopPropagation();
+              }}
             />
           </div>
           <p className="flex justify-end m-2 ">

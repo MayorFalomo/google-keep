@@ -14,11 +14,12 @@ export default function ShowNotes(req: any, res: any) {
   const userCookie = getCookie("user", { req, res });
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
-  const [overLayBg, setOverLayBg] = useState(false);
+  const [overLay, setOverLay] = useState(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [postLoaded, setPostLoaded] = useState(false);
   const containerRef = useRef(null);
   const [currentUser, setCurrentUser] = useState(contextValue?.user?._id);
+  const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
 
   useEffect(() => {
     axios
@@ -80,15 +81,30 @@ export default function ShowNotes(req: any, res: any) {
             <div
               onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
               onMouseLeave={() => setShowIconsOnHover(false)}
-              className="relative max-w-[350px] min-w-[250px] h-fit min-h-[170px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
+              className="max-w-[350px] min-w-[250px] h-fit min-h-[170px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
               key={note._id}
             >
+              {overLay ? (
+                <div
+                  onClick={() => {
+                    // e.stopPropagation();
+                    setNoteModal(false);
+                    setOverLay(false);
+                  }}
+                  // className="position"
+                  className="fixed border-5 border-green-700 z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+                ></div>
+              ) : (
+                ""
+              )}
               <ShowNote
                 note={note}
                 noteModal={noteModal}
                 setNoteModal={setNoteModal}
-                overLayBg={overLayBg}
-                setOverLayBg={setOverLayBg}
+                overLay={overLay}
+                setOverLay={setOverLay}
+                noteUrlParams={noteUrlParams}
+                setNoteUrlParams={setNoteUrlParams}
                 showIconsOnHover={showIconsOnHover}
                 setShowIconsOnHover={setShowIconsOnHover}
               />
@@ -98,18 +114,6 @@ export default function ShowNotes(req: any, res: any) {
           <div className="empty ">
             <p className="text-[22px] text-center"> You have no Notes </p>
           </div>
-        )}
-
-        {overLayBg ? (
-          <div
-            onClick={() => {
-              setNoteModal(false);
-              setOverLayBg(false);
-            }}
-            className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
-          ></div>
-        ) : (
-          ""
         )}
       </div>
     </div>

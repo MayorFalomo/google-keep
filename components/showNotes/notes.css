@@ -3,11 +3,24 @@
    width: 100% !important;
    margin-bottom: 150px;
    margin-left: 50px;
-   position: relative;
+   /* border: 2px red solid; */
+   /* position: relative; */
 }
 
 .empty{
    width: 100%;
+}
+.position{
+    background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(7.6px);
+        -webkit-backdrop-filter: blur(7.6px);
+        position: fixed !important;
+        z-index: 999;
+        top: -100%;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
 }
 .overlay{
       background: rgba(255, 255, 255, 0.1);
@@ -23,9 +36,9 @@
 .convex{
    /* border: 3px red solid; */
 position: absolute;
-bottom: -200px;
+bottom: -230px;
 left: 0;
-width: 300px;
+width: 270px;
 padding: 8px;
 z-index: 999;
 background-color: #202124 !important;
@@ -37,7 +50,7 @@ background-color: #202124 !important;
 position: absolute;
 bottom: -160px;
 left: 0;
-width: 300px;
+width: 270px;
 padding: 8px;
 z-index: 999;
 background-color: #202124 !important;
