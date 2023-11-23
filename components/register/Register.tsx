@@ -104,7 +104,7 @@ const Register = (req: any, res: any) => {
           .then(() => window.location.reload())
           .then(() => contextValue?.getCurrentUser(userInfo?.id))
           .catch((err) => err && contextValue.setIsAuth(true));
-        console.log(userInfo);
+        // console.log(userInfo);
       } catch (error) {
         console.log(error);
       }
@@ -153,7 +153,7 @@ const Register = (req: any, res: any) => {
   };
 
   return (
-    <div className="bg-white border-2 border-blue-600 text-black h-[100vh] flex justify-center items-center">
+    <div className="bg-white text-black h-[100vh] flex justify-center items-center">
       <div className="flex flex-col justify-between items-center w-[650px] h-[90%]">
         <div className="border-2 border-black-200 rounded-xl p-8 mt-2 flex flex-col justify-end mx-[auto] gap-6 w-[90%] ">
           <div className="flex flex-col items-center gap-3">
@@ -230,7 +230,7 @@ const Register = (req: any, res: any) => {
             </div>
             <button
               type="submit"
-              className="border-2 border-blue-600 mt-6 p-3 w-1/4  bg-[#1B66C9] rounded-[8px] text-[18px] text-white"
+              className="mt-6 p-3 w-1/4  bg-[#1B66C9] rounded-[8px] text-[18px] text-white"
             >
               Sign Up{" "}
             </button>

@@ -35,7 +35,7 @@ const NoteModal = (props: any) => {
   const [id, setId] = useState<string>(props.noteUrlParams);
 
   const storeId = props.noteUrlParams;
-  console.log(id, "This is Id");
+  // console.log(id, "This is Id");
 
   useEffect(() => {
     if (props.noteUrlParams) {
@@ -44,7 +44,7 @@ const NoteModal = (props: any) => {
         .then((res) => setSingleNote(res.data))
         .catch((err) => console.log(err));
     }
-  }, [props.noteUrlParams]);
+  }, [props?.noteUrlParams]);
 
   // console.log(singleNote?._id, "THIS IS Single Note Id");
   // console.log(props.noteUrlParams, "This is noteUrlParams");

@@ -44,6 +44,7 @@ const ShowNote = (props: any) => {
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
   //   false
   // );
+
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
   const [countryValue, setCountryValue] = React.useState<any>("");
@@ -109,8 +110,7 @@ const ShowNote = (props: any) => {
       contextValue.setPinnedNote(
         [...contextValue?.pinnedNote, pinThisNote].reverse()
       );
-      toast("Note has been pinned!");
-      // console.log("Note has been pinned");
+      // toast("Note has been pinned!");
     } catch (err) {
       console.log(err);
     }
@@ -134,13 +134,12 @@ const ShowNote = (props: any) => {
       location: props.note?.location,
       createdAt: new Date(),
     };
-    // console.log(noteRemainder);
-
     try {
       axios.post(
         "http://localhost:5000/api/notes/set-notification/tomorrow",
         noteRemainder
       );
+      toast("Remainder set for tomorrow ");
     } catch (error) {
       console.log(error, "This did not work");
     }
@@ -166,12 +165,12 @@ const ShowNote = (props: any) => {
       location: props.note?.location,
       createdAt: new Date(),
     };
-
     try {
       await axios.post(
         "http://localhost:5000/api/notes/set-notification/next-week",
         noteRemainder
       );
+      toast("Remainder set for tomorrow ");
     } catch (error) {
       console.log(error, "This did not work");
     }
@@ -185,7 +184,6 @@ const ShowNote = (props: any) => {
     }),
     menuList: (base: any) => ({
       ...base,
-
       "::-webkit-scrollbar": {
         width: "4px",
         height: "0px",
@@ -217,8 +215,6 @@ const ShowNote = (props: any) => {
       label: props.note?.label,
       location: countryValue?.label || props.note?.location || "",
     };
-    // console.log(country);
-
     try {
       axios.put(
         `http://localhost:5000/api/notes/update-note/${props.note?._id}`,
@@ -248,13 +244,11 @@ const ShowNote = (props: any) => {
       await axios.put(
         `http://localhost:5000/api/notes/delete-country/${noteId}`
       );
-      console.log(noteId, "This is noteId");
+      // console.log(noteId, "This is noteId");
 
       contextValue?.setNotes((prevNotes: any) => {
         const updatedNotes = prevNotes.map((note: any) => {
           if (note._id == noteId) {
-            console.log(note?._id, "Same thing");
-
             // Update the location to an empty string for the specific note
             return { ...note, location: " " };
           }
@@ -262,20 +256,11 @@ const ShowNote = (props: any) => {
         });
         return updatedNotes;
       });
-      // contextValue?.setNotes((prevNotes: any) => [
-      //   { ...prevNotes, location: " " },
-      // ]);
       setPickALocation(false);
     } catch (err) {
       console.log(err);
     }
   };
-
-  // console.log(props.note, "show note");
-
-  // console.log(countryValue?.label, "Country Value");
-  // console.log(props.noteModal, "This is noteModal");
-  // console.log(closeIconState, "This is closeIconState");
 
   return (
     <div className="mapped">
@@ -327,7 +312,7 @@ const ShowNote = (props: any) => {
         " "
       )}
       {props?.showIconsOnHover ? (
-        <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
+        <div className="absolute bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
           <span className="p-2 rounded-full hover:bg-[#313236]r">
             {
               <BiBellPlus
@@ -343,7 +328,7 @@ const ShowNote = (props: any) => {
               className="convex"
               // className="absolute bottom-[-200px] left-0 z-30 w-[300px] p-2 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] "
             >
-              <div className="rounded-[20px]  ">
+              <div className="rounded-[20px]">
                 <p>Remainder: </p>
                 <ul>
                   <li
@@ -503,7 +488,7 @@ const ShowNote = (props: any) => {
           />
         ) : null}
       </div>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
     </div>
   );
 };

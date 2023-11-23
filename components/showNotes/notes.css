@@ -40,7 +40,7 @@ bottom: -230px;
 left: 0;
 width: 270px;
 padding: 8px;
-z-index: 999;
+z-index: 9999 !important;
 background-color: #202124 !important;
     box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) rgb(0,0,0, 0.4) !important;
 }

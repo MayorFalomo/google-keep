@@ -8,6 +8,7 @@ import "./notes.css";
 import Masonry from "masonry-layout";
 import imagesLoaded from "imagesloaded";
 import { BsCheckCircle } from "react-icons/bs";
+
 type Props = {};
 
 export default function ShowNotes(req: any, res: any) {
@@ -36,6 +37,7 @@ export default function ShowNotes(req: any, res: any) {
   //   const items = contextValue?.notes.map(function(note:any) {
   //   return <div key={note._id}>{note.name}</div>
   // });
+
   var elem = document.querySelector(".grid");
   var msnry = new Masonry(elem, {
     // options
@@ -63,8 +65,6 @@ export default function ShowNotes(req: any, res: any) {
     });
   }, [contextValue.notes]);
 
-  // console.log(showIconsOnHover);
-
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
@@ -73,7 +73,7 @@ export default function ShowNotes(req: any, res: any) {
         className="grid"
         ref={containerRef}
         data-masonry='{ "itemSelector": ".grid-item", 
-      "columnWidth": 300  
+      "columnWidth": 300
      }'
       >
         {contextValue?.notes?.length > 0 ? (
@@ -87,22 +87,20 @@ export default function ShowNotes(req: any, res: any) {
               {overLay ? (
                 <div
                   onClick={() => {
-                    // e.stopPropagation();
                     setNoteModal(false);
                     setOverLay(false);
                   }}
-                  // className="position"
-                  className="fixed border-5 border-green-700 z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+                  className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
                 ></div>
               ) : (
                 ""
               )}
               <ShowNote
                 note={note}
-                noteModal={noteModal}
-                setNoteModal={setNoteModal}
                 overLay={overLay}
                 setOverLay={setOverLay}
+                noteModal={noteModal}
+                setNoteModal={setNoteModal}
                 noteUrlParams={noteUrlParams}
                 setNoteUrlParams={setNoteUrlParams}
                 showIconsOnHover={showIconsOnHover}
