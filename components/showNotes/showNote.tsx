@@ -52,10 +52,13 @@ const ShowNote = (props: any) => {
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [closeIcon, setCloseIcon] = useState(false);
   const [closeIconState, setCloseIconState] = useState(false);
+  const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
 
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
   };
+
+  // console.log(contextValue.user);
 
   // console.log(countryValue, "This is country Value");
 
