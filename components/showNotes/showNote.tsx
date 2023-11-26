@@ -435,7 +435,10 @@ const ShowNote = (props: any) => {
           )}
           <Tippy placement="bottom" content="Collaborator ">
             <span
-              onClick={() => setShowCollaboratorModal(true)}
+              onClick={() => {
+                setShowCollaboratorModal(true);
+                setOpenNotifyModal(false);
+              }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 "
             >
               {

@@ -1,16 +1,41 @@
 "use client";
 import { useAppContext } from "@/helpers/Helpers";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiUserGroup } from "react-icons/hi";
 import "./collab.styled.css";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import Result from "./Result";
+import axios from "axios";
 
 const Collaborators = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  const [inputValue, setInputValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [suggestions, setSuggestions] = useState<any>([]);
+  const [suggestionModal, setSuggestionModal] = useState<boolean>(false);
+  const [getCollaboratorId, setGetCollaboratorId] = useState<string>("");
+  const [getCollaboratorUsername, setGetCollaboratorUsername] = useState<
+    string
+  >("");
+  const [getCollaboratorProfilePic, setGetCollaboratorProfilePic] = useState<
+    string
+  >("");
+
+  const handleShow = () => {
+    if (suggestions) {
+      setSuggestionModal(true);
+    } else {
+      setSuggestionModal(false);
+    }
+  };
+
+  useEffect(() => {
+    if (suggestions) {
+      setSuggestionModal(true);
+    } else {
+      setSuggestionModal(false);
+    }
+  }, [suggestions]);
 
   const handleInputChange = async (event: any) => {
     const value = event.target.value;
@@ -20,19 +45,23 @@ const Collaborators = (props: any) => {
 
   const fetchSuggestions = async (query: any) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/users/search?username=${query}`
-      );
-      const data = await response.json();
+      axios
+        .get(`http://localhost:5000/api/users/search?username=${query}`)
+        .then((res) => setSuggestions(res.data))
+        .catch((err) => console.log(err));
+      // const response = await fetch(
+      //   `http://localhost:5000/api/users/search?username=${query}`
+      // );
+      // const data = await response.json();
       // console.log(data, "this is data");
 
-      setSuggestions(data);
+      // setSuggestions(data);
     } catch (error) {
       console.error("Error fetching suggestions:", error);
     }
   };
 
-  console.log(suggestions, "This is suggestions");
+  // console.log(getCollaboratorId, "This is suggestions ID");
 
   return (
     <div className="bg-[#2D2E30] fixed z-20 h-auto max-h-[340px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px]">
@@ -71,12 +100,18 @@ const Collaborators = (props: any) => {
               placeholder="Person or email to share with"
             />
           </div>
-          {suggestions.length > 0 ? (
+          {suggestionModal ? (
             <div className="">
-              {suggestions.map((user: any) => (
-                <div key={user._id}>
-                  <Result user={user} />
-                </div>
+              {suggestions?.map((suggestion: any) => (
+                <Result
+                  key={suggestion?._id}
+                  user={suggestion}
+                  setShowCollaboratorModal={props?.setShowCollaboratorModal}
+                  setGetCollaboratorId={setGetCollaboratorId}
+                  setGetCollaboratorUsername={setGetCollaboratorUsername}
+                  setGetCollaboratorProfilePic={setGetCollaboratorProfilePic}
+                  setSuggestionModal={setSuggestionModal}
+                />
               ))}
             </div>
           ) : (
