@@ -20,6 +20,19 @@ const Collaborators = (props: any) => {
   const [getCollaboratorProfilePic, setGetCollaboratorProfilePic] = useState<
     string
   >("");
+  // const [getCollaboratorProfilePic, setGetCollaboratorProfilePic] = useState<
+  //   string
+  // >("");
+  const [singleNote, setSingleNote] = useState<any>();
+
+  useEffect(() => {
+    if (props.noteUrlParams) {
+      axios
+        .get(`http://localhost:5000/api/notes/get-note/${props.noteUrlParams}`)
+        .then((res) => setSingleNote(res.data))
+        .catch((err) => console.log(err));
+    }
+  }, [props?.noteUrlParams]);
 
   const handleShow = () => {
     if (suggestions) {
@@ -60,6 +73,19 @@ const Collaborators = (props: any) => {
       console.error("Error fetching suggestions:", error);
     }
   };
+
+  const handleAddCollaborator = () => {
+    const collaborateObject = {
+      _id: singleNote?._id,
+      userId: getCollaboratorId,
+      email: singleNote?.email,
+      username: singleNote?.username,
+      toUsername: getCollaboratorUsername,
+      profilePic: getCollaboratorProfilePic,
+    };
+  };
+
+  console.log(singleNote, "SingleNote");
 
   // console.log(getCollaboratorId, "This is suggestions ID");
 

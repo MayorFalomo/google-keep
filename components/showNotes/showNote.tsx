@@ -532,7 +532,10 @@ const ShowNote = (props: any) => {
       </div>
       {showCollaboratorModal ? (
         <div className=" ">
-          <Collaborators setShowCollaboratorModal={setShowCollaboratorModal} />
+          <Collaborators
+            noteUrlParams={props.noteUrlParams}
+            setShowCollaboratorModal={setShowCollaboratorModal}
+          />
         </div>
       ) : (
         ""
