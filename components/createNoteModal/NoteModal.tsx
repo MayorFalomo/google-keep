@@ -29,13 +29,12 @@ const NoteModal = (props: any) => {
   const [editBgImage, setEditBGImage] = useState<string>("");
   const [editBgColor, setEditBGColor] = useState<string>("");
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
-  const [editCollaborator, setEditCollaborator] = useState<string>("");
+  const [editCollaborator, setEditCollaborator] = useState<any>();
   const [label, setLabel] = useState<string>("");
   const [editLocation, EditLocation] = useState<string>("");
   const [id, setId] = useState<string>(props.noteUrlParams);
 
   const storeId = props.noteUrlParams;
-  // console.log(id, "This is Id");
 
   useEffect(() => {
     if (props.noteUrlParams) {

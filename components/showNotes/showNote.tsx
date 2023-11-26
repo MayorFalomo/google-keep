@@ -34,6 +34,9 @@ import Select from "react-select";
 import countryList from "react-select-country-list";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import Collaborators from "../collaborators/Collaborators";
 
 type Props = {};
 
@@ -299,7 +302,13 @@ const ShowNote = (props: any) => {
                     }}
                     className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
                   >
-                    {closeIcon ? <IoCloseOutline /> : ""}{" "}
+                    {closeIcon ? (
+                      <Tippy placement="bottom" content="Delete location ">
+                        <IoCloseOutline />
+                      </Tippy>
+                    ) : (
+                      ""
+                    )}{" "}
                   </button>
                 </p>
               </form>
@@ -310,21 +319,25 @@ const ShowNote = (props: any) => {
         )}
       </div>
       {props?.showIconsOnHover ? (
-        <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+        <Tippy placement="bottom" content="Select note">
+          <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+        </Tippy>
       ) : (
         " "
       )}
       {props?.showIconsOnHover ? (
         <div className="absolute bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
-          <span className="p-2 rounded-full hover:bg-[#313236]r">
-            {
-              <BiBellPlus
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-                onClick={() => setOpenNotifyModal(!openNotifyModal)}
-              />
-            }{" "}
-          </span>
+          <Tippy placement="bottom" content="Notification">
+            <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
+              {
+                <BiBellPlus
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                  onClick={() => setOpenNotifyModal(!openNotifyModal)}
+                />
+              }{" "}
+            </span>
+          </Tippy>
           {openNotifyModal ? (
             <div
               id="shadow"
@@ -385,16 +398,18 @@ const ShowNote = (props: any) => {
             <form onSubmit={setLocation} className="pickLocation ">
               <h1 className="flex items-center gap-[8px] py-3 text-[20px] border-1 border-[#313235]">
                 {
-                  <span className="p-2 rounded-full hover:bg-lighterHover">
-                    <IoArrowBackSharp
-                      onClick={() => {
-                        setPickALocation(false);
-                        setOpenNotifyModal(true);
-                      }}
-                      className="text-[24px] cursor-pointer hover:bg-lighterHover rounded-[50%]"
-                      color="#9AA0A6"
-                    />
-                  </span>
+                  <Tippy placement="bottom" content="Go back ">
+                    <span className="p-2 rounded-full hover:bg-lighterHover">
+                      <IoArrowBackSharp
+                        onClick={() => {
+                          setPickALocation(false);
+                          setOpenNotifyModal(true);
+                        }}
+                        className="text-[24px] cursor-pointer hover:bg-lighterHover rounded-[50%]"
+                        color="#9AA0A6"
+                      />
+                    </span>
+                  </Tippy>
                 }{" "}
                 Pick a Location{" "}
               </h1>
@@ -418,43 +433,60 @@ const ShowNote = (props: any) => {
           ) : (
             ""
           )}
-          <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
-            {
-              <MdOutlinePersonAddAlt1
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
-          <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer ">
-            {
-              <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
-            }{" "}
-          </span>
-          <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
-            {
-              <BiImageAlt
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
-          <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
-            {
-              <BiArchiveIn
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
-          <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
-            {
-              <BiDotsVerticalRounded
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
+          <Tippy placement="bottom" content="Collaborator ">
+            <span
+              onClick={() => setShowCollaboratorModal(true)}
+              className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 "
+            >
+              {
+                <MdOutlinePersonAddAlt1
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          </Tippy>
+
+          <Tippy placement="bottom" content="Background options ">
+            <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer ">
+              {
+                <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
+              }{" "}
+            </span>
+          </Tippy>
+
+          <Tippy placement="bottom" content="Add image">
+            <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
+              {
+                <BiImageAlt
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          </Tippy>
+
+          <Tippy placement="bottom" content="Archive ">
+            <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
+              {
+                <BiArchiveIn
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          </Tippy>
+
+          <Tippy placement="bottom" content="More ">
+            <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
+              {
+                <BiDotsVerticalRounded
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          </Tippy>
         </div>
       ) : (
         ""
@@ -463,19 +495,23 @@ const ShowNote = (props: any) => {
         contextValue?.pinnedNote?.some(
           (pinned: any) => pinned.pinnedId === props?.note?._id
         ) ? (
-          <button
-            disabled
-            className="absolute top-[10px] right-[5px] z-10 p-2 text-[#5F6368] border-none outline-none cursor-not-allowed"
-          >
-            <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />{" "}
-          </button>
+          <Tippy placement="bottom" content="Unpin note ">
+            <button
+              disabled
+              className="absolute top-[10px] right-[5px] z-10 p-2 text-[#5F6368] border-none outline-none cursor-not-allowed"
+            >
+              <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />{" "}
+            </button>
+          </Tippy>
         ) : (
-          <span
-            onClick={pinNote}
-            className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] cursor-pointer "
-          >
-            <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />
-          </span>
+          <Tippy placement="bottom" content="Pin note ">
+            <span
+              onClick={pinNote}
+              className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] cursor-pointer "
+            >
+              <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />
+            </span>
+          </Tippy>
         )
       ) : (
         ""
@@ -491,6 +527,23 @@ const ShowNote = (props: any) => {
           />
         ) : null}
       </div>
+      {showCollaboratorModal ? (
+        <div className=" ">
+          <Collaborators setShowCollaboratorModal={setShowCollaboratorModal} />
+        </div>
+      ) : (
+        ""
+      )}
+      {showCollaboratorModal ? (
+        <div
+          onClick={() => {
+            setShowCollaboratorModal(false);
+          }}
+          className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+        ></div>
+      ) : (
+        ""
+      )}
       <ToastContainer />
     </div>
   );

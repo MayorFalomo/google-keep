@@ -1,36 +1,102 @@
 "use client";
 import { useAppContext } from "@/helpers/Helpers";
-import React from "react";
+import React, { useState } from "react";
 import { HiUserGroup } from "react-icons/hi";
+import "./collab.styled.css";
+import { MdOutlineGroupAdd } from "react-icons/md";
+import Result from "./Result";
 
-const Collaborators = () => {
+const Collaborators = (props: any) => {
   const { contextValue }: any = useAppContext();
-  console.log(contextValue?.user);
+
+  const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+
+  const handleInputChange = async (event: any) => {
+    const value = event.target.value;
+    setInputValue(value);
+    fetchSuggestions(value);
+  };
+
+  const fetchSuggestions = async (query: any) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/users/search?username=${query}`
+      );
+      const data = await response.json();
+      // console.log(data, "this is data");
+
+      setSuggestions(data);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
+  console.log(suggestions, "This is suggestions");
 
   return (
-    <div className="convex">
+    <div className="bg-[#2D2E30] fixed z-20 h-auto max-h-[340px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px]">
       <div>
-        <h1>Collaborators</h1>
-        <div className="flex items-center gap-2 ">
-          <div className="w-[50px] h-[50px] ">
-            <img
-              className="w-[100%] object-cover"
-              src={contextValue.user?.profilePic}
-              alt="img"
+        <div className="p-3 ">
+          <h1 className="text-[26px] mx-auto w-[100%]">Collaborators</h1>
+          <div className="border-b-2 border-[#4C4D4F] w[-98%] m-[20px] "></div>
+          <div className="flex items-center gap-4 ">
+            <div className="w-[50px] h-[50px] ">
+              <img
+                className="w-[100%] h-[100%] rounded-full object-cover"
+                src={contextValue.user?.profilePic}
+                alt="img"
+              />
+            </div>
+            <div>
+              <h3 className="">
+                {contextValue.user?.username}
+                <span className="italic"> (Owner) </span>{" "}
+              </h3>
+              <p className="text-[bg-#9AA0A6]">{contextValue.user?.email} </p>
+            </div>
+          </div>
+          <div className="border-b-2 border-[#4C4D4F] w[-100%] mt-[20px]"></div>
+        </div>
+        <form className="flex items-start flex-col gap-[5px] ">
+          <div className="flex items-center w-full mx-auto p-3 gap-4">
+            <span className="border-2 border-[#4C4D4F] p-[7px] rounded-full ">
+              {<MdOutlineGroupAdd className="text-[27px]" />}
+            </span>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              className="bg-transparent py-3 w-full border-none outline-none "
+              placeholder="Person or email to share with"
             />
           </div>
-          <div>
-            <h3>
-              {contextValue.user?.username}
-              <span className="italic">Owner </span>{" "}
-            </h3>
-            <p className="text-[bg-#444547]">{contextValue.user?.email} </p>
+          {suggestions.length > 0 ? (
+            <div className="">
+              {suggestions.map((user: any) => (
+                <div key={user._id}>
+                  <Result user={user} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
+          <div className="flex justify-end items-center bg-[#272729] w-full py-2 gap-2">
+            <button
+              className="py-2 px-6 text-[20px] hover:bg-borderColor outline-none border-none cursor-pointer"
+              onClick={() => props.setShowCollaboratorModal(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="py-2 px-6 text-[20px] hover:bg-borderColor outline-none border-none cursor-pointer"
+              type="submit"
+            >
+              Save{" "}
+            </button>
           </div>
-        </div>
-        <div>
-          <span>{HiUserGroup} </span>
-          <input placeholder="person or email to share with" />
-        </div>
+        </form>
       </div>
     </div>
   );
