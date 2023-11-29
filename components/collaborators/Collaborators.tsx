@@ -6,6 +6,7 @@ import "./collab.styled.css";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import Result from "./Result";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const Collaborators = (props: any) => {
   const { contextValue }: any = useAppContext();
@@ -20,10 +21,10 @@ const Collaborators = (props: any) => {
   const [getCollaboratorProfilePic, setGetCollaboratorProfilePic] = useState<
     string
   >("");
-  // const [getCollaboratorProfilePic, setGetCollaboratorProfilePic] = useState<
-  //   string
-  // >("");
+  const [getCollaboratorEmail, setGetCollaboratorEmail] = useState<string>("");
   const [singleNote, setSingleNote] = useState<any>();
+
+  // console.log(props.noteUrlParams, "note params");
 
   useEffect(() => {
     if (props.noteUrlParams) {
@@ -33,6 +34,17 @@ const Collaborators = (props: any) => {
         .catch((err) => console.log(err));
     }
   }, [props?.noteUrlParams]);
+
+  function dec2hex(dec: any) {
+    return dec.toString(16).padStart(2, "0");
+  }
+
+  // generateId :: Integer -> String
+  function generateId(len: any) {
+    var arr = new Uint8Array((len || 40) / 2);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, dec2hex).join("");
+  }
 
   const handleShow = () => {
     if (suggestions) {
@@ -74,18 +86,41 @@ const Collaborators = (props: any) => {
     }
   };
 
-  const handleAddCollaborator = () => {
+  //Function to collaborate with another user
+  const handleAddCollaborator = (e: any) => {
+    e.preventDefault();
     const collaborateObject = {
       _id: singleNote?._id,
       userId: getCollaboratorId,
-      email: singleNote?.email,
-      username: singleNote?.username,
-      toUsername: getCollaboratorUsername,
+      generatedId: generateId(24),
+      // email: singleNote?.email,
+      username: getCollaboratorUsername,
       profilePic: getCollaboratorProfilePic,
+      title: singleNote?.title,
+      note: singleNote?.note,
+      picture: singleNote?.picture,
+      drawing: singleNote?.drawing,
+      bgImage: singleNote?.bgImage,
+      bgColor: singleNote?.bgColor,
+      label: singleNote?.label,
+      collaborator: singleNote?.username,
+      createdAt: new Date(),
     };
+    console.log(collaborateObject, "Collaborate Object");
+    // console.log(getCollaboratorUsername, "getCollaboratorUsername");
+    try {
+      console.log(collaborateObject, "inside the Try Catch");
+      axios
+        .post("http://localhost:5000/api/notes/send-note/", collaborateObject)
+        .then((res) => console.log(res && toast("Collaborator Added")))
+        .then(() => props?.setShowCollaboratorModal(false))
+        .catch((err) => console.log(err && toast("Collaboration failed")));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  console.log(singleNote, "SingleNote");
+  // console.log(singleNote, "SingleNote");
 
   // console.log(getCollaboratorId, "This is suggestions ID");
 
@@ -113,7 +148,10 @@ const Collaborators = (props: any) => {
           </div>
           <div className="border-b-2 border-[#4C4D4F] w[-100%] mt-[20px]"></div>
         </div>
-        <form className="flex items-start flex-col gap-[5px] ">
+        <form
+          onSubmit={handleAddCollaborator}
+          className="flex items-start flex-col gap-[5px] "
+        >
           <div className="flex items-center w-full mx-auto p-3 gap-4">
             <span className="border-2 border-[#4C4D4F] p-[7px] rounded-full ">
               {<MdOutlineGroupAdd className="text-[27px]" />}
@@ -126,6 +164,25 @@ const Collaborators = (props: any) => {
               placeholder="Person or email to share with"
             />
           </div>
+
+          {getCollaboratorUsername ? (
+            <div className="flex items-center gap-4 cursor-pointer p-3">
+              <div className="w-[50px] h-[50px] ">
+                <img
+                  className="w-[100%] h-[100%] rounded-full object-cover"
+                  src={getCollaboratorProfilePic}
+                  alt="img"
+                />
+              </div>
+              <div className="w-[100%] h-[100%] rounded-full object-cover">
+                <p>{getCollaboratorUsername}</p>
+                <p>{getCollaboratorEmail}</p>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+
           {suggestionModal ? (
             <div className="">
               {suggestions?.map((suggestion: any) => (
@@ -136,6 +193,7 @@ const Collaborators = (props: any) => {
                   setGetCollaboratorId={setGetCollaboratorId}
                   setGetCollaboratorUsername={setGetCollaboratorUsername}
                   setGetCollaboratorProfilePic={setGetCollaboratorProfilePic}
+                  setGetCollaboratorEmail={setGetCollaboratorEmail}
                   setSuggestionModal={setSuggestionModal}
                 />
               ))}
@@ -159,6 +217,7 @@ const Collaborators = (props: any) => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

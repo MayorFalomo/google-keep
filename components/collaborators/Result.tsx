@@ -5,10 +5,14 @@ type Props = {};
 const Result = (props: any) => {
   const getUserDetails = () => {
     props?.setGetCollaboratorId(props?.user?._id);
-    props?.setSuggestionModal(false);
     props?.setGetCollaboratorUsername(props?.user?.username);
     props?.setGetCollaboratorProfilePic(props?.user?.profilePic);
+    // props?.setGetCollaboratorEmail(props?.user?.email);
+    props?.setSuggestionModal(false);
   };
+
+  console.log(props.user, "This is user");
+
   return (
     <div className="p-3">
       <div

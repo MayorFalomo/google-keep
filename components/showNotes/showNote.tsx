@@ -438,6 +438,7 @@ const ShowNote = (props: any) => {
               onClick={() => {
                 setShowCollaboratorModal(true);
                 setOpenNotifyModal(false);
+                props.setNoteUrlParams(props.note?._id);
               }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 "
             >
