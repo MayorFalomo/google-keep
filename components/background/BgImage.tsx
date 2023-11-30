@@ -1,33 +1,31 @@
-import React from "react";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
+import React from "react";
+import Tippy from "@tippyjs/react";
 import { ToastContainer, toast } from "react-toastify";
-
+import "tippy.js/dist/tippy.css";
 type Props = {};
 
-//Parent Component is Background.tsx
-const BgColor = (props: any) => {
+const BgImage = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  const appendBgColorToNote = () => {
+  const appendBgImageToNote = () => {
     const bgObject = {
       id: props.noteUrlParams,
-      bgColor: props?.color?.color,
-      bgImage: " ",
+      bgImage: props?.bgImage?.bgImage,
+      bgColor: " ",
     };
 
     try {
       axios
-        .post(`http://localhost:5000/api/notes/set-bgcolor`, bgObject)
+        .post(`http://localhost:5000/api/notes/set-bgImage`, bgObject)
         .catch((err) =>
           console.log(err && toast("setting Background color failed"))
         );
       // Update the contextValue.notes array with updated note
       const updatedNotes = contextValue?.notes.map((note: any) =>
         note._id == props.noteUrlParams
-          ? { ...note, bgColor: bgObject.bgColor }
+          ? { ...note, bgImage: bgObject.bgImage }
           : note
       );
 
@@ -50,19 +48,17 @@ const BgColor = (props: any) => {
     }
   };
 
-  console.log(props.noteUrlParams);
-
   return (
     <div>
       <form
         className="flex items-center gap-2 w-[100%]"
-        onSubmit={appendBgColorToNote}
+        onSubmit={appendBgImageToNote}
       >
         <Tippy placement="bottom" content={`${props?.color?.name}`}>
           <button
             type="submit"
-            className={`w-[50px] h-[50px] outline-none border-none rounded-full`}
-            style={{ backgroundColor: props?.color?.color }}
+            className={`w-[60px] h-[60px] outline-none border-none rounded-full`}
+            style={{ backgroundColor: props?.bgImage?.bgImage }}
           ></button>
         </Tippy>
       </form>
@@ -71,4 +67,4 @@ const BgColor = (props: any) => {
   );
 };
 
-export default BgColor;
+export default BgImage;

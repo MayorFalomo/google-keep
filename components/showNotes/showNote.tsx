@@ -270,7 +270,7 @@ const ShowNote = (props: any) => {
     }
   };
 
-  console.log(showBgModal, "modal log");
+  // console.log(props?.note?.bgColor, "bg color value");
 
   return (
     <div
@@ -333,7 +333,12 @@ const ShowNote = (props: any) => {
         " "
       )}
       {props?.showIconsOnHover ? (
-        <div className="absolute bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
+        <div
+          style={{
+            backgroundColor: props?.note?.bgColor ? props?.note?.bgColor : "",
+          }}
+          className="absolute bottom-[5px] left-0 w-full flex justify-around item-center "
+        >
           <Tippy placement="bottom" content="Notification">
             <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
               {
@@ -553,7 +558,10 @@ const ShowNote = (props: any) => {
       )}
       {showBgModal ? (
         <div>
-          <Background noteUrlParams={props.noteUrlParams} />
+          <Background
+            noteUrlParams={props.note?._id}
+            setShowBgModal={setShowBgModal}
+          />
         </div>
       ) : (
         ""

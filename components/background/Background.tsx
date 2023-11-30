@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import BgColor from "./BgColor";
+
 import { useAppContext } from "@/helpers/Helpers";
+
 type Props = {};
 
+//Parent component is ShowNote.tsx
 const Background = (props: any) => {
   const colors = [
     {
@@ -65,6 +68,54 @@ const Background = (props: any) => {
     },
   ];
 
+  const bgImages = [
+    {
+      id: 0,
+      name: "Groceries",
+      image: `https://www.gstatic.com/keep/backgrounds/grocery_dark_thumb_0615.svg`,
+    },
+    {
+      id: 1,
+      name: "Food",
+      image: `https://www.gstatic.com/keep/backgrounds/food_dark_thumb_0615.svg`,
+    },
+    {
+      id: 2,
+      name: "Music",
+      image: `https://www.gstatic.com/keep/backgrounds/music_dark_thumb_0615.svg`,
+    },
+    {
+      id: 3,
+      name: "Recipe",
+      image: `https://www.gstatic.com/keep/backgrounds/recipe_dark_thumb_0615.svg`,
+    },
+    {
+      id: 4,
+      name: "Notes",
+      image: `https://www.gstatic.com/keep/backgrounds/notes_dark_thumb_0715.svg`,
+    },
+    {
+      id: 5,
+      name: "Places",
+      image: `https://www.gstatic.com/keep/backgrounds/places_dark_thumb_0615.svg`,
+    },
+    {
+      id: 6,
+      name: "Travel",
+      image: `https://www.gstatic.com/keep/backgrounds/travel_dark_thumb_0615.svg`,
+    },
+    {
+      id: 7,
+      name: "Videos",
+      image: `https://www.gstatic.com/keep/backgrounds/video_dark_thumb_0615.svg`,
+    },
+    {
+      id: 8,
+      name: "Celebration",
+      image: `https://www.gstatic.com/keep/backgrounds/celebration_dark_thumb_0715.svg`,
+    },
+  ];
+
   // console.log(backgroundColor, "current color");
 
   return (
@@ -76,7 +127,20 @@ const Background = (props: any) => {
               <div className="" key={color?.id}>
                 <BgColor
                   color={color}
-                  noteUrlParams={props.noteUrlParams}
+                  noteUrlParams={props?.noteUrlParams}
+                  setShowBgModal={props?.setShowBgModal}
+                  // setBackgroundColor={setBackgroundColor}
+                />
+              </div>
+            );
+          })}
+          {bgImages.map((bgImage: any) => {
+            return (
+              <div className="" key={bgImage?.id}>
+                <BgColor
+                  bgImage={bgImage}
+                  noteUrlParams={props?.noteUrlParams}
+                  setShowBgModal={props?.setShowBgModal}
                   // setBackgroundColor={setBackgroundColor}
                 />
               </div>

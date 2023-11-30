@@ -65,8 +65,6 @@ export default function ShowNotes(req: any, res: any) {
     });
   }, [contextValue.notes]);
 
-  console.log(contextValue?.backgroundColor, "current color");
-
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
@@ -84,6 +82,7 @@ export default function ShowNotes(req: any, res: any) {
               onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
               onMouseLeave={() => setShowIconsOnHover(false)}
               className="max-w-[350px] min-w-[250px] h-fit min-h-[170px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
+              style={{ backgroundColor: note?.bgColor ? note?.bgColor : "" }}
               key={note._id}
             >
               {overLay ? (
