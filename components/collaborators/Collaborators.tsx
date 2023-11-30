@@ -174,7 +174,7 @@ const Collaborators = (props: any) => {
                   alt="img"
                 />
               </div>
-              <div className="w-[100%] h-[100%] rounded-full object-cover">
+              <div className="rounded-full object-cover">
                 <p>{getCollaboratorUsername}</p>
                 <p>{getCollaboratorEmail}</p>
               </div>
@@ -201,7 +201,7 @@ const Collaborators = (props: any) => {
           ) : (
             ""
           )}
-          <div className="flex justify-end items-center bg-[#272729] w-full py-2 gap-2">
+          <div className="flex justify-end items-center bg-[#272729] w-full py-5 gap-2">
             <button
               className="py-2 px-6 text-[20px] hover:bg-borderColor outline-none border-none cursor-pointer"
               onClick={() => props.setShowCollaboratorModal(false)}

@@ -22,6 +22,7 @@ const AppContextProvider = ({ children }: any) => {
   const [noteModal, setNoteModal] = useState(false); //toggle create note modal
   const [pinnedNote, setPinnedNote] = useState([]);
   const [overLay, setOverLay] = useState(false);
+  const [backgroundColor, setBackgroundColor] = useState("");
 
   // const [currentUser, setCurrentUser] = useState()
   // const [cookies, setCookies] = useCookies(["user"]);
@@ -78,10 +79,9 @@ const AppContextProvider = ({ children }: any) => {
     setOpenTextArea,
     noteModal,
     setNoteModal,
-    // overLay,
-    // setOverLay,
-    pinnedNote,
     setPinnedNote,
+    backgroundColor,
+    setBackgroundColor,
   };
 
   return (

@@ -11,7 +11,7 @@ const Result = (props: any) => {
     props?.setSuggestionModal(false);
   };
 
-  console.log(props.user, "This is user");
+  // console.log(props.user, "This is user");
 
   return (
     <div className="p-3">

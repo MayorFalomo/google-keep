@@ -37,6 +37,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import Collaborators from "../collaborators/Collaborators";
+import Background from "../background/Background";
 
 type Props = {};
 
@@ -56,6 +57,7 @@ const ShowNote = (props: any) => {
   const [closeIcon, setCloseIcon] = useState(false);
   const [closeIconState, setCloseIconState] = useState(false);
   const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
+  const [showBgModal, setShowBgModal] = useState(false);
 
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
@@ -268,8 +270,13 @@ const ShowNote = (props: any) => {
     }
   };
 
+  console.log(showBgModal, "modal log");
+
   return (
-    <div className="mapped">
+    <div
+      style={{ backgroundColor: contextValue?.backgroundColor }}
+      className="mapped"
+    >
       <div onClick={handleClick} className="subContainer">
         {props.note?.title?.length == 0 && props.note?.note?.length == 0 ? (
           <div className="p-4">
@@ -452,7 +459,10 @@ const ShowNote = (props: any) => {
           </Tippy>
 
           <Tippy placement="bottom" content="Background options ">
-            <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer ">
+            <span
+              onClick={() => setShowBgModal(true)}
+              className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer "
+            >
               {
                 <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
               }{" "}
@@ -541,6 +551,13 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
+      {showBgModal ? (
+        <div>
+          <Background noteUrlParams={props.noteUrlParams} />
+        </div>
+      ) : (
+        ""
+      )}
       {showCollaboratorModal ? (
         <div
           onClick={() => {
@@ -551,6 +568,7 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
+
       <ToastContainer />
     </div>
   );
