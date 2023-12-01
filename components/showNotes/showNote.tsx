@@ -38,6 +38,7 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import Collaborators from "../collaborators/Collaborators";
 import Background from "../background/Background";
+import Image from "next/image";
 
 type Props = {};
 
@@ -58,6 +59,8 @@ const ShowNote = (props: any) => {
   const [closeIconState, setCloseIconState] = useState(false);
   const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
   const [showBgModal, setShowBgModal] = useState(false);
+  const [successfulUpload, setSuccessfulUpload] = useState(false);
+  const [picture, setPicture] = React.useState<any>();
 
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
@@ -270,7 +273,51 @@ const ShowNote = (props: any) => {
     }
   };
 
-  // console.log(props?.note?.bgColor, "bg color value");
+  const uploadImage = (files: any) => {
+    props.setNoteUrlParams(props.note?._id);
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "t3dil6ur");
+
+    axios
+      .post("https://api.cloudinary.com/v1_1/dsghy4siv/image/upload", formData)
+      .then((res) => {
+        setPicture(res.data.url);
+        if (res.data.url) {
+          const pictureObject = {
+            id: props?.noteUrlParams,
+            picture: res.data.url,
+          };
+
+          try {
+            console.log(props?.note?._id, "This is props?.note?._id");
+            axios
+              .post(
+                `http://localhost:5000/api/notes/upload-picture`,
+                pictureObject
+              )
+              .catch((err) => console.log(err));
+
+            // Update the contextValue.notes array with updated note
+            // Update the contextValue.notes array with the modified note
+            contextValue?.setNotes((prevState: any) =>
+              prevState.map((note: any) =>
+                note._id == pictureObject?.id
+                  ? { ...note, picture: pictureObject?.picture }
+                  : note
+              )
+            );
+            toast("Picture has been uploaded successfully");
+            // setSuccessfulUpload(true);
+          } catch (error) {
+            console.error(error && "Error updating bgColor:");
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  console.log(props?.noteUrlParams, "This is picture");
 
   return (
     <div
@@ -278,6 +325,18 @@ const ShowNote = (props: any) => {
       className="mapped"
     >
       <div onClick={handleClick} className="subContainer">
+        {props?.note?.picture ? (
+          <Image
+            className="w-[100%] max-h-[150px]"
+            width={200}
+            height={120}
+            src={props?.note?.picture}
+            // objectFit="cover"
+            alt=" "
+          />
+        ) : (
+          ""
+        )}
         {props.note?.title?.length == 0 && props.note?.note?.length == 0 ? (
           <div className="p-4">
             <input
@@ -335,7 +394,10 @@ const ShowNote = (props: any) => {
       {props?.showIconsOnHover ? (
         <div
           style={{
-            backgroundColor: props?.note?.bgColor ? props?.note?.bgColor : "",
+            backgroundColor:
+              props?.note?.bgColor || props?.note?.bgImage
+                ? props?.note?.bgColor || props?.note?.bgImage
+                : "",
           }}
           className="absolute bottom-[5px] left-0 w-full flex justify-around item-center "
         >
@@ -465,7 +527,10 @@ const ShowNote = (props: any) => {
 
           <Tippy placement="bottom" content="Background options ">
             <span
-              onClick={() => setShowBgModal(true)}
+              onClick={() => {
+                setShowBgModal(true);
+                props?.setOverLay(true);
+              }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer "
             >
               {
@@ -475,15 +540,27 @@ const ShowNote = (props: any) => {
           </Tippy>
 
           <Tippy placement="bottom" content="Add image">
-            <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
+            <label
+              onClick={() => {
+                props.setNoteUrlParams(props.note?._id);
+              }}
+              htmlFor="fileInputImage"
+              className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 "
+            >
               {
                 <BiImageAlt
                   className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
                   cursor="pointer"
                 />
               }{" "}
-            </span>
+            </label>
           </Tippy>
+          <input
+            type="file"
+            onChange={(e) => uploadImage(e.target.files)}
+            id="fileInputImage"
+            style={{ display: "none" }}
+          />
 
           <Tippy placement="bottom" content="Archive ">
             <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
@@ -560,12 +637,16 @@ const ShowNote = (props: any) => {
         <div>
           <Background
             noteUrlParams={props.note?._id}
+            showBgModal={showBgModal}
             setShowBgModal={setShowBgModal}
+            overLay={props?.overLay}
+            setOverLay={props?.setOverLay}
           />
         </div>
       ) : (
         ""
       )}
+
       {showCollaboratorModal ? (
         <div
           onClick={() => {

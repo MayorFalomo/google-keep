@@ -108,7 +108,20 @@ const NoteModal = (props: any) => {
   };
 
   return (
-    <div className="bg-darkmode fixed z-20 min-h-[200px] h-auto max-h-[300px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px]">
+    <div
+      style={{
+        backgroundColor: singleNote?.bgColor
+          ? singleNote?.bgColor
+          : "transparent",
+        backgroundImage: `url(${
+          singleNote?.bgImage ? singleNote?.bgImage : ""
+        })`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+      className="fixed z-20 min-h-[200px] h-auto max-h-[300px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px]"
+    >
       <div className="h-[100%]">
         <form className="h-full " onSubmit={handleEditNote}>
           <div className="flex items-center">

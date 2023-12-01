@@ -8,6 +8,7 @@ import "./notes.css";
 import Masonry from "masonry-layout";
 import imagesLoaded from "imagesloaded";
 import { BsCheckCircle } from "react-icons/bs";
+import Image from "next/image";
 
 type Props = {};
 
@@ -15,12 +16,17 @@ export default function ShowNotes(req: any, res: any) {
   const userCookie = getCookie("user", { req, res });
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
-  const [overLay, setOverLay] = useState(false);
-  const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
-  const [postLoaded, setPostLoaded] = useState(false);
+  const [overLay, setOverLay] = useState<boolean>(false);
+  const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
+    false
+  );
+  const [postLoaded, setPostLoaded] = useState<boolean>(false);
   const containerRef = useRef(null);
-  const [currentUser, setCurrentUser] = useState(contextValue?.user?._id);
+  const [currentUser, setCurrentUser] = useState<string>(
+    contextValue?.user?._id
+  );
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
+  const [picture, setPicture] = React.useState<string>("");
 
   useEffect(() => {
     axios
@@ -81,8 +87,14 @@ export default function ShowNotes(req: any, res: any) {
             <div
               onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
               onMouseLeave={() => setShowIconsOnHover(false)}
-              className="max-w-[350px] min-w-[250px] h-fit min-h-[170px] border-2 border-[#5F6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
-              style={{ backgroundColor: note?.bgColor ? note?.bgColor : "" }}
+              className="max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+              style={{
+                backgroundColor: note?.bgColor ? note?.bgColor : "transparent",
+                backgroundImage: `url(${note?.bgImage})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}
               key={note._id}
             >
               {overLay ? (
@@ -106,6 +118,8 @@ export default function ShowNotes(req: any, res: any) {
                 setNoteUrlParams={setNoteUrlParams}
                 showIconsOnHover={showIconsOnHover}
                 setShowIconsOnHover={setShowIconsOnHover}
+                picture={picture}
+                setPicture={setPicture}
               />
             </div>
           ))

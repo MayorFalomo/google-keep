@@ -27,7 +27,7 @@ const BgColor = (props: any) => {
       // Update the contextValue.notes array with updated note
       const updatedNotes = contextValue?.notes.map((note: any) =>
         note._id == props.noteUrlParams
-          ? { ...note, bgColor: bgObject.bgColor }
+          ? { ...note, bgColor: bgObject.bgColor, bgImage: bgObject.bgImage }
           : note
       );
 
@@ -50,7 +50,7 @@ const BgColor = (props: any) => {
     }
   };
 
-  console.log(props.noteUrlParams);
+  // console.log(props.noteUrlParams);
 
   return (
     <div>
@@ -61,7 +61,7 @@ const BgColor = (props: any) => {
         <Tippy placement="bottom" content={`${props?.color?.name}`}>
           <button
             type="submit"
-            className={`w-[50px] h-[50px] outline-none border-none rounded-full`}
+            className={`w-[40px] h-[40px] hover:border-2 border-white outline-none border-none rounded-full`}
             style={{ backgroundColor: props?.color?.color }}
           ></button>
         </Tippy>
