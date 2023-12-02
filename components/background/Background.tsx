@@ -136,6 +136,7 @@ const Background = (props: any) => {
                   color={color}
                   noteUrlParams={props?.noteUrlParams}
                   setShowBgModal={props?.setShowBgModal}
+                  setOverLay={props?.setOverLay}
                   // setBackgroundColor={setBackgroundColor}
                 />
               </div>
@@ -152,6 +153,7 @@ const Background = (props: any) => {
                   bgImage={bgImage}
                   noteUrlParams={props?.noteUrlParams}
                   setShowBgModal={props?.setShowBgModal}
+                  setOverLay={props?.setOverLay}
                   // setBackgroundColor={setBackgroundColor}
                 />
               </div>

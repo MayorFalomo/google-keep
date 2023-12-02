@@ -299,7 +299,6 @@ const ShowNote = (props: any) => {
               .catch((err) => console.log(err));
 
             // Update the contextValue.notes array with updated note
-            // Update the contextValue.notes array with the modified note
             contextValue?.setNotes((prevState: any) =>
               prevState.map((note: any) =>
                 note._id == pictureObject?.id
@@ -308,7 +307,6 @@ const ShowNote = (props: any) => {
               )
             );
             toast("Picture has been uploaded successfully");
-            // setSuccessfulUpload(true);
           } catch (error) {
             console.error(error && "Error updating bgColor:");
           }
