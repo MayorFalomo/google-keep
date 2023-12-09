@@ -41,7 +41,7 @@ const ShowPinned = (props: any) => {
     e.preventDefault();
     try {
       await axios.post(
-        `http://localhost:5000/api/notes/remove-pinned/${props?.pinned?._id}`
+        `https://keep-backend-theta.vercel.app/api/notes/remove-pinned/${props?.pinned?._id}`
       );
       let filtered = contextValue.pinnedNote?.filter(
         (pinned: any) => pinned?._id !== props?.pinned?._id

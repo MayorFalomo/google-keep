@@ -352,7 +352,10 @@ const ShowNote = (props: any) => {
     };
     try {
       await axios
-        .post(`http://localhost:5000/api/notes/archive-note`, archiveThisNote)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/archive-note`,
+          archiveThisNote
+        )
         .then(() =>
           contextValue?.setNotes((prevState: any) =>
             prevState.filter((note: any) => note._id !== props.note?._id)
@@ -403,6 +406,7 @@ const ShowNote = (props: any) => {
     });
     setOpenOptionsModal(true);
   };
+
   return (
     <div
       style={{

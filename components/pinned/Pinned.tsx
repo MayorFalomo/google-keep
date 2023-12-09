@@ -18,7 +18,9 @@ const Pinned = (req: any, res: any) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/notes/getall-pinned-notes/${userCookie}`)
+      .get(
+        `https://keep-backend-theta.vercel.app/api/notes/getall-pinned-notes/${userCookie}`
+      )
       .then((res) => contextValue.setPinnedNote(res.data.reverse()))
       .catch((err) => console.log(err));
   }, [userCookie]);
