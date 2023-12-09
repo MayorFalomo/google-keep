@@ -42,7 +42,7 @@ width: 270px;
 padding: 8px;
 z-index: 9999 !important;
 background-color: #202124 !important;
-    box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) rgb(0,0,0, 0.4) !important;
+box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) rgb(0,0,0, 0.4) !important;
 }
 
 .pickLocation{
@@ -59,4 +59,16 @@ background-color: #202124 !important;
 #shadow{
   box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
    background: #202124;
+}
+
+#options{
+   /* border: 3px red solid; */
+position: absolute;
+bottom: -250px;
+right: 0;
+width: 220px;
+/* padding: 8px; */
+z-index: 999;
+background-color: #202124 !important;
+    box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) rgb(0,0,0, 0.4) !important;
 }

@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import moment from "moment";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
   BiArchiveIn,
@@ -69,7 +70,30 @@ const PinnedModal = (props: any) => {
     // props.setOverLayBg(false);
   };
   return (
-    <div className="bg-darkmode fixed z-20 min-h-[200px] h-auto max-h-[300px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px]">
+    <div
+      style={{
+        backgroundColor: singleNote?.bgColor ? singleNote?.bgColor : "#202124",
+        backgroundImage: `url(${
+          singleNote?.bgImage ? singleNote?.bgImage : ""
+        })`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+      className="fixed z-20 min-h-[200px] h-fit w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px]"
+    >
+      {singleNote?.picture ? (
+        <Image
+          className="w-[100%] max-h-[350px] h-300px object-cover "
+          width={200}
+          height={120}
+          src={singleNote?.picture}
+          objectFit="cover"
+          alt=" "
+        />
+      ) : (
+        ""
+      )}
       <div className="h-[100%]">
         <form className="h-full " onSubmit={handleEditNote}>
           <div className="flex items-center">

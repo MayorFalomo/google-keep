@@ -16,12 +16,14 @@ import PinnedModal from "../pinnedModal/PinnedModal";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import "./showPinned.css";
+import Image from "next/image";
+import Tippy from "@tippyjs/react";
 type Props = {};
 
+//Parent Component is Pinned.tsx
 const ShowPinned = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
   const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
@@ -31,18 +33,18 @@ const ShowPinned = (props: any) => {
     e.preventDefault();
     setNoteUrlParams(props.pinned?._id);
     // console.log(props.note?.createdAt, "This is the id");
-    setNoteModal(true);
-    props.setOverLayBg(true);
+    props?.setNoteModal(true);
+    props?.setOverLayBg(true);
   };
 
   const unPinNote = async (e: any) => {
     e.preventDefault();
     try {
-      await axios.delete(
+      await axios.post(
         `http://localhost:5000/api/notes/remove-pinned/${props?.pinned?._id}`
       );
       let filtered = contextValue.pinnedNote?.filter(
-        (pinned: any) => pinned?._id !== props.pinned?._id
+        (pinned: any) => pinned?._id !== props?.pinned?._id
       );
       contextValue?.setPinnedNote(filtered);
     } catch (err) {
@@ -60,6 +62,17 @@ const ShowPinned = (props: any) => {
       // ref={myRef}
     >
       <div onClick={handleClick} className="subContainer">
+        {props?.pinned?.picture ? (
+          <Image
+            className="w-[100%] max-h-[150px]"
+            width={200}
+            height={120}
+            src={props?.pinned?.picture}
+            alt=" "
+          />
+        ) : (
+          ""
+        )}
         {props.pinned?.title?.length == 0 && props.pinned?.note?.length == 0 ? (
           <div className="p-4">
             <input
@@ -70,30 +83,34 @@ const ShowPinned = (props: any) => {
         ) : (
           <div className="p-4">
             <h1 className="text-[20px]">{props.pinned?.title}</h1>
-            <p className="text-[16px]">
+            <p className="text-[16px] whitespace-break-spaces ">
               {props.pinned?.note?.slice(0, 600)}...
             </p>
           </div>
         )}
       </div>
       {showIconsOnHover ? (
-        <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+        <Tippy placement="bottom" content="Select note">
+          <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+        </Tippy>
       ) : (
         " "
       )}
       {showIconsOnHover ? (
-        <div className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center bg-darkmode ">
-          <span
-            className="p-2 rounded-full hover:bg-hover"
-            onClick={() => setOpenNotifyModal(true)}
-          >
-            {
-              <BiBellPlus
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }
-          </span>
+        <div className="absolute z-10 bottom-0 left-0 w-full flex justify-around item-center ">
+          <Tippy placement="bottom" content="Notification">
+            <span
+              className="p-2 rounded-full hover:bg-hover"
+              onClick={() => setOpenNotifyModal(true)}
+            >
+              {
+                <BiBellPlus
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }
+            </span>
+          </Tippy>
 
           {openNotifyModal ? (
             <div className="absolute left-0 bottom-[-210px] z-20 p-4 rounded-[10px] bg-darkmode text-white">
@@ -118,67 +135,80 @@ const ShowPinned = (props: any) => {
           ) : (
             ""
           )}
-
-          <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
-            {
-              <MdOutlinePersonAddAlt1
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
-          <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 cursor-pointer ">
-            {
-              <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
-            }{" "}
-          </span>
-          <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
-            {
-              <BiImageAlt
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
-          <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
-            {
-              <BiArchiveIn
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
-          <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
-            {
-              <BiDotsVerticalRounded
-                className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
+          <Tippy placement="bottom" content="Collaborator ">
+            <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
+              {
+                <MdOutlinePersonAddAlt1
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          </Tippy>
+          <Tippy placement="bottom" content="Background options ">
+            <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 cursor-pointer ">
+              {
+                <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
+              }{" "}
+            </span>
+          </Tippy>
+          <Tippy placement="bottom" content="Add image">
+            <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
+              {
+                <BiImageAlt
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          </Tippy>
+          <Tippy placement="bottom" content="Archive ">
+            <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
+              {
+                <BiArchiveIn
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          </Tippy>
+          <Tippy placement="bottom" content="More ">
+            <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
+              {
+                <BiDotsVerticalRounded
+                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          </Tippy>
         </div>
       ) : (
         ""
       )}
       {showIconsOnHover ? (
-        <span
-          onClick={unPinNote}
-          className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] "
-        >
-          <BsPinFill
-            className="  text-[18px] max-sm:text-[18px] max-md:text-[26px] "
-            cursor="pointer"
-          />
-        </span>
+        <form onSubmit={unPinNote}>
+          <Tippy placement="bottom" content="Unpin note ">
+            <button
+              type="submit"
+              className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] border-none outline-none "
+            >
+              <BsPinFill
+                className="  text-[18px] max-sm:text-[18px] max-md:text-[26px] "
+                cursor="pointer"
+              />
+            </button>
+          </Tippy>
+        </form>
       ) : (
         " "
       )}
       <div className="">
-        {noteModal ? (
+        {props?.noteModal ? (
           <PinnedModal
             noteUrlParams={noteUrlParams}
-            setNoteModal={setNoteModal}
-            noteModal={noteModal}
+            setNoteModal={props?.setNoteModal}
+            noteModal={props?.noteModal}
             setOverLayBg={props.setOverLayBg}
           />
         ) : null}

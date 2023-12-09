@@ -20,10 +20,11 @@ const AppContextProvider = ({ children }: any) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [openTextArea, setOpenTextArea] = useState(false);
   const [noteModal, setNoteModal] = useState(false); //toggle create note modal
-  const [pinnedNote, setPinnedNote] = useState([]);
+  const [pinnedNote, setPinnedNote] = useState([].reverse());
+  const [archivedNote, setArchivedNote] = useState([]);
   const [overLay, setOverLay] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState("");
-
+  const [trashNote, setTrashNote] = useState([]);
   // const [currentUser, setCurrentUser] = useState()
   // const [cookies, setCookies] = useCookies(["user"]);
 
@@ -40,7 +41,9 @@ const AppContextProvider = ({ children }: any) => {
 
   //getCurrentUser takes in a parameter called Id which we'll get from cookies.user
   const getCurrentUser = async (id: string) => {
-    await fetch(`http://localhost:5000/api/users/get-user/${id}`)
+    await fetch(
+      `https://keep-backend-theta.vercel.app/api/users/get-user/${id}`
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -79,9 +82,14 @@ const AppContextProvider = ({ children }: any) => {
     setOpenTextArea,
     noteModal,
     setNoteModal,
+    pinnedNote,
     setPinnedNote,
     backgroundColor,
     setBackgroundColor,
+    archivedNote,
+    setArchivedNote,
+    trashNote,
+    setTrashNote,
   };
 
   return (

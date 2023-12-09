@@ -30,7 +30,10 @@ const Login = (props: Props) => {
           userId: res.user.uid,
         };
         axios
-          .post("http://localhost:5000/api/users/login", userInfo)
+          .post(
+            "https://keep-backend-theta.vercel.app/api/users/login",
+            userInfo
+          )
           .catch((err) => console.log(err))
           .then(() => router.push("/"))
           .then(() => contextValue.getCurrentUser(res.user.uid))
@@ -64,11 +67,17 @@ const Login = (props: Props) => {
               alt="Google"
             />
             <h1 className="text-[25px] text-center">Login to Hi-Notepad </h1>
-            <button className="w-[60%] text-[22px] border-2 border-black-500 rounded-[35px] flex justify-center gap-2 p-4">
+            <button
+              onClick={signInWithGoogle}
+              className="w-[60%] text-[22px] border-2 border-black-500 rounded-[35px] flex justify-center gap-2 p-4"
+            >
               {<FcGoogle size={30} />} Sign in With Google
             </button>
           </div>
-          <form className="flex flex-col items-end gap-4">
+          <form
+            onSubmit={handleLogin}
+            className="flex flex-col items-end gap-4"
+          >
             <input
               className="p-4 w-full  rounded-[6px] border-2 border-black-500 placeholder:px-3"
               type="email"
@@ -81,7 +90,10 @@ const Login = (props: Props) => {
               name="confirmPassword"
               placeholder="Enter Password"
             />
-            <button className="border-2 border-blue-600 mt-6 p-3 w-1/4  bg-[#1B66C9] rounded-[8px] text-[18px] text-white">
+            <button
+              type="submit"
+              className="border-2 border-blue-600 mt-6 p-3 w-1/4  bg-[#1B66C9] rounded-[8px] text-[18px] text-white"
+            >
               Sign In{" "}
             </button>
           </form>

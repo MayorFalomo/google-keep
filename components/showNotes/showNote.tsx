@@ -39,6 +39,12 @@ import "tippy.js/dist/tippy.css";
 import Collaborators from "../collaborators/Collaborators";
 import Background from "../background/Background";
 import Image from "next/image";
+import Draggable from "react-draggable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { CgHello } from "react-icons/cg";
+import { useDraggable } from "@dnd-kit/core";
+import Options from "../options/Options";
 
 type Props = {};
 
@@ -49,18 +55,22 @@ const ShowNote = (props: any) => {
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
   //   false
   // );
-
+  const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
   const [countryValue, setCountryValue] = React.useState<any>("");
-  const options = useMemo(() => countryList().getData(), []);
+  const options = useMemo(() => countryList().getData(), []); //Options for country
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [closeIcon, setCloseIcon] = useState(false);
   const [closeIconState, setCloseIconState] = useState(false);
   const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
-  const [showBgModal, setShowBgModal] = useState(false);
-  const [successfulUpload, setSuccessfulUpload] = useState(false);
+  // const [showBgModal, setShowBgModal] = useState(false);
   const [picture, setPicture] = React.useState<any>();
+  const [openOptionsModal, setOpenOptionsModal] = useState<boolean>(false);
+  const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
+    false
+  );
+  const [trashNote, setTrashNote] = useState<any>();
 
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
@@ -76,7 +86,11 @@ const ShowNote = (props: any) => {
     props.setNoteUrlParams(props.note?._id);
     // console.log(props.note?.createdAt, "This is the id");
     props?.setNoteModal(true);
+    console.log(noteModal, "This is Note Modal");
+    // props?.setNoteModal(true);
     props?.setOverLay(true);
+
+    console.log(noteModal, "Hello!!....I am Clicking");
   };
 
   // console.log(props?.overLay, "overlay");
@@ -114,13 +128,14 @@ const ShowNote = (props: any) => {
       createdAt: props?.note.createdAt,
     };
     try {
-      await axios.post(
-        `http://localhost:5000/api/notes/add-pinned`,
-        pinThisNote
-      );
-      contextValue.setPinnedNote(
-        [...contextValue?.pinnedNote, pinThisNote].reverse()
-      );
+      await axios
+        .post(`http://localhost:5000/api/notes/add-pinned`, pinThisNote)
+        .then(() =>
+          contextValue.setPinnedNote([...contextValue?.pinnedNote, pinThisNote])
+        )
+        .then(() => props.setSuccessful(true))
+        .catch((err) => console.log(err));
+
       // toast("Note has been pinned!");
     } catch (err) {
       console.log(err);
@@ -147,7 +162,7 @@ const ShowNote = (props: any) => {
     };
     try {
       axios.post(
-        "http://localhost:5000/api/notes/set-notification/tomorrow",
+        "https://keep-backend-theta.vercel.app/api/notes/set-notification/tomorrow",
         noteRemainder
       );
       toast("Remainder set for tomorrow ");
@@ -178,7 +193,7 @@ const ShowNote = (props: any) => {
     };
     try {
       await axios.post(
-        "http://localhost:5000/api/notes/set-notification/next-week",
+        "https://keep-backend-theta.vercel.app/api/notes/set-notification/next-week",
         noteRemainder
       );
       toast("Remainder set for tomorrow ");
@@ -228,7 +243,7 @@ const ShowNote = (props: any) => {
     };
     try {
       axios.put(
-        `http://localhost:5000/api/notes/update-note/${props.note?._id}`,
+        `https://keep-backend-theta.vercel.app/api/notes/update-note/${props.note?._id}`,
         country
       );
       contextValue?.setNotes((prevState: any) =>
@@ -253,7 +268,7 @@ const ShowNote = (props: any) => {
     try {
       props?.setNoteModal(false);
       await axios.put(
-        `http://localhost:5000/api/notes/delete-country/${noteId}`
+        `https://keep-backend-theta.vercel.app/api/notes/delete-country/${noteId}`
       );
       // console.log(noteId, "This is noteId");
 
@@ -293,7 +308,7 @@ const ShowNote = (props: any) => {
             console.log(props?.note?._id, "This is props?.note?._id");
             axios
               .post(
-                `http://localhost:5000/api/notes/upload-picture`,
+                `https://keep-backend-theta.vercel.app/api/notes/upload-picture`,
                 pictureObject
               )
               .catch((err) => console.log(err));
@@ -315,14 +330,87 @@ const ShowNote = (props: any) => {
       .catch((err) => console.log(err));
   };
 
-  console.log(props?.noteUrlParams, "This is picture");
+  const archiveNote = async (e: any) => {
+    e.preventDefault();
 
+    const archiveThisNote = {
+      _id: props.note?._id,
+      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.note?.username,
+      title: props.note?.title,
+      note: props.note?.note,
+      picture: props.note?.picture,
+      drawing: props.note?.drawing,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note?.collaborator,
+      label: props.note?.label,
+      location: props.note?.location,
+      createdAt: props?.note.createdAt,
+    };
+    try {
+      await axios
+        .post(`http://localhost:5000/api/notes/archive-note`, archiveThisNote)
+        .then(() =>
+          contextValue?.setNotes((prevState: any) =>
+            prevState.filter((note: any) => note._id !== props.note?._id)
+          )
+        )
+        .catch((err) => console.log(err));
+      toast("Note archived successfully");
+      // Update the contextValue.notes array with updated note
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: props.note?._id });
+
+  // const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  //   id: props.note?._id,
+  // });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+  };
+  // console.log(props?.noteUrlParams, "This is picture");
+
+  const addOptions = () => {
+    setTrashNote({
+      _id: props.note?._id,
+      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.note?.username,
+      title: props.note?.title,
+      note: props.note?.note,
+      picture: props.note?.picture,
+      drawing: props.note?.drawing,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note?.collaborator,
+      label: props.note?.label,
+      location: props.note?.location,
+      createdAt: props?.note.createdAt,
+    });
+    setOpenOptionsModal(true);
+  };
   return (
     <div
-      style={{ backgroundColor: contextValue?.backgroundColor }}
+      style={{
+        backgroundColor: contextValue?.backgroundColor,
+      }}
       className="mapped"
     >
-      <div onClick={handleClick} className="subContainer">
+      <div className="subContainer" onClick={handleClick}>
         {props?.note?.picture ? (
           <Image
             className="w-[100%] max-h-[150px]"
@@ -382,14 +470,14 @@ const ShowNote = (props: any) => {
           </div>
         )}
       </div>
-      {props?.showIconsOnHover ? (
+      {props?.showId == props?.note?._id ? (
         <Tippy placement="bottom" content="Select note">
           <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
         </Tippy>
       ) : (
         " "
       )}
-      {props?.showIconsOnHover ? (
+      {props?.showId == props?.note?._id ? (
         <div
           style={{
             backgroundColor:
@@ -397,7 +485,7 @@ const ShowNote = (props: any) => {
                 ? props?.note?.bgColor || props?.note?.bgImage
                 : "",
           }}
-          className="absolute bottom-[5px] left-0 w-full flex justify-around item-center "
+          className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center "
         >
           <Tippy placement="bottom" content="Notification">
             <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">
@@ -410,6 +498,7 @@ const ShowNote = (props: any) => {
               }{" "}
             </span>
           </Tippy>
+
           {openNotifyModal ? (
             <div
               id="shadow"
@@ -526,7 +615,7 @@ const ShowNote = (props: any) => {
           <Tippy placement="bottom" content="Background options ">
             <span
               onClick={() => {
-                setShowBgModal(true);
+                props?.setShowBgModal(true);
                 props?.setOverLay(true);
               }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer "
@@ -560,19 +649,28 @@ const ShowNote = (props: any) => {
             style={{ display: "none" }}
           />
 
-          <Tippy placement="bottom" content="Archive ">
-            <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
-              {
-                <BiArchiveIn
-                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                  cursor="pointer"
-                />
-              }{" "}
-            </span>
-          </Tippy>
+          <form onSubmit={archiveNote}>
+            <Tippy placement="bottom" content="Archive ">
+              <button
+                type="submit"
+                onClick={archiveNote}
+                className="p-2 rounded-full hover:bg-[#313236] cursor-pointer "
+              >
+                {
+                  <BiArchiveIn
+                    className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                    cursor="pointer"
+                  />
+                }{" "}
+              </button>
+            </Tippy>
+          </form>
 
           <Tippy placement="bottom" content="More ">
-            <span className="p-2 rounded-full hover:bg-[#313236] cursor-pointer ">
+            <span
+              onClick={addOptions}
+              className="p-2 rounded-full hover:bg-[#313236] cursor-pointer "
+            >
               {
                 <BiDotsVerticalRounded
                   className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
@@ -581,13 +679,21 @@ const ShowNote = (props: any) => {
               }{" "}
             </span>
           </Tippy>
+          {openOptionsModal ? (
+            <div className="py-2" id="options">
+              <Options trashNote={trashNote} />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         ""
       )}
+
       {props?.showIconsOnHover ? (
         contextValue?.pinnedNote?.some(
-          (pinned: any) => pinned.pinnedId === props?.note?._id
+          (pinned: any) => pinned?._id == props?.note?._id
         ) ? (
           <Tippy placement="bottom" content="Unpin note ">
             <button
@@ -598,29 +704,31 @@ const ShowNote = (props: any) => {
             </button>
           </Tippy>
         ) : (
-          <Tippy placement="bottom" content="Pin note ">
-            <span
-              onClick={pinNote}
-              className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] cursor-pointer "
-            >
-              <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />
-            </span>
-          </Tippy>
+          <form onSubmit={pinNote}>
+            <Tippy placement="bottom" content="Pin note ">
+              <button
+                type="submit"
+                className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] cursor-pointer border-none outline-none "
+              >
+                <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />
+              </button>
+            </Tippy>
+          </form>
         )
       ) : (
         ""
       )}
-      <div className="">
-        {props?.noteModal ? (
-          <NoteModal
-            noteUrlParams={props.noteUrlParams}
-            setNoteModal={props?.setNoteModal}
-            noteModal={props?.noteModal}
-            setNoteUrlParams={props.setNoteUrlParams}
-            setOverLay={props.setOverLay}
-          />
-        ) : null}
-      </div>
+      {/* <div className=""> */}
+      {props?.noteModal ? (
+        <NoteModal
+          noteUrlParams={props.noteUrlParams}
+          setNoteModal={props?.setNoteModal}
+          noteModal={props?.noteModal}
+          setNoteUrlParams={props.setNoteUrlParams}
+          setOverLay={props.setOverLay}
+        />
+      ) : null}
+      {/* </div> */}
       {showCollaboratorModal ? (
         <div className=" ">
           <Collaborators
@@ -631,12 +739,13 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-      {showBgModal ? (
+
+      {props?.showBgModal ? (
         <div>
           <Background
             noteUrlParams={props.note?._id}
-            showBgModal={showBgModal}
-            setShowBgModal={setShowBgModal}
+            showBgModal={props?.showBgModal}
+            setShowBgModal={props?.setShowBgModal}
             overLay={props?.overLay}
             setOverLay={props?.setOverLay}
           />
@@ -655,8 +764,6 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-
-      <ToastContainer />
     </div>
   );
 };

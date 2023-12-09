@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Tweeks
 
-First, run the development server:
+Keep-notepad is a Full Stack project based on the google keep notepad, It is a notepad Web App with multi functional features where users can basically keep their notes, links, pictures and whatever else users store.
+
+## Demo
+
+https://keep-notepad.netlify.app/
+
+![Logo](https://res.cloudinary.com/dsghy4siv/image/upload/v1702017241/tom7hzs0ed1tgo6xu7xc.png)
+
+
+## Features
+
+- Create Notes.
+- Set Remainders for your notes for Morning, Afternoon, Evening, Tomorrow or Next Week Monday.
+- Send or Collaborate on a note with another user. 
+- Pin Notes
+- Archive Notes.
+- Add Images to any note.
+- Add Custom background Images or colour to suit your taste.
+- Delete Note
+- View your profile
+- See other users so you can send notes
+- currently working on adding Canvas to each note
+- currently working on adding Drag and Drop functionality to each note.
+- currently working on translating note to your custom language.
+## Tech Stack
+
+**Client:** Next Js, Tailwind, CSS, PWA, Firebase
+
+**Backend:** Node Js, Express and MongoDB
+
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
+## Support
+
+For support, email mayorfalomo@gmail.com or contact me via any platform.
+
+
+## Optimizations
+
+What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
+
+I needed my web application to be fast so i used Next Js which is known for it's speed.
+
+I avoided making too many API Calls and instead used context to pass my data through out my application so the data is always readily available for users instead of requesting that same information from the server again.
+
+I stored each users information on a cookie that way, the users login and information is better secured and persists instead of using Local storage.
+
+When registering, I added a auto generate username, email and password functionality, so users can register with ease at a click of buttons, plus they don't have to remember all this info since it's all stored on a cookie that makes sure they are always logged in of course the can all be edited later by each user if you don't like the names.
+
+i made sure Components were reusable so i didn't have to build as much many components as i should have from screatch.
+
+All useEfects have a dependency Array, so there's no chance of your browser crashing from too many repeated API calls.
+## Deployment
+
+To deploy this project run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠 Skills
+Javascript, HTML, CSS...
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+React, Next Js, Typescript, Vue js...
 
-## Learn More
+Styled Components, Sass , Tailwind
 
-To learn more about Next.js, take a look at the following resources:
+Node Js, Express, MongoDb...
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Firebase.
+## Lessons Learned
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+loading......
+## Run Locally
 
-## Deploy on Vercel
+Clone the project
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+  git clone https://link-to-project
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run dev
+```
+

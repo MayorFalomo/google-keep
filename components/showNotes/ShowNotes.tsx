@@ -7,11 +7,32 @@ import ShowNote from "./showNote";
 import "./notes.css";
 import Masonry from "masonry-layout";
 import imagesLoaded from "imagesloaded";
-import { BsCheckCircle } from "react-icons/bs";
-import Image from "next/image";
-
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragOverlay,
+  MouseSensor,
+  TouchSensor,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  rectSortingStrategy,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { BsCheck } from "react-icons/bs";
+import Tippy from "@tippyjs/react";
+import { ToastContainer } from "react-toastify";
 type Props = {};
 
+//Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
 export default function ShowNotes(req: any, res: any) {
   const userCookie = getCookie("user", { req, res });
   const { contextValue }: any = useAppContext();
@@ -27,10 +48,16 @@ export default function ShowNotes(req: any, res: any) {
   );
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
   const [picture, setPicture] = React.useState<string>("");
+  const [activeId, setActiveId] = useState(null);
+  const [showId, setShowId] = useState<string>("");
+  const [showBgModal, setShowBgModal] = useState(false);
+  const [successful, setSuccessful] = useState<boolean>(false);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/notes/getall-notes/${userCookie}`)
+      .get(
+        `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${userCookie}`
+      )
       .then((res) => contextValue?.setNotes(res.data.notes))
       .catch((err) => console.log(err));
     // setPostLoaded(true);
@@ -64,20 +91,109 @@ export default function ShowNotes(req: any, res: any) {
   // element argument can be a selector string
   //   for an individual element
 
-  useEffect(() => {
-    const imgLoad = imagesLoaded(containerRef.current);
-    imgLoad.on("always", () => {
-      console.log("All images are loaded");
+  // useEffect(() => {
+  //   const imgLoad = imagesLoaded(containerRef.current);
+  //   imgLoad.on("always", () => {
+  //     console.log("All images are loaded");
+  //   });
+  // }, [contextValue.notes]);
+
+  // const onDragEnd = (result: any) => {
+  //   if (!result.destination) {
+  //     return;
+  //   }
+
+  //   const reorderedNotes = Array.from(contextValue?.notes);
+  //   const [movedNote] = reorderedNotes.splice(result.source.index, 1);
+  //   reorderedNotes.splice(result.destination.index, 0, movedNote);
+
+  //   contextValue?.setNotes(reorderedNotes);
+  // };
+
+  const onDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (active.id == over.id) {
+      return;
+    }
+    contextValue?.setNotes((notes: any) => {
+      const oldIndex = notes.findIndex((note: any) => note.id == active.id);
+      const newIndex = notes.findIndex((note: any) => note.id == over.id);
+      return arrayMove(notes, oldIndex, newIndex);
     });
-  }, [contextValue.notes]);
+  };
+
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
+  // const handleDragStart = (event: any) => {
+  //   const id = event.active.data.current.id;
+  //   setActiveId(id);
+  // };
+
+  // const handleDragEnd = (event: any) => {
+  //   const { active, over } = event;
+
+  //   if (active && over) {
+  //     const oldIndex = contextValue?.notes.findIndex(
+  //       (note: any) => note?._id == active.id
+  //     );
+  //     const newIndex = contextValue?.notes.findIndex(
+  //       (note: any) => note?._id == over.id
+  //     );
+
+  //     contextValue?.setNotes((prevNotes: any) =>
+  //       arrayMove(prevNotes, oldIndex, newIndex)
+  //     );
+  //   }
+
+  //   setActiveId(null);
+  // };
+
+  const handleDragStart = (event: any) => {
+    console.log(event, "THIS IS EVENT");
+
+    // const id = event.active.data.current.id;
+    // setActiveId(id);
+    // console.log(id, "This is Id");
+  };
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+
+    if (active && over) {
+      const oldIndex = contextValue?.notes.findIndex(
+        (note: any) => note._id == active.id
+      );
+      const newIndex = contextValue?.notes.findIndex(
+        (note: any) => note._id == over.id
+      );
+
+      contextValue?.setNotes((prevNotes: any) =>
+        arrayMove(prevNotes, oldIndex, newIndex)
+      );
+    }
+
+    setActiveId(null);
+  };
 
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
+      {/* <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      > */}
+      {/* <SortableContext items={contextValue?.notes}> */}
       <div
-        onClick={() => contextValue.setOpenTextArea(false)}
+        onClick={() => {
+          contextValue.setOpenTextArea(false);
+        }}
         className="grid"
-        ref={containerRef}
         data-masonry='{ "itemSelector": ".grid-item", 
       "columnWidth": 300
      }'
@@ -85,29 +201,40 @@ export default function ShowNotes(req: any, res: any) {
         {contextValue?.notes?.length > 0 ? (
           contextValue.notes?.map((note: any) => (
             <div
-              onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
-              onMouseLeave={() => setShowIconsOnHover(false)}
-              className="max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+              onMouseEnter={() => {
+                setShowIconsOnHover(true);
+                setShowId(note?._id);
+              }}
+              onMouseLeave={() => {
+                setShowIconsOnHover(false);
+                setShowId("");
+              }}
+              className="relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
               style={{
-                backgroundColor: note?.bgColor ? note?.bgColor : "transparent",
+                backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
                 backgroundImage: `url(${note?.bgImage})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
               }}
-              key={note._id}
+              key={note?._id}
+              draggable={false}
+              // onClick={() => console.log("I am King")}
+              id={contextValue?.notes}
             >
               {overLay ? (
                 <div
                   onClick={() => {
                     setNoteModal(false);
                     setOverLay(false);
+                    setShowBgModal(false);
                   }}
                   className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
                 ></div>
               ) : (
                 ""
               )}
+
               <ShowNote
                 note={note}
                 overLay={overLay}
@@ -120,6 +247,11 @@ export default function ShowNotes(req: any, res: any) {
                 setShowIconsOnHover={setShowIconsOnHover}
                 picture={picture}
                 setPicture={setPicture}
+                showId={showId}
+                showBgModal={showBgModal}
+                setShowBgModal={setShowBgModal}
+                successful={successful}
+                setSuccesful={setSuccessful}
               />
             </div>
           ))
@@ -129,6 +261,84 @@ export default function ShowNotes(req: any, res: any) {
           </div>
         )}
       </div>
+      {/* </SortableContext> */}
+      {/* </DndContext> */}
+      {successful && <ToastContainer />}
     </div>
+
+    // <div className=" mb-[200px] ">
+    //   <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
+    //   <DndContext
+    //     sensors={sensors}
+    //     collisionDetection={closestCenter}
+    //     onDragStart={handleDragStart}
+    //     onDragEnd={handleDragEnd}
+    //   >
+    //     <SortableContext
+    //       items={contextValue?.notes}
+    //       strategy={verticalListSortingStrategy}
+    //     >
+    //       <div
+    //         onClick={() => contextValue.setOpenTextArea(false)}
+    //         className="grid"
+    //         ref={containerRef}
+    //         data-masonry='{ "itemSelector": ".grid-item",
+    //   "columnWidth": 300
+    //  }'
+    //       >
+    //         {contextValue?.notes?.length > 0 ? (
+    //           contextValue.notes?.map((note: any) => (
+    //             <div
+    //               onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
+    //               onMouseLeave={() => setShowIconsOnHover(false)}
+    //               className="max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+    //               style={{
+    //                 backgroundColor: note?.bgColor
+    //                   ? note?.bgColor
+    //                   : "transparent",
+    //                 backgroundImage: `url(${note?.bgImage})`,
+    //                 backgroundPosition: "center",
+    //                 backgroundSize: "cover",
+    //                 backgroundRepeat: "no-repeat",
+    //               }}
+    //               key={note._id}
+    //             >
+    //               {overLay ? (
+    //                 <div
+    //                   onClick={() => {
+    //                     setNoteModal(false);
+    //                     setOverLay(false);
+    //                   }}
+    //                   className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+    //                 ></div>
+    //               ) : (
+    //                 ""
+    //               )}
+
+    //               <ShowNote
+    //                 note={note}
+    //                 overLay={overLay}
+    //                 setOverLay={setOverLay}
+    //                 noteModal={noteModal}
+    //                 setNoteModal={setNoteModal}
+    //                 noteUrlParams={noteUrlParams}
+    //                 setNoteUrlParams={setNoteUrlParams}
+    //                 showIconsOnHover={showIconsOnHover}
+    //                 setShowIconsOnHover={setShowIconsOnHover}
+    //                 picture={picture}
+    //                 setPicture={setPicture}
+    //                 activeId={activeId}
+    //               />
+    //             </div>
+    //           ))
+    //         ) : (
+    //           <div className="empty ">
+    //             <p className="text-[22px] text-center"> You have no Notes </p>
+    //           </div>
+    //         )}
+    //       </div>
+    //     </SortableContext>
+    //   </DndContext>
+    // </div>
   );
 }

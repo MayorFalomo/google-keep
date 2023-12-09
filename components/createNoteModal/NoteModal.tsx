@@ -75,14 +75,14 @@ const NoteModal = (props: any) => {
 
       contextValue?.setNotes((prevNotes: any) => {
         const index = prevNotes.findIndex(
-          (note: any) => note._id == singleNote?._id
+          (note: any) => note?._id == singleNote?._id
         );
 
         if (index !== -1) {
           // If the note is found, update it
           const updatedNotes = [...prevNotes];
           updatedNotes[index] = { ...prevNotes[index], ...updatedNote };
-          return updatedNotes;
+          return updatedNotes.reverse();
         }
 
         // If the note is not found, return the original array

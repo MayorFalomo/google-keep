@@ -66,7 +66,7 @@ const Register = (req: any, res: any) => {
         };
         // console.log(userInfo);
         axios
-          .post("http://localhost:5000/api/users/register", userInfo)
+          .post("https://keep-backend-theta.vercel.app/api/users/register", userInfo)
           .then(() => router.push("/"))
           .then(() => window.location.reload())
           // .then(() => console.log(userInfo))
@@ -99,7 +99,7 @@ const Register = (req: any, res: any) => {
       };
       try {
         axios
-          .post("http://localhost:5000/api/users/register", userInfo)
+          .post("https://keep-backend-theta.vercel.app/api/users/register", userInfo)
           .then(() => router.push("/"))
           .then(() => window.location.reload())
           .then(() => contextValue?.getCurrentUser(userInfo?.id))

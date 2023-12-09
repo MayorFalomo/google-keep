@@ -11,6 +11,7 @@ type Props = {};
 const Pinned = (req: any, res: any) => {
   const userCookie = getCookie("user", { req, res });
   const { contextValue }: any = useAppContext();
+  const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
   const [overLayBg, setOverLayBg] = useState(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const myRef = React.useRef(null);
@@ -22,6 +23,8 @@ const Pinned = (req: any, res: any) => {
       .catch((err) => console.log(err));
   }, [userCookie]);
 
+  // console.log(contextValue?.pinnedNote);
+
   // console.log(userCookie, "This is pinned note");
 
   // useEffect(() => {
@@ -32,7 +35,7 @@ const Pinned = (req: any, res: any) => {
   // }, [contextValue.notes]);
 
   return (
-    <>
+    <div>
       {contextValue?.pinnedNote?.length > 0 ? (
         <h1 className="ml-[50px] mb-[20px]">PINNED </h1>
       ) : (
@@ -43,7 +46,7 @@ const Pinned = (req: any, res: any) => {
           onClick={() => contextValue.setOpenTextArea(false)}
           ref={myRef}
           style={{ position: "relative" }}
-          className="flex items-start flex-wrap ml-[50px] mt-[20px] gap-20px "
+          className="flex items-start flex-wrap gap-20px "
           //       ref={containerRef}
           //       data-masonry='{ "itemSelector": ".grid-item",
           //   "columnWidth": 300
@@ -51,11 +54,24 @@ const Pinned = (req: any, res: any) => {
         >
           {contextValue?.pinnedNote?.map((pinned: any) => (
             <div
-              className="relative max-w-[350px] min-w-[250px] min-h-[100px] border-2 border-[#5f6368] mr-[25px] mb-[25px] py-3 rounded-[10px]"
+              className="relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5f6368] mr-[25px] mb-[25px] rounded-[10px]"
+              style={{
+                backgroundColor: pinned?.bgColor ? pinned?.bgColor : "#202124",
+                backgroundImage: `url(${pinned?.bgImage})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}
               key={pinned?._id}
             >
               {overLayBg ? (
-                <div className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "></div>
+                <div
+                  onClick={() => {
+                    setNoteModal(false);
+                    setOverLayBg(false);
+                  }}
+                  className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+                ></div>
               ) : (
                 ""
               )}
@@ -63,6 +79,8 @@ const Pinned = (req: any, res: any) => {
                 pinned={pinned}
                 showIconsOnHover={showIconsOnHover}
                 setShowIconsOnHover={setShowIconsOnHover}
+                noteModal={noteModal}
+                setNoteModal={setNoteModal}
                 overLayBg={overLayBg}
                 setOverLayBg={setOverLayBg}
                 myRef={myRef}
@@ -73,7 +91,7 @@ const Pinned = (req: any, res: any) => {
       ) : (
         ""
       )}
-    </>
+    </div>
   );
 };
 
