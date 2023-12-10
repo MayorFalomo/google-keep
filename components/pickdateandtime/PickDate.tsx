@@ -10,14 +10,11 @@ import { useAppContext } from "@/helpers/Helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-type ValuePiece = Date | null;
-
-type Value = ValuePiece | [ValuePiece, ValuePiece];
 type Props = {};
 
 const PickDate = (props: any) => {
   const { contextValue }: any = useAppContext();
-  const [value, setValue] = React.useState<Value>(new Date());
+  const [value, setValue] = React.useState<any>(new Date());
   const [showCalendar, setShowCalendar] = React.useState<boolean>(false);
   const [showTime, setShowTime] = React.useState<boolean>(false);
   const [customTime, setCustomTime] = React.useState<boolean>(false);

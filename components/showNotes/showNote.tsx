@@ -451,7 +451,7 @@ const ShowNote = (props: any) => {
       location: props.note?.location,
       createdAt: props?.note.createdAt,
     });
-    setOpenOptionsModal(true);
+    setOpenOptionsModal(!openOptionsModal);
   };
 
   return (
