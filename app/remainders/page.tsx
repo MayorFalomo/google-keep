@@ -2,8 +2,8 @@ import React from "react";
 
 type Props = {};
 
-const remainders = (props: Props) => {
+const page = (props: any) => {
   return <div>page</div>;
 };
 
-export default remainders;
+export default page;
