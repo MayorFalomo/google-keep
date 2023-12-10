@@ -132,7 +132,9 @@ const ShowNote = (props: any) => {
       await axios
         .post(`http://localhost:5000/api/notes/add-pinned`, pinThisNote)
         .then(() =>
-          contextValue.setPinnedNote([...contextValue?.pinnedNote, pinThisNote])
+          contextValue.setPinnedNote(
+            [...contextValue?.pinnedNote, pinThisNote].reverse()
+          )
         )
         .then(() => props.setSuccessful(true))
         .catch((err) => console.log(err));
@@ -298,6 +300,7 @@ const ShowNote = (props: any) => {
     axios
       .post("https://api.cloudinary.com/v1_1/dsghy4siv/image/upload", formData)
       .then((res) => {
+        setVideo("");
         setPicture(res.data.url);
         if (res.data.url) {
           const pictureObject = {
@@ -340,6 +343,7 @@ const ShowNote = (props: any) => {
     axios
       .post("https://api.cloudinary.com/v1_1/dsghy4siv/video/upload", formData)
       .then((res) => {
+        setPicture("");
         setVideo(res.data.url);
         if (res.data.url) {
           const videoObject = {
@@ -351,7 +355,7 @@ const ShowNote = (props: any) => {
             // console.log(props?.note?._id, "This is props?.note?._id");
             axios
               .post(
-                `https://keep-backend-theta.vercel.app/api/notes/upload-picture`,
+                `https://keep-backend-theta.vercel.app/api/notes/upload-video`,
                 videoObject
               )
               .catch((err) => console.log(err));

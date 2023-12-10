@@ -39,7 +39,7 @@ const Pinned = (req: any, res: any) => {
   return (
     <div>
       {contextValue?.pinnedNote?.length > 0 ? (
-        <h1 className="ml-[50px] mb-[20px]">PINNED </h1>
+        <h1 className="ml-[50px] text-[25px] mb-[20px]">PINNED </h1>
       ) : (
         ""
       )}
@@ -48,7 +48,7 @@ const Pinned = (req: any, res: any) => {
           onClick={() => contextValue.setOpenTextArea(false)}
           ref={myRef}
           style={{ position: "relative" }}
-          className="flex items-start flex-wrap gap-20px "
+          className="relative flex items-start flex-wrap gap-20px "
           //       ref={containerRef}
           //       data-masonry='{ "itemSelector": ".grid-item",
           //   "columnWidth": 300

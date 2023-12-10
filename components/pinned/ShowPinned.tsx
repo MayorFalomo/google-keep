@@ -97,7 +97,15 @@ const ShowPinned = (props: any) => {
         " "
       )}
       {showIconsOnHover ? (
-        <div className="absolute z-10 bottom-0 left-0 w-full flex justify-around item-center ">
+        <div
+          style={{
+            backgroundColor:
+              props?.pinned?.bgColor || props?.pinned?.bgImage
+                ? props?.pinned?.bgColor || props?.pinned?.bgImage
+                : "",
+          }}
+          className="fixed z-10 bottom-[0px] left-0 w-full flex justify-around  "
+        >
           <Tippy placement="bottom" content="Notification">
             <span
               className="p-2 rounded-full hover:bg-hover"

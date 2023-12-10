@@ -179,11 +179,11 @@ export default function ShowNotes(req: any, res: any) {
     setActiveId(null);
   };
 
-  console.log(successful, "sUCCESFUL");
+  console.log(successful, "sUCCESSFUL");
 
   return (
     <div className=" mb-[200px] ">
-      <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
+      <h1 className="ml-[50px] text-[25px]  mb-[20px]">OTHERS </h1>
       {/* <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

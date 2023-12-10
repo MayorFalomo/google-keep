@@ -3,7 +3,7 @@ import Homepage from "./pages/home/page";
 import Head from "next/head";
 import Navbar from "@/components/navbar/Navbar";
 import Notes from "@/components/notes/Notes";
-import styles from "./Home.module.css";
+import styles from "./Homepage.module.css";
 import Headerbar from "@/components/header/Headerbar";
 import ShowNotes from "@/components/showNotes/ShowNotes";
 import Pinned from "@/components/pinned/Pinned";
@@ -18,8 +18,10 @@ export default function Home() {
           <Notes />
           <div className="my-[50px]">
             <Pinned />
+            <div>
+              <ShowNotes />
+            </div>
           </div>
-          <ShowNotes />
         </div>
       </div>
     </div>
