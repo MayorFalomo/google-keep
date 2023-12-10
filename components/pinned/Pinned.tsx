@@ -39,7 +39,7 @@ const Pinned = (req: any, res: any) => {
   return (
     <div>
       {contextValue?.pinnedNote?.length > 0 ? (
-        <h1 className="ml-[50px] text-[25px] mb-[20px]">PINNED </h1>
+        <h1 className="ml-[50px] text-[20px] mb-[20px]">PINNED </h1>
       ) : (
         ""
       )}

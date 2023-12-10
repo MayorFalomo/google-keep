@@ -183,7 +183,7 @@ export default function ShowNotes(req: any, res: any) {
 
   return (
     <div className=" mb-[200px] ">
-      <h1 className="ml-[50px] text-[25px]  mb-[20px]">OTHERS </h1>
+      <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
       {/* <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

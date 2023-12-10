@@ -1,6 +1,3 @@
-import Image from "next/image";
-import Homepage from "./pages/home/page";
-import Head from "next/head";
 import Navbar from "@/components/navbar/Navbar";
 import Notes from "@/components/notes/Notes";
 import styles from "./Homepage.module.css";
