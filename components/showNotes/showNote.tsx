@@ -119,6 +119,7 @@ const ShowNote = (props: any) => {
       title: props.note?.title,
       note: props.note?.note,
       picture: props.note?.picture,
+      video: props.note?.video,
       drawing: props.note?.drawing,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
@@ -306,10 +307,11 @@ const ShowNote = (props: any) => {
           const pictureObject = {
             id: props?.noteUrlParams,
             picture: res.data.url,
+            video: " ",
           };
 
           try {
-            console.log(props?.note?._id, "This is props?.note?._id");
+            // console.log(props?.note?._id, "This is props?.note?._id");
             axios
               .post(
                 `https://keep-backend-theta.vercel.app/api/notes/upload-picture`,
@@ -321,7 +323,11 @@ const ShowNote = (props: any) => {
             contextValue?.setNotes((prevState: any) =>
               prevState.map((note: any) =>
                 note._id == pictureObject?.id
-                  ? { ...note, picture: pictureObject?.picture }
+                  ? {
+                      ...note,
+                      picture: pictureObject?.picture,
+                      video: pictureObject?.video,
+                    }
                   : note
               )
             );
@@ -349,6 +355,7 @@ const ShowNote = (props: any) => {
           const videoObject = {
             id: props?.noteUrlParams,
             video: res.data.url,
+            picture: " ",
           };
 
           try {
@@ -364,7 +371,11 @@ const ShowNote = (props: any) => {
             contextValue?.setNotes((prevState: any) =>
               prevState.map((note: any) =>
                 note._id == videoObject?.id
-                  ? { ...note, video: videoObject?.video }
+                  ? {
+                      ...note,
+                      video: videoObject?.video,
+                      picture: videoObject?.picture,
+                    }
                   : note
               )
             );
@@ -480,7 +491,7 @@ const ShowNote = (props: any) => {
             width={200}
             height={120}
             controls
-            src={props?.note?.picture}
+            src={props?.note?.video}
             // objectFit="cover"
           ></video>
         ) : (
@@ -708,8 +719,7 @@ const ShowNote = (props: any) => {
           <input
             type="file"
             onChange={(e) => {
-              uploadImage(e.target.files);
-              uploadVideo(e.target.files);
+              uploadImage(e.target.files) || uploadVideo(e.target.files);
             }}
             id="fileInputImage"
             style={{ display: "none" }}

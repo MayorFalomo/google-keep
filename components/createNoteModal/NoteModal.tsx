@@ -133,6 +133,17 @@ const NoteModal = (props: any) => {
       ) : (
         ""
       )}
+      {singleNote?.video ? (
+        <video
+          className="w-[100%] max-h-[350px] h-300px object-cover "
+          width={200}
+          height={120}
+          controls
+          src={singleNote?.video}
+        ></video>
+      ) : (
+        ""
+      )}
       <div className="h-[100%]">
         <form className="h-full " onSubmit={handleEditNote}>
           <div className="flex items-center">

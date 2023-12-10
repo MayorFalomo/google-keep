@@ -72,19 +72,24 @@ export default function ShowNotes(req: any, res: any) {
   // });
 
   var elem = document.querySelector(".grid");
-  var msnry = new Masonry(elem, {
-    // options
-    itemSelector: ".grid-item",
-    columnWidth: 300,
-    gutter: 10,
-    percentPosition: true,
-    horizontalOrder: true,
-    stagger: 30,
-    transitionDuration: 0.5,
-    // disable initial layout
-    initLayout: false,
-  });
 
+  // Check if elem is not null before creating Masonry instance
+  if (elem !== null) {
+    var msnry = new Masonry(elem, {
+      // options
+      itemSelector: ".grid-item",
+      columnWidth: 300,
+      gutter: 10,
+      percentPosition: true,
+      horizontalOrder: true,
+      stagger: 30,
+      transitionDuration: 0.5,
+      // disable initial layout
+      initLayout: false,
+    });
+  } else {
+    console.error("Element with class 'grid' not found.");
+  }
   var msnry = new Masonry(".grid", {
     // options
   });
