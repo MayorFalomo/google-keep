@@ -97,6 +97,9 @@ const Login = (props: Props) => {
               Sign In{" "}
             </button>
           </form>
+          <p className="flex justify-center">
+            <a href="/register ">Register</a>{" "}
+          </p>
         </div>
         <div className=" w-[90%]">
           <ul className="flex items-start justify-between w-full">

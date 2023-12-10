@@ -66,6 +66,7 @@ const ShowNote = (props: any) => {
   const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
   // const [showBgModal, setShowBgModal] = useState(false);
   const [picture, setPicture] = React.useState<any>();
+  const [video, setVideo] = useState<string>();
   const [openOptionsModal, setOpenOptionsModal] = useState<boolean>(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
     false
@@ -330,6 +331,48 @@ const ShowNote = (props: any) => {
       .catch((err) => console.log(err));
   };
 
+  const uploadVideo = (files: any) => {
+    props.setNoteUrlParams(props.note?._id);
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "t3dil6ur");
+
+    axios
+      .post("https://api.cloudinary.com/v1_1/dsghy4siv/video/upload", formData)
+      .then((res) => {
+        setVideo(res.data.url);
+        if (res.data.url) {
+          const videoObject = {
+            id: props?.noteUrlParams,
+            video: res.data.url,
+          };
+
+          try {
+            // console.log(props?.note?._id, "This is props?.note?._id");
+            axios
+              .post(
+                `https://keep-backend-theta.vercel.app/api/notes/upload-picture`,
+                videoObject
+              )
+              .catch((err) => console.log(err));
+
+            // Update the contextValue.notes array with updated note
+            contextValue?.setNotes((prevState: any) =>
+              prevState.map((note: any) =>
+                note._id == videoObject?.id
+                  ? { ...note, video: videoObject?.video }
+                  : note
+              )
+            );
+            toast("Video has been uploaded successfully");
+          } catch (error) {
+            console.error(error && "Error updating Video");
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const archiveNote = async (e: any) => {
     e.preventDefault();
 
@@ -424,6 +467,18 @@ const ShowNote = (props: any) => {
             // objectFit="cover"
             alt=" "
           />
+        ) : (
+          ""
+        )}
+        {props?.note?.video ? (
+          <video
+            className="w-[100%] max-h-[150px]"
+            width={200}
+            height={120}
+            controls
+            src={props?.note?.picture}
+            // objectFit="cover"
+          ></video>
         ) : (
           ""
         )}
@@ -648,7 +703,10 @@ const ShowNote = (props: any) => {
           </Tippy>
           <input
             type="file"
-            onChange={(e) => uploadImage(e.target.files)}
+            onChange={(e) => {
+              uploadImage(e.target.files);
+              uploadVideo(e.target.files);
+            }}
             id="fileInputImage"
             style={{ display: "none" }}
           />

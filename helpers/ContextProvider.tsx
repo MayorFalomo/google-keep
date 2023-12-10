@@ -55,7 +55,7 @@ const AppContextProvider = ({ children }: any) => {
         router.push("/");
         // console.log(res, "This is res");
         setUser(res);
-        toast("User log in successfull");
+        toast("User log in successful");
       })
       .catch((err) => {
         console.log(err);
@@ -94,14 +94,6 @@ const AppContextProvider = ({ children }: any) => {
 
   return (
     <AppContext.Provider value={{ contextValue }}>
-      {/* <ToastContainer /> */}
-      {/* {overLay ? (
-        <div className="fixed border-5 border-green-700 z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 v">
-          {" "}
-        </div>
-      ) : (
-        ""
-      )} */}
       {children}
     </AppContext.Provider>
   );
