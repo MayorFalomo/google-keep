@@ -87,11 +87,11 @@ const ShowNote = (props: any) => {
     props.setNoteUrlParams(props.note?._id);
     // console.log(props.note?.createdAt, "This is the id");
     props?.setNoteModal(true);
-    console.log(noteModal, "This is Note Modal");
+    // console.log(noteModal, "This is Note Modal");
     // props?.setNoteModal(true);
     props?.setOverLay(true);
 
-    console.log(noteModal, "Hello!!....I am Clicking");
+    // console.log(noteModal, "Hello!!....I am Clicking");
   };
 
   // console.log(props?.overLay, "overlay");
