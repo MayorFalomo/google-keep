@@ -12,7 +12,6 @@ const Pinned = (req: any, res: any) => {
   const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
   const [overLayBg, setOverLayBg] = useState(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
-  const myRef = React.useRef(null);
 
   useEffect(() => {
     axios
@@ -44,7 +43,6 @@ const Pinned = (req: any, res: any) => {
       {contextValue?.pinnedNote?.length > 0 ? (
         <div
           onClick={() => contextValue.setOpenTextArea(false)}
-          ref={myRef}
           style={{ position: "relative" }}
           className="relative flex items-start flex-wrap gap-20px "
           //       ref={containerRef}
@@ -83,7 +81,6 @@ const Pinned = (req: any, res: any) => {
                 setNoteModal={setNoteModal}
                 overLayBg={overLayBg}
                 setOverLayBg={setOverLayBg}
-                myRef={myRef}
               />
             </div>
           ))}

@@ -66,7 +66,7 @@ const AppContextProvider = ({ children }: any) => {
   useEffect(() => {
     getCurrentUser(currentUser ? currentUser : "");
     // console.log(getCookie("user"), "This is the provider");
-  }, [currentUser]);
+  }, []);
 
   const contextValue = {
     isAuth,

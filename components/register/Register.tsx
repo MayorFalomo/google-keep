@@ -10,7 +10,6 @@ import { useAppContext } from "@/helpers/Helpers";
 import { auth, provider } from "../../firebase.config";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
-import { cookies } from "next/headers";
 
 type Props = {};
 
@@ -66,7 +65,10 @@ const Register = (req: any, res: any) => {
         };
         // console.log(userInfo);
         axios
-          .post("https://keep-backend-theta.vercel.app/api/users/register", userInfo)
+          .post(
+            "https://keep-backend-theta.vercel.app/api/users/register",
+            userInfo
+          )
           .then(() => router.push("/"))
           .then(() => window.location.reload())
           // .then(() => console.log(userInfo))
@@ -99,7 +101,10 @@ const Register = (req: any, res: any) => {
       };
       try {
         axios
-          .post("https://keep-backend-theta.vercel.app/api/users/register", userInfo)
+          .post(
+            "https://keep-backend-theta.vercel.app/api/users/register",
+            userInfo
+          )
           .then(() => router.push("/"))
           .then(() => window.location.reload())
           .then(() => contextValue?.getCurrentUser(userInfo?.id))

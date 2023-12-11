@@ -15,7 +15,6 @@ import { IoColorPaletteOutline } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import PinnedModal from "../pinnedModal/PinnedModal";
 import "react-responsive-modal/styles.css";
-import { Modal } from "react-responsive-modal";
 import "./showPinned.css";
 import Image from "next/image";
 import Tippy from "@tippyjs/react";
@@ -60,7 +59,6 @@ const ShowPinned = (props: any) => {
       onMouseOver={() => setShowIconsOnHover(true)}
       onMouseOut={() => setShowIconsOnHover(false)}
       style={{ position: "relative" }}
-      // ref={myRef}
     >
       <div onClick={handleClick} className="subContainer">
         {props?.pinned?.picture ? (
