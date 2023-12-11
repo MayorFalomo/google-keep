@@ -17,6 +17,7 @@
     "@types/react-select": "^5.0.1",
     "@types/react-toastify": "^4.1.0",
     "axios": "^1.6.0",
+    "colcade": "^0.2.0",
     "cookies-next": "^4.1.0",
     "firebase": "^10.5.2",
     "imagesloaded": "^5.0.0",

@@ -6,9 +6,6 @@ import { getCookie } from "cookies-next";
 import ShowNote from "./showNote";
 import "./notes.css";
 import Masonry from "masonry-layout";
-import imagesLoaded from "imagesloaded";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
 import { ToastContainer } from "react-toastify";
 
 type Props = {};
@@ -57,10 +54,10 @@ const ShowNotes = (props: any) => {
   //   return <div key={note._id}>{note.name}</div>
   // });
 
-  var elem = document.querySelector(".grid");
+  // var grid = document.querySelector(".grid");
 
-  // // Check if elem is not null before creating Masonry instance
-  // if (elem !== null) {
+  // // // Check if elem is not null before creating Masonry instance
+  // if (grid !== null) {
   //   // var msnry = new Masonry(elem, {
   //   //   // options
   //   //   itemSelector: ".grid-item",
@@ -73,14 +70,18 @@ const ShowNotes = (props: any) => {
   //   //   // disable initial layout
   //   //   initLayout: false,
   //   // });
-
+  //   var msnry = new Masonry(grid, {
+  //     // options...
+  //     itemSelector: ".grid-item",
+  //     columnWidth: 300,
+  //   });
   // } else {
   //   console.error("Element with class 'grid' not found.");
   // }
 
-  var msnry = new Masonry(".grid", {
-    // options
-  });
+  // var msnry = new Masonry(".grid", {
+  //   // options
+  // });
 
   // element argument can be a selector string
   //   for an individual element
@@ -170,7 +171,7 @@ const ShowNotes = (props: any) => {
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
-      <div
+      {/* <div
         onClick={() => {
           contextValue.setOpenTextArea(false);
         }}
@@ -241,7 +242,7 @@ const ShowNotes = (props: any) => {
             <p className="text-[22px] text-center"> You have no Notes </p>
           </div>
         )}
-      </div>
+      </div> */}
 
       {successful && <ToastContainer />}
     </div>
