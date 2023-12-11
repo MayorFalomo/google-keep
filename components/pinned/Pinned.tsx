@@ -1,10 +1,8 @@
 "use client";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../helpers/Helpers";
 import { getCookie } from "cookies-next";
-import Masonry from "masonry-layout";
-import imagesLoaded from "imagesloaded";
 import ShowPinned from "./ShowPinned";
 type Props = {};
 

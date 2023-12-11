@@ -13,12 +13,12 @@ export default function Page() {
         <Navbar />
         <div className={styles.notesContain}>
           <Notes />
-          {/* <div className="my-[50px]">
+          <div className="my-[50px]">
             <Pinned />
             <div>
               <ShowNotes />
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

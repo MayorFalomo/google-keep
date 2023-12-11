@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+"use client";
+import React from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoArrowBackSharp } from "react-icons/io5";
 import Calendar from "react-calendar";

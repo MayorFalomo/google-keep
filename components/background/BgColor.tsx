@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -20,7 +21,10 @@ const BgColor = (props: any) => {
 
     try {
       axios
-        .post(`https://keep-backend-theta.vercel.app/api/notes/set-bgcolor`, bgObject)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/set-bgcolor`,
+          bgObject
+        )
         .catch((err) =>
           console.log(err && toast("setting Background color failed"))
         );
