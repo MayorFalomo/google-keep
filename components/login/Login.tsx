@@ -34,7 +34,6 @@ const Login = (props: any) => {
             "https://keep-backend-theta.vercel.app/api/users/login",
             userInfo
           )
-          .catch((err) => console.log(err))
           .then(() => router.push("/"))
           .then(() => contextValue.getCurrentUser(res.user.uid))
           .then(() => window.location.reload())
