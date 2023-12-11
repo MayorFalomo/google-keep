@@ -14,10 +14,10 @@ export default function Page() {
         <div className={styles.notesContain}>
           <Notes />
           <div className="my-[50px]">
-            <Pinned />
-            {/* <div>
+            {/* <Pinned /> */}
+            <div>
               <ShowNotes />
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
