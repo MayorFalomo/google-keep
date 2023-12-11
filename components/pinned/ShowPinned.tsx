@@ -14,7 +14,6 @@ import {
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import PinnedModal from "../pinnedModal/PinnedModal";
-import "react-responsive-modal/styles.css";
 import "./showPinned.css";
 import Image from "next/image";
 import Tippy from "@tippyjs/react";
@@ -27,7 +26,6 @@ const ShowPinned = (props: any) => {
   const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
   const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
-  const myRef = React.useRef(null);
 
   const handleClick = (e: any) => {
     e.preventDefault();

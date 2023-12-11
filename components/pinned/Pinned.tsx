@@ -6,8 +6,10 @@ import { getCookie } from "cookies-next";
 import ShowPinned from "./ShowPinned";
 type Props = {};
 
-const Pinned = (req: any, res: any) => {
+const Pinned = ({ req, res }: any) => {
   const userCookie = getCookie("user", { req, res });
+  console.log(userCookie, "This is usercookie");
+
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
   const [overLayBg, setOverLayBg] = useState(false);
@@ -45,10 +47,6 @@ const Pinned = (req: any, res: any) => {
           onClick={() => contextValue.setOpenTextArea(false)}
           style={{ position: "relative" }}
           className="relative flex items-start flex-wrap gap-20px "
-          //       ref={containerRef}
-          //       data-masonry='{ "itemSelector": ".grid-item",
-          //   "columnWidth": 300
-          //  }'
         >
           {contextValue?.pinnedNote?.map((pinned: any) => (
             <div
