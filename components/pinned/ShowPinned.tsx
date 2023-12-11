@@ -102,7 +102,7 @@ const ShowPinned = (props: any) => {
           //       ? props?.pinned?.bgColor || props?.pinned?.bgImage
           //       : "",
           // }}
-          className="fixed z-10 bottom-[0px] left-0 w-full flex justify-around  "
+          className="absolute z-10 bottom-[0px] left-0 w-full flex justify-around  "
         >
           <Tippy placement="bottom" content="Notification">
             <span

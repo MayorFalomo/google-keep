@@ -1,7 +1,7 @@
 "use client";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
-import moment from "moment";
+import * as moment from "moment";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -40,7 +40,9 @@ const NoteModal = (props: any) => {
   useEffect(() => {
     if (props.noteUrlParams) {
       axios
-        .get(`https://keep-backend-theta.vercel.app/api/notes/get-note/${props.noteUrlParams}`)
+        .get(
+          `https://keep-backend-theta.vercel.app/api/notes/get-note/${props.noteUrlParams}`
+        )
         .then((res) => setSingleNote(res.data))
         .catch((err) => console.log(err));
     }

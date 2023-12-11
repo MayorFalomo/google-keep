@@ -8,33 +8,15 @@ import "./notes.css";
 import Masonry from "masonry-layout";
 import imagesLoaded from "imagesloaded";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragOverlay,
-  MouseSensor,
-  TouchSensor,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  rectSortingStrategy,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { BsCheck } from "react-icons/bs";
-import Tippy from "@tippyjs/react";
+
 import { ToastContainer } from "react-toastify";
+
 type Props = {};
 
 //Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
 export default function ShowNotes({ req, res }: any) {
   const userCookie = getCookie("user", { req, res });
+
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
   const [overLay, setOverLay] = useState<boolean>(false);
@@ -115,23 +97,23 @@ export default function ShowNotes({ req, res }: any) {
   //   contextValue?.setNotes(reorderedNotes);
   // };
 
-  const onDragEnd = (event: any) => {
-    const { active, over } = event;
-    if (active.id == over.id) {
-      return;
-    }
-    contextValue?.setNotes((notes: any) => {
-      const oldIndex = notes.findIndex((note: any) => note.id == active.id);
-      const newIndex = notes.findIndex((note: any) => note.id == over.id);
-      return arrayMove(notes, oldIndex, newIndex);
-    });
-  };
+  // const onDragEnd = (event: any) => {
+  //   const { active, over } = event;
+  //   if (active.id == over.id) {
+  //     return;
+  //   }
+  //   contextValue?.setNotes((notes: any) => {
+  //     const oldIndex = notes.findIndex((note: any) => note.id == active.id);
+  //     const newIndex = notes.findIndex((note: any) => note.id == over.id);
+  //     return arrayMove(notes, oldIndex, newIndex);
+  //   });
+  // };
 
-  const mouseSensor = useSensor(MouseSensor);
-  const touchSensor = useSensor(TouchSensor);
-  const keyboardSensor = useSensor(KeyboardSensor);
+  // const mouseSensor = useSensor(MouseSensor);
+  // const touchSensor = useSensor(TouchSensor);
+  // const keyboardSensor = useSensor(KeyboardSensor);
 
-  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+  // const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
   // const handleDragStart = (event: any) => {
   //   const id = event.active.data.current.id;
@@ -157,34 +139,26 @@ export default function ShowNotes({ req, res }: any) {
   //   setActiveId(null);
   // };
 
-  const handleDragStart = (event: any) => {
-    console.log(event, "THIS IS EVENT");
+  // const handleDragEnd = (event: any) => {
+  //   const { active, over } = event;
 
-    // const id = event.active.data.current.id;
-    // setActiveId(id);
-    // console.log(id, "This is Id");
-  };
+  //   if (active && over) {
+  //     const oldIndex = contextValue?.notes.findIndex(
+  //       (note: any) => note._id == active.id
+  //     );
+  //     const newIndex = contextValue?.notes.findIndex(
+  //       (note: any) => note._id == over.id
+  //     );
 
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event;
+  //     contextValue?.setNotes((prevNotes: any) =>
+  //       arrayMove(prevNotes, oldIndex, newIndex)
+  //     );
+  //   }
 
-    if (active && over) {
-      const oldIndex = contextValue?.notes.findIndex(
-        (note: any) => note._id == active.id
-      );
-      const newIndex = contextValue?.notes.findIndex(
-        (note: any) => note._id == over.id
-      );
+  //   setActiveId(null);
+  // };
 
-      contextValue?.setNotes((prevNotes: any) =>
-        arrayMove(prevNotes, oldIndex, newIndex)
-      );
-    }
-
-    setActiveId(null);
-  };
-
-  console.log(successful, "sUCCESSFUL");
+  // console.log(successful, "sUCCESSFUL");
 
   return (
     <div className=" mb-[200px] ">

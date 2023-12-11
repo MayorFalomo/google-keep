@@ -19,7 +19,7 @@ const PickDate = (props: any) => {
   const [showCalendar, setShowCalendar] = React.useState<boolean>(false);
   const [showTime, setShowTime] = React.useState<boolean>(false);
   const [customTime, setCustomTime] = React.useState<boolean>(false);
-  const [userId, setUserId] = React.useState<any>(props.notepad.userId);
+  const [userId, setUserId] = React.useState<string>(props.notepad.userId);
   const [onePm, setOnePm] = React.useState<any>(1);
   const [eightPm, setEightPm] = React.useState<any>(20);
 

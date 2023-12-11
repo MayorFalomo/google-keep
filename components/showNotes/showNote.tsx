@@ -1,20 +1,12 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import NoteModal from "../createNoteModal/NoteModal";
-import {
-  Bs0CircleFill,
-  BsCheck,
-  BsCheck2,
-  BsCheckCircle,
-  BsPin,
-} from "react-icons/bs";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import { BsCheck, BsPin } from "react-icons/bs";
 import {
   BiArchiveIn,
   BiBellPlus,
   BiDotsVerticalRounded,
   BiImageAlt,
-  BiUndo,
 } from "react-icons/bi";
 import { LuClock } from "react-icons/lu";
 import {
@@ -24,11 +16,9 @@ import {
 } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { IoColorPaletteOutline } from "react-icons/io5";
-import { GrRedo } from "react-icons/gr";
 import axios from "axios";
 import { useAppContext } from "@/helpers/Helpers";
 import "./notes.css";
-import moment from "moment";
 import PickDate from "../pickdateandtime/PickDate";
 import Select from "react-select";
 import countryList from "react-select-country-list";
@@ -39,11 +29,8 @@ import "tippy.js/dist/tippy.css";
 import Collaborators from "../collaborators/Collaborators";
 import Background from "../background/Background";
 import Image from "next/image";
-import Draggable from "react-draggable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { CgHello } from "react-icons/cg";
-import { useDraggable } from "@dnd-kit/core";
+// import { useSortable } from "@dnd-kit/sortable";
+// import { CSS } from "@dnd-kit/utilities";
 import Options from "../options/Options";
 
 type Props = {};
@@ -55,14 +42,12 @@ const ShowNote = (props: any) => {
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
   //   false
   // );
-  const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
   const [countryValue, setCountryValue] = React.useState<any>("");
   const options = useMemo(() => countryList().getData(), []); //Options for country
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [closeIcon, setCloseIcon] = useState(false);
-  const [closeIconState, setCloseIconState] = useState(false);
   const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
   // const [showBgModal, setShowBgModal] = useState(false);
   const [picture, setPicture] = React.useState<any>();
@@ -502,21 +487,10 @@ const ShowNote = (props: any) => {
     }
   };
 
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id: props.note?._id });
-
   // const { attributes, listeners, setNodeRef, transform } = useDraggable({
   //   id: props.note?._id,
   // });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-  };
   // console.log(props?.noteUrlParams, "This is picture");
 
   const addOptions = () => {

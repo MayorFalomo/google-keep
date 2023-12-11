@@ -55,7 +55,7 @@ const BgImage = (props: any) => {
     }
   };
 
-  console.log(props?.bgImage?.image);
+  // console.log(props?.bgImage?.image);
 
   return (
     <div>

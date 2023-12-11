@@ -110,10 +110,10 @@ const Collaborators = (props: any) => {
       collaborator: singleNote?.username,
       createdAt: new Date(),
     };
-    console.log(collaborateObject, "Collaborate Object");
+    // console.log(collaborateObject, "Collaborate Object");
     // console.log(getCollaboratorUsername, "getCollaboratorUsername");
     try {
-      console.log(collaborateObject, "inside the Try Catch");
+      // console.log(collaborateObject, "inside the Try Catch");
       axios
         .post(
           "https://keep-backend-theta.vercel.app/api/notes/send-note/",
