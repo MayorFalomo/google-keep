@@ -5,10 +5,10 @@ import Headerbar from "@/components/header/Headerbar";
 import ShowNotes from "@/components/showNotes/ShowNotes";
 import Pinned from "@/components/pinned/Pinned";
 
-export default function Home() {
+export default function Page() {
   return (
     <div>
-      <Headerbar />
+      {/* <Headerbar />
       <div className={styles.container}>
         <Navbar />
         <div className={styles.notesContain}>
@@ -20,7 +20,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
