@@ -57,6 +57,7 @@ const PinnedModal = (props: any) => {
           : singleNote?.collaborator,
       label: label.length > 1 ? label : singleNote?.label,
       location: location.length > 1 ? location : singleNote?.location,
+      createdAt: Date.now(),
     };
     try {
       await axios.put(
