@@ -131,7 +131,10 @@ const ShowNote = (props: any) => {
     };
     try {
       await axios
-        .post(`http://localhost:5000/api/notes/add-pinned`, pinThisNote)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/add-pinned`,
+          pinThisNote
+        )
         .then(() =>
           contextValue.setPinnedNote(
             [...contextValue?.pinnedNote, pinThisNote].reverse()

@@ -32,7 +32,9 @@ const PinnedModal = (props: any) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/notes/pinned-id/${props.noteUrlParams}`)
+      .get(
+        `https://keep-backend-theta.vercel.app/api/notes/pinned-id/${props.noteUrlParams}`
+      )
       .then((res) => setSingleNote(res.data))
       .catch((err) => console.log(err));
   }, [props.noteUrlParams]);
@@ -58,7 +60,7 @@ const PinnedModal = (props: any) => {
     };
     try {
       await axios.put(
-        `http://localhost:5000/api/notes/update-note/${props.noteUrlParams}`,
+        `https://keep-backend-theta.vercel.app/api/notes/update-note/${props.noteUrlParams}`,
         updatedNote
       );
       props.setNoteModal(false);

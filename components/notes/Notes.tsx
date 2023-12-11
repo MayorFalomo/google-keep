@@ -62,7 +62,10 @@ const Notes = (props: Props) => {
       location,
     };
     try {
-      await axios.post(`http://localhost:5000/api/notes/create-note`, newNote);
+      await axios.post(
+        `https://keep-backend-theta.vercel.app/api/notes/create-note`,
+        newNote
+      );
       // window.location.replace("/tweets/" + res.data._id)
       contextValue?.setNotes([...contextValue?.notes, newNote].reverse());
       // console.log("Note has been added successfully");

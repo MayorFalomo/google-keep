@@ -29,7 +29,9 @@ const Collaborators = (props: any) => {
   useEffect(() => {
     if (props.noteUrlParams) {
       axios
-        .get(`http://localhost:5000/api/notes/get-note/${props.noteUrlParams}`)
+        .get(
+          `https://keep-backend-theta.vercel.app/api/notes/get-note/${props.noteUrlParams}`
+        )
         .then((res) => setSingleNote(res.data))
         .catch((err) => console.log(err));
     }
@@ -71,7 +73,9 @@ const Collaborators = (props: any) => {
   const fetchSuggestions = async (query: any) => {
     try {
       axios
-        .get(`http://localhost:5000/api/users/search?username=${query}`)
+        .get(
+          `https://keep-backend-theta.vercel.app/api/users/search?username=${query}`
+        )
         .then((res) => setSuggestions(res.data))
         .catch((err) => console.log(err));
       // const response = await fetch(
@@ -111,7 +115,10 @@ const Collaborators = (props: any) => {
     try {
       console.log(collaborateObject, "inside the Try Catch");
       axios
-        .post("http://localhost:5000/api/notes/send-note/", collaborateObject)
+        .post(
+          "https://keep-backend-theta.vercel.app/api/notes/send-note/",
+          collaborateObject
+        )
         .then((res) => console.log(res && toast("Collaborator Added")))
         .then(() => props?.setShowCollaboratorModal(false))
         .catch((err) => console.log(err && toast("Collaboration failed")));

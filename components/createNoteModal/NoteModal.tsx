@@ -40,7 +40,7 @@ const NoteModal = (props: any) => {
   useEffect(() => {
     if (props.noteUrlParams) {
       axios
-        .get(`http://localhost:5000/api/notes/get-note/${props.noteUrlParams}`)
+        .get(`https://keep-backend-theta.vercel.app/api/notes/get-note/${props.noteUrlParams}`)
         .then((res) => setSingleNote(res.data))
         .catch((err) => console.log(err));
     }

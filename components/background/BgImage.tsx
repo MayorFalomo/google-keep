@@ -20,7 +20,10 @@ const BgImage = (props: any) => {
 
     try {
       axios
-        .post(`http://localhost:5000/api/notes/set-bgimage`, bgObject)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/set-bgimage`,
+          bgObject
+        )
         .catch((err) =>
           console.log(err && toast("setting Background color failed"))
         );

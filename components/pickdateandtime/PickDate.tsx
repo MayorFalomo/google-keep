@@ -52,7 +52,7 @@ const PickDate = (props: any) => {
     try {
       await axios
         .post(
-          `http://localhost:5000/api/notes/set-notification/pick-a-time`,
+          `https://keep-backend-theta.vercel.app/api/notes/set-notification/pick-a-time`,
           pickATimeObject
         )
         .catch((err: any) => {
