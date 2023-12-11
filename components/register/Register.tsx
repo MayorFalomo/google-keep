@@ -13,7 +13,7 @@ import { setCookie } from "cookies-next";
 
 type Props = {};
 
-const Register = (req: any, res: any) => {
+const Register = ({ req, res }: any) => {
   const { contextValue }: any = useAppContext();
 
   const router = useRouter();
