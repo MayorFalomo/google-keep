@@ -58,7 +58,7 @@ const AppContextProvider = ({ children }: any) => {
         toast("User log in successful");
       })
       .catch((err) => {
-        console.log(err && router.push("/login")); // Redirect to login page if user ID is not found
+        console.log(err && router.push("/register")); // Redirect to login page if user ID is not found
       });
   };
 

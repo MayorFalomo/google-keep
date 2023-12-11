@@ -12,12 +12,12 @@ import { MdOutlineArrowDropDown } from "react-icons/md";
 
 type Props = {};
 
-const Login = (props: Props) => {
+const Login = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   const [cookies, setCookie] = useCookies(["user"]);
-  const [email, setEmail] = useState<any>("");
-  const [password, setPassword] = useState<any>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
   const router = useRouter();
