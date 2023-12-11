@@ -58,7 +58,7 @@ const AppContextProvider = ({ children }: any) => {
         toast("User log in successful");
       })
       .catch((err) => {
-        console.log(err && router.push("/register")); // Redirect to login page if user ID is not found
+        console.log(err); // Redirect to login page if user ID is not found
       });
   };
 
@@ -66,7 +66,7 @@ const AppContextProvider = ({ children }: any) => {
   useEffect(() => {
     getCurrentUser(currentUser ? currentUser : "");
     // console.log(getCookie("user"), "This is the provider");
-  }, []);
+  }, [currentUser]);
 
   const contextValue = {
     isAuth,
@@ -77,6 +77,8 @@ const AppContextProvider = ({ children }: any) => {
     currentUser,
     bookmarks,
     getCurrentUser,
+    login,
+    logout,
     openTextArea,
     setOpenTextArea,
     noteModal,

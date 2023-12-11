@@ -33,7 +33,7 @@ import { ToastContainer } from "react-toastify";
 type Props = {};
 
 //Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
-export default function ShowNotes(req: any, res: any) {
+export default function ShowNotes({ req, res }: any) {
   const userCookie = getCookie("user", { req, res });
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
@@ -61,7 +61,7 @@ export default function ShowNotes(req: any, res: any) {
       .then((res) => contextValue?.setNotes(res.data.notes))
       .catch((err) => console.log(err));
     // setPostLoaded(true);
-  }, []);
+  }, [userCookie]);
 
   // console.log(currentUser, "this is currentUser");
   // console.log(contextValue.notes);
