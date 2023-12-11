@@ -35,6 +35,8 @@ export default function ShowNotes({ req, res }: any) {
   const [showBgModal, setShowBgModal] = useState(false);
   const [successful, setSuccessful] = useState<boolean>(false);
 
+  console.log(userCookie);
+
   useEffect(() => {
     axios
       .get(
@@ -163,14 +165,7 @@ export default function ShowNotes({ req, res }: any) {
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
-      {/* <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      > */}
-      {/* <SortableContext items={contextValue?.notes}> */}
-      <div
+      {/* <div
         onClick={() => {
           contextValue.setOpenTextArea(false);
         }}
@@ -241,9 +236,8 @@ export default function ShowNotes({ req, res }: any) {
             <p className="text-[22px] text-center"> You have no Notes </p>
           </div>
         )}
-      </div>
-      {/* </SortableContext> */}
-      {/* </DndContext> */}
+      </div> */}
+
       {successful && <ToastContainer />}
     </div>
 

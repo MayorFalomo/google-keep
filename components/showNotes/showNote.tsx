@@ -112,7 +112,7 @@ const ShowNote = (props: any) => {
       collaborator: props.note?.collaborator,
       label: props.note?.label,
       location: props.note?.location,
-      createdAt: props?.note.createdAt,
+      createdAt: new Date(),
     };
     try {
       await axios
