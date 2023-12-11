@@ -8,19 +8,19 @@ import Pinned from "@/components/pinned/Pinned";
 export default function Page() {
   return (
     <div>
-      {/* <Headerbar />
+      <Headerbar />
       <div className={styles.container}>
         <Navbar />
         <div className={styles.notesContain}>
           <Notes />
-          <div className="my-[50px]">
+          {/* <div className="my-[50px]">
             <Pinned />
             <div>
               <ShowNotes />
             </div>
-          </div>
+          </div> */}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

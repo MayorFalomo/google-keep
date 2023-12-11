@@ -51,7 +51,7 @@ const Login = (props: Props) => {
       })
       .then(() => router.push("/"))
       .then(() => window.location.reload())
-      .catch(() => setIsAuth(true));
+      .catch((err) => console.log(err));
   };
 
   return (
