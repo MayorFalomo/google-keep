@@ -21,6 +21,7 @@
     "cookies-next": "^4.1.0",
     "firebase": "^10.5.2",
     "imagesloaded": "^5.0.0",
+    "imports-loader": "^4.0.1",
     "masonry-layout": "^4.2.2",
     "moment": "^2.24.0",
     "next": "13.5.4",

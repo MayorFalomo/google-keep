@@ -7,12 +7,17 @@ import ShowNote from "./showNote";
 import "./notes.css";
 import Masonry from "masonry-layout";
 import { ToastContainer } from "react-toastify";
+// var Masonry = require("masonry-layout");
+// import dynamic from "next/dynamic";
 
 type Props = {};
 
 //Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
 const ShowNotes = (props: any) => {
   const userCookie = getCookie("user");
+  // const DynamicMasonry = dynamic(() => import("masonry-layout"), {
+  //   ssr: false,
+  // });
 
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
@@ -54,34 +59,22 @@ const ShowNotes = (props: any) => {
   //   return <div key={note._id}>{note.name}</div>
   // });
 
-  // var grid = document.querySelector(".grid");
+  var grid = document.querySelector(".grid");
 
   // // // Check if elem is not null before creating Masonry instance
-  // if (grid !== null) {
-  //   // var msnry = new Masonry(elem, {
-  //   //   // options
-  //   //   itemSelector: ".grid-item",
-  //   //   columnWidth: 300,
-  //   //   gutter: 10,
-  //   //   percentPosition: true,
-  //   //   horizontalOrder: true,
-  //   //   stagger: 30,
-  //   //   transitionDuration: 0.5,
-  //   //   // disable initial layout
-  //   //   initLayout: false,
-  //   // });
-  //   var msnry = new Masonry(grid, {
-  //     // options...
-  //     itemSelector: ".grid-item",
-  //     columnWidth: 300,
-  //   });
-  // } else {
-  //   console.error("Element with class 'grid' not found.");
-  // }
+  if (grid !== null && typeof window !== "undefined") {
+    var msnry = new Masonry(grid, {
+      // options...
+      itemSelector: ".grid-item",
+      columnWidth: 300,
+    });
+  } else {
+    console.error("Element with class 'grid' not found.");
+  }
 
-  // var msnry = new Masonry(".grid", {
-  //   // options
-  // });
+  var msnry = new Masonry(".grid", {
+    // options
+  });
 
   // element argument can be a selector string
   //   for an individual element
@@ -171,14 +164,14 @@ const ShowNotes = (props: any) => {
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
-      {/* <div
+      <div
         onClick={() => {
           contextValue.setOpenTextArea(false);
         }}
         className="grid"
-        data-masonry='{ "itemSelector": ".grid-item", 
-      "columnWidth": 300
-     }'
+        data-masonry='{ "itemSelector": ".grid-item",
+          "columnWidth": 300
+         }'
       >
         {contextValue?.notes?.length > 0 ? (
           contextValue.notes?.map((note: any) => (
@@ -242,7 +235,7 @@ const ShowNotes = (props: any) => {
             <p className="text-[22px] text-center"> You have no Notes </p>
           </div>
         )}
-      </div> */}
+      </div>
 
       {successful && <ToastContainer />}
     </div>
