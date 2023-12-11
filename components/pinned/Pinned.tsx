@@ -8,7 +8,6 @@ type Props = {};
 
 const Pinned = ({ req, res }: any) => {
   const userCookie = getCookie("user", { req, res });
-  console.log(userCookie, "This is usercookie");
 
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal

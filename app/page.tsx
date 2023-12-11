@@ -15,9 +15,9 @@ export default function Page() {
           <Notes />
           <div className="my-[50px]">
             <Pinned />
-            {/* <div>
+            <div>
               <ShowNotes />
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
