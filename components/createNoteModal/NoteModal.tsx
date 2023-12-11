@@ -1,7 +1,7 @@
 "use client";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
-import * as moment from "moment";
+import moment, { Moment } from "moment";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -110,6 +110,9 @@ const NoteModal = (props: any) => {
     }
   };
 
+  const formattedDate: Moment = moment(singleNote?.createdAt);
+  // console.log(formattedDate.format("MMMM Do"), "This is the formattedDate"); // Adjust the format as needed
+
   return (
     <div
       style={{
@@ -129,7 +132,7 @@ const NoteModal = (props: any) => {
           width={200}
           height={120}
           src={singleNote?.picture}
-          objectFit="cover"
+          // objectFit="cover"
           alt=" "
         />
       ) : (
@@ -183,7 +186,7 @@ const NoteModal = (props: any) => {
             />
           </div>
           <p className="flex justify-end m-2 ">
-            Edited {moment(singleNote?.createdAt).format("MMMM do")}{" "}
+            Edited {formattedDate.format("MMMM Do")}{" "}
           </p>
           <div className="flex justify-between item-center gap-4 ">
             <div className="flex item-center gap-4 ">
