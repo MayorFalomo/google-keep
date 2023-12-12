@@ -9,7 +9,6 @@ import Masonry from "masonry-layout";
 import Packery from "packery";
 import { ToastContainer } from "react-toastify";
 import GridLayout from "react-grid-layout";
-import Mason from "@appnest/masonry-layout";
 type Props = {};
 
 // const initializePackery = () => {
@@ -107,19 +106,19 @@ const ShowNotes = (props: any) => {
 
   // Function to initialize Packery on the client side
 
-  // var elem = document.querySelector(".grid");
+  var elem = document.querySelector(".grid");
 
-  // var pckry = new Packery(elem, {
-  //   // options
-  //   itemSelector: ".grid-item",
-  //   gutter: 10,
-  // });
+  var pckry = new Packery(elem, {
+    // options
+    itemSelector: ".grid-item",
+    gutter: 10,
+  });
 
-  // // element argument can be a selector string
-  // //   for an individual element
-  // var pckry = new Packery(".grid", {
-  //   // options
-  // });
+  // element argument can be a selector string
+  //   for an individual element
+  var pckry = new Packery(".grid", {
+    // options
+  });
 
   // element argument can be a selector string
   //   for an individual element
@@ -214,24 +213,21 @@ const ShowNotes = (props: any) => {
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
-      <masonry-layout
 
-      // >
-      //   <div
-      //     onClick={() => {
-      //       contextValue.setOpenTextArea(false);
-      //     }}
-      // className="grid"
-
-      // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-      // data-masonry='{ "itemSelector": ".grid-item",
-      //   "columnWidth": 300
-      //  }'
+      <div
+        onClick={() => {
+          contextValue.setOpenTextArea(false);
+        }}
+        className="grid"
+        data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
+        // data-masonry='{ "itemSelector": ".grid-item",
+        //   "columnWidth": 300
+        //  }'
       >
         {contextValue?.notes?.length > 0 ? (
           contextValue.notes?.map((note: any, index: any) => (
             <div
-              // data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
+              data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
               // data-grid={{ ...note, x: index }}
               // data-grid={note}
               onMouseEnter={() => {
@@ -242,7 +238,9 @@ const ShowNotes = (props: any) => {
                 setShowIconsOnHover(false);
                 setShowId("");
               }}
-              className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+              data-gs-width="300"
+              data-gs-height="300"
+              className="grid-stack-item border-dark relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
               style={{
                 backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
                 backgroundImage: `url(${note?.bgImage})`,
@@ -294,7 +292,7 @@ const ShowNotes = (props: any) => {
           </div>
         )}
         {/* </div> */}
-      </masonry-layout>
+      </div>
       {successful && <ToastContainer />}
     </div>
     // <div className=" mb-[200px] ">
