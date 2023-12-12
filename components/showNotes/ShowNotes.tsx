@@ -241,9 +241,9 @@ const ShowNotes = (props: any) => {
                 setShowIconsOnHover(false);
                 setShowId("");
               }}
-              data-gs-width="300"
-              data-gs-height="300"
-              className="grid-stack-item border-dark relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+              // data-gs-width="300"
+              // data-gs-height="300"
+              className="relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
               style={{
                 backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
                 backgroundImage: `url(${note?.bgImage})`,
