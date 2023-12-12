@@ -5,10 +5,9 @@ import { useAppContext } from "../../helpers/Helpers";
 import { getCookie } from "cookies-next";
 import ShowNote from "./showNote";
 import "./notes.css";
-import Masonry from "masonry-layout";
+// import Masonry from "masonry-layout";
 import Packery from "packery";
 import { ToastContainer } from "react-toastify";
-import GridLayout from "react-grid-layout";
 type Props = {};
 
 // const initializePackery = () => {
@@ -41,7 +40,7 @@ const ShowNotes = (props: any) => {
     false
   );
   const [postLoaded, setPostLoaded] = useState<boolean>(false);
-  const containerRef = useRef(null);
+  // const containerRef = useRef(null);
   const [currentUser, setCurrentUser] = useState<string>(
     contextValue?.user?._id
   );
@@ -105,9 +104,10 @@ const ShowNotes = (props: any) => {
   // });
 
   // Function to initialize Packery on the client side
+  const containerRef = useRef<HTMLDivElement>(null);
 
   var elem = document.querySelector(".grid");
-
+  //@ts-ignore
   var pckry = new Packery(elem, {
     // options
     itemSelector: ".grid-item",
@@ -116,9 +116,12 @@ const ShowNotes = (props: any) => {
 
   // element argument can be a selector string
   //   for an individual element
+  //@ts-ignore
   var pckry = new Packery(".grid", {
     // options
   });
+  // element argument can be a selector string
+  //   for an individual element
 
   // element argument can be a selector string
   //   for an individual element
@@ -227,7 +230,7 @@ const ShowNotes = (props: any) => {
         {contextValue?.notes?.length > 0 ? (
           contextValue.notes?.map((note: any, index: any) => (
             <div
-              data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
+              // data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
               // data-grid={{ ...note, x: index }}
               // data-grid={note}
               onMouseEnter={() => {
