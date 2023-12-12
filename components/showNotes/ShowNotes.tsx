@@ -6,11 +6,27 @@ import { getCookie } from "cookies-next";
 import ShowNote from "./showNote";
 import "./notes.css";
 import Masonry from "masonry-layout";
+import Packery from "packery";
 import { ToastContainer } from "react-toastify";
-// var Masonry = require("masonry-layout");
-// import dynamic from "next/dynamic";
-
+import GridLayout from "react-grid-layout";
+import Mason from "@appnest/masonry-layout";
 type Props = {};
+
+// const initializePackery = () => {
+//   // Check if window is defined (ensures it's executed on the client side)
+//   if (typeof window !== "undefined") {
+//     // Import Packery dynamically
+//     import("packery").then(({ default: Packery }) => {
+//       // Your Packery initialization code here
+//       var elem = document.querySelector(".grid");
+//       var pckry = new Packery(elem, {
+//         // options
+//         itemSelector: ".grid-item",
+//         gutter: 10,
+//       });
+//     });
+//   }
+// };
 
 //Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
 const ShowNotes = (props: any) => {
@@ -51,6 +67,19 @@ const ShowNotes = (props: any) => {
     }
   }, [userCookie]);
 
+  const items = contextValue?.notes || []; // Assuming contextValue.notes is the array of items
+
+  let currentX = 0;
+  let currentY = 0;
+
+  const layout = items.map((note: any, index: number) => ({
+    ...note,
+    x: index,
+    y: currentY,
+    w: 2,
+    h: 2,
+  }));
+
   // console.log(currentUser, "this is currentUser");
   // console.log(contextValue.notes);
   // console.log(contextValue.notes);
@@ -59,22 +88,38 @@ const ShowNotes = (props: any) => {
   //   return <div key={note._id}>{note.name}</div>
   // });
 
-  var grid = document.querySelector(".grid");
+  // var grid = document.querySelector(".grid");
 
-  // // // Check if elem is not null before creating Masonry instance
-  if (grid !== null && typeof window !== "undefined") {
-    var msnry = new Masonry(grid, {
-      // options...
-      itemSelector: ".grid-item",
-      columnWidth: 300,
-    });
-  } else {
-    console.error("Element with class 'grid' not found.");
-  }
+  // // // // Check if elem is not null before creating Masonry instance
+  // if (grid !== null) {
+  //   var msnry = new Masonry(grid, {
+  //     // options...
+  //     itemSelector: ".grid-item",
+  //     columnWidth: 300,
+  //   });
+  // } else {
+  //   console.error("Element with class 'grid' not found.");
+  // }
 
-  var msnry = new Masonry(".grid", {
-    // options
-  });
+  // var msnry = new Masonry(".grid", {
+  //   // options
+  // });
+
+  // Function to initialize Packery on the client side
+
+  // var elem = document.querySelector(".grid");
+
+  // var pckry = new Packery(elem, {
+  //   // options
+  //   itemSelector: ".grid-item",
+  //   gutter: 10,
+  // });
+
+  // // element argument can be a selector string
+  // //   for an individual element
+  // var pckry = new Packery(".grid", {
+  //   // options
+  // });
 
   // element argument can be a selector string
   //   for an individual element
@@ -161,21 +206,34 @@ const ShowNotes = (props: any) => {
 
   // console.log(successful, "sUCCESSFUL");
 
+  // const layout = [
+  //   // { i: "a", x: 0, y: 0, w: 1, h: 2, static: true },
+  //   // { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
+  //   { i: "c", x: 4, y: 0, w: 1, h: 2 },
+  // ];
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
-      <div
-        onClick={() => {
-          contextValue.setOpenTextArea(false);
-        }}
-        className="grid"
-        data-masonry='{ "itemSelector": ".grid-item",
-          "columnWidth": 300
-         }'
+      <masonry-layout
+
+      // >
+      //   <div
+      //     onClick={() => {
+      //       contextValue.setOpenTextArea(false);
+      //     }}
+      // className="grid"
+
+      // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
+      // data-masonry='{ "itemSelector": ".grid-item",
+      //   "columnWidth": 300
+      //  }'
       >
         {contextValue?.notes?.length > 0 ? (
-          contextValue.notes?.map((note: any) => (
+          contextValue.notes?.map((note: any, index: any) => (
             <div
+              // data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
+              // data-grid={{ ...note, x: index }}
+              // data-grid={note}
               onMouseEnter={() => {
                 setShowIconsOnHover(true);
                 setShowId(note?._id);
@@ -184,7 +242,7 @@ const ShowNotes = (props: any) => {
                 setShowIconsOnHover(false);
                 setShowId("");
               }}
-              className="relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+              className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
               style={{
                 backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
                 backgroundImage: `url(${note?.bgImage})`,
@@ -235,8 +293,8 @@ const ShowNotes = (props: any) => {
             <p className="text-[22px] text-center"> You have no Notes </p>
           </div>
         )}
-      </div>
-
+        {/* </div> */}
+      </masonry-layout>
       {successful && <ToastContainer />}
     </div>
     // <div className=" mb-[200px] ">
