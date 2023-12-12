@@ -5,8 +5,8 @@ import { useAppContext } from "../../helpers/Helpers";
 import { getCookie } from "cookies-next";
 import ShowNote from "./showNote";
 import "./notes.css";
-// import Masonry from "masonry-layout";
-import Packery from "packery";
+import Masonry from "masonry-layout";
+// import Packery from "packery";
 import { ToastContainer } from "react-toastify";
 type Props = {};
 
@@ -86,22 +86,22 @@ const ShowNotes = (props: any) => {
   //   return <div key={note._id}>{note.name}</div>
   // });
 
-  // var grid = document.querySelector(".grid");
+  var grid = document.querySelector(".grid");
 
-  // // // // Check if elem is not null before creating Masonry instance
-  // if (grid !== null) {
-  //   var msnry = new Masonry(grid, {
-  //     // options...
-  //     itemSelector: ".grid-item",
-  //     columnWidth: 300,
-  //   });
-  // } else {
-  //   console.error("Element with class 'grid' not found.");
-  // }
+  // // // Check if elem is not null before creating Masonry instance
+  if (grid !== null) {
+    var msnry = new Masonry(grid, {
+      // options...
+      itemSelector: ".grid-item",
+      columnWidth: 300,
+    });
+  } else {
+    console.error("Element with class 'grid' not found.");
+  }
 
-  // var msnry = new Masonry(".grid", {
-  //   // options
-  // });
+  var msnry = new Masonry(".grid", {
+    // options
+  });
 
   // Function to initialize Packery on the client side
   // const containerRef = useRef<HTMLDivElement>(null);
@@ -217,7 +217,7 @@ const ShowNotes = (props: any) => {
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
 
-      {/* <div
+      <div
         onClick={() => {
           contextValue.setOpenTextArea(false);
         }}
@@ -290,7 +290,7 @@ const ShowNotes = (props: any) => {
             <p className="text-[22px] text-center"> You have no Notes </p>
           </div>
         )}
-      </div> */}
+      </div>
       {successful && <ToastContainer />}
     </div>
     // <div className=" mb-[200px] ">
