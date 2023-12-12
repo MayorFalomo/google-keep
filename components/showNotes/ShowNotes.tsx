@@ -104,22 +104,22 @@ const ShowNotes = (props: any) => {
   // });
 
   // Function to initialize Packery on the client side
-  const containerRef = useRef<HTMLDivElement>(null);
+  // const containerRef = useRef<HTMLDivElement>(null);
 
-  var elem = document.querySelector(".grid");
-  //@ts-ignore
-  var pckry = new Packery(elem, {
-    // options
-    itemSelector: ".grid-item",
-    gutter: 10,
-  });
+  // var elem = document.querySelector(".grid");
+  // //@ts-ignore
+  // var pckry = new Packery(elem, {
+  //   // options
+  //   itemSelector: ".grid-item",
+  //   gutter: 10,
+  // });
 
-  // element argument can be a selector string
-  //   for an individual element
-  //@ts-ignore
-  var pckry = new Packery(".grid", {
-    // options
-  });
+  // // element argument can be a selector string
+  // //   for an individual element
+  // //@ts-ignore
+  // var pckry = new Packery(".grid", {
+  //   // options
+  // });
   // element argument can be a selector string
   //   for an individual element
 
@@ -217,15 +217,15 @@ const ShowNotes = (props: any) => {
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
 
-      <div
+      {/* <div
         onClick={() => {
           contextValue.setOpenTextArea(false);
         }}
         className="grid"
-        data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-        // data-masonry='{ "itemSelector": ".grid-item",
-        //   "columnWidth": 300
-        //  }'
+        // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
+        data-masonry='{ "itemSelector": ".grid-item",
+          "columnWidth": 300
+         }'
       >
         {contextValue?.notes?.length > 0 ? (
           contextValue.notes?.map((note: any, index: any) => (
@@ -241,9 +241,7 @@ const ShowNotes = (props: any) => {
                 setShowIconsOnHover(false);
                 setShowId("");
               }}
-              // data-gs-width="300"
-              // data-gs-height="300"
-              className="relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+              className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
               style={{
                 backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
                 backgroundImage: `url(${note?.bgImage})`,
@@ -252,8 +250,6 @@ const ShowNotes = (props: any) => {
                 backgroundRepeat: "no-repeat",
               }}
               key={note?._id}
-              draggable={false}
-              // onClick={() => console.log("I am King")}
               id={contextValue?.notes}
             >
               {overLay ? (
@@ -294,8 +290,7 @@ const ShowNotes = (props: any) => {
             <p className="text-[22px] text-center"> You have no Notes </p>
           </div>
         )}
-        {/* </div> */}
-      </div>
+      </div> */}
       {successful && <ToastContainer />}
     </div>
     // <div className=" mb-[200px] ">
