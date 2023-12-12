@@ -86,18 +86,18 @@ const ShowNotes = (props: any) => {
   //   return <div key={note._id}>{note.name}</div>
   // });
 
-  var grid = document.querySelector(".grid");
+  // var grid = document.querySelector("grid");
 
   // // // Check if elem is not null before creating Masonry instance
-  if (grid !== null) {
-    var msnry = new Masonry(grid, {
-      // options...
-      itemSelector: ".grid-item",
-      columnWidth: 300,
-    });
-  } else {
-    console.error("Element with class 'grid' not found.");
-  }
+  // if (grid !== null) {
+  //   var msnry = new Masonry(grid, {
+  //     // options...
+  //     itemSelector: ".grid-item",
+  //     columnWidth: 300,
+  //   });
+  // } else {
+  //   console.error("Element with class 'grid' not found.");
+  // }
 
   var msnry = new Masonry(".grid", {
     // options
