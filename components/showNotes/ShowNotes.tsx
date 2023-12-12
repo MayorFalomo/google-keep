@@ -5,6 +5,7 @@ import { useAppContext } from "../../helpers/Helpers";
 import { getCookie } from "cookies-next";
 import ShowNote from "./showNote";
 import "./notes.css";
+import Masonry from "masonry-layout";
 // import Packery from "packery";
 import { ToastContainer } from "react-toastify";
 type Props = {};
@@ -101,7 +102,7 @@ const ShowNotes = (props: any) => {
   // var msnry = new Masonry(".grid", {
   //   // options
   // });
-  // var msnry = new Masonry(".grid", {});
+  var msnry = new Masonry(".grid", {});
 
   // Function to initialize Packery on the client side
   // const containerRef = useRef<HTMLDivElement>(null);
