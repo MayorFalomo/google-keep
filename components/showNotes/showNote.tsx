@@ -894,7 +894,11 @@ const ShowNote = (props: any) => {
 
       {props?.showBgModal ? (
         <AnimatePresence>
-          <motion.div>
+          <motion.div
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
             <Background
               noteUrlParams={props?.noteUrlParams}
               showBgModal={props?.showBgModal}

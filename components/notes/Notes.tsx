@@ -14,6 +14,7 @@ import {
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion";
 type Props = {};
 
 const Notes = (props: Props) => {
@@ -82,138 +83,152 @@ const Notes = (props: Props) => {
     <div className="bg-red">
       <form onSubmit={createNote} className="flex justify-center">
         {contextValue.openTextArea ? (
-          <div className="p-4  rounded-[10px] border-2 border-[#525355] ">
-            <div className="flex items-center justify-between ">
-              <input
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"
-                placeholder="Title"
+          <AnimatePresence>
+            <motion.div
+              className="p-4  rounded-[10px] border-2 border-[#525355] "
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="flex items-center justify-between ">
+                <input
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"
+                  placeholder="Title"
+                />
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <BsPin
+                      className=" text-[#9AA0A6] text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+              </div>
+              <textarea
+                onChange={(e) => setNote(e.target.value)}
+                className="bg-transparent text-white w-full text-[18px] border-none outline-none resize-none whitespace-break-spaces [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
+                placeholder="Take a note..."
               />
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <BsPin
-                    className=" text-[#9AA0A6] text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-            </div>
-            <textarea
-              onChange={(e) => setNote(e.target.value)}
-              className="bg-transparent text-white w-full text-[18px] border-none outline-none resize-none whitespace-break-spaces [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
-              placeholder="Take a note..."
-            />
-            <div className="flex item-center gap-6 ">
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <BiBellPlus
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <MdOutlinePersonAddAlt1
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <IoColorPaletteOutline
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <BiImageAlt
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <BiArchiveIn
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <BiDotsVerticalRounded
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <BiUndo
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-3 rounded-full hover:bg-hover">
-                {
-                  <GrRedo
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-            </div>
-            <div className=" flex justify-end">
-              <button
-                type="submit"
-                // onClick={() => }
-                className="cursor-pointer "
-              >
-                Close{" "}
-              </button>
-            </div>
-          </div>
+              <div className="flex item-center gap-6 ">
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <BiBellPlus
+                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <MdOutlinePersonAddAlt1
+                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <IoColorPaletteOutline
+                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <BiImageAlt
+                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <BiArchiveIn
+                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <BiDotsVerticalRounded
+                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <BiUndo
+                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-3 rounded-full hover:bg-hover">
+                  {
+                    <GrRedo
+                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+              </div>
+              <div className=" flex justify-end">
+                <button
+                  type="submit"
+                  // onClick={() => }
+                  className="cursor-pointer "
+                >
+                  Close{" "}
+                </button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         ) : (
-          <div className="flex items-center min-w-[50%] rounded-[10px] border-2 border-[#525355]  ">
-            <input
-              className="bg-transparent outline-none w-full placeholder:text-[#E9E9E9]  px-4 text-[20px] font-weight: black"
-              onClick={() => contextValue.setOpenTextArea(true)}
-              type="text"
-              placeholder="Take a note..."
-            />
-            <div className="flex items-center gap-6">
-              <span className="p-4 rounded-full hover:bg-hover">
-                {
-                  <AiOutlineCheckSquare
-                    className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-4 rounded-full hover:bg-hover">
-                {
-                  <IoBrushOutline
-                    className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-              <span className="p-4 rounded-full hover:bg-hover">
-                {
-                  <BiImageAlt
-                    className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-            </div>
-          </div>
+          <AnimatePresence>
+            <motion.div
+              className="flex items-center min-w-[50%] rounded-[10px] border-2 border-[#525355]  "
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <input
+                className="bg-transparent outline-none w-full placeholder:text-[#E9E9E9]  px-4 text-[20px] font-weight: black"
+                onClick={() => contextValue.setOpenTextArea(true)}
+                type="text"
+                placeholder="Take a note..."
+              />
+              <div className="flex items-center gap-6">
+                <span className="p-4 rounded-full hover:bg-hover">
+                  {
+                    <AiOutlineCheckSquare
+                      className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-4 rounded-full hover:bg-hover">
+                  {
+                    <IoBrushOutline
+                      className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="p-4 rounded-full hover:bg-hover">
+                  {
+                    <BiImageAlt
+                      className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         )}
       </form>
     </div>

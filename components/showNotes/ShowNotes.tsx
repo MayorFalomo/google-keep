@@ -9,6 +9,7 @@ import Masonry from "masonry-layout";
 // import Packery from "packery";
 import { ToastContainer } from "react-toastify";
 import dynamic from "next/dynamic";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {};
 
@@ -216,80 +217,90 @@ const ShowNotes = (props: any) => {
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
       {/* <DynamicMason /> */}
-      <div
-        onClick={() => {
-          contextValue.setOpenTextArea(false);
-        }}
-        className="grid"
-        // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-        data-masonry='{ "itemSelector": ".grid-item",
+      <AnimatePresence>
+        <motion.div
+          onClick={() => {
+            contextValue.setOpenTextArea(false);
+          }}
+          className="grid"
+          // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
+          data-masonry='{ "itemSelector": ".grid-item",
           "columnWidth": 300
          }'
-      >
-        {contextValue?.notes?.length > 0 ? (
-          contextValue.notes?.map((note: any, index: any) => (
-            <div
-              // data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
-              // data-grid={{ ...note, x: index }}
-              // data-grid={note}
-              onMouseEnter={() => {
-                setShowIconsOnHover(true);
-                setShowId(note?._id);
-              }}
-              onMouseLeave={() => {
-                setShowIconsOnHover(false);
-                setShowId("");
-              }}
-              className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
-              style={{
-                backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
-                backgroundImage: `url(${note?.bgImage})`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-              }}
-              key={note?._id}
-              id={contextValue?.notes}
-            >
-              {overLay ? (
-                <div
-                  onClick={() => {
-                    setNoteModal(false);
-                    setOverLay(false);
-                    setShowBgModal(false);
-                  }}
-                  className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
-                ></div>
-              ) : (
-                ""
-              )}
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          {contextValue?.notes?.length > 0 ? (
+            contextValue.notes?.map((note: any, index: any) => (
+              <div
+                // data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
+                // data-grid={{ ...note, x: index }}
+                // data-grid={note}
+                onMouseEnter={() => {
+                  setShowIconsOnHover(true);
+                  setShowId(note?._id);
+                }}
+                onMouseLeave={() => {
+                  setShowIconsOnHover(false);
+                  setShowId("");
+                }}
+                className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                style={{
+                  backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
+                  backgroundImage: `url(${note?.bgImage})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }}
+                key={note?._id}
+                id={contextValue?.notes}
+              >
+                {overLay ? (
+                  <AnimatePresence>
+                    <motion.div
+                      onClick={() => {
+                        setNoteModal(false);
+                        setOverLay(false);
+                        setShowBgModal(false);
+                      }}
+                      exit={{ opacity: 0 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+                    ></motion.div>
+                  </AnimatePresence>
+                ) : (
+                  ""
+                )}
 
-              <ShowNote
-                note={note}
-                overLay={overLay}
-                setOverLay={setOverLay}
-                noteModal={noteModal}
-                setNoteModal={setNoteModal}
-                noteUrlParams={noteUrlParams}
-                setNoteUrlParams={setNoteUrlParams}
-                showIconsOnHover={showIconsOnHover}
-                setShowIconsOnHover={setShowIconsOnHover}
-                picture={picture}
-                setPicture={setPicture}
-                showId={showId}
-                showBgModal={showBgModal}
-                setShowBgModal={setShowBgModal}
-                successful={successful}
-                setSuccesful={setSuccessful}
-              />
+                <ShowNote
+                  note={note}
+                  overLay={overLay}
+                  setOverLay={setOverLay}
+                  noteModal={noteModal}
+                  setNoteModal={setNoteModal}
+                  noteUrlParams={noteUrlParams}
+                  setNoteUrlParams={setNoteUrlParams}
+                  showIconsOnHover={showIconsOnHover}
+                  setShowIconsOnHover={setShowIconsOnHover}
+                  picture={picture}
+                  setPicture={setPicture}
+                  showId={showId}
+                  showBgModal={showBgModal}
+                  setShowBgModal={setShowBgModal}
+                  successful={successful}
+                  setSuccesful={setSuccessful}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="empty ">
+              <p className="text-[22px] text-center"> You have no Notes </p>
             </div>
-          ))
-        ) : (
-          <div className="empty ">
-            <p className="text-[22px] text-center"> You have no Notes </p>
-          </div>
-        )}
-      </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
       {successful && <ToastContainer />}
     </div>
 
