@@ -7,7 +7,6 @@ import ShowNote from "./showNote";
 import "./notes.css";
 import Masonry from "masonry-layout";
 // import Packery from "packery";
-import { ToastContainer } from "react-toastify";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 
