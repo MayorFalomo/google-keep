@@ -3,8 +3,8 @@ import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import React from "react";
 import Tippy from "@tippyjs/react";
-import { ToastContainer, toast } from "react-toastify";
-import "tippy.js/dist/tippy.css";
+import toast, { Toaster } from "react-hot-toast";
+
 import Image from "next/image";
 type Props = {};
 
@@ -87,7 +87,18 @@ const BgImage = (props: any) => {
           </button>
         </Tippy>
       </form>
-      <ToastContainer />
+      <Toaster
+        position="bottom-left"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      />
     </div>
   );
 };

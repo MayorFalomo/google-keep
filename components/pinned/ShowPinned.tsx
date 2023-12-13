@@ -18,6 +18,8 @@ import PinnedModal from "../pinnedModal/PinnedModal";
 import "./showPinned.css";
 import Image from "next/image";
 import Tippy from "@tippyjs/react";
+import toast, { Toaster } from "react-hot-toast";
+
 type Props = {};
 
 //Parent Component is Pinned.tsx
@@ -25,7 +27,7 @@ const ShowPinned = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
-  const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
+  // const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
 
   const handleClick = (e: any) => {
@@ -46,6 +48,7 @@ const ShowPinned = (props: any) => {
         (pinned: any) => pinned?._id !== props?.pinned?._id
       );
       contextValue?.setPinnedNote(filtered);
+      toast("Note unpinned successfully");
     } catch (err) {
       console.log(err);
     }
@@ -54,11 +57,7 @@ const ShowPinned = (props: any) => {
   // console.log(contextValue?.pinnedNote);
 
   return (
-    <div
-      onMouseOver={() => setShowIconsOnHover(true)}
-      onMouseOut={() => setShowIconsOnHover(false)}
-      style={{ position: "relative" }}
-    >
+    <div>
       <div onClick={handleClick} className="subContainer">
         {props?.pinned?.picture ? (
           <Image
@@ -68,6 +67,18 @@ const ShowPinned = (props: any) => {
             src={props?.pinned?.picture}
             alt=" "
           />
+        ) : (
+          ""
+        )}
+        {props?.pinned?.video ? (
+          <video
+            className="w-[100%] max-h-[150px]"
+            width={200}
+            height={120}
+            controls
+            src={props?.pinned?.video}
+            // objectFit="cover"
+          ></video>
         ) : (
           ""
         )}
@@ -87,22 +98,22 @@ const ShowPinned = (props: any) => {
           </div>
         )}
       </div>
-      {showIconsOnHover ? (
+      {props?.showId == props?.pinned?._id ? (
         <Tippy placement="bottom" content="Select note">
           <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
         </Tippy>
       ) : (
         " "
       )}
-      {showIconsOnHover ? (
+      {props?.showId == props?.pinned?._id ? (
         <div
-          // style={{
-          //   backgroundColor:
-          //     props?.pinned?.bgColor || props?.pinned?.bgImage
-          //       ? props?.pinned?.bgColor || props?.pinned?.bgImage
-          //       : "",
-          // }}
-          className="absolute z-10 bottom-[0px] left-0 w-full flex justify-around  "
+          style={{
+            backgroundColor:
+              props?.pinned?.bgColor || props?.pinned?.bgImage
+                ? props?.pinned?.bgColor || props?.pinned?.bgImage
+                : "",
+          }}
+          className="absolute z-10 bottom-0 left-0 w-full flex justify-around  "
         >
           <Tippy placement="bottom" content="Notification">
             <span
@@ -192,7 +203,7 @@ const ShowPinned = (props: any) => {
       ) : (
         ""
       )}
-      {showIconsOnHover ? (
+      {props?.showId == props?.pinned?._id ? (
         <form onSubmit={unPinNote}>
           <Tippy placement="bottom" content="Unpin note ">
             <button
@@ -219,6 +230,18 @@ const ShowPinned = (props: any) => {
           />
         ) : null}
       </div>
+      <Toaster
+        position="bottom-left"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      />
     </div>
   );
 };

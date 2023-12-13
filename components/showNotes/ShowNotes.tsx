@@ -38,6 +38,7 @@ const ShowNotes = (props: any) => {
   const [showId, setShowId] = useState<string>("");
   const [showBgModal, setShowBgModal] = useState(false);
   const [successful, setSuccessful] = useState<boolean>(false);
+  const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
 
   // console.log(userCookie);
 
@@ -94,13 +95,13 @@ const ShowNotes = (props: any) => {
   //   // options
   // });
 
-  React.useEffect(() => {
-    var msnry = new Masonry(".grid", {
-      //options
-    });
-    // window is accessible here.
-    // console.log("window.innerHeight", window.innerHeight);
+  // React.useEffect(() => {
+  var msnry = new Masonry(".grid", {
+    //options
   });
+  // window is accessible here.
+  // console.log("window.innerHeight", window.innerHeight);
+  // });
 
   // Function to initialize Packery on the client side
   // const containerRef = useRef<HTMLDivElement>(null);
@@ -245,7 +246,7 @@ const ShowNotes = (props: any) => {
                   setShowIconsOnHover(false);
                   setShowId("");
                 }}
-                className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
                 style={{
                   backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
                   backgroundImage: `url(${note?.bgImage})`,
@@ -254,7 +255,7 @@ const ShowNotes = (props: any) => {
                   backgroundRepeat: "no-repeat",
                 }}
                 key={note?._id}
-                id={contextValue?.notes}
+                id={contextValue?.note?._id}
               >
                 {overLay ? (
                   <AnimatePresence>
@@ -290,94 +291,21 @@ const ShowNotes = (props: any) => {
                   showBgModal={showBgModal}
                   setShowBgModal={setShowBgModal}
                   successful={successful}
-                  setSuccesful={setSuccessful}
+                  setSuccessful={setSuccessful}
+                  pinnedSuccess={pinnedSuccess}
+                  setPinnedSuccess={setPinnedSuccess}
                 />
               </div>
             ))
           ) : (
-            <div className="empty ">
-              <p className="text-[22px] text-center"> You have no Notes </p>
+            <div className="flex justify-center">
+              <span className="loader"></span>
             </div>
           )}
         </motion.div>
       </AnimatePresence>
-      {successful && <ToastContainer />}
+      {successful ? <ToastContainer /> : ""}
     </div>
-
-    // <div className=" mb-[200px] ">
-    //   <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
-    //   <DndContext
-    //     sensors={sensors}
-    //     collisionDetection={closestCenter}
-    //     onDragStart={handleDragStart}
-    //     onDragEnd={handleDragEnd}
-    //   >
-    //     <SortableContext
-    //       items={contextValue?.notes}
-    //       strategy={verticalListSortingStrategy}
-    //     >
-    //       <div
-    //         onClick={() => contextValue.setOpenTextArea(false)}
-    //         className="grid"
-    //         ref={containerRef}
-    //         data-masonry='{ "itemSelector": ".grid-item",
-    //   "columnWidth": 300
-    //  }'
-    //       >
-    //         {contextValue?.notes?.length > 0 ? (
-    //           contextValue.notes?.map((note: any) => (
-    //             <div
-    //               onMouseEnter={() => setShowIconsOnHover(!showIconsOnHover)}
-    //               onMouseLeave={() => setShowIconsOnHover(false)}
-    //               className="max-w-[350px] min-w-[250px] h-fit min-h-[200px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
-    //               style={{
-    //                 backgroundColor: note?.bgColor
-    //                   ? note?.bgColor
-    //                   : "transparent",
-    //                 backgroundImage: `url(${note?.bgImage})`,
-    //                 backgroundPosition: "center",
-    //                 backgroundSize: "cover",
-    //                 backgroundRepeat: "no-repeat",
-    //               }}
-    //               key={note._id}
-    //             >
-    //               {overLay ? (
-    //                 <div
-    //                   onClick={() => {
-    //                     setNoteModal(false);
-    //                     setOverLay(false);
-    //                   }}
-    //                   className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
-    //                 ></div>
-    //               ) : (
-    //                 ""
-    //               )}
-
-    //               <ShowNote
-    //                 note={note}
-    //                 overLay={overLay}
-    //                 setOverLay={setOverLay}
-    //                 noteModal={noteModal}
-    //                 setNoteModal={setNoteModal}
-    //                 noteUrlParams={noteUrlParams}
-    //                 setNoteUrlParams={setNoteUrlParams}
-    //                 showIconsOnHover={showIconsOnHover}
-    //                 setShowIconsOnHover={setShowIconsOnHover}
-    //                 picture={picture}
-    //                 setPicture={setPicture}
-    //                 activeId={activeId}
-    //               />
-    //             </div>
-    //           ))
-    //         ) : (
-    //           <div className="empty ">
-    //             <p className="text-[22px] text-center"> You have no Notes </p>
-    //           </div>
-    //         )}
-    //       </div>
-    //     </SortableContext>
-    //   </DndContext>
-    // </div>
   );
 };
 

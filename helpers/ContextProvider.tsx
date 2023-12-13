@@ -20,7 +20,7 @@ const AppContextProvider = ({ children }: any) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [openTextArea, setOpenTextArea] = useState(false);
   const [noteModal, setNoteModal] = useState(false); //toggle create note modal
-  const [pinnedNote, setPinnedNote] = useState([].reverse());
+  const [pinnedNote, setPinnedNote] = useState<any>();
   const [archivedNote, setArchivedNote] = useState([]);
   const [overLay, setOverLay] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState("");

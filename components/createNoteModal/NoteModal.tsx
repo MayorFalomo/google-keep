@@ -15,6 +15,7 @@ import { BsPin } from "react-icons/bs";
 import { GrRedo } from "react-icons/gr";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 type Props = {};
 
@@ -71,7 +72,7 @@ const NoteModal = (props: any) => {
     };
     try {
       await axios.put(
-        `http://localhost:5000/api/notes/update-note/${storeId}`,
+        `https://keep-backend-theta.vercel.app/api/notes/update-note/${storeId}`,
         updatedNote
       );
 
@@ -105,6 +106,7 @@ const NoteModal = (props: any) => {
       // );
       props.setNoteModal(false);
       props.setOverLay(false);
+      toast.success("Note updated successfully");
     } catch (error) {
       console.log(error);
     }
@@ -268,6 +270,32 @@ const NoteModal = (props: any) => {
           </div>
         </form>
       </div>
+      <Toaster
+        position="bottom-left"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }: any) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== "loading" && (
+                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
     </div>
   );
 };

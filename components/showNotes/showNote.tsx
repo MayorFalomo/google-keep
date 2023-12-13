@@ -22,8 +22,9 @@ import "./notes.css";
 import PickDate from "../pickdateandtime/PickDate";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import Collaborators from "../collaborators/Collaborators";
@@ -59,6 +60,7 @@ const ShowNote = (props: any) => {
     false
   );
   const [trashNote, setTrashNote] = useState<any>();
+  const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
 
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
@@ -127,10 +129,9 @@ const ShowNote = (props: any) => {
             [...contextValue?.pinnedNote, pinThisNote].reverse()
           )
         )
-        .then(() => props.setSuccessful(true))
         .catch((err) => console.log(err));
 
-      // toast("Note has been pinned!");
+      toast.success("Note Pinned Successfully!");
     } catch (err) {
       console.log(err);
     }
@@ -159,7 +160,7 @@ const ShowNote = (props: any) => {
         "https://keep-backend-theta.vercel.app/api/notes/set-notification/tomorrow",
         noteRemainder
       );
-      toast("Remainder set for tomorrow ");
+      toast.success("Remainder set for tomorrow ");
     } catch (error) {
       console.log(error, "This did not work");
     }
@@ -190,7 +191,7 @@ const ShowNote = (props: any) => {
         "https://keep-backend-theta.vercel.app/api/notes/set-notification/next-week",
         noteRemainder
       );
-      toast("Remainder set for tomorrow ");
+      toast.success("Remainder set for tomorrow ");
     } catch (error) {
       console.log(error, "This did not work");
     }
@@ -321,7 +322,7 @@ const ShowNote = (props: any) => {
                   : note
               )
             );
-            toast("Picture has been uploaded successfully");
+            toast.success("Picture has been uploaded successfully");
           } catch (error) {
             console.error(error && "Error updating bgColor:");
           }
@@ -369,7 +370,7 @@ const ShowNote = (props: any) => {
                   : note
               )
             );
-            toast("Video has been uploaded successfully");
+            toast.success("Video has been uploaded successfully");
           } catch (error) {
             console.error(error && "Error updating Video");
           }
@@ -426,7 +427,7 @@ const ShowNote = (props: any) => {
               )
             );
 
-            toast(
+            toast.success(
               mediaType === "image"
                 ? "Picture has been uploaded successfully"
                 : "Video has been uploaded successfully"
@@ -482,7 +483,7 @@ const ShowNote = (props: any) => {
           )
         )
         .catch((err) => console.log(err));
-      toast("Note archived successfully");
+      toast.success("Note archived successfully");
       // Update the contextValue.notes array with updated note
     } catch (err) {
       console.log(err);
@@ -922,6 +923,19 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
+      {/* {props?.pinnedSuccess && <ToastContainer />} */}
+      <Toaster
+        position="bottom-left"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      />
     </div>
   );
 };

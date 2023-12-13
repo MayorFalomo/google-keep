@@ -22,7 +22,10 @@ const BgColor = (props: any) => {
 
     try {
       axios
-        .post(`http://localhost:5000/api/notes/set-bgcolor`, bgObject)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/set-bgcolor`,
+          bgObject
+        )
         .catch((err) =>
           console.log(err && toast("setting Background color failed"))
         );
