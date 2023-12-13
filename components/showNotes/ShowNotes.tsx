@@ -8,30 +8,17 @@ import "./notes.css";
 import Masonry from "masonry-layout";
 // import Packery from "packery";
 import { ToastContainer } from "react-toastify";
-type Props = {};
+import dynamic from "next/dynamic";
 
-// const initializePackery = () => {
-//   // Check if window is defined (ensures it's executed on the client side)
-//   if (typeof window !== "undefined") {
-//     // Import Packery dynamically
-//     import("packery").then(({ default: Packery }) => {
-//       // Your Packery initialization code here
-//       var elem = document.querySelector(".grid");
-//       var pckry = new Packery(elem, {
-//         // options
-//         itemSelector: ".grid-item",
-//         gutter: 10,
-//       });
-//     });
-//   }
-// };
+type Props = {};
 
 //Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
 const ShowNotes = (props: any) => {
+  const DynamicMason = dynamic(() => import("masonry-layout"), {
+    ssr: false,
+  });
+
   const userCookie = getCookie("user");
-  // const DynamicMasonry = dynamic(() => import("masonry-layout"), {
-  //   ssr: false,
-  // });
 
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
@@ -78,6 +65,9 @@ const ShowNotes = (props: any) => {
     h: 2,
   }));
 
+  // const DynamicMason = dynamic(() => import("masonry-layout"), {
+  //   ssr: false,
+  // });
   // console.log(currentUser, "this is currentUser");
   // console.log(contextValue.notes);
   // console.log(contextValue.notes);
@@ -102,7 +92,14 @@ const ShowNotes = (props: any) => {
   // var msnry = new Masonry(".grid", {
   //   // options
   // });
-  var msnry = new Masonry(".grid", {});
+
+  React.useEffect(() => {
+    var msnry = new Masonry(".grid", {
+      //options
+    });
+    // window is accessible here.
+    // console.log("window.innerHeight", window.innerHeight);
+  });
 
   // Function to initialize Packery on the client side
   // const containerRef = useRef<HTMLDivElement>(null);
@@ -214,10 +211,11 @@ const ShowNotes = (props: any) => {
   //   // { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
   //   { i: "c", x: 4, y: 0, w: 1, h: 2 },
   // ];
+
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
-
+      {/* <DynamicMason /> */}
       <div
         onClick={() => {
           contextValue.setOpenTextArea(false);
@@ -294,6 +292,7 @@ const ShowNotes = (props: any) => {
       </div>
       {successful && <ToastContainer />}
     </div>
+
     // <div className=" mb-[200px] ">
     //   <h1 className="ml-[50px] text-[30px]  mb-[20px]">OTHERS </h1>
     //   <DndContext

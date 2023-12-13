@@ -123,7 +123,8 @@ const Background = (props: any) => {
     },
   ];
 
-  console.log(props?.showBgModal, "current color");
+  // console.log(props?.showBgModal, "current color");
+  console.log(props?.noteUrlParams, "current id");
 
   return (
     <div>

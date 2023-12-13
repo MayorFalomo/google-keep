@@ -20,6 +20,8 @@ const BgImage = (props: any) => {
     };
 
     try {
+      console.log(bgObject);
+
       axios
         .post(
           `https://keep-backend-theta.vercel.app/api/notes/set-bgimage`,
@@ -34,7 +36,7 @@ const BgImage = (props: any) => {
           ? { ...note, bgImage: bgObject.bgImage, bgColor: bgObject.bgColor }
           : note
       );
-      console.log(updatedNotes);
+      // console.log(updatedNotes, "updated");
 
       //? Then i Update the contextValue.notes array with the updated notes
       contextValue?.setNotes(updatedNotes);
@@ -50,6 +52,7 @@ const BgImage = (props: any) => {
       // );
       toast("Bg Image set successfully");
       props.setShowBgModal(false);
+      props?.setOverLay(false);
     } catch (error) {
       console.error("Error updating bgColor:", error);
     }

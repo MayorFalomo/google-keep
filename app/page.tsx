@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "@/components/navbar/Navbar";
 import Notes from "@/components/notes/Notes";
 import styles from "./Homepage.module.css";

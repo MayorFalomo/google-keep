@@ -49,7 +49,7 @@ const NoteModal = (props: any) => {
   }, [props?.noteUrlParams]);
 
   // console.log(singleNote?._id, "THIS IS Single Note Id");
-  // console.log(props.noteUrlParams, "This is noteUrlParams");
+  console.log(props.noteUrlParams, "This is noteUrlParams");
   // console.log(props, "This is props");
 
   const handleEditNote = async (e: any) => {

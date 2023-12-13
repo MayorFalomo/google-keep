@@ -29,9 +29,11 @@ import "tippy.js/dist/tippy.css";
 import Collaborators from "../collaborators/Collaborators";
 import Background from "../background/Background";
 import Image from "next/image";
+import Fade from "../animate/Fade";
 // import { useSortable } from "@dnd-kit/sortable";
 // import { CSS } from "@dnd-kit/utilities";
 import Options from "../options/Options";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {};
 
@@ -62,7 +64,7 @@ const ShowNote = (props: any) => {
     setCountryValue(countryValue);
   };
 
-  // console.log(contextValue.user);
+  // console.log(props.note?._id, "This is id");
 
   // console.log(countryValue, "This is country Value");
 
@@ -70,7 +72,7 @@ const ShowNote = (props: any) => {
     e.preventDefault();
     // e.stopPropagation();
     props.setNoteUrlParams(props.note?._id);
-    // console.log(props.note?.createdAt, "This is the id");
+    console.log(props.note?._id, "This is the id");
     props?.setNoteModal(true);
     // console.log(noteModal, "This is Note Modal");
     // props?.setNoteModal(true);
@@ -528,6 +530,7 @@ const ShowNote = (props: any) => {
             width={200}
             height={120}
             src={props?.note?.picture}
+            loading="lazy"
             // objectFit="cover"
             alt=" "
           />
@@ -621,63 +624,73 @@ const ShowNote = (props: any) => {
               }{" "}
             </span>
           </Tippy>
-
-          {openNotifyModal ? (
-            <div
-              id="shadow"
-              className="convex"
-              // className="absolute bottom-[-200px] left-0 z-30 w-[300px] p-2 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] "
-            >
-              <div className="rounded-[20px]">
-                <p>Remainder: </p>
-                <ul>
-                  <li
-                    onClick={tomorrowRemainder}
-                    className="flex justify-between items-center hover:bg-lighterHover p-2 cursor-pointer "
+          <AnimatePresence>
+            {openNotifyModal ? (
+              <motion.div
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                id="shadow"
+                className="convex"
+                // className="absolute bottom-[-200px] left-0 z-30 w-[300px] p-2 bg-[#202124] shadow-[0.625rem_0.625rem_0.875rem_0_#202124,-0.5rem_-0.5rem_1.125rem_0_#202124] "
+              >
+                <div className="rounded-[20px]">
+                  <p>Remainder: </p>
+                  <ul>
+                    <li
+                      onClick={tomorrowRemainder}
+                      className="flex justify-between items-center hover:bg-lighterHover p-2 cursor-pointer "
+                    >
+                      Later Today <span>8:00 PM </span>{" "}
+                    </li>
+                    <li
+                      onClick={tomorrowRemainder}
+                      className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer "
+                    >
+                      Tomorrow <span>8:00 AM </span>{" "}
+                    </li>
+                    <li
+                      onClick={nextMondayRemainder}
+                      className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer"
+                    >
+                      Next Week <span>8:00 AM </span>{" "}
+                    </li>
+                    <li
+                      onClick={() => setPickADayModal(true)}
+                      className=" flex items-center gap-[10px] cursor-pointer hover:bg-lighterHover  p-2"
+                    >
+                      <LuClock /> Pick date and time{" "}
+                    </li>
+                    <li
+                      onClick={() => {
+                        setPickALocation(true);
+                        setOpenNotifyModal(false);
+                      }}
+                      className="flex gap-[10px] cursor-pointer hover:bg-lighterHover  p-2"
+                    >
+                      <IoLocationOutline /> Pick place{" "}
+                    </li>
+                  </ul>
+                </div>
+                {pickADayModal ? (
+                  <motion.div
+                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                   >
-                    Later Today <span>8:00 PM </span>{" "}
-                  </li>
-                  <li
-                    onClick={tomorrowRemainder}
-                    className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer "
-                  >
-                    Tomorrow <span>8:00 AM </span>{" "}
-                  </li>
-                  <li
-                    onClick={nextMondayRemainder}
-                    className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer"
-                  >
-                    Next Week <span>8:00 AM </span>{" "}
-                  </li>
-                  <li
-                    onClick={() => setPickADayModal(true)}
-                    className=" flex items-center gap-[10px] cursor-pointer hover:bg-lighterHover  p-2"
-                  >
-                    <LuClock /> Pick date and time{" "}
-                  </li>
-                  <li
-                    onClick={() => {
-                      setPickALocation(true);
-                      setOpenNotifyModal(false);
-                    }}
-                    className="flex gap-[10px] cursor-pointer hover:bg-lighterHover  p-2"
-                  >
-                    <IoLocationOutline /> Pick place{" "}
-                  </li>
-                </ul>
-              </div>
-              {pickADayModal ? (
-                <PickDate
-                  setPickADayModal={setPickADayModal}
-                  notepad={props.note}
-                />
-              ) : (
-                ""
-              )}
-            </div>
-          ) : (
-            ""
-          )}
+                    <PickDate
+                      setPickADayModal={setPickADayModal}
+                      notepad={props.note}
+                    />
+                  </motion.div>
+                ) : (
+                  ""
+                )}
+              </motion.div>
+            ) : (
+              ""
+            )}
+          </AnimatePresence>
           {pickALocation ? (
             <form onSubmit={setLocation} className="pickLocation ">
               <h1 className="flex items-center gap-[8px] py-3 text-[20px] border-1 border-[#313235]">
@@ -740,6 +753,7 @@ const ShowNote = (props: any) => {
               onClick={() => {
                 props?.setShowBgModal(true);
                 props?.setOverLay(true);
+                props?.setNoteUrlParams(props.note?._id);
               }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer "
             >
@@ -802,13 +816,15 @@ const ShowNote = (props: any) => {
               }{" "}
             </span>
           </Tippy>
-          {openOptionsModal ? (
-            <div className="py-2" id="options">
-              <Options trashNote={trashNote} />
-            </div>
-          ) : (
-            ""
-          )}
+          <AnimatePresence>
+            {openOptionsModal ? (
+              <div className="py-2" id="options">
+                <Options trashNote={trashNote} />
+              </div>
+            ) : (
+              ""
+            )}
+          </AnimatePresence>
         </div>
       ) : (
         ""
@@ -841,38 +857,53 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-      {/* <div className=""> */}
-      {props?.noteModal ? (
-        <NoteModal
-          noteUrlParams={props.noteUrlParams}
-          setNoteModal={props?.setNoteModal}
-          noteModal={props?.noteModal}
-          setNoteUrlParams={props.setNoteUrlParams}
-          setOverLay={props.setOverLay}
-        />
-      ) : null}
-      {/* </div> */}
+      <AnimatePresence>
+        {props?.noteModal ? (
+          <motion.div
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <NoteModal
+              noteUrlParams={props.noteUrlParams}
+              setNoteModal={props?.setNoteModal}
+              noteModal={props?.noteModal}
+              setNoteUrlParams={props.setNoteUrlParams}
+              setOverLay={props.setOverLay}
+            />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
       {showCollaboratorModal ? (
-        <div className=" ">
-          <Collaborators
-            noteUrlParams={props.noteUrlParams}
-            setShowCollaboratorModal={setShowCollaboratorModal}
-          />
-        </div>
+        <AnimatePresence>
+          <motion.div
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className=" "
+          >
+            <Collaborators
+              noteUrlParams={props.noteUrlParams}
+              setShowCollaboratorModal={setShowCollaboratorModal}
+            />
+          </motion.div>
+        </AnimatePresence>
       ) : (
         ""
       )}
 
       {props?.showBgModal ? (
-        <div>
-          <Background
-            noteUrlParams={props.note?._id}
-            showBgModal={props?.showBgModal}
-            setShowBgModal={props?.setShowBgModal}
-            overLay={props?.overLay}
-            setOverLay={props?.setOverLay}
-          />
-        </div>
+        <AnimatePresence>
+          <motion.div>
+            <Background
+              noteUrlParams={props?.noteUrlParams}
+              showBgModal={props?.showBgModal}
+              setShowBgModal={props?.setShowBgModal}
+              overLay={props?.overLay}
+              setOverLay={props?.setOverLay}
+            />
+          </motion.div>
+        </AnimatePresence>
       ) : (
         ""
       )}

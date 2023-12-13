@@ -19,6 +19,7 @@
     "axios": "^1.6.0",
     "cookies-next": "^4.1.0",
     "firebase": "^10.5.2",
+    "framer-motion": "^10.16.16",
     "imagesloaded": "^5.0.0",
     "imports-loader": "^4.0.1",
     "masonry-layout": "^4.2.2",
