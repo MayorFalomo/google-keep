@@ -2,7 +2,7 @@
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 type Props = {};
 
@@ -32,7 +32,7 @@ const Options = (props: any) => {
               prevState.filter(
                 (note: any) => note._id !== props.trashNote?._id
               ),
-            toast("Moved to Trash successfully")
+            toast.success("Note moved to Trash successfully")
           )
         )
         .catch((err: any) => console.log(err));
@@ -40,6 +40,7 @@ const Options = (props: any) => {
       console.log(error);
     }
   };
+
   return (
     <div>
       <ul className="">
@@ -62,7 +63,32 @@ const Options = (props: any) => {
           Make a Copy{" "}
         </li>
       </ul>
-      <ToastContainer />
+      <Toaster
+        position="bottom-left"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }: any) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== "loading" && (
+                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
     </div>
   );
 };

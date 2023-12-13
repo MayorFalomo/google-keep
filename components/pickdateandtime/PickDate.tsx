@@ -8,8 +8,7 @@ import moment from "moment";
 import "./PickADate.css";
 import axios from "axios";
 import { useAppContext } from "@/helpers/Helpers";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 type Props = {};
 
@@ -59,7 +58,7 @@ const PickDate = (props: any) => {
         .catch((err: any) => {
           console.log(err);
         });
-      toast("Notification has been set!");
+      toast.success("Notification has been set!");
       props.setPickAModal(false);
     } catch (error) {
       console.log(error);
@@ -184,7 +183,32 @@ const PickDate = (props: any) => {
           </button>
         </div>
       </form>
-      <ToastContainer />
+      <Toaster
+        position="bottom-left"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }: any) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== "loading" && (
+                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
     </div>
   );
 };

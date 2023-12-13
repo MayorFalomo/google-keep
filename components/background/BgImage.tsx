@@ -50,7 +50,7 @@ const BgImage = (props: any) => {
       //       : note
       //   )
       // );
-      toast("Bg Image set successfully");
+      toast.success("Background Image set successfully");
       props.setShowBgModal(false);
       props?.setOverLay(false);
     } catch (error) {

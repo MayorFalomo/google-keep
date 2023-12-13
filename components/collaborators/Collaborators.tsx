@@ -6,7 +6,7 @@ import "./collab.styled.css";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import Result from "./Result";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 const Collaborators = (props: any) => {
   const { contextValue }: any = useAppContext();
@@ -119,12 +119,12 @@ const Collaborators = (props: any) => {
           "https://keep-backend-theta.vercel.app/api/notes/send-note/",
           collaborateObject
         )
-        .then((res) => console.log(res && toast("Collaborator Added")))
-        .then(() => props?.setShowCollaboratorModal(false))
+        .then((res) => console.log(res && toast.success("Collaborator Added")))
         .catch((err) => console.log(err && toast("Collaboration failed")));
     } catch (error) {
       console.log(error);
     }
+    props?.setShowCollaboratorModal(false);
   };
 
   // console.log(singleNote, "SingleNote");
@@ -224,7 +224,32 @@ const Collaborators = (props: any) => {
           </div>
         </form>
       </div>
-      <ToastContainer />
+      <Toaster
+        position="bottom-left"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }: any) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== "loading" && (
+                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
     </div>
   );
 };

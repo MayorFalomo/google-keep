@@ -5,8 +5,7 @@ import React, { useState } from "react";
 import { AppContext } from "./Helpers";
 import { useCookies } from "react-cookie";
 import { getCookie } from "cookies-next";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 type Props = {};
 
@@ -55,7 +54,7 @@ const AppContextProvider = ({ children }: any) => {
         router.push("/");
         // console.log(res, "This is res");
         setUser(res);
-        toast("User log in successful");
+        toast.success("User log in successful");
       })
       .catch((err) => {
         console.log(err); // Redirect to login page if user ID is not found
@@ -95,6 +94,32 @@ const AppContextProvider = ({ children }: any) => {
 
   return (
     <AppContext.Provider value={{ contextValue }}>
+      {/* <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }: any) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== "loading" && (
+                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster> */}
       {children}
     </AppContext.Provider>
   );

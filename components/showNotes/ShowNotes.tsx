@@ -303,7 +303,6 @@ const ShowNotes = (props: any) => {
           )}
         </motion.div>
       </AnimatePresence>
-      {successful ? <ToastContainer /> : ""}
     </div>
   );
 };

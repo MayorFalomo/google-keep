@@ -4,7 +4,7 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 type Props = {};
 
@@ -18,7 +18,6 @@ const BgColor = (props: any) => {
       bgColor: props?.color?.color,
       bgImage: " ",
     };
-    console.log(bgObject, "This is bgObject");
 
     try {
       axios
@@ -48,7 +47,7 @@ const BgColor = (props: any) => {
       //       : note
       //   )
       // );
-      toast("Bg color set successfully");
+      toast.success("Bg color set successfully");
       props?.setShowBgModal(false);
       props?.setOverLay(false);
     } catch (error) {
@@ -72,7 +71,32 @@ const BgColor = (props: any) => {
           ></button>
         </Tippy>
       </form>
-      <ToastContainer />
+      <Toaster
+        position="bottom-left"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#313235",
+            color: "#fff",
+            width: "350px",
+            height: "70px",
+          },
+        }}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }: any) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== "loading" && (
+                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
     </div>
   );
 };

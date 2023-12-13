@@ -48,7 +48,7 @@ const ShowPinned = (props: any) => {
         (pinned: any) => pinned?._id !== props?.pinned?._id
       );
       contextValue?.setPinnedNote(filtered);
-      toast("Note unpinned successfully");
+      toast.success("Note unpinned successfully");
     } catch (err) {
       console.log(err);
     }
