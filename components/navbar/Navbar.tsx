@@ -69,18 +69,20 @@ const Navbar = (props: any) => {
           </span>
           <span className="max-md:hidden">Edit labels </span>
         </li>
-        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
-          <span>
-            {
-              <BiArchiveIn
-                className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
-                color="#9AA0A6"
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
-          <span className="max-md:hidden">Archive </span>
-        </li>
+        <Link href="/archive">
+          <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+            <span>
+              {
+                <BiArchiveIn
+                  className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
+                  color="#9AA0A6"
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+            <span className="max-md:hidden">Archive </span>
+          </li>
+        </Link>
         <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           <Link href="/about">
             <span>

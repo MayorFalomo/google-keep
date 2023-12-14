@@ -297,7 +297,7 @@ const ShowNotes = (props: any) => {
               </div>
             ))
           ) : (
-            <div className="flex justify-center">
+            <div className="flex justify-center m-[auto] ">
               <span className="loader"></span>
             </div>
           )}

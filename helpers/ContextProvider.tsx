@@ -24,6 +24,8 @@ const AppContextProvider = ({ children }: any) => {
   const [overLay, setOverLay] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState("");
   const [trashNote, setTrashNote] = useState([]);
+  const [changeNoteLayout, setChangeNoteLayout] = useState<boolean>(false);
+  const [changeLayout, setChangeLayout] = useState<boolean>(false);
   // const [currentUser, setCurrentUser] = useState()
   // const [cookies, setCookies] = useCookies(["user"]);
 
@@ -90,36 +92,12 @@ const AppContextProvider = ({ children }: any) => {
     setArchivedNote,
     trashNote,
     setTrashNote,
+    changeNoteLayout,
+    setChangeNoteLayout,
   };
 
   return (
     <AppContext.Provider value={{ contextValue }}>
-      {/* <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#313235",
-            color: "#fff",
-            width: "350px",
-            height: "70px",
-          },
-        }}
-      >
-        {(t) => (
-          <ToastBar toast={t}>
-            {({ icon, message }: any) => (
-              <>
-                {icon}
-                {message}
-                {t.type !== "loading" && (
-                  <button onClick={() => toast.dismiss(t.id)}>X</button>
-                )}
-              </>
-            )}
-          </ToastBar>
-        )}
-      </Toaster> */}
       {children}
     </AppContext.Provider>
   );

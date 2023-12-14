@@ -386,24 +386,24 @@ const ShowNote = (props: any) => {
     formData.append("upload_preset", "t3dil6ur");
 
     const uploadEndpoint =
-      mediaType === "image"
+      mediaType == "image"
         ? "https://api.cloudinary.com/v1_1/dsghy4siv/image/upload"
         : "https://api.cloudinary.com/v1_1/dsghy4siv/video/upload";
 
     axios
       .post(uploadEndpoint, formData)
       .then((res) => {
-        setPicture("");
-        setVideo("");
+        // setPicture("");
+        // setVideo("");
 
         if (res.data.url) {
           const mediaObject =
-            mediaType === "image"
+            mediaType == "image"
               ? { picture: res.data.url, video: "" }
               : { video: res.data.url, picture: "" };
 
           const updateEndpoint =
-            mediaType === "image"
+            mediaType == "image"
               ? "https://keep-backend-theta.vercel.app/api/notes/upload-picture"
               : "https://keep-backend-theta.vercel.app/api/notes/upload-video";
 
@@ -428,14 +428,14 @@ const ShowNote = (props: any) => {
             );
 
             toast.success(
-              mediaType === "image"
+              mediaType == "image"
                 ? "Picture has been uploaded successfully"
                 : "Video has been uploaded successfully"
             );
           } catch (error) {
             console.error(
               error &&
-                (mediaType === "image"
+                (mediaType == "image"
                   ? "Error updating picture"
                   : "Error updating video")
             );
@@ -782,7 +782,7 @@ const ShowNote = (props: any) => {
           </Tippy>
           <input
             type="file"
-            onChange={(e) => uploadImage(e.target.files)}
+            onChange={(e) => uploadMedia(e.target.files, "image")}
             id="fileInputImage"
             style={{ display: "none" }}
           />

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FiMenu } from "react-icons/fi";
+import { FiGrid, FiMenu } from "react-icons/fi";
 import { HiSearch } from "react-icons/hi";
 import { IoRefreshSharp, IoSettingsOutline } from "react-icons/io5";
 import { CiGrid2H } from "react-icons/ci";
@@ -12,7 +12,7 @@ import { useAppContext } from "@/helpers/Helpers";
 
 type Props = {};
 
-const Headerbar = (props: Props) => {
+const Headerbar = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   // console.log(contextValue.user, "this is logged user");
@@ -22,6 +22,9 @@ const Headerbar = (props: Props) => {
   const [times, setTimes] = useState(false);
 
   // console.log(times);
+  const handleClick = () => {
+    contextValue?.setChangeNoteLayout(!contextValue.changeNoteLayout);
+  };
 
   return (
     <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode border-y-[#525355]">
@@ -136,14 +139,33 @@ const Headerbar = (props: Props) => {
               />
             }{" "}
           </span>
-          <span className="p-3 max-[900px]:hidden rounded-full hover:bg-hover">
-            {
-              <CiGrid2H
-                className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                cursor="pointer"
-              />
-            }{" "}
-          </span>
+          {contextValue?.changeNoteLayout ? (
+            <span
+              onClick={() => contextValue?.setChangeNoteLayout(false)}
+              className="p-3 max-[900px]:hidden rounded-full hover:bg-hover"
+            >
+              {
+                //This is list view
+                <FiGrid
+                  className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          ) : (
+            <span
+              onClick={() => contextValue?.setChangeNoteLayout(true)}
+              className="p-3 max-[900px]:hidden rounded-full hover:bg-hover"
+            >
+              {
+                //This is masonry view
+                <CiGrid2H
+                  className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+          )}
           <span className="p-3 rounded-full hover:bg-hover">
             {
               <IoSettingsOutline
