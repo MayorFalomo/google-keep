@@ -33,7 +33,7 @@ const Archives = (props: any) => {
 
   return (
     <div className=" mb-[200px] ">
-      <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
+      {/* <h1 className="ml-[50px] text-[20px]  mb-[20px]">ARCHIVED NOTES </h1> */}
       {/* <DynamicMason /> */}
       <AnimatePresence>
         <motion.div

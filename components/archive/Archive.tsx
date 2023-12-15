@@ -3,7 +3,7 @@ import Tippy from "@tippyjs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import React, { useMemo, useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import {
   BiArchiveIn,
   BiBellPlus,
@@ -21,6 +21,7 @@ import { LuClock } from "react-icons/lu";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import countryList from "react-select-country-list";
 import Select from "react-select";
+import axios from "axios";
 
 type Props = {};
 
@@ -54,6 +55,438 @@ const Archive = (props: any) => {
     props?.setOverLay(true);
 
     // console.log(noteModal, "Hello!!....I am Clicking");
+  };
+
+  //generateId
+  function dec2hex(dec: any) {
+    return dec.toString(16).padStart(2, "0");
+  }
+
+  // generateId :: Integer -> String
+  function generateId(len: any) {
+    var arr = new Uint8Array((len || 40) / 2);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, dec2hex).join("");
+  }
+
+  const pinNote = async (e: any) => {
+    e.preventDefault();
+
+    const pinThisNote = {
+      _id: props.archive?._id,
+      userId: props.archive?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.archive?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.archive?.username,
+      title: props.archive?.title,
+      note: props.archive?.note,
+      picture: props.archive?.picture,
+      video: props.archive?.video,
+      drawing: props.archive?.drawing,
+      bgImage: props.archive?.bgImage,
+      bgColor: props.archive?.bgColor,
+      remainder: props.archive?.remainder,
+      collaborator: props.archive?.collaborator,
+      label: props.archive?.label,
+      location: props.archive?.location,
+      createdAt: new Date(),
+    };
+    try {
+      await axios
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/add-pinned/from-archharchive`,
+          pinThisNote
+        )
+        .then(() =>
+          contextValue.setPinnedNote(
+            [...contextValue?.pinnedNote, pinThisNote].reverse()
+          )
+        )
+        .catch((err) => console.log(err));
+
+      toast.success("Note Pinned Successfully!");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const tomorrowRemainder = (e: any) => {
+    e.preventDefault();
+    const noteRemainder = {
+      _id: props.note?._id,
+      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      username: props.note?.username,
+      title: props.note?.title,
+      note: props.note?.note,
+      picture: props.note?.picture,
+      drawing: props.note?.drawing,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note?.collaborator,
+      label: props.note?.label,
+      location: props.note?.location,
+      createdAt: new Date(),
+    };
+    try {
+      axios.post(
+        "https://keep-backend-theta.vercel.app/api/notes/set-notification/tomorrow",
+        noteRemainder
+      );
+      toast.success("Remainder set for tomorrow ");
+    } catch (error) {
+      console.log(error, "This did not work");
+    }
+    setOpenNotifyModal(false);
+  };
+
+  const nextMondayRemainder = async (e: any) => {
+    e.preventDefault();
+    const noteRemainder = {
+      _id: props.note?._id,
+      userId: props.note?.userId,
+      pinnedId: props.note?._id,
+      username: props.note?.username,
+      title: props.note?.title,
+      note: props.note?.note,
+      picture: props.note?.picture,
+      drawing: props.note?.drawing,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note?.collaborator,
+      label: props.note?.label,
+      location: props.note?.location,
+      createdAt: new Date(),
+    };
+    try {
+      await axios.post(
+        "https://keep-backend-theta.vercel.app/api/notes/set-notification/next-week",
+        noteRemainder
+      );
+      toast.success("Remainder set for tomorrow ");
+    } catch (error) {
+      console.log(error, "This did not work");
+    }
+    setOpenNotifyModal(false);
+  };
+
+  const CustomStyle = {
+    option: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: state.isSelected ? "#444547" : "#202124",
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      "::-webkit-scrollbar": {
+        width: "4px",
+        height: "0px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: "#f1f1f1",
+      },
+      "::-webkit-scrollbar-thumb": {
+        background: "#444547",
+      },
+      "::-webkit-scrollbar-thumb:hover": {
+        background: "red",
+      },
+    }),
+  };
+
+  const setLocation = (e: any) => {
+    e.preventDefault();
+    const country = {
+      _id: props.note?._id,
+      userId: props.note?.userId,
+      note: props.note?.note,
+      title: props.note?.title,
+      picture: props.note?.picture,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note.collaborator,
+      label: props.note?.label,
+      location: countryValue?.label || props.note?.location || "",
+    };
+    try {
+      axios.put(
+        `https://keep-backend-theta.vercel.app/api/notes/update-note/${props.note?._id}`,
+        country
+      );
+      contextValue?.setNotes((prevState: any) =>
+        prevState.map((note: any) =>
+          note._id == props.note?._id
+            ? { ...note, location: country.location }
+            : note
+        )
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    setPickALocation(false);
+  };
+
+  const removeLocation = async (e: any) => {
+    e.preventDefault();
+    props?.setNoteModal(false);
+
+    const noteId = props.note?._id;
+
+    try {
+      props?.setNoteModal(false);
+      await axios.put(
+        `https://keep-backend-theta.vercel.app/api/notes/delete-country/${noteId}`
+      );
+      // console.log(noteId, "This is noteId");
+
+      contextValue?.setNotes((prevNotes: any) => {
+        const updatedNotes = prevNotes.map((note: any) => {
+          if (note._id == noteId) {
+            // Update the location to an empty string for the specific note
+            return { ...note, location: " " };
+          }
+          return note;
+        });
+        return updatedNotes;
+      });
+      setPickALocation(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const uploadImage = (files: any) => {
+    props.setNoteUrlParams(props.note?._id);
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "t3dil6ur");
+
+    axios
+      .post("https://api.cloudinary.com/v1_1/dsghy4siv/image/upload", formData)
+      .then((res) => {
+        setVideo("");
+        setPicture(res.data.url);
+        if (res.data.url) {
+          const pictureObject = {
+            id: props?.noteUrlParams,
+            picture: res.data.url,
+            video: " ",
+          };
+
+          try {
+            // console.log(props?.note?._id, "This is props?.note?._id");
+            axios
+              .post(
+                `https://keep-backend-theta.vercel.app/api/notes/upload-picture`,
+                pictureObject
+              )
+              .catch((err) => console.log(err));
+
+            // Update the contextValue.notes array with updated note
+            contextValue?.setNotes((prevState: any) =>
+              prevState.map((note: any) =>
+                note._id == pictureObject?.id
+                  ? {
+                      ...note,
+                      picture: pictureObject?.picture,
+                      video: pictureObject?.video,
+                    }
+                  : note
+              )
+            );
+            toast.success("Picture has been uploaded successfully");
+          } catch (error) {
+            console.error(error && "Error updating bgColor:");
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const uploadVideo = (files: any) => {
+    props.setNoteUrlParams(props.note?._id);
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "t3dil6ur");
+
+    axios
+      .post("https://api.cloudinary.com/v1_1/dsghy4siv/video/upload", formData)
+      .then((res) => {
+        setPicture("");
+        setVideo(res.data.url);
+        if (res.data.url) {
+          const videoObject = {
+            id: props?.noteUrlParams,
+            video: res.data.url,
+            picture: " ",
+          };
+
+          try {
+            // console.log(props?.note?._id, "This is props?.note?._id");
+            axios
+              .post(
+                `https://keep-backend-theta.vercel.app/api/notes/upload-video`,
+                videoObject
+              )
+              .catch((err) => console.log(err));
+
+            // Update the contextValue.notes array with updated note
+            contextValue?.setNotes((prevState: any) =>
+              prevState.map((note: any) =>
+                note._id == videoObject?.id
+                  ? {
+                      ...note,
+                      video: videoObject?.video,
+                      picture: videoObject?.picture,
+                    }
+                  : note
+              )
+            );
+            toast.success("Video has been uploaded successfully");
+          } catch (error) {
+            console.error(error && "Error updating Video");
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const uploadMedia = (files: any, mediaType: string) => {
+    props.setNoteUrlParams(props.note?._id);
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "t3dil6ur");
+
+    const uploadEndpoint =
+      mediaType == "image"
+        ? "https://api.cloudinary.com/v1_1/dsghy4siv/image/upload"
+        : "https://api.cloudinary.com/v1_1/dsghy4siv/video/upload";
+
+    axios
+      .post(uploadEndpoint, formData)
+      .then((res) => {
+        // setPicture("");
+        // setVideo("");
+
+        if (res.data.url) {
+          const mediaObject =
+            mediaType == "image"
+              ? { picture: res.data.url, video: "" }
+              : { video: res.data.url, picture: "" };
+
+          const updateEndpoint =
+            mediaType == "image"
+              ? "https://keep-backend-theta.vercel.app/api/notes/upload-picture"
+              : "https://keep-backend-theta.vercel.app/api/notes/upload-video";
+
+          try {
+            axios
+              .post(updateEndpoint, {
+                id: props?.noteUrlParams,
+                ...mediaObject,
+              })
+              .catch((err) => console.log(err));
+
+            // Update the contextValue.notes array with updated note
+            contextValue?.setNotes((prevState: any) =>
+              prevState.map((note: any) =>
+                note._id == props?.noteUrlParams
+                  ? {
+                      ...note,
+                      ...mediaObject,
+                    }
+                  : note
+              )
+            );
+
+            toast.success(
+              mediaType == "image"
+                ? "Picture has been uploaded successfully"
+                : "Video has been uploaded successfully"
+            );
+          } catch (error) {
+            console.error(
+              error &&
+                (mediaType == "image"
+                  ? "Error updating picture"
+                  : "Error updating video")
+            );
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // // Example usage for image upload
+  // uploadMedia(imageFiles, "image");
+
+  // // Example usage for video upload
+  // uploadMedia(videoFiles, "video");
+
+  const archiveNote = async (e: any) => {
+    e.preventDefault();
+
+    const archiveThisNote = {
+      _id: props.note?._id,
+      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.note?.username,
+      title: props.note?.title,
+      note: props.note?.note,
+      picture: props.note?.picture,
+      drawing: props.note?.drawing,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note?.collaborator,
+      label: props.note?.label,
+      location: props.note?.location,
+      createdAt: props?.note.createdAt,
+    };
+    try {
+      await axios
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/archive-note`,
+          archiveThisNote
+        )
+        .then(() =>
+          contextValue?.setNotes((prevState: any) =>
+            prevState.filter((note: any) => note._id !== props.note?._id)
+          )
+        )
+        .catch((err) => console.log(err));
+      toast.success("Note archived successfully");
+      // Update the contextValue.notes array with updated note
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  //   id: props.note?._id,
+  // });
+
+  // console.log(props?.noteUrlParams, "This is picture");
+
+  const addOptions = () => {
+    setTrashNote({
+      _id: props.note?._id,
+      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.note?.username,
+      title: props.note?.title,
+      note: props.note?.note,
+      picture: props.note?.picture,
+      drawing: props.note?.drawing,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note?.collaborator,
+      label: props.note?.label,
+      location: props.note?.location,
+      createdAt: props?.note.createdAt,
+    });
+    setOpenOptionsModal(!openOptionsModal);
   };
 
   return (
@@ -98,11 +531,11 @@ const Archive = (props: any) => {
           </div>
         ) : (
           <div className="p-4">
-            <h1 className="text-[20px]">{props.note?.title}</h1>
+            <h1 className="text-[20px]">{props.archived?.title}</h1>
             <p className="text-[16px] whitespace-break-spaces ">
-              {props.note?.note?.slice(0, 600)}...
+              {props.archived?.note?.slice(0, 600)}...
             </p>
-            {props.note?.location?.length > 1 ? (
+            {props.archived?.location?.length > 1 ? (
               <form onSubmit={removeLocation}>
                 <p
                   onMouseOver={() => {
@@ -112,7 +545,7 @@ const Archive = (props: any) => {
                   className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
                 >
                   <IoLocationOutline />
-                  {props.note?.location}{" "}
+                  {props.archived?.location}{" "}
                   <button
                     type="submit"
                     onClick={(e) => {

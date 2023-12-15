@@ -477,12 +477,10 @@ const ShowNote = (props: any) => {
           `https://keep-backend-theta.vercel.app/api/notes/archive-note`,
           archiveThisNote
         )
-        .then(() =>
-          contextValue?.setNotes((prevState: any) =>
-            prevState.filter((note: any) => note._id !== props.note?._id)
-          )
-        )
         .catch((err) => console.log(err));
+      contextValue?.setNotes((prevState: any) =>
+        prevState.filter((note: any) => note._id !== props.note?._id)
+      );
       toast.success("Note archived successfully");
       // Update the contextValue.notes array with updated note
     } catch (err) {
