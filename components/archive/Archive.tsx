@@ -423,38 +423,35 @@ const Archive = (props: any) => {
   // // Example usage for video upload
   // uploadMedia(videoFiles, "video");
 
-  const archiveNote = async (e: any) => {
+  const unArchiveNote = async (e: any) => {
     e.preventDefault();
-
     const archiveThisNote = {
-      _id: props.note?._id,
-      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
-      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
-      username: props.note?.username,
-      title: props.note?.title,
-      note: props.note?.note,
-      picture: props.note?.picture,
-      drawing: props.note?.drawing,
-      bgImage: props.note?.bgImage,
-      bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
-      collaborator: props.note?.collaborator,
-      label: props.note?.label,
-      location: props.note?.location,
-      createdAt: props?.note.createdAt,
+      _id: props.archived._id,
+      userId: props.archived?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.archived?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.archived?.username,
+      title: props.archived?.title,
+      note: props.archived?.note,
+      picture: props.archived?.picture,
+      drawing: props.archived?.drawing,
+      bgImage: props.archived?.bgImage,
+      bgColor: props.archived?.bgColor,
+      remainder: props.archived?.remainder,
+      collaborator: props.archived?.collaborator,
+      label: props.archived?.label,
+      location: props.archived?.location,
+      createdAt: props?.archived.createdAt,
     };
     try {
       await axios
         .post(
-          `https://keep-backend-theta.vercel.app/api/notes/archive-note`,
+          `https://keep-backend-theta.vercel.app/api/notes/unarchive-note`,
           archiveThisNote
         )
-        .then(() =>
-          contextValue?.setNotes((prevState: any) =>
-            prevState.filter((note: any) => note._id !== props.note?._id)
-          )
-        )
         .catch((err) => console.log(err));
+      contextValue?.setNotes((prevState: any) =>
+        prevState.filter((note: any) => note._id !== props.note?._id)
+      );
       toast.success("Note archived successfully");
       // Update the contextValue.notes array with updated note
     } catch (err) {
@@ -759,11 +756,10 @@ const Archive = (props: any) => {
             style={{ display: "none" }}
           />
 
-          <form onSubmit={archiveNote}>
-            <Tippy placement="bottom" content="Archive ">
+          <form onSubmit={unArchiveNote}>
+            <Tippy placement="bottom" content="unarchive ">
               <button
                 type="submit"
-                onClick={archiveNote}
                 className="p-2 rounded-full hover:bg-[#313236] cursor-pointer "
               >
                 {
