@@ -73,39 +73,49 @@ const Archive = (props: any) => {
     e.preventDefault();
 
     const pinThisNote = {
-      _id: props.archive?._id,
-      userId: props.archive?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
-      pinnedId: props.archive?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
-      username: props.archive?.username,
-      title: props.archive?.title,
-      note: props.archive?.note,
-      picture: props.archive?.picture,
-      video: props.archive?.video,
-      drawing: props.archive?.drawing,
-      bgImage: props.archive?.bgImage,
-      bgColor: props.archive?.bgColor,
-      remainder: props.archive?.remainder,
-      collaborator: props.archive?.collaborator,
-      label: props.archive?.label,
-      location: props.archive?.location,
+      _id: props.archived?._id,
+      userId: props.archived?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.archived?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.archived?.username,
+      title: props.archived?.title,
+      note: props.archived?.note,
+      picture: props.archived?.picture,
+      video: props.archived?.video,
+      drawing: props.archived?.drawing,
+      bgImage: props.archived?.bgImage,
+      bgColor: props.archived?.bgColor,
+      remainder: props.archived?.remainder,
+      collaborator: props.archived?.collaborator,
+      label: props.archived?.label,
+      location: props.archived?.location,
       createdAt: new Date(),
     };
+    console.log(pinThisNote, "pin this note");
+
     try {
       await axios
         .post(
-          `https://keep-backend-theta.vercel.app/api/notes/add-pinned/from-archharchive`,
+          `https://keep-backend-theta.vercel.app/api/notes/add-pinned/from-archived`,
           pinThisNote
         )
-        .then(() =>
-          contextValue.setPinnedNote(
-            [...contextValue?.pinnedNote, pinThisNote].reverse()
-          )
-        )
         .catch((err) => console.log(err));
+      console.log(props?.archived?._id, "This is props?.archived?._id");
 
+      contextValue.setArchivedNote((prevState: any) => {
+        return prevState.filter(
+          (note: any) => note?._id !== props?.archived?._id
+        );
+      });
+      contextValue.setPinnedNote((prevState: any) => {
+        return [...prevState, pinThisNote];
+      });
+      contextValue.setNotes((prevState: any) => {
+        return [...prevState, pinThisNote];
+      });
       toast.success("Note Pinned Successfully!");
     } catch (err) {
       console.log(err);
+      toast.success("Note not pinned!");
     }
   };
 
@@ -449,10 +459,10 @@ const Archive = (props: any) => {
           archiveThisNote
         )
         .catch((err) => console.log(err));
-      contextValue?.setNotes((prevState: any) =>
-        prevState.filter((note: any) => note._id !== props.note?._id)
+      contextValue?.setArchivedNote((prevState: any) =>
+        prevState.filter((note: any) => note._id !== props.archived?._id)
       );
-      toast.success("Note archived successfully");
+      toast.success("Note unarchived successfully");
       // Update the contextValue.notes array with updated note
     } catch (err) {
       console.log(err);

@@ -31,8 +31,8 @@ const NoteModal = (props: any) => {
   const [editBgImage, setEditBGImage] = useState<string>("");
   const [editBgColor, setEditBGColor] = useState<string>("");
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
-  const [editCollaborator, setEditCollaborator] = useState<any>();
-  const [label, setLabel] = useState<string>("");
+  const [editCollaborator, setEditCollaborator] = useState<any>([]);
+  const [label, setLabel] = useState<any>([]);
   const [editLocation, EditLocation] = useState<string>("");
   const [id, setId] = useState<string>(props.noteUrlParams);
 
@@ -50,7 +50,7 @@ const NoteModal = (props: any) => {
   }, [props?.noteUrlParams]);
 
   // console.log(singleNote?._id, "THIS IS Single Note Id");
-  console.log(props.noteUrlParams, "This is noteUrlParams");
+  // console.log(props.noteUrlParams, "This is noteUrlParams");
   // console.log(props, "This is props");
 
   const handleEditNote = async (e: any) => {
@@ -91,14 +91,15 @@ const NoteModal = (props: any) => {
         // If the note is not found, return the original array
         return prevNotes;
       });
-      // contextValue?.setNotes((prevNotes: any) =>
-      //   prevNotes.map((note: any) =>
-      //     note._id == singleNote?._id ? { ...note, ...updatedNote } : note
+      // Or write the above function it this way
+      //* contextValue?.setNotes((prevNotes: any) =>
+      //*   prevNotes.map((note: any) =>
+      //*     note._id == singleNote?._id ? { ...note, ...updatedNote } : note
       //   )
       // );
-      // contextValue?.setNotes((prevNotes: any) => [
-      //   { ...prevNotes, ...updatedNote },
-      // ]);
+      //? contextValue?.setNotes((prevNotes: any) => [
+      //?   { ...prevNotes, ...updatedNote },
+      //? ]);
       // console.log(
       //   contextValue?.notes,
       //   [{ ...updatedNote }],

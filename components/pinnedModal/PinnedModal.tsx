@@ -27,7 +27,7 @@ const PinnedModal = (props: any) => {
   const [editBgColor, setEditBGColor] = useState<string>("");
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
   const [editCollaborator, setEditCollaborator] = useState<string>("");
-  const [label, setLabel] = useState<string>("");
+  const [label, setLabel] = useState<any>([]);
   const [location, setLocation] = useState<string>("");
 
   useEffect(() => {

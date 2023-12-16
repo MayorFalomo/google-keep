@@ -27,15 +27,17 @@ const Options = (props: any) => {
           props.trashNote
         )
         .then(() =>
-          contextValue?.setNotes(
-            (prevState: any) =>
-              prevState.filter(
-                (note: any) => note._id !== props.trashNote?._id
-              ),
-            toast.success("Note moved to Trash successfully")
+          contextValue?.setNotes((prevState: any) =>
+            prevState.filter((note: any) => note._id !== props.trashNote?._id)
           )
         )
         .catch((err: any) => console.log(err));
+      contextValue?.setPinnedNote((prevState: any) => {
+        return prevState.filter(
+          (note: any) => note._id !== props.trashNote?._id
+        );
+      });
+      toast.success("Note moved to Trash successfully");
     } catch (error) {
       console.log(error);
     }

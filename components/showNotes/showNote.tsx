@@ -481,6 +481,17 @@ const ShowNote = (props: any) => {
       contextValue?.setNotes((prevState: any) =>
         prevState.filter((note: any) => note._id !== props.note?._id)
       );
+      if (
+        contextValue?.pinnedNote.some(
+          (note: any) => note._id == props.note?._id
+        )
+      ) {
+        contextValue?.setPinnedNote((prevState: any) =>
+          prevState.filter((note: any) => note._id !== props.note?._id)
+        );
+      } else {
+        return null;
+      }
       toast.success("Note archived successfully");
       // Update the contextValue.notes array with updated note
     } catch (err) {
@@ -789,7 +800,7 @@ const ShowNote = (props: any) => {
             <Tippy placement="bottom" content="Archive ">
               <button
                 type="submit"
-                onClick={archiveNote}
+                // onClick={archiveNote}
                 className="p-2 rounded-full hover:bg-[#313236] cursor-pointer "
               >
                 {

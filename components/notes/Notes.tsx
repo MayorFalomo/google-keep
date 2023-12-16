@@ -28,7 +28,7 @@ const Notes = (props: Props) => {
   const [bgColor, setBgColor] = useState<string>("");
   const [remainder, setRemainder] = useState<boolean>(false);
   const [collaborator, setCollaborator] = useState<string>("");
-  const [label, setLabel] = useState<string>("");
+  const [label, setLabel] = useState<any>([]);
   const [location, setLocation] = useState<string>("");
 
   //generateId
