@@ -43,6 +43,53 @@ const Options = (props: any) => {
     }
   };
 
+  function dec2hex(dec: any) {
+    return dec.toString(16).padStart(2, "0");
+  }
+
+  // generateId :: Integer -> String
+  function generateId(len: any) {
+    var arr = new Uint8Array((len || 40) / 2);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, dec2hex).join("");
+  }
+
+  const makeACopy = async () => {
+    const createCopy = {
+      _id: generateId(24),
+      userId: props.trashNote?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.trashNote?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.trashNote?.username,
+      title: props.trashNote?.title,
+      note: props.trashNote?.note,
+      picture: props.trashNote?.picture,
+      video: props.trashNote?.video,
+      drawing: props.trashNote?.drawing,
+      bgImage: props.trashNote?.bgImage,
+      bgColor: props.trashNote?.bgColor,
+      remainder: props.trashNote?.remainder,
+      collaborator: props.trashNote?.collaborator,
+      labels: props.trashNote?.label,
+      location: props.trashNote?.location,
+      createdAt: new Date(),
+    };
+    console.log(createCopy);
+    try {
+      axios
+        .post(`http://localhost:5000/api/notes/create-note`, createCopy)
+        .catch((err) => console.log(err && toast.error("failed")));
+      contextValue?.setNotes((prevNote: any) => {
+        return [...prevNote, createCopy].reverse();
+      });
+      // contextValue?.setNotes([...contextValue?.notes, makeACopy]);
+      toast.success("Copy successfully created");
+      props?.setOpenOptionsModal(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Copy failed to create");
+    }
+  };
+
   return (
     <div>
       <ul className="">
@@ -61,7 +108,10 @@ const Options = (props: any) => {
         <li className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer">
           Add Drawing{" "}
         </li>
-        <li className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer">
+        <li
+          onClick={makeACopy}
+          className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer"
+        >
           Make a Copy{" "}
         </li>
       </ul>

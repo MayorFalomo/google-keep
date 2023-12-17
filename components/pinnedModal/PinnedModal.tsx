@@ -55,7 +55,7 @@ const PinnedModal = (props: any) => {
         editCollaborator.length > 1
           ? editCollaborator
           : singleNote?.collaborator,
-      label: label.length > 1 ? label : singleNote?.label,
+      labels: label.length > 1 ? label : singleNote?.label,
       location: location.length > 1 ? location : singleNote?.location,
       createdAt: Date.now(),
     };

@@ -114,7 +114,7 @@ const ShowNote = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      label: props.note?.label,
+      labels: props.note?.label,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -151,7 +151,7 @@ const ShowNote = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      label: props.note?.label,
+      labels: props.note?.label,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -182,7 +182,7 @@ const ShowNote = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      label: props.note?.label,
+      labels: props.note?.label,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -233,7 +233,7 @@ const ShowNote = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note.collaborator,
-      label: props.note?.label,
+      labels: props.note?.label,
       location: countryValue?.label || props.note?.location || "",
     };
     try {
@@ -467,7 +467,7 @@ const ShowNote = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      label: props.note?.label,
+      labels: props.note?.label,
       location: props.note?.location,
       createdAt: props?.note.createdAt,
     };
@@ -514,12 +514,13 @@ const ShowNote = (props: any) => {
       title: props.note?.title,
       note: props.note?.note,
       picture: props.note?.picture,
+      video: props.note?.video,
       drawing: props.note?.drawing,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      label: props.note?.label,
+      labels: props.note?.label,
       location: props.note?.location,
       createdAt: props?.note.createdAt,
     });
@@ -829,7 +830,10 @@ const ShowNote = (props: any) => {
           <AnimatePresence>
             {openOptionsModal ? (
               <div className="py-2" id="options">
-                <Options trashNote={trashNote} />
+                <Options
+                  trashNote={trashNote}
+                  setOpenOptionsModal={setOpenOptionsModal}
+                />
               </div>
             ) : (
               ""

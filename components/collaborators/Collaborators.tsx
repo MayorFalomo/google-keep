@@ -106,7 +106,7 @@ const Collaborators = (props: any) => {
       drawing: singleNote?.drawing,
       bgImage: singleNote?.bgImage,
       bgColor: singleNote?.bgColor,
-      label: singleNote?.label,
+      labels: singleNote?.labels,
       collaborator: singleNote?.username,
       createdAt: new Date(),
     };

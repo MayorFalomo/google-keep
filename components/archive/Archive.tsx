@@ -86,7 +86,7 @@ const Archive = (props: any) => {
       bgColor: props.archived?.bgColor,
       remainder: props.archived?.remainder,
       collaborator: props.archived?.collaborator,
-      label: props.archived?.label,
+      labels: props.archived?.labels,
       location: props.archived?.location,
       createdAt: new Date(),
     };
@@ -133,7 +133,7 @@ const Archive = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      label: props.note?.label,
+      labels: props.note?.labels,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -164,7 +164,7 @@ const Archive = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      label: props.note?.label,
+      labels: props.note?.labels,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -215,8 +215,8 @@ const Archive = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note.collaborator,
-      label: props.note?.label,
-      location: countryValue?.label || props.note?.location || "",
+      labels: props.note?.labels,
+      location: countryValue?.labels || props.note?.location || "",
     };
     try {
       axios.put(
@@ -448,7 +448,7 @@ const Archive = (props: any) => {
       bgColor: props.archived?.bgColor,
       remainder: props.archived?.remainder,
       collaborator: props.archived?.collaborator,
-      label: props.archived?.label,
+      labels: props.archived?.labels,
       location: props.archived?.location,
       createdAt: props?.archived.createdAt,
     };
@@ -489,7 +489,7 @@ const Archive = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      label: props.note?.label,
+      labels: props.note?.labels,
       location: props.note?.location,
       createdAt: props?.note.createdAt,
     });
@@ -744,7 +744,7 @@ const Archive = (props: any) => {
           </Tippy>
 
           <Tippy placement="bottom" content="Add image">
-            <label
+            <labels
               onClick={() => {
                 props.setNoteUrlParams(props.note?._id);
               }}
@@ -757,7 +757,7 @@ const Archive = (props: any) => {
                   cursor="pointer"
                 />
               }{" "}
-            </label>
+            </labels>
           </Tippy>
           <input
             type="file"

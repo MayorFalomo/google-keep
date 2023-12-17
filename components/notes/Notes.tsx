@@ -28,7 +28,7 @@ const Notes = (props: Props) => {
   const [bgColor, setBgColor] = useState<string>("");
   const [remainder, setRemainder] = useState<boolean>(false);
   const [collaborator, setCollaborator] = useState<string>("");
-  const [label, setLabel] = useState<any>([]);
+  const [labels, setLabels] = useState<any>([]);
   const [location, setLocation] = useState<string>("");
 
   //generateId
@@ -59,7 +59,7 @@ const Notes = (props: Props) => {
       bgColor,
       remainder,
       collaborator,
-      label,
+      labels,
       location,
     };
     try {

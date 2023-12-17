@@ -67,7 +67,7 @@ const NoteModal = (props: any) => {
       bgColor: editBgColor || singleNote?.bgColor,
       remainder: editRemainder || singleNote?.remainder,
       collaborator: editCollaborator || singleNote?.collaborator,
-      label: label || singleNote?.label,
+      labels: label || singleNote?.label,
       location: editLocation || singleNote?.location,
     };
     try {
