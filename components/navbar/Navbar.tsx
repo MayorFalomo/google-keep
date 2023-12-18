@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { MdLightbulbOutline } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdOutlineLabel } from "react-icons/md";
@@ -8,13 +8,34 @@ import { TfiTrash } from "react-icons/tfi";
 import Link from "next/link";
 import { useAppContext } from "@/helpers/Helpers";
 import { getCookie } from "cookies-next";
+import axios from "axios";
+import Label from "./Label";
 // import "../../app/Home.module.css"
 type Props = {};
 
-const Navbar = (props: any) => {
+const Navbar = ({ note }: any) => {
   const { contextValue }: any = useAppContext();
 
-  // console.log(contextValue.user, "this is logged user");
+  // useEffect(() => {
+  //   axios
+  //     .get("https://keep-backend-theta.vercel.app/api/user")
+  //     .then((res: any) => contextValue?.setNotesLabel(res.data))
+  //     .catch((err: any) => console.log(err));
+  // }, []);
+  // console.log(props?.note, "this is logged notes");
+
+  console.log(note, "this is logged user");
+
+  //   const Label = () => {
+  //   console.log(contextValue?.notes, "this is notes in label");
+  //   contextValue?.notes.map((note: any) => {
+  //     return (
+  //       <div key={note?._id}>
+  //         <Navbar note={note} />
+  //       </div>
+  //     );
+  //   });
+  // };
 
   // console.log(getCookie("user"), "This is cookies");
 
@@ -47,8 +68,8 @@ const Navbar = (props: any) => {
           </span>
           <span className="max-md:hidden"> Remainders</span>
         </li>
-        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
-          <span>
+        <li className="flex items-center gap-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          {/* <span>
             {
               <MdOutlineLabel
                 className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
@@ -56,8 +77,16 @@ const Navbar = (props: any) => {
                 cursor="pointer"
               />
             }{" "}
+          </span> */}
+          <span className="max-md:hidden">
+            {contextValue?.notes.map((labelNotes: any) => {
+              return (
+                <div key={note?._id}>
+                  <Label labelNotes={labelNotes} />
+                </div>
+              );
+            })}
           </span>
-          <span className="max-md:hidden"> 7 </span>
         </li>
         <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           <span>

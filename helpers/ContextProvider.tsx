@@ -26,7 +26,7 @@ const AppContextProvider = ({ children }: any) => {
   const [trashNote, setTrashNote] = useState([]);
   const [changeNoteLayout, setChangeNoteLayout] = useState<boolean>(false);
   const [changeLayout, setChangeLayout] = useState<boolean>(false);
-  // const [currentUser, setCurrentUser] = useState()
+  const [notesLabel, setNotesLabel] = useState<any>([]);
   // const [cookies, setCookies] = useCookies(["user"]);
 
   //Define functions for updating state
@@ -94,6 +94,8 @@ const AppContextProvider = ({ children }: any) => {
     setTrashNote,
     changeNoteLayout,
     setChangeNoteLayout,
+    notesLabel,
+    setNotesLabel,
   };
 
   return (
