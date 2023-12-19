@@ -8,7 +8,7 @@ const Label = (props: any) => {
 
   return (
     <div>
-      {props?.labelNotes.labels.map((label: any) => {
+      {props?.labelNotes?.labels?.map((label: any) => {
         return (
           <div key={label?._id}>
             <p className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
@@ -20,7 +20,7 @@ const Label = (props: any) => {
                   cursor="pointer"
                 />
               }{" "}
-              {label.name ? label.name : ""}
+              {label?.name ? label?.name : ""}
             </p>
             {/* <p>{label.notes}</p> */}
           </div>

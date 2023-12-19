@@ -35,6 +35,7 @@ import Fade from "../animate/Fade";
 // import { CSS } from "@dnd-kit/utilities";
 import Options from "../options/Options";
 import { AnimatePresence, motion } from "framer-motion";
+import Canvas from "@/canvas/Canvas";
 
 type Props = {};
 
@@ -61,7 +62,7 @@ const ShowNote = (props: any) => {
   );
   const [trashNote, setTrashNote] = useState<any>();
   const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
-
+  const [openCanvasModal, setOpenCanvasModal] = useState<boolean>(false);
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
   };
@@ -525,6 +526,7 @@ const ShowNote = (props: any) => {
       createdAt: props?.note.createdAt,
     });
     setOpenOptionsModal(!openOptionsModal);
+    props?.setNoteUrlParams(props?.note?._id);
   };
 
   return (
@@ -833,6 +835,8 @@ const ShowNote = (props: any) => {
                 <Options
                   trashNote={trashNote}
                   setOpenOptionsModal={setOpenOptionsModal}
+                  openCanvasModal={openCanvasModal}
+                  setOpenCanvasModal={setOpenCanvasModal}
                 />
               </div>
             ) : (
@@ -936,7 +940,13 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-      {/* {props?.pinnedSuccess && <ToastContainer />} */}
+      {openCanvasModal ? (
+        <div className="fixed z-50 top-0 left-0 h-full w-full">
+          <Canvas noteUrlParams={props?.noteUrlParams} />
+        </div>
+      ) : (
+        ""
+      )}
       <Toaster
         position="bottom-left"
         toastOptions={{

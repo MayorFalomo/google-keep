@@ -81,7 +81,7 @@ const Options = (props: any) => {
       contextValue?.setNotes((prevNote: any) => {
         return [...prevNote, createCopy].reverse();
       });
-      // contextValue?.setNotes([...contextValue?.notes, makeACopy]);
+
       toast.success("Copy successfully created");
       props?.setOpenOptionsModal(false);
     } catch (error) {
@@ -105,7 +105,10 @@ const Options = (props: any) => {
         <li className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer">
           Translate Note{" "}
         </li>
-        <li className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer">
+        <li
+          onClick={() => props?.setOpenCanvasModal(true)}
+          className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer"
+        >
           Add Drawing{" "}
         </li>
         <li

@@ -79,7 +79,7 @@ const Navbar = ({ note }: any) => {
             }{" "}
           </span> */}
           <span className="max-md:hidden">
-            {contextValue?.notes.map((labelNotes: any) => {
+            {contextValue?.notes?.map((labelNotes: any) => {
               return (
                 <div key={note?._id}>
                   <Label labelNotes={labelNotes} />
