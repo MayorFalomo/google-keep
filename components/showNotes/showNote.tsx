@@ -521,8 +521,9 @@ const ShowNote = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.label,
+      labels: props.note?.labels,
       location: props.note?.location,
+      canvas: props.note?.canvas,
       createdAt: props?.note.createdAt,
     });
     setOpenOptionsModal(!openOptionsModal);
@@ -942,7 +943,11 @@ const ShowNote = (props: any) => {
       )}
       {openCanvasModal ? (
         <div className="fixed z-50 top-0 left-0 h-full w-full">
-          <Canvas noteUrlParams={props?.noteUrlParams} />
+          <Canvas
+            noteUrlParams={props?.noteUrlParams}
+            setOpenCanvasModal={setOpenCanvasModal}
+            canvasNote={trashNote}
+          />
         </div>
       ) : (
         ""

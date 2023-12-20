@@ -30,6 +30,7 @@ const Notes = (props: Props) => {
   const [collaborator, setCollaborator] = useState<string>("");
   const [labels, setLabels] = useState<any>([]);
   const [location, setLocation] = useState<string>("");
+  const [noteCanvas, setNoteCanvas] = useState<any>([]);
 
   //generateId
   function dec2hex(dec: any) {
@@ -61,6 +62,7 @@ const Notes = (props: Props) => {
       collaborator,
       labels,
       location,
+      noteCanvas,
     };
     try {
       await axios.post(

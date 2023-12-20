@@ -4,8 +4,13 @@ import "./Canvas.css";
 type Props = {};
 
 const Canvasmenu = (props: any) => {
+  console.log();
+
   return (
     <div className="Menu">
+      <div style={{ position: "absolute", top: 10, left: 10, color: "#000" }}>
+        {`x: ${props?.coordinates.x}, y: ${props?.coordinates.y}`}
+      </div>
       <label>Brush Color </label>
       <input
         type="color"
@@ -50,6 +55,12 @@ const Canvasmenu = (props: any) => {
           // onClick={() => props?.saveCanvas()}
         >
           Save Canvas
+        </button>
+        <button
+          style={{ backgroundColor: "#000", color: "#fff", cursor: "pointer" }}
+          onClick={() => props?.setOpenCanvasModal(false)}
+        >
+          Close{" "}
         </button>
       </form>
     </div>

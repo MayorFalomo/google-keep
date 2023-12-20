@@ -33,6 +33,8 @@ const NoteModal = (props: any) => {
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
   const [editCollaborator, setEditCollaborator] = useState<any>([]);
   const [label, setLabel] = useState<any>([]);
+  const [noteCanvas, setNoteCanvas] = useState<any>([]);
+
   const [editLocation, EditLocation] = useState<string>("");
   const [id, setId] = useState<string>(props.noteUrlParams);
 
@@ -69,6 +71,7 @@ const NoteModal = (props: any) => {
       collaborator: editCollaborator || singleNote?.collaborator,
       labels: label || singleNote?.label,
       location: editLocation || singleNote?.location,
+      canvas: noteCanvas || singleNote?.canvas,
     };
     try {
       await axios.put(
