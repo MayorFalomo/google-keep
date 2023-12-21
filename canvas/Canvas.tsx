@@ -14,7 +14,7 @@ const Canvas = (props: any) => {
   // const [isDrawing, setIsDrawing] = useState(false);
   const [lineWidth, setLineWidth] = useState(5);
   const [lineColor, setLineColor] = useState("black");
-  // const [lineOpacity, setLineOpacity] = useState(1);
+  const [lineOpacity, setLineOpacity] = useState(1);
   const startCoordinatesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const endCoordinatesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const drawingDataRef = useRef<any>([]);
@@ -35,7 +35,7 @@ const Canvas = (props: any) => {
       if (ctx) {
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
-        // ctx.globalAlpha = lineOpacity;
+        ctx.globalAlpha = lineOpacity;
         ctx.strokeStyle = "black";
         ctx.lineWidth = 5;
         ctxRef.current = ctx;
@@ -77,139 +77,11 @@ const Canvas = (props: any) => {
       ctx.lineTo(offsetX, offsetY);
       ctx.stroke();
       setCoordinates((prev) => [...prev, { x: offsetX, y: offsetY }]);
-      // Save the current point to the drawing data
-      // drawingDataRef.current[drawingDataRef.current.length - 1].points.push({
-      //   x: offsetX,
-      //   y: offsetY,
-      // });
     }
   };
 
-  // console.log(coordinates, "cordinates");
-
-  // const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-  //   const ctx = ctxRef.current;
-  //   if (ctx) {
-  //     ctx.beginPath();
-  //     const startX = e.nativeEvent.offsetX;
-  //     const startY = e.nativeEvent.offsetY;
-
-  //     // Set the starting coordinates
-  //     setCoordinates({
-  //       x1: startX,
-  //       y1: startY,
-  //       x2: startX,
-  //       y2: startY,
-  //     });
-
-  //     // Add initial drawing data
-  //     drawingDataRef.current.push({
-  //       type: "draw",
-  //       x1: startX,
-  //       y1: startY,
-  //       x2: startX,
-  //       y2: startY,
-  //       color: ctx.strokeStyle,
-  //       lineWidth: ctx.lineWidth,
-  //     });
-
-  //     isDrawingRef.current = true;
-  //   }
-  // };
-
-  // const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-  //   if (!isDrawingRef.current) {
-  //     return;
-  //   }
-
-  //   const ctx = ctxRef.current;
-  //   if (ctx) {
-  //     const { offsetX, offsetY } = e.nativeEvent;
-
-  //     // Draw the line segment
-  //     ctx.strokeStyle = ctx.strokeStyle; // use the state
-  //     ctx.lineWidth = ctx.lineWidth; // use the state
-  //     ctx.lineTo(offsetX, offsetY);
-  //     ctx.stroke();
-
-  //     // Update the drawing data and coordinates
-  //     setCoordinates((prev) => ({
-  //       ...prev,
-  //       x2: offsetX,
-  //       y2: offsetY,
-  //     }));
-
-  //     drawingDataRef.current.push({
-  //       type: "draw",
-  //       x1: coordinates.x1,
-  //       y1: coordinates.y1,
-  //       x2: offsetX,
-  //       y2: offsetY,
-  //       color: ctx.strokeStyle, // use the state
-  //       lineWidth: ctx.lineWidth, // use the state
-  //     });
-
-  //     // Move to the new starting point for the next segment
-  //     ctx.beginPath();
-  //     ctx.moveTo(offsetX, offsetY);
-  //   }
-  // };
-
-  // const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-  //   if (!isDrawingRef.current) {
-  //     return;
-  //   }
-
-  //   const ctx = ctxRef.current;
-  //   if (ctx) {
-  //     const x = e.nativeEvent.offsetX;
-  //     const y = e.nativeEvent.offsetY;
-  //     console.log(x, y, "This is x and y");
-  //     setCoordinates((prev) => ({ ...prev, x2: x, y2: y }));
-  //     ctx.lineTo(x, y);
-  //     ctx.stroke();
-
-  //     // Update end coordinates
-  //     endCoordinatesRef.current = { x, y };
-
-  //     // Update end coordinates in drawing data
-  //     drawingDataRef.current[drawingDataRef.current.length - 1].x2 = x;
-  //     drawingDataRef.current[drawingDataRef.current.length - 1].y2 = y;
-  //     console.log(
-  //       drawingDataRef.current[drawingDataRef.current.length - 1].y2,
-  //       "This is y2 length apaz"
-  //     );
-  //   }
-  // };
-
-  // Function for starting the drawing
-  // const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-  //   const ctx = ctxRef.current;
-  //   if (ctx) {
-  //     const { offsetX, offsetY } = e.nativeEvent;
-  //     ctx.beginPath();
-  //     ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-  //     // setIsDrawing(true);
-  //     isDrawingRef.current = true;
-  //     drawingDataRef.current.push({
-  //       type: "draw",
-  //       start: true,
-  //       x: offsetX,
-  //       y: offsetY,
-  //       color: ctx.strokeStyle,
-  //       lineWidth: ctx.lineWidth,
-  //     });
-  //   }
-  //   console.log(drawingDataRef.current, "startDrawing function");
-  // };
-
   // Function for ending the drawing
   const endDrawing = () => {
-    // const ctx = ctxRef.current;
-    // if (ctx) {
-    //   ctx.closePath();
-    //   setIsDrawing(false);
-    // }
     isDrawingRef.current = false;
   };
 
@@ -337,32 +209,6 @@ const Canvas = (props: any) => {
     }
   };
 
-  // const recreateCanvas = () => {
-  //   const canvas = canvasRef.current;
-  //   const ctx = canvas?.getContext("2d");
-  //   console.log(canvasRef, "canvas ref");
-  //   console.log(ctx, "ctx");
-
-  //   if (canvas && ctx) {
-  //     // Clear the canvas before applying actions
-  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //     console.log(props?.canvasNote?.canvas, "This is canvas");
-
-  //     // Iterate through each action and recreate the canvas
-  //     props?.canvasNote?.canvas?.forEach((action: any, index: number) => {
-  //       console.log(action, "This is action");
-  //       console.log(action.x, "This is action");
-
-  //       ctx.beginPath();
-  //       ctx.strokeStyle = action.color;
-  //       ctx.lineWidth = action.lineWidth;
-  //       ctx.moveTo(action.x1, action.y1);
-  //       ctx.lineTo(action.x2, action.y2);
-  //       ctx.stroke();
-  //     });
-  //   }
-  // };
-
   const recreateCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
@@ -400,39 +246,35 @@ const Canvas = (props: any) => {
   useEffect(() => {
     recreateCanvas();
   }, []);
+
+  // UseEffect to update the strokeStyle in the canvas when lineColor changes
+  useEffect(() => {
+    const ctx = ctxRef.current;
+    if (ctx) {
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = lineWidth;
+      ctx.globalAlpha = lineOpacity;
+    }
+  }, [lineColor, lineWidth, lineOpacity]);
+
   // useEffect(() => {
-  //   if()
-  // })
+  //   const ctx = ctxRef.current;
+  //   if (ctx) {
+  //     ctx.lineWidth = lineWidth;
+  //   }
+  // }, [lineWidth]);
 
-  // console.log(
-  //   drawingDataRef.current[drawingDataRef.current.length - 1],
-  //   "This is drawing DataRef"
-  // );
-  console.log(coordinates, "coordinates");
+  // console.log(coordinates, "coordinates");
 
-  // console.log(drawingDataRef.current.slice(-1)[0], "This is drawing DataRef");
-  // console.log(contextValue?.notes, "This is Notes");
-  console.log(props?.canvasNote, "This is canvas Note");
+  // console.log(props?.canvasNote, "This is canvas Note");
 
   return (
     <div>
       <div className="draw-area">
         <Canvasmenu
-          setLineColor={(color: any) => {
-            if (ctxRef.current) {
-              ctxRef.current.strokeStyle = color;
-            }
-          }}
-          setLineWidth={(width: any) => {
-            if (ctxRef.current) {
-              ctxRef.current.lineWidth = width;
-            }
-          }}
-          setLineOpacity={(opacity: any) => {
-            if (ctxRef.current) {
-              ctxRef.current.globalAlpha = opacity;
-            }
-          }}
+          setLineColor={setLineColor}
+          setLineWidth={setLineWidth}
+          setLineOpacity={setLineOpacity}
           coordinates={coordinates}
           clearCanvas={clearCanvas}
           recreateCanvas={recreateCanvas}

@@ -4,65 +4,106 @@ import "./Canvas.css";
 type Props = {};
 
 const Canvasmenu = (props: any) => {
-  console.log();
+  console.log(props?.lineColor, "this is line color");
 
   return (
     <div className="Menu">
-      <div style={{ position: "absolute", top: 10, left: 10, color: "#000" }}>
-        {`x: ${props?.coordinates.x}, y: ${props?.coordinates.y}`}
+      <div className="container">
+        <div className="controls">
+          <section
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <label className="text-#000 bg-black " id="color">
+              Brush Color{" "}
+            </label>
+            <input
+              id="color"
+              type="color"
+              onChange={(e: any) => {
+                const newColor = e.target.value;
+                props?.setLineColor(newColor);
+              }}
+            />
+          </section>
+          <section
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <label>Brush Width </label>
+            <input
+              type="range"
+              min="3"
+              max="20"
+              onChange={(e: any) => {
+                const newWidth = e.target.value;
+                props?.setLineWidth(newWidth);
+              }}
+            />
+          </section>
+          <section
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <label>Brush Opacity</label>
+            <input
+              type="range"
+              min="1"
+              max="100"
+              onChange={(e: any) => {
+                const newOpacity = e.target.value / 100;
+                props?.setLineOpacity(newOpacity);
+              }}
+            />
+          </section>
+        </div>
+        <form onSubmit={props?.saveCanvas}>
+          <div className="flex items-center gap-3 border-2 border-red-500 ">
+            <button
+              className="py-1 px-3 rounded-[5px]"
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: "5px",
+              }}
+              onClick={() => props?.clearCanvas()}
+            >
+              Clear
+            </button>
+            <button
+              className="py-1 px-3 rounded-[5px]"
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: "5px",
+              }}
+              onClick={() => props?.recreateCanvas()}
+            >
+              Recreate
+            </button>
+            <button
+              type="submit"
+              className="py-1 px-3 rounded-[5px]"
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: "5px",
+              }}
+              // onClick={() => props?.saveCanvas()}
+            >
+              Save
+            </button>
+            <button
+              className="py-1 px-3 rounded-[5px] cursor-pointer "
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: "5px",
+              }}
+              onClick={() => props?.setOpenCanvasModal(false)}
+            >
+              Close{" "}
+            </button>
+          </div>
+        </form>
       </div>
-      <label>Brush Color </label>
-      <input
-        type="color"
-        onChange={(e: any) => {
-          props?.setLineColor(e.target.value);
-        }}
-      />
-      <label>Brush Width </label>
-      <input
-        type="range"
-        min="3"
-        max="20"
-        onChange={(e: any) => {
-          props?.setLineWidth(e.target.value);
-        }}
-      />
-      <label>Brush Opacity</label>
-      <input
-        type="range"
-        min="1"
-        max="100"
-        onChange={(e: any) => {
-          props?.setLineOpacity(e.target.value / 100);
-        }}
-      />
-      <button
-        style={{ backgroundColor: "#000", color: "#fff" }}
-        onClick={() => props?.clearCanvas()}
-      >
-        Clear Canvas
-      </button>
-      <button
-        style={{ backgroundColor: "#000", color: "#fff" }}
-        onClick={() => props?.recreateCanvas()}
-      >
-        Recreate Canvas
-      </button>
-      <form onSubmit={props?.saveCanvas}>
-        <button
-          type="submit"
-          style={{ backgroundColor: "#000", color: "#fff" }}
-          // onClick={() => props?.saveCanvas()}
-        >
-          Save Canvas
-        </button>
-        <button
-          style={{ backgroundColor: "#000", color: "#fff", cursor: "pointer" }}
-          onClick={() => props?.setOpenCanvasModal(false)}
-        >
-          Close{" "}
-        </button>
-      </form>
     </div>
   );
 };
