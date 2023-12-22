@@ -1,3 +1,4 @@
+import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -7,6 +8,7 @@ import { FaTimes } from "react-icons/fa";
 type Props = {};
 
 const CreateLabel = (props: any) => {
+  const { contextValue }: any = useAppContext();
   const [labelInput, setLabelInput] = useState<any>("");
   const saveLabel = async (e: any) => {
     e.preventDefault();
@@ -18,6 +20,18 @@ const CreateLabel = (props: any) => {
       await axios
         .post(`http://localhost:5000/api/notes/add-label`, labelObject)
         .catch((err) => console.log(err));
+
+      contextValue?.setNotes((prevNotes: any) => {
+        return prevNotes.map((note: any) => {
+          if (note?._id == props?.clickedNote?._id) {
+            return {
+              ...note,
+              labels: [...note?.labels, labelObject?.label],
+            };
+          }
+          return note;
+        });
+      });
       toast.success("Label Saved");
       props?.setOpenLabelModal(false);
     } catch (error) {
@@ -33,18 +47,20 @@ const CreateLabel = (props: any) => {
       >
         {<FaTimes />}{" "}
       </span>
-      <h1>Label Note </h1>
-      <form onSubmit={saveLabel}>
-        <input
-          onChange={(e: any) => setLabelInput(e.target.value)}
-          type="text"
-          className="bg-transparent outline-none border-none"
-          placeholder="Enter label name"
-        />
-        <button className="cursor-pointer" type="submit">
-          {<BiPlus />}{" "}
-        </button>
-      </form>
+      <div className="p-2">
+        <h1>Label Note </h1>
+        <form onSubmit={saveLabel}>
+          <input
+            onChange={(e: any) => setLabelInput(e.target.value)}
+            type="text"
+            className="bg-transparent outline-none border-none"
+            placeholder="Enter label name"
+          />
+          <button className="cursor-pointer" type="submit">
+            {<BiPlus />}{" "}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

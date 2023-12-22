@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { MdOutlineLabel } from "react-icons/md";
 
@@ -7,11 +8,11 @@ const Label = (props: any) => {
   //   console.log(props?.labelNotes.labels);
 
   return (
-    <div>
+    <div className=" rounded-r-full transition ease-in-out delay-150 cursor-pointer hover:bg-hover">
       {props?.labelNotes?.labels?.map((label: any) => {
         return (
           <div key={label?._id}>
-            <div className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+            <div className="flex items-center gap-6 py-4 px-2 text-[20px] my-2  ">
               {" "}
               {
                 <MdOutlineLabel
@@ -33,10 +34,9 @@ const Label = (props: any) => {
 const ListedLabel = ({ label }: any) => {
   return (
     <div>
-      {/* <p>label.id </p> */}
-      <p onClick={() => console.log(label?._id)}>
-        {label?.name ? label?.name : ""}
-      </p>
+      <Link href={`/slug/${label?._id}`}>
+        <p className="">{label?.name ? <span>{label?.name}</span> : ""}</p>
+      </Link>
     </div>
   );
 };

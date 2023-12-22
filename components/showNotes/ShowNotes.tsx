@@ -98,6 +98,23 @@ const ShowNotes = (props: any) => {
   var msnry = new Masonry(".grid", {
     //options
   });
+
+  useEffect(() => {
+    if (contextValue?.notes) {
+      import("masonry-layout")
+        .then((masonry) => {
+          // Use masonry library here
+          var msnry = new Masonry(".grid", {
+            //options
+          });
+        })
+        .catch((error) => {
+          // Handle error while importing
+          console.log(error);
+        });
+    }
+  }, []);
+
   // window is accessible here.
   // console.log("window.innerHeight", window.innerHeight);
   // });

@@ -68,7 +68,7 @@ const Navbar = ({ note }: any) => {
           </span>
           <span className="max-md:hidden"> Remainders</span>
         </li>
-        <li className="flex items-center gap-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+        <li className="flex items-center gap-4 text-[20px]  rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           {/* <span>
             {
               <MdOutlineLabel
@@ -78,7 +78,7 @@ const Navbar = ({ note }: any) => {
               />
             }{" "}
           </span> */}
-          <span className="max-md:hidden">
+          <span className=" w-full max-md:hidden">
             {contextValue?.notes?.map((labelNotes: any) => {
               return (
                 <div key={note?._id}>
