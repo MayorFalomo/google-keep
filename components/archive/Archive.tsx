@@ -43,6 +43,9 @@ const Archive = (props: any) => {
     false
   );
   const [trashNote, setTrashNote] = useState<any>();
+  const changeHandler = (countryValue: any) => {
+    setCountryValue(countryValue);
+  };
 
   const handleClick = (e: any) => {
     e.preventDefault();
