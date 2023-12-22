@@ -60,6 +60,7 @@ const AppContextProvider = ({ children }: any) => {
       })
       .catch((err) => {
         console.log(err); // Redirect to login page if user ID is not found
+        router.push("/register");
       });
   };
 
