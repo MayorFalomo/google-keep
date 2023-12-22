@@ -5,7 +5,7 @@ import { useAppContext } from "../../helpers/Helpers";
 import { getCookie } from "cookies-next";
 import ShowNote from "./showNote";
 import "./notes.css";
-import Masonry from "masonry-layout";
+// import Masonry from "masonry-layout";
 // import Packery from "packery";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
@@ -14,10 +14,6 @@ type Props = {};
 
 //Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
 const ShowNotes = (props: any) => {
-  const DynamicMason = dynamic(() => import("masonry-layout"), {
-    ssr: false,
-  });
-
   const userCookie = getCookie("user");
 
   const { contextValue }: any = useAppContext();
@@ -95,25 +91,31 @@ const ShowNotes = (props: any) => {
   // });
 
   // React.useEffect(() => {
-  var msnry = new Masonry(".grid", {
-    //options
-  });
+  // var msnry = new Masonry(".grid", {
+  //   //options
+  // });
+  // const func = async() {
+  //   const Fuse = (await import('masonry-layout')).default
 
-  useEffect(() => {
-    if (contextValue?.notes) {
-      import("masonry-layout")
-        .then((masonry) => {
-          // Use masonry library here
-          var msnry = new Masonry(".grid", {
-            //options
-          });
-        })
-        .catch((error) => {
-          // Handle error while importing
-          console.log(error);
-        });
-    }
-  }, []);
+  // }
+
+  // func()
+
+  // useEffect(() => {
+  //   if (contextValue?.notes) {
+  //     import("masonry-layout")
+  //       .then((masonry) => {
+  //         // Use masonry library here
+  //         var msnry = new Masonry(".grid", {
+  //           //options
+  //         });
+  //       })
+  //       .catch((error) => {
+  //         // Handle error while importing
+  //         console.log(error);
+  //       });
+  //   }
+  // }, []);
 
   // window is accessible here.
   // console.log("window.innerHeight", window.innerHeight);
