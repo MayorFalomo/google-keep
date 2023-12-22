@@ -747,7 +747,7 @@ const Archive = (props: any) => {
           </Tippy>
 
           <Tippy placement="bottom" content="Add image">
-            <labels
+            <label
               onClick={() => {
                 props.setNoteUrlParams(props.note?._id);
               }}
@@ -760,7 +760,7 @@ const Archive = (props: any) => {
                   cursor="pointer"
                 />
               }{" "}
-            </labels>
+            </label>
           </Tippy>
           <input
             type="file"
