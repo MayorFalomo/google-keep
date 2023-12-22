@@ -11,6 +11,8 @@ const Canvas = (props: any) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const isDrawingRef = useRef(false);
+  const [singleNote, setSingleNote] = useState<any>();
+
   // const [isDrawing, setIsDrawing] = useState(false);
   const [lineWidth, setLineWidth] = useState(5);
   const [lineColor, setLineColor] = useState("black");
@@ -25,6 +27,7 @@ const Canvas = (props: any) => {
   //   x2: 0,
   //   y2: 0,
   // });
+
   const [coordinates, setCoordinates] = useState<
     Array<{ x: number; y: number }>
   >([]);
@@ -203,21 +206,23 @@ const Canvas = (props: any) => {
     if (canvas && ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       // Save the clear canvas action
-      drawingDataRef.current.push({ type: "clearCanvas" });
-      // Save the clear canvas action
-      // setDrawingData((prevData: any) => [...prevData, { type: "clearCanvas" }]);
+      drawingDataRef.current.push({ type: "" });
     }
   };
+  // console.log(props?.noteUrlParams, "Log it");
 
   const recreateCanvas = () => {
+    // console.log(singleNote, "This is singleNote");
+
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
 
     if (canvas && ctx) {
       // Clear the canvas before applying actions
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+      // console.log(singleNote?.canvas, "Thi is canvas");
       // Iterate through each action and recreate the entire canvas
+
       props?.canvasNote?.canvas?.forEach((action: any) => {
         if (action.type == "draw" && action.points?.length > 1) {
           ctx.beginPath();
@@ -226,9 +231,9 @@ const Canvas = (props: any) => {
 
           // Move to the starting point of the path
           const startPoint = action.points[0];
-          console.log(action.points[0], "This is action");
+          // console.log(action.points[0], "This is action");
 
-          console.log(startPoint.x, startPoint.y);
+          // console.log(startPoint.x, startPoint.y);
 
           ctx.moveTo(startPoint.x, startPoint.y);
 
@@ -246,7 +251,6 @@ const Canvas = (props: any) => {
   useEffect(() => {
     recreateCanvas();
   }, []);
-
   // UseEffect to update the strokeStyle in the canvas when lineColor changes
   useEffect(() => {
     const ctx = ctxRef.current;
@@ -256,13 +260,6 @@ const Canvas = (props: any) => {
       ctx.globalAlpha = lineOpacity;
     }
   }, [lineColor, lineWidth, lineOpacity]);
-
-  // useEffect(() => {
-  //   const ctx = ctxRef.current;
-  //   if (ctx) {
-  //     ctx.lineWidth = lineWidth;
-  //   }
-  // }, [lineWidth]);
 
   // console.log(coordinates, "coordinates");
 
@@ -276,8 +273,8 @@ const Canvas = (props: any) => {
           setLineWidth={setLineWidth}
           setLineOpacity={setLineOpacity}
           coordinates={coordinates}
-          clearCanvas={clearCanvas}
           recreateCanvas={recreateCanvas}
+          clearCanvas={clearCanvas}
           saveCanvas={saveCanvas}
           setOpenCanvasModal={props?.setOpenCanvasModal}
         />
@@ -288,8 +285,7 @@ const Canvas = (props: any) => {
           onMouseMove={draw}
           width={window.innerWidth}
           height={window.innerHeight}
-          style={{ border: "1px solid green", width: "100%", height: "100vh" }}
-          // style={{ border: "1px solid #000" }}
+          style={{ width: "100%", height: "100vh" }}
         />
       </div>
       <Toaster

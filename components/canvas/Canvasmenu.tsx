@@ -4,15 +4,13 @@ import "./Canvas.css";
 type Props = {};
 
 const Canvasmenu = (props: any) => {
-  console.log(props?.lineColor, "this is line color");
+  // console.log(props?.lineColor, "this is line color");
 
   return (
     <div className="Menu">
       <div className="container">
         <div className="controls">
-          <section
-            style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
+          <section>
             <label className="text-#000 bg-black " id="color">
               Brush Color{" "}
             </label>
@@ -55,7 +53,7 @@ const Canvasmenu = (props: any) => {
           </section>
         </div>
         <form onSubmit={props?.saveCanvas}>
-          <div className="flex items-center gap-3 border-2 border-red-500 ">
+          <div className="flex items-center gap-3 ">
             <button
               className="py-1 px-3 rounded-[5px]"
               style={{

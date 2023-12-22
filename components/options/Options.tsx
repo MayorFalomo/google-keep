@@ -99,7 +99,13 @@ const Options = (props: any) => {
         >
           Delete Note{" "}
         </li>
-        <li className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer">
+        <li
+          onClick={() => {
+            props?.setOpenLabelModal(true);
+            props?.setOpenOptionsModal(false);
+          }}
+          className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer"
+        >
           Add Label{" "}
         </li>
         <li className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer">

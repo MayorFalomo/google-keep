@@ -11,7 +11,7 @@ const Label = (props: any) => {
       {props?.labelNotes?.labels?.map((label: any) => {
         return (
           <div key={label?._id}>
-            <p className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+            <div className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
               {" "}
               {
                 <MdOutlineLabel
@@ -20,12 +20,23 @@ const Label = (props: any) => {
                   cursor="pointer"
                 />
               }{" "}
-              {label?.name ? label?.name : ""}
-            </p>
+              <ListedLabel label={label} />
+            </div>
             {/* <p>{label.notes}</p> */}
           </div>
         );
       })}
+    </div>
+  );
+};
+
+const ListedLabel = ({ label }: any) => {
+  return (
+    <div>
+      {/* <p>label.id </p> */}
+      <p onClick={() => console.log(label?._id)}>
+        {label?.name ? label?.name : ""}
+      </p>
     </div>
   );
 };

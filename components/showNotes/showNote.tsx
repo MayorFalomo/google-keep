@@ -35,7 +35,8 @@ import Fade from "../animate/Fade";
 // import { CSS } from "@dnd-kit/utilities";
 import Options from "../options/Options";
 import { AnimatePresence, motion } from "framer-motion";
-import Canvas from "@/canvas/Canvas";
+import Canvas from "@/components/canvas/Canvas";
+import CreateLabel from "../label/CreateLabel";
 
 type Props = {};
 
@@ -63,6 +64,7 @@ const ShowNote = (props: any) => {
   const [trashNote, setTrashNote] = useState<any>();
   const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
   const [openCanvasModal, setOpenCanvasModal] = useState<boolean>(false);
+  const [openLabelModal, setOpenLabelModal] = useState<boolean>(false);
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
   };
@@ -838,6 +840,8 @@ const ShowNote = (props: any) => {
                   setOpenOptionsModal={setOpenOptionsModal}
                   openCanvasModal={openCanvasModal}
                   setOpenCanvasModal={setOpenCanvasModal}
+                  openLabelModal={openLabelModal}
+                  setOpenLabelModal={setOpenLabelModal}
                 />
               </div>
             ) : (
@@ -947,6 +951,17 @@ const ShowNote = (props: any) => {
             noteUrlParams={props?.noteUrlParams}
             setOpenCanvasModal={setOpenCanvasModal}
             canvasNote={trashNote}
+          />
+        </div>
+      ) : (
+        ""
+      )}
+      {openLabelModal ? (
+        <div id="shadow" className="label-modal">
+          <CreateLabel
+            noteUrlParams={props?.noteUrlParams}
+            clickedNote={trashNote}
+            setOpenLabelModal={setOpenLabelModal}
           />
         </div>
       ) : (
