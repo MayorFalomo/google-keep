@@ -9,7 +9,7 @@ import "./notes.css";
 // import Packery from "packery";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 

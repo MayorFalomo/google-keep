@@ -41,7 +41,7 @@ const AppContextProvider = ({ children }: any) => {
     setUser(null);
   };
 
-  //getCurrentUser takes in a parameter called Id which we'll get from cookies.user
+  //getCurrentUser takes in a parameter called Id which we'll get from currentUser which is cookies.user
   const getCurrentUser = async (id: string) => {
     const res = await axios.get(
       `https://keep-backend-theta.vercel.app/api/users/get-user/${id}`
