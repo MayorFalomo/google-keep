@@ -107,7 +107,7 @@ const Register = ({ req, res }: any) => {
           )
           .then(() => router.push("/"))
           .then(() => window.location.reload())
-          .then(() => contextValue?.getCurrentUser(userInfo?.id))
+          .then(() => contextValue?.getCurrentUser(userInfo?._id))
           .catch((err) => err);
         // console.log(userInfo);
       } catch (error) {
