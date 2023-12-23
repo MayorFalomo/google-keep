@@ -36,23 +36,22 @@ const ShowNotes = (props: any) => {
   const [successful, setSuccessful] = useState<boolean>(false);
   const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
 
-  // console.log(userCookie);
   const router = useRouter();
 
   useEffect(() => {
-    if (userCookie) {
-      axios
-        .get(
-          `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${userCookie}`
-        )
-        .then((res) => contextValue?.setNotes(res.data.notes))
-        .catch((err) => console.log(err));
-      // setPostLoaded(true);
-    } else {
-      // router.push("/register");
-      console.log("The id was not found");
-    }
-  }, [userCookie]);
+    // if (userCookie) {
+    axios
+      .get(
+        `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${contextValue?.user?._id}`
+      )
+      .then((res) => contextValue?.setNotes(res.data.notes))
+      .catch((err) => console.log(err));
+    // setPostLoaded(true);
+    // } else {
+    //   // router.push("/register");
+    //   console.log("The id was not found");
+    // }
+  }, []);
 
   const items = contextValue?.notes || []; // Assuming contextValue.notes is the array of items
 

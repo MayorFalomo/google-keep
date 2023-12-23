@@ -5,13 +5,8 @@ import styles from "./Homepage.module.css";
 import Headerbar from "@/components/header/Headerbar";
 import ShowNotes from "@/components/showNotes/ShowNotes";
 import Pinned from "@/components/pinned/Pinned";
-import dynamic from "next/dynamic";
 
 export default function Page() {
-  // const DynamicMason = dynamic(() => import("masonry-layout"), {
-  //   ssr: false,
-  // });
-
   return (
     <div>
       {/* <DynamicMason /> */}

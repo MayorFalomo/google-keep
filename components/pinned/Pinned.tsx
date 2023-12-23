@@ -2,13 +2,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../helpers/Helpers";
-import { getCookie } from "cookies-next";
 import ShowPinned from "./ShowPinned";
 import { AnimatePresence, motion } from "framer-motion";
 type Props = {};
 
-const Pinned = ({ req, res }: any) => {
-  const userCookie = getCookie("user", { req, res });
+const Pinned = () => {
+  // const userCookie = getCookie("user", { req, res });
 
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
@@ -21,14 +20,14 @@ const Pinned = ({ req, res }: any) => {
   useEffect(() => {
     axios
       .get(
-        `https://keep-backend-theta.vercel.app/api/notes/getall-pinned-notes/${userCookie}`
+        `https://keep-backend-theta.vercel.app/api/notes/getall-pinned-notes/${contextValue?.user?._id}`
       )
       .then((res) => {
         contextValue.setPinnedNote(res.data.reverse());
         // console.log(res.data);
       })
       .catch((err) => console.log(err));
-  }, [userCookie]);
+  }, [contextValue?.user?._id]);
 
   // console.log(contextValue?.pinnedNote);
 
