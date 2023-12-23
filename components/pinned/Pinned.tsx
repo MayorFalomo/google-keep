@@ -7,8 +7,6 @@ import { AnimatePresence, motion } from "framer-motion";
 type Props = {};
 
 const Pinned = () => {
-  // const userCookie = getCookie("user", { req, res });
-
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
   const [overLayBg, setOverLayBg] = useState(false);

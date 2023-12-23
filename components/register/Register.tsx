@@ -13,7 +13,7 @@ import { setCookie } from "cookies-next";
 
 type Props = {};
 
-const Register = ({ req, res }: any) => {
+const Register = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   const router = useRouter();
@@ -46,7 +46,7 @@ const Register = ({ req, res }: any) => {
     try {
       signInWithPopup(auth, provider).then((response) => {
         // setCookie("user", generatedId, { path: "/" });
-        setCookie("user", generateId, { req, res });
+        setCookie("user", generateId);
         // setCookie("user", generatedId, { path: "/" });
         let userInfo = {
           id: generatedId,
@@ -86,7 +86,7 @@ const Register = ({ req, res }: any) => {
     e.preventDefault();
     const generatedId = generateId(24);
     createUserWithEmailAndPassword(auth, email, passwords).then((response) => {
-      setCookie("user", generatedId, { req, res });
+      setCookie("user", generatedId);
       // cookies().set("name", "lee");
       //Since monogoDb can't find google's id since it's 28 digits, i generated my 24 digit id for each user id
       const userInfo = {
