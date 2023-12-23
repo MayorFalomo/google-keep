@@ -42,45 +42,27 @@ const AppContextProvider = ({ children }: any) => {
   };
 
   //getCurrentUser takes in a parameter called Id which we'll get from currentUser which is cookies.user
-  // const getCurrentUser = async (id: string) => {
-  //   const res = await axios.get(
-  //     `https://keep-backend-theta.vercel.app/api/users/get-user/${id}`
-  //   );
-  //   try {
-  //     if (res.data) {
-  //       router.push("/");
-  //       console.log(res.data);
-  //       setUser(res.data);
-  //       toast.success("Login Successful!");
-  //       // return res.data;
-  //     } else {
-  //       router.push("/register");
-  //       console.log("The id was not found");
-  //       setUser(null);
-  //     }
-  //   } catch (error) {
-  //     console.log(error && router.push("/register"));
-  //   }
-  // };
-
   const getCurrentUser = async (id: string) => {
-    await fetch(
+    const res = await axios.get(
       `https://keep-backend-theta.vercel.app/api/users/get-user/${id}`
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("User ID not found");
-        }
-      })
-      .then((res) => {
-        setUser(res.user);
-      })
-      .catch((err) => {
-        console.log(err);
-        router.push("/register"); // Redirect to login page if user ID is not found
-      });
+    );
+    try {
+      console.log(res.data, "this is res.data");
+
+      if (res.data) {
+        router.push("/");
+        // console.log(res.data);
+        // setUser(res.data);
+        toast.success("Login Successful!");
+        // return res.data;
+      } else {
+        router.push("/register");
+        console.log("The id was not found");
+        setUser(null);
+      }
+    } catch (error) {
+      console.log(error && router.push("/register"));
+    }
   };
 
   //UseEffect to load cookies.user and just
