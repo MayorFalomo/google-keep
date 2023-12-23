@@ -52,11 +52,11 @@ const AppContextProvider = ({ children }: any) => {
         setUser(res.data);
         return res.data;
       } else {
+        router.push("/register");
         throw new Error("The id was not found");
       }
     } catch (error) {
-      console.log(error);
-      router.push("/register");
+      console.log(error && router.push("/register"));
     }
   };
 
