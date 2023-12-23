@@ -76,7 +76,10 @@ const Options = (props: any) => {
     console.log(createCopy);
     try {
       axios
-        .post(`http://localhost:5000/api/notes/create-note`, createCopy)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/create-note`,
+          createCopy
+        )
         .catch((err) => console.log(err && toast.error("failed")));
       contextValue?.setNotes((prevNote: any) => {
         return [...prevNote, createCopy].reverse();
