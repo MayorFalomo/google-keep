@@ -61,7 +61,7 @@ const AppContextProvider = ({ children }: any) => {
         setUser(null);
       }
     } catch (error) {
-      console.log(error && router.push("/register"));
+      console.log(error);
     }
   };
 

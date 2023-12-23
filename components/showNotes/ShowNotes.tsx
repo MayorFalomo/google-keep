@@ -49,7 +49,8 @@ const ShowNotes = (props: any) => {
         .catch((err) => console.log(err));
       // setPostLoaded(true);
     } else {
-      router.push("/register");
+      // router.push("/register");
+      console.log("The id was not found");
     }
   }, [userCookie]);
 
