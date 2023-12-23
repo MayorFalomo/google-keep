@@ -6,6 +6,7 @@ import { AppContext } from "./Helpers";
 import { useCookies } from "react-cookie";
 import { getCookie } from "cookies-next";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
+import axios from "axios";
 
 type Props = {};
 
@@ -42,26 +43,21 @@ const AppContextProvider = ({ children }: any) => {
 
   //getCurrentUser takes in a parameter called Id which we'll get from cookies.user
   const getCurrentUser = async (id: string) => {
-    await fetch(
+    const res = await axios.get(
       `https://keep-backend-theta.vercel.app/api/users/get-user/${id}`
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("The id was not found");
-        }
-      })
-      .then((res) => {
+    );
+    try {
+      if (res) {
         router.push("/");
-        // console.log(res, "This is res");
-        setUser(res);
-        toast.success("User log in successful");
-      })
-      .catch((err) => {
-        console.log(err); // Redirect to login page if user ID is not found
-        router.push("/register");
-      });
+        setUser(res.data);
+        return res.data;
+      } else {
+        throw new Error("The id was not found");
+      }
+    } catch (error) {
+      console.log(error);
+      router.push("/register");
+    }
   };
 
   //UseEffect to load cookies.user and just
