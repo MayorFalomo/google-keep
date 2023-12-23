@@ -42,32 +42,57 @@ const AppContextProvider = ({ children }: any) => {
   };
 
   //getCurrentUser takes in a parameter called Id which we'll get from currentUser which is cookies.user
+  // const getCurrentUser = async (id: string) => {
+  //   const res = await axios.get(
+  //     `https://keep-backend-theta.vercel.app/api/users/get-user/${id}`
+  //   );
+  //   try {
+  //     if (res.data) {
+  //       router.push("/");
+  //       console.log(res.data);
+  //       setUser(res.data);
+  //       toast.success("Login Successful!");
+  //       // return res.data;
+  //     } else {
+  //       router.push("/register");
+  //       console.log("The id was not found");
+  //       setUser(null);
+  //     }
+  //   } catch (error) {
+  //     console.log(error && router.push("/register"));
+  //   }
+  // };
+
   const getCurrentUser = async (id: string) => {
-    const res = await axios.get(
+    await fetch(
       `https://keep-backend-theta.vercel.app/api/users/get-user/${id}`
-    );
-    try {
-      if (res.data) {
-        router.push("/");
-        console.log(res.data);
-        setUser(res.data);
-        toast.success("Login Successful!");
-        // return res.data;
-      } else {
-        router.push("/register");
-        console.log("The id was not found");
-        setUser(null);
-      }
-    } catch (error) {
-      console.log(error && router.push("/register"));
-    }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("User ID not found");
+        }
+      })
+      .then((res) => {
+        setUser(res.user);
+      })
+      .catch((err) => {
+        console.log(err);
+        router.push("/register"); // Redirect to login page if user ID is not found
+      });
   };
+
+  //UseEffect to load cookies.user and just
+  // useEffect(() => {
+  //   getCurrentUser(cookies?.user);
+  // }, [cookies.user]);
 
   //UseEffect to load cookies.user and just
   useEffect(() => {
     getCurrentUser(currentUser ? currentUser : "");
     // console.log(getCookie("user"), "This is the provider");
-  }, []);
+  }, [currentUser]);
 
   const contextValue = {
     isAuth,
