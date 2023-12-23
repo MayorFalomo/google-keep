@@ -90,7 +90,7 @@ const Register = ({ req, res }: any) => {
       // cookies().set("name", "lee");
       //Since monogoDb can't find google's id since it's 28 digits, i generated my 24 digit id for each user id
       const userInfo = {
-        id: generatedId, //Self generated
+        _id: generatedId, //Self generated
         userId: response.user.uid, //userId is from google
         username: userNames,
         email: email,
@@ -108,7 +108,7 @@ const Register = ({ req, res }: any) => {
           .then(() => router.push("/"))
           .then(() => window.location.reload())
           .then(() => contextValue?.getCurrentUser(userInfo?.id))
-          .catch((err) => err && contextValue.setIsAuth(true));
+          .catch((err) => err);
         // console.log(userInfo);
       } catch (error) {
         console.log(error);
