@@ -9,6 +9,7 @@ import "./notes.css";
 // import Packery from "packery";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/router";
 
 type Props = {};
 
@@ -36,6 +37,7 @@ const ShowNotes = (props: any) => {
   const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
 
   // console.log(userCookie);
+  const router = useRouter();
 
   useEffect(() => {
     if (userCookie) {
@@ -46,6 +48,8 @@ const ShowNotes = (props: any) => {
         .then((res) => contextValue?.setNotes(res.data.notes))
         .catch((err) => console.log(err));
       // setPostLoaded(true);
+    } else {
+      router.push("/register");
     }
   }, [userCookie]);
 
