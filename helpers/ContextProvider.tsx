@@ -49,13 +49,15 @@ const AppContextProvider = ({ children }: any) => {
     try {
       if (res) {
         router.push("/");
-        setUser(res.data);
         console.log(res.data);
+
+        setUser(res.data);
         toast.success("Login Successful!");
         return res.data;
       } else {
         router.push("/register");
         console.log("The id was not found");
+        return null;
       }
     } catch (error) {
       console.log(error && router.push("/register"));
