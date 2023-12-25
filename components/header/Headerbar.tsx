@@ -27,7 +27,7 @@ const Headerbar = (props: any) => {
   };
 
   return (
-    <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode border-y-[#525355]">
+    <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode ">
       <div className="flex items-center justify-between gap-16 w-[60%] min-[850px]:  ">
         {mobileSearchBar ? (
           <form className="bg-white flex items-center rounded-xl px-4 ">
@@ -141,7 +141,11 @@ const Headerbar = (props: any) => {
           </span>
           {contextValue?.changeNoteLayout ? (
             <span
-              onClick={() => contextValue?.setChangeNoteLayout(false)}
+              onClick={() =>
+                contextValue?.setChangeNoteLayout(
+                  !contextValue?.changeNoteLayout
+                )
+              }
               className="p-3 max-[900px]:hidden rounded-full hover:bg-hover"
             >
               {

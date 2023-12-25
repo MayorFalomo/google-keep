@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { AppContext } from "./Helpers";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import { getCookie } from "cookies-next";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -24,7 +24,7 @@ const AppContextProvider = ({ children }: any) => {
   const [archivedNote, setArchivedNote] = useState([]);
   const [overLay, setOverLay] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState("");
-  const [trashNote, setTrashNote] = useState([]);
+  const [trashedNotes, setTrashedNotes] = useState([]);
   const [changeNoteLayout, setChangeNoteLayout] = useState<boolean>(false);
   const [changeLayout, setChangeLayout] = useState<boolean>(false);
   const [notesLabel, setNotesLabel] = useState<any>([]);
@@ -48,6 +48,8 @@ const AppContextProvider = ({ children }: any) => {
       .then((res) => {
         setUser(res.data);
         router.push("/");
+        toast.success("login successful");
+        toast.success(`Merry Christmas ${res.data?.username} `);
       })
       .catch((err) => {
         console.log(err && router.push("/register"));
@@ -106,12 +108,14 @@ const AppContextProvider = ({ children }: any) => {
     setBackgroundColor,
     archivedNote,
     setArchivedNote,
-    trashNote,
-    setTrashNote,
+    trashedNotes,
+    setTrashedNotes,
     changeNoteLayout,
     setChangeNoteLayout,
     notesLabel,
     setNotesLabel,
+    // changeLayout,
+    // setChangeLayout,
   };
 
   return (

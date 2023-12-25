@@ -1,11 +1,21 @@
 .grid{
    /* margin-top: 50px; */
-   width: 100% !important;
+   width: 95% !important;
    margin-bottom: 150px;
    margin-left: 50px;
    /* border: 2px red solid; */
    /* position: relative; */
 }
+
+/* .flex{
+   width: 95% !important;
+   margin-bottom: 150px;
+   margin-left: 50px;
+   display: flex;
+   align-items: flex-start;
+   gap: 10px;
+   flex-wrap: wrap;
+} */
 
 .empty{
    width: 100%;

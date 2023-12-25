@@ -24,6 +24,9 @@ export default function RootLayout({
         name="viewport"
         content="width=device-width, initial-scale=1.00, minimum-scale=1.00, maximum-scale=2.00"
       ></meta>
+      <Head>
+        <script src="https://unpkg.com/packery@2/dist/packery.pkgd.js"></script>
+      </Head>
       <body>
         <AppContextProvider>{children}</AppContextProvider>
       </body>

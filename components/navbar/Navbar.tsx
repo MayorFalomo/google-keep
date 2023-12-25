@@ -81,7 +81,7 @@ const Navbar = ({ note }: any) => {
           <span className=" w-full max-md:hidden">
             {contextValue?.notes?.map((labelNotes: any) => {
               return (
-                <div key={note?._id}>
+                <div key={labelNotes?._id}>
                   <Label labelNotes={labelNotes} />
                 </div>
               );
@@ -114,20 +114,23 @@ const Navbar = ({ note }: any) => {
             <span className="max-md:hidden">Archive </span>
           </li>
         </Link>
-        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
-          <Link href="/about">
-            <span>
-              {
-                <TfiTrash
-                  className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
-                  color="#9AA0A6"
-                  cursor="pointer"
-                />
-              }{" "}
-            </span>
-          </Link>
-          <span className="max-md:hidden">Trash </span>
-        </li>
+        <Link href="/trash">
+          {" "}
+          <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+            <Link href="/about">
+              <span>
+                {
+                  <TfiTrash
+                    className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
+                    color="#9AA0A6"
+                    cursor="pointer"
+                  />
+                }{" "}
+              </span>
+            </Link>
+            <span className="max-md:hidden">Trash </span>
+          </li>
+        </Link>
       </ul>
       <p className="max-[850px]:hidden px-4 text-[#9AA0A6] text-[18px] hover:text-white cursor-pointer">
         {" "}

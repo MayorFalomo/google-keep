@@ -15,6 +15,7 @@ import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
+import Tippy from "@tippyjs/react";
 type Props = {};
 
 const Notes = (props: Props) => {
@@ -113,70 +114,86 @@ const Notes = (props: Props) => {
                 placeholder="Take a note..."
               />
               <div className="flex item-center gap-6 ">
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <BiBellPlus
-                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <MdOutlinePersonAddAlt1
-                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <IoColorPaletteOutline
-                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <BiImageAlt
-                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <BiArchiveIn
-                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <BiDotsVerticalRounded
-                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <BiUndo
-                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <GrRedo
-                      className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
+                <Tippy placement="bottom" content="Remind me">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <BiBellPlus
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="Collaborator ">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <MdOutlinePersonAddAlt1
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="Background options ">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <IoColorPaletteOutline
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="Add image">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <BiImageAlt
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="Archive ">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <BiArchiveIn
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="More ">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <BiDotsVerticalRounded
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="Undo ">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <BiUndo
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="Redo ">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <GrRedo
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
               </div>
               <div className=" flex justify-end">
                 <button
@@ -204,30 +221,36 @@ const Notes = (props: Props) => {
                 placeholder="Take a note..."
               />
               <div className="flex items-center gap-6">
-                <span className="p-4 rounded-full hover:bg-hover">
-                  {
-                    <AiOutlineCheckSquare
-                      className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-4 rounded-full hover:bg-hover">
-                  {
-                    <IoBrushOutline
-                      className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
-                <span className="p-4 rounded-full hover:bg-hover">
-                  {
-                    <BiImageAlt
-                      className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
+                <Tippy placement="bottom" content="New list ">
+                  <span className="p-4 rounded-full hover:bg-hover">
+                    {
+                      <AiOutlineCheckSquare
+                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="New note with Drawing ">
+                  <span className="p-4 rounded-full hover:bg-hover">
+                    {
+                      <IoBrushOutline
+                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
+                <Tippy placement="bottom" content="New note with picture ">
+                  <span className="p-4 rounded-full hover:bg-hover">
+                    {
+                      <BiImageAlt
+                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
               </div>
             </motion.div>
           </AnimatePresence>

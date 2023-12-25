@@ -5,12 +5,15 @@ import { useAppContext } from "../../helpers/Helpers";
 import { getCookie } from "cookies-next";
 import ShowNote from "./showNote";
 import "./notes.css";
-// import Masonry from "masonry-layout";
+import Masonry from "masonry-layout";
 // import Packery from "packery";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-
+// import { Packery } from "packery";
+// import Macy from "macy";
+// import Masonry from "react-responsive-masonry";
+// import { Masonry } from "masonic";
 type Props = {};
 
 //Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
@@ -98,14 +101,7 @@ const ShowNotes = (props: any) => {
   //   // options
   // });
 
-  // React.useEffect(() => {
-  // var msnry = new Masonry(".grid", {
-  //   //options
-  // });
-  // const func = async() {
-  //   const Fuse = (await import('masonry-layout')).default
-
-  // }
+  React.useEffect(() => {});
 
   // func()
 
@@ -240,6 +236,18 @@ const ShowNotes = (props: any) => {
   //   { i: "c", x: 4, y: 0, w: 1, h: 2 },
   // ];
 
+  // var elem = document.querySelector(".grid");
+  // //@ts-ignore
+  // var pckry = new Packery(elem, {
+  //   // options
+  //   itemSelector: ".grid-item",
+  //   gutter: 10,
+  // });
+
+  var msnry = new Masonry(".grid", {
+    //options
+  });
+
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
@@ -330,8 +338,8 @@ const ShowNotes = (props: any) => {
               </div>
             )
           ) : (
-            <div className="flex justify-center m-[auto] ">
-              <span className="loader"></span>
+            <div className="flex justify-center text-center m-[auto] ">
+              <span style={{ textAlign: "center" }} className="loader"></span>
             </div>
           )}
         </motion.div>

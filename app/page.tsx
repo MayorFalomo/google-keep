@@ -9,7 +9,6 @@ import Pinned from "@/components/pinned/Pinned";
 export default function Page() {
   return (
     <div>
-      {/* <DynamicMason /> */}
       <Headerbar />
       <div className={styles.container}>
         <Navbar />
