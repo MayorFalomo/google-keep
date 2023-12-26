@@ -56,6 +56,7 @@ const Navbar = ({ note }: any) => {
             <span className="font-[Cinzel]  max-md:hidden">Notes </span>
           </li>
         </Link>
+
         <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           <span>
             {
@@ -114,20 +115,21 @@ const Navbar = ({ note }: any) => {
             <span className="max-md:hidden">Archive </span>
           </li>
         </Link>
+
         <Link href="/trash">
           {" "}
           <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
-            <Link href="/about">
-              <span>
-                {
-                  <TfiTrash
-                    className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
-                    color="#9AA0A6"
-                    cursor="pointer"
-                  />
-                }{" "}
-              </span>
-            </Link>
+            {/* <Link href="/about"> */}
+            <span>
+              {
+                <TfiTrash
+                  className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
+                  color="#9AA0A6"
+                  cursor="pointer"
+                />
+              }{" "}
+            </span>
+            {/* </Link> */}
             <span className="max-md:hidden">Trash </span>
           </li>
         </Link>

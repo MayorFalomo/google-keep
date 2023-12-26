@@ -164,13 +164,14 @@ const Canvas = (props: any) => {
   //   }
   // };
 
-  const saveCanvas = async (e: any) => {
-    e.preventDefault();
+  const saveCanvas = async () => {
+    // e.preventDefault();
+    // console.log("Hello World ");
 
     if (coordinates?.length > 1) {
       const canvasObject = {
-        // _id: props?.noteUrlParams,
-
+        // _id: generateId(24),
+        ...props?.canvasNoteObject,
         canvas: {
           type: "draw",
           color: lineColor,
@@ -180,19 +181,26 @@ const Canvas = (props: any) => {
       };
 
       try {
-        await axios.post(
-          "https://keep-backend-theta.vercel.app/api/notes/save-canvas",
-          canvasObject
-        );
-        contextValue?.setNotes((prevState: any) =>
-          prevState.map((note: any) =>
-            note._id == props.noteUrlParams
-              ? { ...note, canvas: canvasObject.canvas }
-              : note
+        console.log(canvasObject, "This is canvasObject");
+
+        await axios
+          .post(
+            "https://keep-backend-theta.vercel.app/api/notes/create-note",
+            canvasObject
           )
+          .catch((err) => console.log(err));
+        contextValue?.setNotes(
+          [...contextValue?.notes, canvasObject].reverse()
         );
+        // contextValue?.setNotes((prevState: any) =>
+        //   prevState.map((note: any) =>
+        //     note._id == props.noteUrlParams
+        //       ? { ...note, canvas: canvasObject.canvas }
+        //       : note
+        //   )
+        // );
         toast.success("Canvas saved successfully");
-        props?.setOpenCanvasModal(false);
+        props?.setOpenCreateCanvas(false);
       } catch (err) {
         console.log(err);
         toast.error("Error saving canvas");
@@ -212,46 +220,47 @@ const Canvas = (props: any) => {
   };
   // console.log(props?.noteUrlParams, "Log it");
 
-  const recreateCanvas = () => {
-    // console.log(singleNote, "This is singleNote");
+  // const recreateCanvas = () => {
+  //   // console.log(singleNote, "This is singleNote");
 
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
+  //   const canvas = canvasRef.current;
+  //   const ctx = canvas?.getContext("2d");
 
-    if (canvas && ctx) {
-      // Clear the canvas before applying actions
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // console.log(singleNote?.canvas, "Thi is canvas");
-      // Iterate through each action and recreate the entire canvas
+  //   if (canvas && ctx) {
+  //     // Clear the canvas before applying actions
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //     // console.log(singleNote?.canvas, "Thi is canvas");
+  //     // Iterate through each action and recreate the entire canvas
 
-      props?.canvasNote?.canvas?.forEach((action: any) => {
-        if (action.type == "draw" && action.points?.length > 1) {
-          ctx.beginPath();
-          ctx.strokeStyle = action.color;
-          ctx.lineWidth = action.lineWidth;
+  //     props?.canvasNote?.canvas?.forEach((action: any) => {
+  //       if (action.type == "draw" && action.points?.length > 1) {
+  //         ctx.beginPath();
+  //         ctx.strokeStyle = action.color;
+  //         ctx.lineWidth = action.lineWidth;
 
-          // Move to the starting point of the path
-          const startPoint = action.points[0];
-          // console.log(action.points[0], "This is action");
+  //         // Move to the starting point of the path
+  //         const startPoint = action.points[0];
+  //         // console.log(action.points[0], "This is action");
 
-          // console.log(startPoint.x, startPoint.y);
+  //         // console.log(startPoint.x, startPoint.y);
 
-          ctx.moveTo(startPoint.x, startPoint.y);
+  //         ctx.moveTo(startPoint.x, startPoint.y);
 
-          // Draw the entire path
-          action.points.forEach((point: any) => {
-            ctx.lineTo(point.x, point.y);
-          });
+  //         // Draw the entire path
+  //         action.points.forEach((point: any) => {
+  //           ctx.lineTo(point.x, point.y);
+  //         });
 
-          ctx.stroke();
-        }
-      });
-    }
-  };
+  //         ctx.stroke();
+  //       }
+  //     });
+  //   }
+  // };
 
-  useEffect(() => {
-    recreateCanvas();
-  }, []);
+  // useEffect(() => {
+  //   recreateCanvas();
+  // }, []);
+
   // UseEffect to update the strokeStyle in the canvas when lineColor changes
   useEffect(() => {
     const ctx = ctxRef.current;
@@ -265,6 +274,7 @@ const Canvas = (props: any) => {
   // console.log(coordinates, "coordinates");
 
   // console.log(props?.canvasNote, "This is canvas Note");
+  // console.log(props?.canvasNoteObject, "canvas object");
 
   return (
     <div>
@@ -274,10 +284,10 @@ const Canvas = (props: any) => {
           setLineWidth={setLineWidth}
           setLineOpacity={setLineOpacity}
           coordinates={coordinates}
-          recreateCanvas={recreateCanvas}
+          // recreateCanvas={recreateCanvas}
           clearCanvas={clearCanvas}
           saveCanvas={saveCanvas}
-          setOpenCanvasModal={props?.setOpenCanvasModal}
+          setOpenCreateCanvas={props?.setOpenCreateCanvas}
         />
         <canvas
           ref={canvasRef}

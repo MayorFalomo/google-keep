@@ -17,6 +17,7 @@ import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import toast from "react-hot-toast";
+import Canvas from "../createCanvas/canvas/Canvas";
 type Props = {};
 
 const Notes = (props: Props) => {
@@ -35,6 +36,7 @@ const Notes = (props: Props) => {
   const [location, setLocation] = useState<string>("");
   const [noteCanvas, setNoteCanvas] = useState<any>([]);
   const [noteUrlParams, setNoteUrlParams] = useState<string>("");
+  const [openCreateCanvas, setOpenCreateCanvas] = useState<boolean>(false);
   //generateId
   function dec2hex(dec: any) {
     return dec.toString(16).padStart(2, "0");
@@ -66,7 +68,7 @@ const Notes = (props: Props) => {
       collaborator,
       labels,
       location,
-      noteCanvas,
+      canvas: noteCanvas,
     };
     try {
       await axios.post(
@@ -122,7 +124,7 @@ const Notes = (props: Props) => {
             collaborator,
             labels,
             location,
-            noteCanvas,
+            canvas: noteCanvas,
           };
 
           //route to upload a picture or video
@@ -167,6 +169,23 @@ const Notes = (props: Props) => {
         }
       })
       .catch((err) => console.log(err));
+  };
+
+  const canvasNoteObject = {
+    userId: contextValue.user?._id,
+    username: contextValue.user?.username,
+    _id: generateId(24),
+    title,
+    note,
+    picture,
+    video,
+    drawing,
+    bgImage,
+    bgColor,
+    remainder,
+    collaborator,
+    labels,
+    location,
   };
 
   return (
@@ -330,7 +349,10 @@ const Notes = (props: Props) => {
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="New note with Drawing ">
-                  <span className="p-4 rounded-full hover:bg-hover">
+                  <span
+                    onClick={() => setOpenCreateCanvas(true)}
+                    className="p-4 rounded-full hover:bg-hover"
+                  >
                     {
                       <IoBrushOutline
                         className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
@@ -360,6 +382,14 @@ const Notes = (props: Props) => {
                   id="fileInputImage"
                   style={{ display: "none" }}
                 />
+                {openCreateCanvas && (
+                  <div className="fixed z-50 top-0 left-0 h-full w-full">
+                    <Canvas
+                      setOpenCreateCanvas={setOpenCreateCanvas}
+                      canvasNoteObject={canvasNoteObject}
+                    />
+                  </div>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>
