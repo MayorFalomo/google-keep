@@ -533,6 +533,8 @@ const ShowNote = (props: any) => {
     setOpenNotifyModal(false);
   };
 
+  console.log(props?.note.canvas, "This is props");
+
   return (
     <div
       style={{
@@ -541,6 +543,9 @@ const ShowNote = (props: any) => {
       className="mapped"
     >
       <div className="subContainer" onClick={handleClick}>
+        {props?.note?.canvas?.map((canvas: any, index: number) => {
+          return <CanvasImage key={index} canvas={canvas} />;
+        })}
         {props?.note?.picture ? (
           <Image
             className="w-[100%] max-h-[150px]"
@@ -983,6 +988,14 @@ const ShowNote = (props: any) => {
           },
         }}
       />
+    </div>
+  );
+};
+
+const CanvasImage = (canvas: any) => {
+  return (
+    <div className="w-[100%] h-[100%]">
+      <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" />
     </div>
   );
 };

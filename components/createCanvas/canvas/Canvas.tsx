@@ -20,13 +20,6 @@ const Canvas = (props: any) => {
   const startCoordinatesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const endCoordinatesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const drawingDataRef = useRef<any>([]);
-  // const [drawingData, setDrawingData] = useState<any>([]);
-  // const [coordinates, setCoordinates] = useState({
-  //   x1: 0,
-  //   y1: 0,
-  //   x2: 0,
-  //   y2: 0,
-  // });
 
   const [coordinates, setCoordinates] = useState<
     Array<{ x: number; y: number }>
@@ -53,10 +46,7 @@ const Canvas = (props: any) => {
       ctx.beginPath();
       const startX = e.nativeEvent.offsetX;
       const startY = e.nativeEvent.offsetY;
-      // drawingDataRef.current.push({
-      //   type: "draw",
-      //   points: [{ x: startX, y: startY }],
-      // });
+
       ctx.moveTo(startX, startY);
 
       setCoordinates([{ x: startX, y: startY }]);
@@ -169,14 +159,16 @@ const Canvas = (props: any) => {
     // console.log("Hello World ");
 
     if (coordinates?.length > 1) {
+      const canvas = canvasRef.current;
+      const imageDataURL = canvas?.toDataURL("image/png");
       const canvasObject = {
-        // _id: generateId(24),
         ...props?.canvasNoteObject,
         canvas: {
           type: "draw",
           color: lineColor,
           lineWidth: lineWidth,
           points: [...coordinates],
+          imageDataURL: imageDataURL || "",
         },
       };
 

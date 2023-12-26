@@ -52,7 +52,7 @@ const Canvasmenu = (props: any) => {
             />
           </section>
         </div>
-        <form onSubmit={props?.saveCanvas}>
+        <div>
           <div className="flex items-center gap-3 ">
             <button
               className="py-1 px-3 rounded-[5px]"
@@ -84,7 +84,7 @@ const Canvasmenu = (props: any) => {
                 color: "#fff",
                 borderRadius: "5px",
               }}
-              // onClick={() => props?.saveCanvas()}
+              onClick={() => props?.saveCanvas()}
             >
               Save
             </button>
@@ -100,7 +100,7 @@ const Canvasmenu = (props: any) => {
               Close{" "}
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

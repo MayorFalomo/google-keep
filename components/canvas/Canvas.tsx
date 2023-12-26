@@ -17,9 +17,8 @@ const Canvas = (props: any) => {
   const [lineWidth, setLineWidth] = useState(5);
   const [lineColor, setLineColor] = useState("black");
   const [lineOpacity, setLineOpacity] = useState(1);
-  const startCoordinatesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const endCoordinatesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const drawingDataRef = useRef<any>([]);
+
   // const [drawingData, setDrawingData] = useState<any>([]);
   // const [coordinates, setCoordinates] = useState({
   //   x1: 0,
@@ -39,12 +38,12 @@ const Canvas = (props: any) => {
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
         ctx.globalAlpha = lineOpacity;
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = lineColor;
         ctx.lineWidth = 5;
         ctxRef.current = ctx;
       }
     }
-  }, []);
+  }, [lineOpacity, lineColor]);
 
   // Function for starting the drawing
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -164,18 +163,18 @@ const Canvas = (props: any) => {
   //   }
   // };
 
-  const saveCanvas = async (e: any) => {
-    e.preventDefault();
-
+  const saveCanvas = async () => {
     if (coordinates?.length > 1) {
+      const canvas = canvasRef.current;
+      const imageDataURL = canvas?.toDataURL("image/png");
       const canvasObject = {
-        // _id: props?.noteUrlParams,
-
+        _id: props?.noteUrlParams,
         canvas: {
           type: "draw",
           color: lineColor,
           lineWidth: lineWidth,
           points: [...coordinates],
+          imageDataURL: imageDataURL || "",
         },
       };
 
@@ -187,10 +186,11 @@ const Canvas = (props: any) => {
         contextValue?.setNotes((prevState: any) =>
           prevState.map((note: any) =>
             note._id == props.noteUrlParams
-              ? { ...note, canvas: canvasObject.canvas }
+              ? { ...note, canvas: canvasObject }
               : note
           )
         );
+
         toast.success("Canvas saved successfully");
         props?.setOpenCanvasModal(false);
       } catch (err) {
@@ -252,6 +252,7 @@ const Canvas = (props: any) => {
   useEffect(() => {
     recreateCanvas();
   }, []);
+
   // UseEffect to update the strokeStyle in the canvas when lineColor changes
   useEffect(() => {
     const ctx = ctxRef.current;
@@ -273,7 +274,7 @@ const Canvas = (props: any) => {
           setLineColor={setLineColor}
           setLineWidth={setLineWidth}
           setLineOpacity={setLineOpacity}
-          coordinates={coordinates}
+          // coordinates={coordinates}
           recreateCanvas={recreateCanvas}
           clearCanvas={clearCanvas}
           saveCanvas={saveCanvas}
