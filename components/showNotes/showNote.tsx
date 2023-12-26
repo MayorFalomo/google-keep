@@ -530,6 +530,7 @@ const ShowNote = (props: any) => {
     });
     setOpenOptionsModal(!openOptionsModal);
     props?.setNoteUrlParams(props?.note?._id);
+    setOpenNotifyModal(false);
   };
 
   return (
@@ -635,7 +636,10 @@ const ShowNote = (props: any) => {
                 <BiBellPlus
                   className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
                   cursor="pointer"
-                  onClick={() => setOpenNotifyModal(!openNotifyModal)}
+                  onClick={() => {
+                    setOpenNotifyModal(!openNotifyModal);
+                    setOpenOptionsModal(false);
+                  }}
                 />
               }{" "}
             </span>

@@ -16,6 +16,7 @@ import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
+import toast from "react-hot-toast";
 type Props = {};
 
 const Notes = (props: Props) => {
@@ -24,6 +25,7 @@ const Notes = (props: Props) => {
   const [title, setTitle] = useState<string>("");
   const [note, setNote] = useState<string>("");
   const [picture, setPicture] = useState<string>("");
+  const [video, setVideo] = useState<string>("");
   const [drawing, setDrawing] = useState<string>("");
   const [bgImage, setBgImage] = useState<string>("");
   const [bgColor, setBgColor] = useState<string>("");
@@ -32,7 +34,7 @@ const Notes = (props: Props) => {
   const [labels, setLabels] = useState<any>([]);
   const [location, setLocation] = useState<string>("");
   const [noteCanvas, setNoteCanvas] = useState<any>([]);
-
+  const [noteUrlParams, setNoteUrlParams] = useState<string>("");
   //generateId
   function dec2hex(dec: any) {
     return dec.toString(16).padStart(2, "0");
@@ -56,6 +58,7 @@ const Notes = (props: Props) => {
       title,
       note,
       picture,
+      video,
       drawing,
       bgImage,
       bgColor,
@@ -80,6 +83,90 @@ const Notes = (props: Props) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const createNoteWithPicture = (files: any, mediaType: string) => {
+    setNoteUrlParams(generateId(24));
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "t3dil6ur");
+
+    const uploadEndpoint =
+      mediaType == "image"
+        ? "https://api.cloudinary.com/v1_1/dsghy4siv/image/upload"
+        : "https://api.cloudinary.com/v1_1/dsghy4siv/video/upload";
+
+    axios
+      .post(uploadEndpoint, formData)
+      .then((res) => {
+        // setPicture("");
+        // setVideo("");
+
+        if (res.data.url) {
+          const mediaObject =
+            mediaType == "image"
+              ? { picture: res.data.url, video: "" }
+              : { video: res.data.url, picture: "" };
+
+          const newNoteObject = {
+            id: generateId(24),
+            ...mediaObject,
+            userId: contextValue.user?._id,
+            username: contextValue.user?.username,
+            title,
+            note,
+            drawing,
+            bgImage,
+            bgColor,
+            remainder,
+            collaborator,
+            labels,
+            location,
+            noteCanvas,
+          };
+
+          //route to upload a picture or video
+          // const updateEndpoint = mediaType == "image"
+          //     ? "https://keep-backend-theta.vercel.app/api/notes/upload-picture"
+          //     : "https://keep-backend-theta.vercel.app/api/notes/upload-video";
+
+          try {
+            axios
+              .post(`http:localhost:5000/api/notes/create-note`, newNoteObject)
+              .catch((err) => console.log(err));
+
+            contextValue?.setNotes(
+              [...contextValue?.notes, newNoteObject].reverse()
+            );
+
+            // Update the contextValue.notes array with updated note
+            // contextValue?.setNotes((prevState: any) =>
+            //   prevState.map((note: any) =>
+            //     note._id == noteUrlParams
+            //       ? {
+            //           ...note,
+            //           ...mediaObject,
+            //         }
+            //       : note
+            //   )
+            // );
+
+            toast.success(
+              mediaType == "image"
+                ? "Picture has been uploaded successfully"
+                : "Video has been uploaded successfully"
+            );
+          } catch (error) {
+            console.error(
+              error &&
+                (mediaType == "image"
+                  ? "Error updating picture"
+                  : "Error updating video")
+            );
+          }
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -145,15 +232,26 @@ const Notes = (props: Props) => {
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="Add image">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                  <label
+                    htmlFor="fileInputImage"
+                    className="p-3 rounded-full hover:bg-hover"
+                  >
                     {
                       <BiImageAlt
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
                         cursor="pointer"
                       />
                     }{" "}
-                  </span>
+                  </label>
                 </Tippy>
+                <input
+                  type="file"
+                  onChange={(e) =>
+                    createNoteWithPicture(e.target.files, "image")
+                  }
+                  id="fileInputImage"
+                  style={{ display: "none" }}
+                />
                 <Tippy placement="bottom" content="Archive ">
                   <span className="p-3 rounded-full hover:bg-hover">
                     {
@@ -242,15 +340,26 @@ const Notes = (props: Props) => {
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="New note with picture ">
-                  <span className="p-4 rounded-full hover:bg-hover">
+                  <label
+                    htmlFor="fileInputImage"
+                    className="p-4 rounded-full hover:bg-hover"
+                  >
                     {
                       <BiImageAlt
                         className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
                         cursor="pointer"
                       />
                     }{" "}
-                  </span>
+                  </label>
                 </Tippy>
+                <input
+                  type="file"
+                  onChange={(e) =>
+                    createNoteWithPicture(e.target.files, "image")
+                  }
+                  id="fileInputImage"
+                  style={{ display: "none" }}
+                />
               </div>
             </motion.div>
           </AnimatePresence>
