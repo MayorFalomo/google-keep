@@ -28,7 +28,7 @@ const Canvas = (props: any) => {
   // });
 
   const [coordinates, setCoordinates] = useState<
-    Array<{ x: number; y: number }>
+    Array<{ x: number; y: number; color: string; lineWidth: number }>
   >([]);
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -40,6 +40,7 @@ const Canvas = (props: any) => {
         ctx.globalAlpha = lineOpacity;
         ctx.strokeStyle = lineColor;
         ctx.lineWidth = 5;
+        ctx.beginPath(); // Reset the path
         ctxRef.current = ctx;
       }
     }
@@ -58,14 +59,16 @@ const Canvas = (props: any) => {
       // });
       ctx.moveTo(startX, startY);
 
-      setCoordinates([{ x: startX, y: startY }]);
+      setCoordinates([
+        { x: startX, y: startY, color: lineColor, lineWidth: lineWidth },
+      ]);
 
       isDrawingRef.current = true;
       // console.log(startX, startY);
     }
   };
 
-  // Function for drawing
+  // Function for drawing canvas
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawingRef.current) {
       return;
@@ -78,7 +81,10 @@ const Canvas = (props: any) => {
       // Draw the line segment
       ctx.lineTo(offsetX, offsetY);
       ctx.stroke();
-      setCoordinates((prev) => [...prev, { x: offsetX, y: offsetY }]);
+      setCoordinates((prev) => [
+        ...prev,
+        { x: offsetX, y: offsetY, color: lineColor, lineWidth: lineWidth },
+      ]);
     }
   };
 
@@ -163,19 +169,22 @@ const Canvas = (props: any) => {
   //   }
   // };
 
+  //Function for saving canvas
   const saveCanvas = async () => {
     if (coordinates?.length > 1) {
       const canvas = canvasRef.current;
       const imageDataURL = canvas?.toDataURL("image/png");
       const canvasObject = {
         _id: props?.noteUrlParams,
-        canvas: {
-          type: "draw",
-          color: lineColor,
-          lineWidth: lineWidth,
-          points: [...coordinates],
-          imageDataURL: imageDataURL || "",
-        },
+        canvas: [
+          {
+            type: "draw",
+            // color: lineColor,
+            // lineWidth: lineWidth,
+            points: [...coordinates],
+            imageDataURL: imageDataURL || "",
+          },
+        ],
       };
 
       try {
@@ -184,11 +193,18 @@ const Canvas = (props: any) => {
           canvasObject
         );
         contextValue?.setNotes((prevState: any) =>
-          prevState.map((note: any) =>
-            note._id == props.noteUrlParams
-              ? { ...note, canvas: canvasObject }
-              : note
-          )
+          prevState.map((note: any) => {
+            if (note._id == props.noteUrlParams) {
+              console.log(note);
+
+              return {
+                ...note,
+                canvas: [canvasObject.canvas],
+              };
+            } else {
+              return note;
+            }
+          })
         );
 
         toast.success("Canvas saved successfully");
@@ -207,47 +223,79 @@ const Canvas = (props: any) => {
     if (canvas && ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       // Save the clear canvas action
-      drawingDataRef.current.push({ type: "" });
+      // drawingDataRef.current.push({ type: "" });
     }
   };
-  // console.log(props?.noteUrlParams, "Log it");
 
+  //Function to recreate the canvas drawing
   const recreateCanvas = () => {
-    // console.log(singleNote, "This is singleNote");
-
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
 
     if (canvas && ctx) {
-      // Clear the canvas before applying actions
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // console.log(singleNote?.canvas, "Thi is canvas");
-      // Iterate through each action and recreate the entire canvas
+      //We map over the canvas array and draw each action
+      props?.canvasNote?.canvas?.forEach((drawArray: any) => {
+        drawArray.forEach((action: any) => {
+          if (action.type == "draw" && action.points?.length > 1) {
+            ctx.beginPath();
 
-      props?.canvasNote?.canvas?.forEach((action: any) => {
-        if (action.type == "draw" && action.points?.length > 1) {
-          ctx.beginPath();
-          ctx.strokeStyle = action.color;
-          ctx.lineWidth = action.lineWidth;
+            // Iterate over the points array (second level)
+            action.points.forEach((point: any) => {
+              // Extract color from each point object
+              const { x, y, color } = point;
 
-          // Move to the starting point of the path
-          const startPoint = action.points[0];
-          // console.log(action.points[0], "This is action");
+              // console.log(point, "This is point");
+              // console.log(action.points, "This is action.points");
 
-          // console.log(startPoint.x, startPoint.y);
+              ctx.strokeStyle = color;
+              ctx.lineWidth = lineWidth;
 
-          ctx.moveTo(startPoint.x, startPoint.y);
+              if (point == action.points[0]) {
+                ctx.moveTo(x, y);
+              } else {
+                ctx.lineTo(x, y);
+              }
+            });
 
-          // Draw the entire path
-          action.points.forEach((point: any) => {
-            ctx.lineTo(point.x, point.y);
-          });
-
-          ctx.stroke();
-        }
+            ctx.stroke();
+          }
+        });
       });
     }
   };
+
+  // const recreateCanvas = () => {
+  //   const canvas = canvasRef.current;
+  //   const ctx = canvas?.getContext("2d");
+
+  //   if (canvas && ctx) {
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  //     props?.canvasNote?.canvas?.forEach((drawArray: any) => {
+  //       // Iterate over the nested array (first level)
+  //       drawArray.forEach((action: any) => {
+  //         console.log(action, "This is action");
+
+  //         if (action.type == "draw" && action.points?.length > 1) {
+  //           ctx.beginPath();
+  //           ctx.strokeStyle = action.color;
+  //           ctx.lineWidth = action.lineWidth;
+
+  //           const startPoint = action.points[0];
+  //           ctx.moveTo(startPoint.x, startPoint.y);
+
+  //           // Iterate over the points array (second level)
+  //           action.points.forEach((point: any) => {
+  //             ctx.lineTo(point.x, point.y);
+  //           });
+
+  //           ctx.stroke();
+  //         }
+  //       });
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     recreateCanvas();
@@ -265,7 +313,9 @@ const Canvas = (props: any) => {
 
   // console.log(coordinates, "coordinates");
 
-  // console.log(props?.canvasNote, "This is canvas Note");
+  console.log(props?.canvasNote, "This is canvas Note");
+
+  console.log(coordinates, "coordinates", props?.canvasNote?.canvas, "canvas");
 
   return (
     <div>

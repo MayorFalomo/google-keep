@@ -81,7 +81,7 @@ const AppContextProvider = ({ children }: any) => {
 
   //UseEffect to load cookies.user and just
   useEffect(() => {
-    console.log(currentUser, "This is currentUser");
+    // console.log(currentUser, "This is currentUser");
 
     getCurrentUser(currentUser ? currentUser : "");
     // console.log(getCookie("user"), "This is the provider");

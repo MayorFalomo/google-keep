@@ -532,8 +532,9 @@ const ShowNote = (props: any) => {
     props?.setNoteUrlParams(props?.note?._id);
     setOpenNotifyModal(false);
   };
+  // console.log(props?.note, "This is note props");
 
-  console.log(props?.note.canvas, "This is props");
+  // console.log(props?.note.canvas, "This is props");
 
   return (
     <div
@@ -993,9 +994,22 @@ const ShowNote = (props: any) => {
 };
 
 const CanvasImage = (canvas: any) => {
+  // console.log(canvas.canvas, "canvasImage");
+  return (
+    <div>
+      {canvas.canvas.map((canvas: any, index: number) => {
+        return <ShowCanvasImage key={index} canvas={canvas} />;
+      })}
+      {/* <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" /> */}
+    </div>
+  );
+};
+
+const ShowCanvasImage = (canvas: any) => {
+  // console.log(draw.draw?.imageDataURL, "canvasImage");
   return (
     <div className="w-[100%] h-[100%]">
-      <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" />
+      <img src={canvas.canvas?.imageDataURL} className="w-[100%] h-[100%]" />
     </div>
   );
 };

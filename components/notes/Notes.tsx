@@ -76,7 +76,9 @@ const Notes = (props: Props) => {
         newNote
       );
       // window.location.replace("/tweets/" + res.data._id)
-      contextValue?.setNotes([...contextValue?.notes, newNote].reverse());
+      contextValue?.setNotes((prevNotes: any) => [newNote, ...prevNotes]);
+      // contextValue?.setNotes(...contextValue?.notes.unshift(newNote));
+      // contextValue?.setNotes([...contextValue?.notes, newNote].reverse());
       // console.log("Note has been added successfully");
       contextValue.setOpenTextArea(false);
       setTitle("");

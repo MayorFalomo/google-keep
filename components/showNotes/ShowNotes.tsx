@@ -58,7 +58,7 @@ const ShowNotes = (props: any) => {
     // }
   }, [userCookie]);
 
-  console.log(contextValue?.notes, "notes");
+  // console.log(contextValue?.notes, "notes");
 
   const items = contextValue?.notes || []; // Assuming contextValue.notes is the array of items
 
