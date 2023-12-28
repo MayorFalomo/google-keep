@@ -138,22 +138,14 @@ const Notes = (props: Props) => {
             axios
               .post(`http:localhost:5000/api/notes/create-note`, newNoteObject)
               .catch((err) => console.log(err));
+            contextValue?.setNotes((prevNotes: any) => [
+              newNoteObject,
+              ...prevNotes,
+            ]);
 
             contextValue?.setNotes(
               [...contextValue?.notes, newNoteObject].reverse()
             );
-
-            // Update the contextValue.notes array with updated note
-            // contextValue?.setNotes((prevState: any) =>
-            //   prevState.map((note: any) =>
-            //     note._id == noteUrlParams
-            //       ? {
-            //           ...note,
-            //           ...mediaObject,
-            //         }
-            //       : note
-            //   )
-            // );
 
             toast.success(
               mediaType == "image"

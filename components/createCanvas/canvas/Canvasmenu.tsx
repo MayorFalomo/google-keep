@@ -53,7 +53,7 @@ const Canvasmenu = (props: any) => {
           </section>
         </div>
         <div>
-          <div className="flex items-center gap-3 ">
+          <div className="flex items-center flex-wrap gap-3 ">
             <button
               className="py-1 px-3 rounded-[5px]"
               style={{
@@ -101,6 +101,17 @@ const Canvasmenu = (props: any) => {
               onClick={() => props?.setOpenCreateCanvas(false)}
             >
               Close{" "}
+            </button>
+            <button
+              className="py-1 px-3 rounded-[5px] cursor-pointer "
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: "5px",
+              }}
+              onClick={() => props?.deleteCanvas()}
+            >
+              delete{" "}
             </button>
           </div>
         </div>

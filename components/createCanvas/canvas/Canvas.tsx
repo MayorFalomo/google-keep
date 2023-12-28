@@ -11,19 +11,16 @@ const Canvas = (props: any) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const isDrawingRef = useRef(false);
-  const [singleNote, setSingleNote] = useState<any>();
 
   // const [isDrawing, setIsDrawing] = useState(false);
   const [lineWidth, setLineWidth] = useState(5);
   const [lineColor, setLineColor] = useState("black");
   const [lineOpacity, setLineOpacity] = useState(1);
-  const startCoordinatesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const endCoordinatesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const drawingDataRef = useRef<any>([]);
 
   const [coordinates, setCoordinates] = useState<
-    Array<{ x: number; y: number }>
+    Array<{ x: number; y: number; color: string; lineWidth: number }>
   >([]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
@@ -32,12 +29,12 @@ const Canvas = (props: any) => {
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
         ctx.globalAlpha = lineOpacity;
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = lineColor;
         ctx.lineWidth = 5;
         ctxRef.current = ctx;
       }
     }
-  }, []);
+  }, [lineOpacity, lineColor]);
 
   // Function for starting the drawing
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -49,7 +46,9 @@ const Canvas = (props: any) => {
 
       ctx.moveTo(startX, startY);
 
-      setCoordinates([{ x: startX, y: startY }]);
+      setCoordinates([
+        { x: startX, y: startY, color: lineColor, lineWidth: lineWidth },
+      ]);
 
       isDrawingRef.current = true;
       // console.log(startX, startY);
@@ -69,13 +68,60 @@ const Canvas = (props: any) => {
       // Draw the line segment
       ctx.lineTo(offsetX, offsetY);
       ctx.stroke();
-      setCoordinates((prev) => [...prev, { x: offsetX, y: offsetY }]);
+      setCoordinates((prev: any) => [
+        ...prev,
+        { x: offsetX, y: offsetY, color: lineColor, lineWidth: lineWidth },
+      ]);
     }
   };
 
   // Function for ending the drawing
   const endDrawing = () => {
     isDrawingRef.current = false;
+  };
+
+  const saveCanvas = async () => {
+    if (coordinates?.length > 1) {
+      const canvas = canvasRef.current;
+      const imageDataURL = canvas?.toDataURL("image/png");
+      const canvasObject = {
+        _id: props?.noteUrlParams,
+        canvas: [
+          {
+            type: "draw",
+            points: [...coordinates],
+            imageDataURL: imageDataURL || "",
+          },
+        ],
+      };
+
+      try {
+        await axios.post(
+          "https://keep-backend-theta.vercel.app/api/notes/save-canvas",
+          canvasObject
+        );
+        contextValue?.setNotes((prevState: any) =>
+          prevState.map((note: any) => {
+            if (note._id == props.noteUrlParams) {
+              console.log(note);
+
+              return {
+                ...note,
+                canvas: [canvasObject.canvas],
+              };
+            } else {
+              return note;
+            }
+          })
+        );
+
+        toast.success("Canvas saved successfully");
+        props?.setOpenCreateCanvas(false);
+      } catch (err) {
+        console.log(err);
+        toast.error("Error saving canvas");
+      }
+    }
   };
 
   // Function for drawing
@@ -154,51 +200,51 @@ const Canvas = (props: any) => {
   //   }
   // };
 
-  const saveCanvas = async () => {
-    // e.preventDefault();
-    // console.log("Hello World ");
+  // const saveCanvas = async () => {
+  //   // e.preventDefault();
+  //   // console.log("Hello World ");
 
-    if (coordinates?.length > 1) {
-      const canvas = canvasRef.current;
-      const imageDataURL = canvas?.toDataURL("image/png");
-      const canvasObject = {
-        ...props?.canvasNoteObject,
-        canvas: {
-          type: "draw",
-          color: lineColor,
-          lineWidth: lineWidth,
-          points: [...coordinates],
-          imageDataURL: imageDataURL || "",
-        },
-      };
+  //   if (coordinates?.length > 1) {
+  //     const canvas = canvasRef.current;
+  //     const imageDataURL = canvas?.toDataURL("image/png");
+  //     const canvasObject = {
+  //       ...props?.canvasNoteObject,
+  //       canvas: {
+  //         type: "draw",
+  //         color: lineColor,
+  //         lineWidth: lineWidth,
+  //         points: [...coordinates],
+  //         imageDataURL: imageDataURL || "",
+  //       },
+  //     };
 
-      try {
-        console.log(canvasObject, "This is canvasObject");
+  //     try {
+  //       console.log(canvasObject, "This is canvasObject");
 
-        await axios
-          .post(
-            "https://keep-backend-theta.vercel.app/api/notes/create-note",
-            canvasObject
-          )
-          .catch((err) => console.log(err));
-        contextValue?.setNotes(
-          [...contextValue?.notes, canvasObject].reverse()
-        );
-        // contextValue?.setNotes((prevState: any) =>
-        //   prevState.map((note: any) =>
-        //     note._id == props.noteUrlParams
-        //       ? { ...note, canvas: canvasObject.canvas }
-        //       : note
-        //   )
-        // );
-        toast.success("Canvas saved successfully");
-        props?.setOpenCreateCanvas(false);
-      } catch (err) {
-        console.log(err);
-        toast.error("Error saving canvas");
-      }
-    }
-  };
+  //       await axios
+  //         .post(
+  //           "https://keep-backend-theta.vercel.app/api/notes/create-note",
+  //           canvasObject
+  //         )
+  //         .catch((err) => console.log(err));
+  //       contextValue?.setNotes(
+  //         [...contextValue?.notes, canvasObject].reverse()
+  //       );
+  //       // contextValue?.setNotes((prevState: any) =>
+  //       //   prevState.map((note: any) =>
+  //       //     note._id == props.noteUrlParams
+  //       //       ? { ...note, canvas: canvasObject.canvas }
+  //       //       : note
+  //       //   )
+  //       // );
+  //       toast.success("Canvas saved successfully");
+  //       props?.setOpenCreateCanvas(false);
+  //     } catch (err) {
+  //       console.log(err);
+  //       toast.error("Error saving canvas");
+  //     }
+  //   }
+  // };
 
   // Function to clear the canvas
   const clearCanvas = () => {
@@ -207,9 +253,91 @@ const Canvas = (props: any) => {
     if (canvas && ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       // Save the clear canvas action
-      drawingDataRef.current.push({ type: "" });
+      // drawingDataRef.current.push({ type: "" });
     }
   };
+
+  const deleteCanvas = async () => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    const canvasObject = {
+      _id: props?.noteUrlParams,
+      // canvas: [],
+    };
+    if (canvas && ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    try {
+      await axios
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/delete-canvas`,
+          canvasObject._id
+        )
+        .catch((err: any) => console.log(err));
+      contextValue?.setNotes((prevState: any) =>
+        prevState.map((note: any) => {
+          if (note._id == props.noteUrlParams) {
+            console.log(note);
+
+            return {
+              ...note,
+              canvas: [],
+            };
+          } else {
+            return note;
+          }
+        })
+      );
+      toast.success("Canvas deleted successfully");
+      props?.setOpenCanvasModal(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const recreateCanvas = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+
+    if (canvas && ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      //We map over the canvas array and draw each action
+      props?.canvasNote?.canvas?.forEach((drawArray: any) => {
+        drawArray.forEach((action: any) => {
+          if (action.type == "draw" && action.points?.length > 1) {
+            ctx.beginPath();
+
+            // Iterate over the points array (second level)
+            action.points.forEach((point: any) => {
+              // Extract color from each point object
+              const { x, y, color } = point;
+
+              // console.log(point, "This is point");
+              // console.log(action.points, "This is action.points");
+
+              ctx.strokeStyle = color;
+              ctx.lineWidth = lineWidth;
+              // ctx.moveTo(x, y);
+              // ctx.lineTo(x, y);
+
+              if (point == action.points[0]) {
+                ctx.moveTo(x, y);
+              } else {
+                ctx.lineTo(x, y);
+              }
+            });
+
+            ctx.stroke();
+          }
+        });
+      });
+    }
+  };
+
+  useEffect(() => {
+    recreateCanvas();
+  });
+
   // console.log(props?.noteUrlParams, "Log it");
 
   // const recreateCanvas = () => {
@@ -275,10 +403,10 @@ const Canvas = (props: any) => {
           setLineColor={setLineColor}
           setLineWidth={setLineWidth}
           setLineOpacity={setLineOpacity}
-          coordinates={coordinates}
-          // recreateCanvas={recreateCanvas}
+          recreateCanvas={recreateCanvas}
           clearCanvas={clearCanvas}
           saveCanvas={saveCanvas}
+          deleteCanvas={deleteCanvas}
           setOpenCreateCanvas={props?.setOpenCreateCanvas}
         />
         <canvas

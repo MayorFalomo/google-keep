@@ -11,7 +11,6 @@ const Canvas = (props: any) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const isDrawingRef = useRef(false);
-  const [singleNote, setSingleNote] = useState<any>();
 
   // const [isDrawing, setIsDrawing] = useState(false);
   const [lineWidth, setLineWidth] = useState(5);
@@ -19,17 +18,10 @@ const Canvas = (props: any) => {
   const [lineOpacity, setLineOpacity] = useState(1);
   const drawingDataRef = useRef<any>([]);
 
-  // const [drawingData, setDrawingData] = useState<any>([]);
-  // const [coordinates, setCoordinates] = useState({
-  //   x1: 0,
-  //   y1: 0,
-  //   x2: 0,
-  //   y2: 0,
-  // });
-
   const [coordinates, setCoordinates] = useState<
     Array<{ x: number; y: number; color: string; lineWidth: number }>
   >([]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
@@ -227,6 +219,44 @@ const Canvas = (props: any) => {
     }
   };
 
+  const deleteCanvas = async () => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    const canvasObject = {
+      _id: props?.noteUrlParams,
+      // canvas: [],
+    };
+    if (canvas && ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    try {
+      await axios
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/delete-canvas`,
+          canvasObject._id
+        )
+        .catch((err: any) => console.log(err));
+      contextValue?.setNotes((prevState: any) =>
+        prevState.map((note: any) => {
+          if (note._id == props.noteUrlParams) {
+            // console.log(note);
+
+            return {
+              ...note,
+              canvas: [],
+            };
+          } else {
+            return note;
+          }
+        })
+      );
+      toast.success("Canvas deleted successfully");
+      props?.setOpenCanvasModal(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   //Function to recreate the canvas drawing
   const recreateCanvas = () => {
     const canvas = canvasRef.current;
@@ -250,6 +280,8 @@ const Canvas = (props: any) => {
 
               ctx.strokeStyle = color;
               ctx.lineWidth = lineWidth;
+              // ctx.moveTo(x, y);
+              // ctx.lineTo(x, y);
 
               if (point == action.points[0]) {
                 ctx.moveTo(x, y);
@@ -324,6 +356,7 @@ const Canvas = (props: any) => {
           setLineColor={setLineColor}
           setLineWidth={setLineWidth}
           setLineOpacity={setLineOpacity}
+          deleteCanvas={deleteCanvas}
           // coordinates={coordinates}
           recreateCanvas={recreateCanvas}
           clearCanvas={clearCanvas}
