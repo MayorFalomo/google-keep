@@ -19,7 +19,13 @@ const Canvas = (props: any) => {
   const drawingDataRef = useRef<any>([]);
 
   const [coordinates, setCoordinates] = useState<
-    Array<{ x: number; y: number; color: string; lineWidth: number }>
+    Array<{
+      x: number;
+      y: number;
+      color: string;
+      lineWidth: number;
+      lineOpacity: number;
+    }>
   >([]);
 
   useEffect(() => {
@@ -52,7 +58,13 @@ const Canvas = (props: any) => {
       ctx.moveTo(startX, startY);
 
       setCoordinates([
-        { x: startX, y: startY, color: lineColor, lineWidth: lineWidth },
+        {
+          x: startX,
+          y: startY,
+          color: lineColor,
+          lineWidth: lineWidth,
+          lineOpacity: lineOpacity,
+        },
       ]);
 
       isDrawingRef.current = true;
@@ -75,7 +87,13 @@ const Canvas = (props: any) => {
       ctx.stroke();
       setCoordinates((prev) => [
         ...prev,
-        { x: offsetX, y: offsetY, color: lineColor, lineWidth: lineWidth },
+        {
+          x: offsetX,
+          y: offsetY,
+          color: lineColor,
+          lineWidth: lineWidth,
+          lineOpacity: lineOpacity,
+        },
       ]);
     }
   };
@@ -84,82 +102,6 @@ const Canvas = (props: any) => {
   const endDrawing = () => {
     isDrawingRef.current = false;
   };
-
-  // Function for drawing
-  // const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-  //   if (!isDrawingRef.current) {
-  //     return;
-  //   }
-
-  //   const ctx = ctxRef.current;
-  //   if (ctx) {
-  //     const { offsetX, offsetY } = e.nativeEvent;
-  //     console.log(offsetX, offsetY, "This are my offsets");
-
-  //     // ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-  //     ctx.lineTo(offsetX, offsetY);
-  //     ctx.stroke();
-  //     console.log(
-  //       e.nativeEvent.offsetX,
-  //       e.nativeEvent.offsetX,
-  //       "native events offset"
-  //     );
-  //     console.log(drawingDataRef.current, "This is drawingDataRef.current");
-  //     console.log();
-
-  //     drawingDataRef.current.push({
-  //       type: "draw",
-  //       x1: offsetX,
-  //       y1: offsetX,
-  //       x2: offsetY,
-  //       y2: offsetY,
-  //       color: ctx.strokeStyle,
-  //       lineWidth: ctx.lineWidth,
-  //     });
-  //     ctx.beginPath();
-  //     ctx.moveTo(offsetX, offsetY);
-  //     console.log(drawingDataRef.current);
-  //   }
-  // };
-
-  // const saveCanvas = async (e: any) => {
-  //   e.preventDefault();
-
-  //   if (drawingDataRef.current[drawingDataRef.current.length - 1]) {
-  //     console.log(
-  //       drawingDataRef.current[drawingDataRef.current.length - 1],
-  //       "last one"
-  //     );
-  //     // const drawing = drawingData;
-  //     // console.log(drawingData);
-  //     const canvasObject = {
-  //       _id: props?.noteUrlParams,
-  //       canvas: drawingDataRef?.current[drawingDataRef.current.length - 1],
-  //     };
-  //     try {
-  //       console.log(canvasObject, "This is canvasObject");
-
-  //       await axios
-  //         .post("http://localhost:5000/api/notes/save-canvas", canvasObject)
-  //         .catch((err: any) => console.log(err));
-  //       contextValue?.setNotes((prevState: any) =>
-  //         prevState.map((note: any) =>
-  //           note._id == props.noteUrlParams
-  //             ? {
-  //                 ...note,
-  //                 canvas: canvasObject.canvas,
-  //               }
-  //             : note
-  //         )
-  //       );
-  //       toast.success("Canvas saved successfully");
-  //       props?.setOpenCanvasModal(false);
-  //     } catch (err) {
-  //       console.log(err);
-  //       toast.error("Error saving canvas");
-  //     }
-  //   }
-  // };
 
   //Function for saving canvas
   const saveCanvas = async () => {
@@ -181,13 +123,13 @@ const Canvas = (props: any) => {
 
       try {
         await axios.post(
-          "https://keep-backend-theta.vercel.app/api/notes/save-canvas",
+          "http://localhost:5000/api/notes/save-canvas",
           canvasObject
         );
         contextValue?.setNotes((prevState: any) =>
           prevState.map((note: any) => {
             if (note._id == props.noteUrlParams) {
-              console.log(note);
+              // console.log(note);
 
               return {
                 ...note,
@@ -223,18 +165,14 @@ const Canvas = (props: any) => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
     const canvasObject = {
-      _id: props?.noteUrlParams,
-      // canvas: [],
+      id: props?.noteUrlParams,
     };
     if (canvas && ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
     try {
       await axios
-        .post(
-          `https://keep-backend-theta.vercel.app/api/notes/delete-canvas`,
-          canvasObject._id
-        )
+        .post(`http://localhost:5000/api/notes/delete-canvas`, canvasObject)
         .catch((err: any) => console.log(err));
       contextValue?.setNotes((prevState: any) =>
         prevState.map((note: any) => {
@@ -257,15 +195,33 @@ const Canvas = (props: any) => {
     }
   };
 
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   if (canvas) {
+  //     const ctx = canvas.getContext("2d");
+
+  //     if (ctx) {
+  //       ctx.fillStyle = "white";
+  //       ctx.fillRect(0, 0, canvas.width, canvas.height);
+  //     }
+  //     // Set the background color to white
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    recreateCanvas();
+    console.log("functions has ben run");
+  }, []);
+
   //Function to recreate the canvas drawing
-  const recreateCanvas = () => {
+  const recreateCanvas = async () => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
 
     if (canvas && ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       //We map over the canvas array and draw each action
-      props?.canvasNote?.canvas?.forEach((drawArray: any) => {
+      await props?.canvasNote?.canvas?.forEach((drawArray: any) => {
         drawArray.forEach((action: any) => {
           if (action.type == "draw" && action.points?.length > 1) {
             ctx.beginPath();
@@ -275,11 +231,12 @@ const Canvas = (props: any) => {
               // Extract color from each point object
               const { x, y, color } = point;
 
-              // console.log(point, "This is point");
-              // console.log(action.points, "This is action.points");
+              console.log(point, "This is point");
+              console.log(action.points, "This is action.points");
 
               ctx.strokeStyle = color;
               ctx.lineWidth = lineWidth;
+              // ctx.globalAlpha = lineOpacity;
               // ctx.moveTo(x, y);
               // ctx.lineTo(x, y);
 
@@ -297,38 +254,6 @@ const Canvas = (props: any) => {
     }
   };
 
-  // const recreateCanvas = () => {
-  //   const canvas = canvasRef.current;
-  //   const ctx = canvas?.getContext("2d");
-
-  //   if (canvas && ctx) {
-  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  //     props?.canvasNote?.canvas?.forEach((drawArray: any) => {
-  //       // Iterate over the nested array (first level)
-  //       drawArray.forEach((action: any) => {
-  //         console.log(action, "This is action");
-
-  //         if (action.type == "draw" && action.points?.length > 1) {
-  //           ctx.beginPath();
-  //           ctx.strokeStyle = action.color;
-  //           ctx.lineWidth = action.lineWidth;
-
-  //           const startPoint = action.points[0];
-  //           ctx.moveTo(startPoint.x, startPoint.y);
-
-  //           // Iterate over the points array (second level)
-  //           action.points.forEach((point: any) => {
-  //             ctx.lineTo(point.x, point.y);
-  //           });
-
-  //           ctx.stroke();
-  //         }
-  //       });
-  //     });
-  //   }
-  // };
-
   useEffect(() => {
     recreateCanvas();
   }, []);
@@ -345,9 +270,9 @@ const Canvas = (props: any) => {
 
   // console.log(coordinates, "coordinates");
 
-  console.log(props?.canvasNote, "This is canvas Note");
+  // console.log(props?.canvasNote, "This is canvas Note");
 
-  console.log(coordinates, "coordinates", props?.canvasNote?.canvas, "canvas");
+  // console.log(coordinates, "coordinates", props?.canvasNote?.canvas, "canvas");
 
   return (
     <div>

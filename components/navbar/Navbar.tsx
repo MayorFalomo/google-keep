@@ -24,7 +24,7 @@ const Navbar = ({ note }: any) => {
   // }, []);
   // console.log(props?.note, "this is logged notes");
 
-  console.log(note, "this is logged user");
+  // console.log(note, "this is logged user");
 
   //   const Label = () => {
   //   console.log(contextValue?.notes, "this is notes in label");

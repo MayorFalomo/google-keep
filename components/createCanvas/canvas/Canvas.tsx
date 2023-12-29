@@ -18,7 +18,13 @@ const Canvas = (props: any) => {
   const [lineOpacity, setLineOpacity] = useState(1);
 
   const [coordinates, setCoordinates] = useState<
-    Array<{ x: number; y: number; color: string; lineWidth: number }>
+    Array<{
+      x: number;
+      y: number;
+      color: string;
+      lineWidth: number;
+      lineOpacity: number;
+    }>
   >([]);
 
   useEffect(() => {
@@ -30,11 +36,12 @@ const Canvas = (props: any) => {
         ctx.lineJoin = "round";
         ctx.globalAlpha = lineOpacity;
         ctx.strokeStyle = lineColor;
-        ctx.lineWidth = 5;
+        ctx.lineWidth = lineWidth;
+        ctx.beginPath(); // Reset the path
         ctxRef.current = ctx;
       }
     }
-  }, [lineOpacity, lineColor]);
+  }, [lineOpacity, lineColor, lineWidth]);
 
   // Function for starting the drawing
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -47,7 +54,13 @@ const Canvas = (props: any) => {
       ctx.moveTo(startX, startY);
 
       setCoordinates([
-        { x: startX, y: startY, color: lineColor, lineWidth: lineWidth },
+        {
+          x: startX,
+          y: startY,
+          color: lineColor,
+          lineWidth: lineWidth,
+          lineOpacity: lineOpacity,
+        },
       ]);
 
       isDrawingRef.current = true;
@@ -70,7 +83,13 @@ const Canvas = (props: any) => {
       ctx.stroke();
       setCoordinates((prev: any) => [
         ...prev,
-        { x: offsetX, y: offsetY, color: lineColor, lineWidth: lineWidth },
+        {
+          x: offsetX,
+          y: offsetY,
+          color: lineColor,
+          lineWidth: lineWidth,
+          lineOpacity: lineOpacity,
+        },
       ]);
     }
   };
@@ -317,16 +336,13 @@ const Canvas = (props: any) => {
 
               ctx.strokeStyle = color;
               ctx.lineWidth = lineWidth;
-              // ctx.moveTo(x, y);
-              // ctx.lineTo(x, y);
-
+              ctx.globalAlpha = lineOpacity;
               if (point == action.points[0]) {
                 ctx.moveTo(x, y);
               } else {
                 ctx.lineTo(x, y);
               }
             });
-
             ctx.stroke();
           }
         });

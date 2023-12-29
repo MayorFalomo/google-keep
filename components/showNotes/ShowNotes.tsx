@@ -251,7 +251,6 @@ const ShowNotes = (props: any) => {
   return (
     <div className=" mb-[200px] ">
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
-      {/* <DynamicMason /> */}
       <AnimatePresence>
         <motion.div
           onClick={() => {
@@ -270,9 +269,6 @@ const ShowNotes = (props: any) => {
             contextValue?.notes?.length > 0 ? (
               contextValue.notes?.map((note: any, index: any) => (
                 <div
-                  // data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
-                  // data-grid={{ ...note, x: index }}
-                  // data-grid={note}
                   onMouseEnter={() => {
                     setShowIconsOnHover(true);
                     setShowId(note?._id);
