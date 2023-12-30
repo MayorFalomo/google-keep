@@ -37,6 +37,7 @@ const Notes = (props: Props) => {
   const [noteCanvas, setNoteCanvas] = useState<any>([]);
   const [noteUrlParams, setNoteUrlParams] = useState<string>("");
   const [openCreateCanvas, setOpenCreateCanvas] = useState<boolean>(false);
+
   //generateId
   function dec2hex(dec: any) {
     return dec.toString(16).padStart(2, "0");

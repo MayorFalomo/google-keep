@@ -4,15 +4,22 @@ import { MdOutlineLabel } from "react-icons/md";
 
 type Props = {};
 
+//parent component Navbar.tsx
 const Label = (props: any) => {
-  // console.log(props?.labelNotes.labels);
+  // Sample array of objects for testing
+  const arrayOfObjects = [
+    { id: 1, name: "Alice", age: 25 },
+    { id: 2, name: "Bob", age: 30 },
+    { id: 3, name: "Alice", age: 25 },
+    { id: 4, name: "Charlie", age: 30 },
+  ];
 
   return (
     <div className=" rounded-r-full transition ease-in-out delay-150 cursor-pointer hover:bg-hover">
-      {props?.labelNotes.label ? (
-        <div>
-          {props?.labelNotes.label ? (
-            <div className="flex items-center gap-6 py-4 px-2 text-[20px] my-2  ">
+      <div>
+        {props?.labelNotes.label ? (
+          <Link href={`/label/${props?.labelNotes.labelId}`}>
+            <p className="flex items-center gap-6 py-4 px-4 text-[20px] my-2  ">
               {" "}
               {
                 <MdOutlineLabel
@@ -21,54 +28,14 @@ const Label = (props: any) => {
                   cursor="pointer"
                 />
               }{" "}
-              <div>
-                <Link href={`/label/${props?.labelNotes.labelId}`}>
-                  <p className="">
-                    {props?.labelNotes.label ? (
-                      <span>{props?.labelNotes.label}</span>
-                    ) : (
-                      ""
-                    )}
-                  </p>
-                </Link>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-      ) : (
-        ""
-      )}
-      {/* {props?.labelNotes?.labels?.map((label: any) => {
-        return (
-          <div key={label?._id}>
-            <div className="flex items-center gap-6 py-4 px-2 text-[20px] my-2  ">
-              {" "}
-              {
-                <MdOutlineLabel
-                  className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
-                  color="#9AA0A6"
-                  cursor="pointer"
-                />
-              }{" "}
-              <ListedLabel label={label} />
-            </div>
-          </div>
-        );
-      })} */}
-    </div>
-  );
-};
-
-const ListedLabel = ({ label }: any) => {
-  console.log(label);
-
-  return (
-    <div>
-      <Link href={`/label/${label?._id}`}>
-        <p className="">{label?.name ? <span>{label?.name}</span> : ""}</p>
-      </Link>
+              <p>{props?.labelNotes.label} </p>
+              <span />
+            </p>
+          </Link>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 };

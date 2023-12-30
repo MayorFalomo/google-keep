@@ -39,6 +39,31 @@ const Navbar = ({ note }: any) => {
 
   // console.log(getCookie("user"), "This is cookies");
 
+  //function to filter notes for notes with label length greater than 1 and assign it to a filterArray variable
+  const filteredArray = contextValue?.notes.filter(
+    (element: any) => element.labelId.length > 1
+  );
+  //function takes in two arguments, one an array of notes and the second is an array of notes values which is label and labelId
+  function getUniqueElementsByProperties(arr: any, properties: any) {
+    const uniqueSet = new Set();
+    const resultArray = [];
+
+    for (const obj of arr) {
+      const key = properties.map((prop: any) => obj[prop]).join("-");
+      if (!uniqueSet.has(key)) {
+        uniqueSet.add(key);
+        resultArray.push(obj);
+      }
+    }
+
+    return resultArray;
+  }
+  //we call the function to get unique elements and pass our values of the filtered array(array containing all notes with label length greater than 1) and the properties array
+  const uniqueElements = getUniqueElementsByProperties(filteredArray, [
+    "label",
+    "labelId",
+  ]);
+
   return (
     <nav className="h-[100vh] flex flex-col overflow-none ">
       <ul className=" h-full max-[600px]:flex flex-col items-center mt-[100px] ">
@@ -80,7 +105,7 @@ const Navbar = ({ note }: any) => {
             }{" "}
           </span> */}
           <span className=" w-full max-md:hidden">
-            {contextValue?.notes?.map((labelNotes: any) => {
+            {uniqueElements?.map((labelNotes: any) => {
               return (
                 <div key={labelNotes?._id}>
                   <Label labelNotes={labelNotes} />
