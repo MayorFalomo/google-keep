@@ -1,19 +1,14 @@
+import { useAppContext } from "@/helpers/Helpers";
+import axios from "axios";
 import Link from "next/link";
 import React from "react";
+
 import { MdOutlineLabel } from "react-icons/md";
 
 type Props = {};
 
 //parent component Navbar.tsx
 const Label = (props: any) => {
-  // Sample array of objects for testing
-  const arrayOfObjects = [
-    { id: 1, name: "Alice", age: 25 },
-    { id: 2, name: "Bob", age: 30 },
-    { id: 3, name: "Alice", age: 25 },
-    { id: 4, name: "Charlie", age: 30 },
-  ];
-
   return (
     <div className=" rounded-r-full transition ease-in-out delay-150 cursor-pointer hover:bg-hover">
       <div>
@@ -28,8 +23,7 @@ const Label = (props: any) => {
                   cursor="pointer"
                 />
               }{" "}
-              <p>{props?.labelNotes.label} </p>
-              <span />
+              <span>{props?.labelNotes.label} </span>
             </p>
           </Link>
         ) : (

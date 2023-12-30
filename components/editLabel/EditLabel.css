@@ -1,0 +1,15 @@
+.editLabelContainer{
+   /* border: 3px red solid; */
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+margin: 0 auto;
+width: 350px;
+min-height: 350px;
+padding: 8px;
+z-index: 9999 !important;
+background-color: #313235 !important;
+/* background-color: #202124 !important; */
+box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) rgb(0,0,0, 0.4) !important;
+}

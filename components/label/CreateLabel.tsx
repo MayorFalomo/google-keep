@@ -10,11 +10,23 @@ type Props = {};
 const CreateLabel = (props: any) => {
   const { contextValue }: any = useAppContext();
   const [labelInput, setLabelInput] = useState<any>("");
+
+  function dec2hex(dec: any) {
+    return dec.toString(16).padStart(2, "0");
+  }
+
+  // generateId :: Integer -> String
+  function generateId(len: any) {
+    var arr = new Uint8Array((len || 40) / 2);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, dec2hex).join("");
+  }
   const saveLabel = async (e: any) => {
     e.preventDefault();
     const labelObject = {
       _id: props?.clickedNote?._id,
       label: labelInput,
+      labelId: generateId(24),
     };
     try {
       await axios
@@ -26,7 +38,8 @@ const CreateLabel = (props: any) => {
           if (note?._id == props?.clickedNote?._id) {
             return {
               ...note,
-              labels: [...note?.labels, labelObject?.label],
+              label: labelObject?.label,
+              labelId: labelObject?.labelId, //this could give you potential issues watchout
             };
           }
           return note;

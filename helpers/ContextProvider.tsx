@@ -28,6 +28,7 @@ const AppContextProvider = ({ children }: any) => {
   const [changeNoteLayout, setChangeNoteLayout] = useState<boolean>(false);
   const [changeLayout, setChangeLayout] = useState<boolean>(false);
   const [notesLabel, setNotesLabel] = useState<any>([]);
+  const [editLabelModal, setEditLabelModal] = useState<boolean>(false);
   // const [cookies, setCookies] = useCookies(["user"]);
 
   //Define functions for updating state
@@ -114,6 +115,8 @@ const AppContextProvider = ({ children }: any) => {
     setChangeNoteLayout,
     notesLabel,
     setNotesLabel,
+    editLabelModal,
+    setEditLabelModal,
     // changeLayout,
     // setChangeLayout,
   };

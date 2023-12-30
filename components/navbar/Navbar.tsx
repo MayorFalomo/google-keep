@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdLightbulbOutline } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdOutlineLabel } from "react-icons/md";
@@ -10,12 +10,14 @@ import { useAppContext } from "@/helpers/Helpers";
 import { getCookie } from "cookies-next";
 import axios from "axios";
 import Label from "./Label";
+import EditLabel from "../editLabel/EditLabel";
+import { AnimatePresence, motion } from "framer-motion";
 // import "../../app/Home.module.css"
 type Props = {};
 
 const Navbar = ({ note }: any) => {
   const { contextValue }: any = useAppContext();
-
+  const [overlay, setOverlay] = useState(false);
   // useEffect(() => {
   //   axios
   //     .get("https://keep-backend-theta.vercel.app/api/user")
@@ -40,16 +42,18 @@ const Navbar = ({ note }: any) => {
   // console.log(getCookie("user"), "This is cookies");
 
   //function to filter notes for notes with label length greater than 1 and assign it to a filterArray variable
-  const filteredArray = contextValue?.notes.filter(
-    (element: any) => element.labelId.length > 1
+  const filteredArray = contextValue?.notes?.filter(
+    (element: any) => element?.labelId?.length > 1
   );
+  console.log(filteredArray);
+
   //function takes in two arguments, one an array of notes and the second is an array of notes values which is label and labelId
   function getUniqueElementsByProperties(arr: any, properties: any) {
     const uniqueSet = new Set();
     const resultArray = [];
 
     for (const obj of arr) {
-      const key = properties.map((prop: any) => obj[prop]).join("-");
+      const key = properties?.map((prop: any) => obj[prop]).join("-");
       if (!uniqueSet.has(key)) {
         uniqueSet.add(key);
         resultArray.push(obj);
@@ -95,16 +99,7 @@ const Navbar = ({ note }: any) => {
           <span className="max-md:hidden"> Remainders</span>
         </li>
         <li className="flex items-center gap-4 text-[20px]  rounded-r-full transition ease-in-out delay-150 cursor-pointer">
-          {/* <span>
-            {
-              <MdOutlineLabel
-                className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
-                color="#9AA0A6"
-                cursor="pointer"
-              />
-            }{" "}
-          </span> */}
-          <span className=" w-full max-md:hidden">
+          <div className=" w-full max-md:hidden">
             {uniqueElements?.map((labelNotes: any) => {
               return (
                 <div key={labelNotes?._id}>
@@ -112,9 +107,15 @@ const Navbar = ({ note }: any) => {
                 </div>
               );
             })}
-          </span>
+          </div>
         </li>
-        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+        <li
+          onClick={() => {
+            contextValue?.setEditLabelModal(true);
+            setOverlay(false);
+          }}
+          className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer"
+        >
           <span>
             {
               <BiPencil
@@ -126,6 +127,23 @@ const Navbar = ({ note }: any) => {
           </span>
           <span className="max-md:hidden">Edit labels </span>
         </li>
+        {contextValue?.editLabelModal ? <EditLabel /> : ""}
+        {contextValue?.editLabelModal ? (
+          <AnimatePresence>
+            <motion.div
+              onClick={() => {
+                setOverlay(false);
+                contextValue?.setEditLabelModal(false);
+              }}
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+            ></motion.div>
+          </AnimatePresence>
+        ) : (
+          ""
+        )}
         <Link href="/archive">
           <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
             <span>
