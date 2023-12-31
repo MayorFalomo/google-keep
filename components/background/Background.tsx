@@ -161,17 +161,6 @@ const Background = (props: any) => {
           })}
         </div>
       </div>
-      {/* {props?.overLay ? (
-        <div
-          onClick={() => {
-            props?.setShowBgModal(false);
-            props?.setOverLay(false);
-          }}
-          className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
-        ></div>
-      ) : (
-        ""
-      )} */}
     </div>
   );
 };

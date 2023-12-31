@@ -1,8 +1,6 @@
 "use client";
 import { useAppContext } from "@/helpers/Helpers";
 import React from "react";
-import { BiEdit, BiLabel, BiPencil } from "react-icons/bi";
-import { BsTrash } from "react-icons/bs";
 import "./EditLabel.css";
 import { TfiTrash } from "react-icons/tfi";
 import { MdOutlineLabel } from "react-icons/md";
@@ -24,7 +22,7 @@ const EditLabel = (props: any) => {
     <div className="editLabelContainer">
       <h1 className="text-[22px] py-2">Edit Labels </h1>
       {/* <div className="" > */}
-      <div className="flex flex-col gap-2 my-4 ">
+      <div className="flex flex-col gap-2 my-4 border-2 border-red-600 ">
         {filteredArray?.map((label: any) => (
           <div onClick={() => setShowId(label?._id)} key={label?._id}>
             <Edited
@@ -37,7 +35,7 @@ const EditLabel = (props: any) => {
         ))}{" "}
       </div>
       <p
-        // onClick={() => props?.setShowEditLabel(false)}
+        onClick={() => contextValue?.setEditLabelModal(false)}
         className="flex justify-end mt-4 cursor-pointer "
       >
         Done{" "}

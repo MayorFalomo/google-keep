@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BiCheck, BiEdit, BiLabel, BiPencil } from "react-icons/bi";
+import { BiCheck, BiPencil } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import "./EditLabel.css";
 import { TfiTrash } from "react-icons/tfi";
@@ -10,10 +10,12 @@ import { useAppContext } from "@/helpers/Helpers";
 import Tippy from "@tippyjs/react";
 type Props = {};
 
+//Parent component is EditLabel.tsx
 const Edited = (props: any) => {
   const { contextValue }: any = useAppContext();
   const [openInputEdit, setOpenInputEdit] = useState(false);
   const [newLabelValue, setNewLabelValue] = useState("");
+  const [showDeleteIcon, setShowDeleteIcon] = React.useState(false);
 
   //generateId
   function dec2hex(dec: any) {
@@ -27,26 +29,27 @@ const Edited = (props: any) => {
     return Array.from(arr, dec2hex).join("");
   }
 
-  const deleteLabel = () => {
+  const deleteLabel = (e: any) => {
+    e.preventDefault();
     const labelObject = {
-      _id: props?.labelNotes?._id,
-      label: props?.labelNotes?.label,
-      labelId: props?.labelNotes?.labelId,
+      _id: props?.label?._id,
+      label: " ",
+      labelId: " ",
     };
     try {
+      // console.log(labelObject, "this is label object");
+      // console.log(props?.labelNotes?._id, "this is label props id");
       axios
-        .post(`http://localhost:5000/api/delete-label`, labelObject)
+        .post(`http://localhost:5000/api/notes/delete-label`, labelObject)
         .catch((err: any) => console.log(err));
       contextValue?.setNotes((prevNotes: any) => {
-        prevNotes.map((note: any) => {
-          return {
-            ...note,
-            label: "",
-            labelId: "",
-          };
-        });
+        // Use filter to exclude the note with the specified _id
+        const updatedNotes = prevNotes.filter(
+          (note: any) => note._id !== props?.label?._id
+        );
+        return updatedNotes;
       });
-      props?.setShowEditLabel(false);
+      // props?.setOpenEditLabel(false);
       toast.success("label is deleted ");
     } catch (error) {
       console.log(error);
@@ -54,7 +57,7 @@ const Edited = (props: any) => {
     }
   };
 
-  const editLabel = (e: any) => {
+  const editLabel = async (e: any) => {
     e.preventDefault();
     const editedLabelObject = {
       _id: props?.label?._id,
@@ -63,12 +66,12 @@ const Edited = (props: any) => {
     };
 
     try {
-      axios
+      await axios
         .put(`http://localhost:5000/api/notes/edit-label`, editedLabelObject)
         .catch((err: any) => console.log(err));
       contextValue?.setNotes((prevNotes: any) => {
         return prevNotes.map((note: any) => {
-          if (note._id == props?.labelNotes?._id) {
+          if (note._id == props?.label?._id) {
             return {
               ...note,
               label: newLabelValue,
@@ -89,21 +92,24 @@ const Edited = (props: any) => {
     <div className="flex items-center justify-between gap-4 py-2 ">
       <div className="flex items-center justify-between gap-2 ">
         {props?.label?.label ? (
-          props?.showDeleteIcon ? (
-            <span onClick={deleteLabel}>
-              {
-                <TfiTrash
-                  className="max-sm:text-2xl md:text-2x1 max-lg:text-2xl xl:text-2xl"
-                  color="#9AA0A6"
-                  cursor="pointer"
-                />
-              }{" "}
-            </span>
+          showDeleteIcon ? (
+            <form onSubmit={deleteLabel}>
+              <button
+                onMouseLeave={() => setShowDeleteIcon(false)}
+                // onMouseOut={() => setShowDeleteIcon(false)}
+                type="submit"
+              >
+                {
+                  <TfiTrash
+                    className="max-sm:text-2xl md:text-2x1 max-lg:text-2xl xl:text-2xl"
+                    color="#9AA0A6"
+                    cursor="pointer"
+                  />
+                }{" "}
+              </button>
+            </form>
           ) : (
-            <span
-              onMouseOver={() => props?.setShowDeleteIcon(true)}
-              onMouseOut={() => props?.setShowDeleteIcon(false)}
-            >
+            <span onMouseOver={() => setShowDeleteIcon(!showDeleteIcon)}>
               {
                 <MdOutlineLabel
                   className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
@@ -119,7 +125,7 @@ const Edited = (props: any) => {
         {props?.label?.label ? (
           openInputEdit && props?.label?._id == props?.showId ? (
             <input
-              className="border-r-0 border-l-0 border-t-0 border-b-[1px] border-[#202124] outline-none text-[20px] bg-transparent "
+              className="border-r-0 border-l-0 border-t-0 border-b-[1px] border-[#9AA0A6] outline-none text-[20px] bg-transparent "
               onChange={(e: any) => setNewLabelValue(e.target.value)}
               type="text"
               placeholder="edit label"

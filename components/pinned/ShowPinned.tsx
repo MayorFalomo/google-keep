@@ -19,7 +19,7 @@ import "./showPinned.css";
 import Image from "next/image";
 import Tippy from "@tippyjs/react";
 import toast, { Toaster } from "react-hot-toast";
-
+import CanvasImage from "../canvas/";
 type Props = {};
 
 //Parent Component is Pinned.tsx
@@ -59,6 +59,9 @@ const ShowPinned = (props: any) => {
   return (
     <div>
       <div onClick={handleClick} className="subContainer">
+        {props?.pinned?.canvas?.map((canvas: any, index: number) => {
+          return <CanvasImage key={index} canvas={canvas} />;
+        })}
         {props?.pinned?.picture ? (
           <Image
             className="w-[100%] max-h-[150px]"
@@ -242,6 +245,27 @@ const ShowPinned = (props: any) => {
           },
         }}
       />
+    </div>
+  );
+};
+
+const CanvasImage = (canvas: any) => {
+  // console.log(canvas.canvas, "canvasImage");
+  return (
+    <div>
+      {canvas.canvas.map((canvas: any, index: number) => {
+        return <ShowCanvasImage key={index} canvas={canvas} />;
+      })}
+      {/* <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" /> */}
+    </div>
+  );
+};
+
+const ShowCanvasImage = (canvas: any) => {
+  // console.log(draw.draw?.imageDataURL, "canvasImage");
+  return (
+    <div className="w-[100%] h-[100%]">
+      <img src={canvas.canvas?.imageDataURL} className="w-[100%] h-[100%]" />
     </div>
   );
 };

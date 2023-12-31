@@ -18,34 +18,12 @@ type Props = {};
 const Navbar = ({ note }: any) => {
   const { contextValue }: any = useAppContext();
   const [overlay, setOverlay] = useState(false);
-  // useEffect(() => {
-  //   axios
-  //     .get("https://keep-backend-theta.vercel.app/api/user")
-  //     .then((res: any) => contextValue?.setNotesLabel(res.data))
-  //     .catch((err: any) => console.log(err));
-  // }, []);
-  // console.log(props?.note, "this is logged notes");
-
-  // console.log(note, "this is logged user");
-
-  //   const Label = () => {
-  //   console.log(contextValue?.notes, "this is notes in label");
-  //   contextValue?.notes.map((note: any) => {
-  //     return (
-  //       <div key={note?._id}>
-  //         <Navbar note={note} />
-  //       </div>
-  //     );
-  //   });
-  // };
-
-  // console.log(getCookie("user"), "This is cookies");
 
   //function to filter notes for notes with label length greater than 1 and assign it to a filterArray variable
   const filteredArray = contextValue?.notes?.filter(
     (element: any) => element?.labelId?.length > 1
   );
-  console.log(filteredArray);
+  // console.log(filteredArray);
 
   //function takes in two arguments, one an array of notes and the second is an array of notes values which is label and labelId
   function getUniqueElementsByProperties(arr: any, properties: any) {

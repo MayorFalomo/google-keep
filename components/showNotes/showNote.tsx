@@ -119,8 +119,11 @@ const ShowNote = (props: any) => {
       collaborator: props.note?.collaborator,
       labels: props.note?.label,
       location: props.note?.location,
+      canvas: props.note?.canvas,
       createdAt: new Date(),
     };
+    console.log(props?.note?.canvas);
+
     try {
       await axios
         .post(

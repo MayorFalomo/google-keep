@@ -18,6 +18,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import toast from "react-hot-toast";
 import Canvas from "../createCanvas/canvas/Canvas";
+import NoteBg from "../noteBg/NoteBg";
+import BgImage from "../noteBg/BgImage";
 type Props = {};
 
 const Notes = (props: Props) => {
@@ -37,6 +39,9 @@ const Notes = (props: Props) => {
   const [noteCanvas, setNoteCanvas] = useState<any>([]);
   const [noteUrlParams, setNoteUrlParams] = useState<string>("");
   const [openCreateCanvas, setOpenCreateCanvas] = useState<boolean>(false);
+  const [showBgModal, setShowBgModal] = useState<boolean>(false);
+  const [backgroundImage, setBackgroundImage] = useState<string>("");
+  const [color, setColor] = useState<string>("");
 
   //generateId
   function dec2hex(dec: any) {
@@ -183,6 +188,117 @@ const Notes = (props: Props) => {
     location,
   };
 
+  const colors = [
+    {
+      id: 1,
+      name: "Coral",
+      color: "#77172E",
+    },
+    {
+      id: 2,
+      name: "Peach",
+      color: "#692B17",
+    },
+    {
+      id: 3,
+      name: "Sand",
+      color: "#7C4A03",
+    },
+    {
+      id: 4,
+      name: "Mint",
+      color: "#264D3B",
+    },
+    {
+      id: 5,
+      name: "Sage",
+      color: "#0C625D",
+    },
+    {
+      id: 6,
+      name: "Fog",
+      color: "#256377",
+    },
+    {
+      id: 7,
+      name: "Storm",
+      color: "#284255",
+    },
+    {
+      id: 8,
+      name: "Dusk",
+      color: "#472E5B",
+    },
+    {
+      id: 9,
+      name: "Blossom",
+      color: "#6C394F",
+    },
+    {
+      id: 10,
+      name: "Clay",
+      color: "#4B443A",
+    },
+    {
+      id: 11,
+      name: "Chalk",
+      color: "#232427",
+    },
+  ];
+
+  const bgImages = [
+    // {
+    //   id: 0,
+    //   name: "Default",
+    //   defaultImage: `${(<MdHideImage />)}`,
+    // },
+    {
+      id: 1,
+      name: "Groceries",
+      image: `https://www.gstatic.com/keep/backgrounds/grocery_dark_thumb_0615.svg`,
+    },
+    {
+      id: 2,
+      name: "Food",
+      image: `https://www.gstatic.com/keep/backgrounds/food_dark_thumb_0615.svg`,
+    },
+    {
+      id: 3,
+      name: "Music",
+      image: `https://www.gstatic.com/keep/backgrounds/music_dark_thumb_0615.svg`,
+    },
+    {
+      id: 4,
+      name: "Recipe",
+      image: `https://www.gstatic.com/keep/backgrounds/recipe_dark_thumb_0615.svg`,
+    },
+    {
+      id: 5,
+      name: "Notes",
+      image: `https://www.gstatic.com/keep/backgrounds/notes_dark_thumb_0715.svg`,
+    },
+    {
+      id: 6,
+      name: "Places",
+      image: `https://www.gstatic.com/keep/backgrounds/places_dark_thumb_0615.svg`,
+    },
+    {
+      id: 7,
+      name: "Travel",
+      image: `https://www.gstatic.com/keep/backgrounds/travel_dark_thumb_0615.svg`,
+    },
+    {
+      id: 8,
+      name: "Videos",
+      image: `https://www.gstatic.com/keep/backgrounds/video_dark_thumb_0615.svg`,
+    },
+    {
+      id: 9,
+      name: "Celebration",
+      image: `https://www.gstatic.com/keep/backgrounds/celebration_dark_thumb_0715.svg`,
+    },
+  ];
+
   return (
     <div className="bg-red">
       <form onSubmit={createNote} className="flex justify-center">
@@ -193,6 +309,15 @@ const Notes = (props: Props) => {
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              style={{
+                backgroundColor: bgColor ? bgColor : "transparent",
+                backgroundImage: backgroundImage
+                  ? `url(${backgroundImage})`
+                  : "",
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}
             >
               <div className="flex items-center justify-between ">
                 <input
@@ -200,14 +325,16 @@ const Notes = (props: Props) => {
                   className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"
                   placeholder="Title"
                 />
-                <span className="p-3 rounded-full hover:bg-hover">
-                  {
-                    <BsPin
-                      className=" text-[#9AA0A6] text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                      cursor="pointer"
-                    />
-                  }{" "}
-                </span>
+                <Tippy placement="bottom" content="pinned ">
+                  <span className="p-3 rounded-full hover:bg-hover">
+                    {
+                      <BsPin
+                        className=" text-[#9AA0A6] text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                        cursor="pointer"
+                      />
+                    }{" "}
+                  </span>
+                </Tippy>
               </div>
               <textarea
                 onChange={(e) => setNote(e.target.value)}
@@ -236,7 +363,10 @@ const Notes = (props: Props) => {
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="Background options ">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                  <span
+                    onClick={() => setShowBgModal(true)}
+                    className="p-3 rounded-full hover:bg-hover"
+                  >
                     {
                       <IoColorPaletteOutline
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -245,6 +375,49 @@ const Notes = (props: Props) => {
                     }{" "}
                   </span>
                 </Tippy>
+                {showBgModal ? (
+                  <AnimatePresence>
+                    <div className="bg-[#2D2E30] fixed z-30 h-auto max-h-[200px] w-fit m-auto inset-x-0 inset-y-0 rounded-[10px]">
+                      <div className="flex flex-col gap-1 p-1">
+                        <div className="flex items-start gap-3">
+                          {colors?.map((bgColor: any) => {
+                            return (
+                              <div key={bgColor?.id}>
+                                <NoteBg
+                                  bgColor={bgColor}
+                                  setBgColor={setBgColor}
+                                  setBackgroundImage={setBackgroundImage}
+                                  setShowBgModal={setShowBgModal}
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div
+                          style={{ border: "1px solid #5F6368" }}
+                          className="w-full "
+                        ></div>
+                        <div className="flex items-center gap-3">
+                          {bgImages.map((bgImage: any) => {
+                            return (
+                              <div className="" key={bgImage?.id}>
+                                <BgImage
+                                  bgImage={bgImage}
+                                  setBgColor={setBgColor}
+                                  setBackgroundImage={setBackgroundImage}
+                                  setShowBgModal={setShowBgModal}
+                                  // setBackgroundColor={setBackgroundColor}
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </AnimatePresence>
+                ) : (
+                  ""
+                )}
                 <Tippy placement="bottom" content="Add image">
                   <label
                     htmlFor="fileInputImage"
@@ -267,7 +440,10 @@ const Notes = (props: Props) => {
                   style={{ display: "none" }}
                 />
                 <Tippy placement="bottom" content="Archive ">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                  <span
+                    onClick={() => toast.success("Note archived")}
+                    className="p-3 rounded-full hover:bg-hover"
+                  >
                     {
                       <BiArchiveIn
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -290,14 +466,14 @@ const Notes = (props: Props) => {
                   <span className="p-3 rounded-full hover:bg-hover">
                     {
                       <BiUndo
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl pointer-disabled  "
                         cursor="pointer"
                       />
                     }{" "}
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="Redo ">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                  <span className="p-3 rounded-full hover:bg-hover pointer-events-none ">
                     {
                       <GrRedo
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
