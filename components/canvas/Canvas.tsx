@@ -123,7 +123,7 @@ const Canvas = (props: any) => {
 
       try {
         await axios.post(
-          "http://localhost:5000/api/notes/save-canvas",
+          "https://keep-backend-theta.vercel.app/notes/save-canvas",
           canvasObject
         );
         contextValue?.setNotes((prevState: any) =>
@@ -172,7 +172,10 @@ const Canvas = (props: any) => {
     }
     try {
       await axios
-        .post(`http://localhost:5000/api/notes/delete-canvas`, canvasObject)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/delete-canvas`,
+          canvasObject
+        )
         .catch((err: any) => console.log(err));
       contextValue?.setNotes((prevState: any) =>
         prevState.map((note: any) => {

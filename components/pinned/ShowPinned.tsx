@@ -19,7 +19,7 @@ import "./showPinned.css";
 import Image from "next/image";
 import Tippy from "@tippyjs/react";
 import toast, { Toaster } from "react-hot-toast";
-import CanvasImage from "../canvas/";
+
 type Props = {};
 
 //Parent Component is Pinned.tsx

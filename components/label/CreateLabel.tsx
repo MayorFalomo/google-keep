@@ -30,7 +30,10 @@ const CreateLabel = (props: any) => {
     };
     try {
       await axios
-        .post(`http://localhost:5000/api/notes/add-label`, labelObject)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/add-label`,
+          labelObject
+        )
         .catch((err) => console.log(err));
 
       contextValue?.setNotes((prevNotes: any) => {
