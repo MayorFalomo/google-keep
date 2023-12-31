@@ -40,7 +40,10 @@ const Edited = (props: any) => {
       // console.log(labelObject, "this is label object");
       // console.log(props?.labelNotes?._id, "this is label props id");
       axios
-        .post(`http://localhost:5000/api/notes/delete-label`, labelObject)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/delete-label`,
+          labelObject
+        )
         .catch((err: any) => console.log(err));
       contextValue?.setNotes((prevNotes: any) => {
         // Use filter to exclude the note with the specified _id
@@ -67,7 +70,10 @@ const Edited = (props: any) => {
 
     try {
       await axios
-        .put(`http://localhost:5000/api/notes/edit-label`, editedLabelObject)
+        .put(
+          `https://keep-backend-theta.vercel.app/api/notes/edit-label`,
+          editedLabelObject
+        )
         .catch((err: any) => console.log(err));
       contextValue?.setNotes((prevNotes: any) => {
         return prevNotes.map((note: any) => {
