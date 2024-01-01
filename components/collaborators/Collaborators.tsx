@@ -93,6 +93,7 @@ const Collaborators = (props: any) => {
   //Function to collaborate with another user
   const handleAddCollaborator = (e: any) => {
     e.preventDefault();
+
     const collaborateObject = {
       _id: singleNote?._id,
       userId: getCollaboratorId,
@@ -110,10 +111,7 @@ const Collaborators = (props: any) => {
       collaborator: singleNote?.username,
       createdAt: new Date(),
     };
-    // console.log(collaborateObject, "Collaborate Object");
-    // console.log(getCollaboratorUsername, "getCollaboratorUsername");
     try {
-      // console.log(collaborateObject, "inside the Try Catch");
       axios
         .post(
           "https://keep-backend-theta.vercel.app/api/notes/send-note/",
@@ -127,9 +125,13 @@ const Collaborators = (props: any) => {
     props?.setShowCollaboratorModal(false);
   };
 
-  // console.log(singleNote, "SingleNote");
+  const handleError = (e: any) => {
+    e.preventDefault();
+    console.log("Done");
+    return toast.success("note sent ");
+  };
 
-  // console.log(getCollaboratorId, "This is suggestions ID");
+  console.log(singleNote?._id);
 
   return (
     <div className="bg-[#2D2E30] fixed z-20 h-auto max-h-[340px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px]">
@@ -156,7 +158,9 @@ const Collaborators = (props: any) => {
           <div className="border-b-2 border-[#4C4D4F] w[-100%] mt-[20px]"></div>
         </div>
         <form
-          onSubmit={handleAddCollaborator}
+          onSubmit={
+            singleNote?._id == undefined ? handleAddCollaborator : handleError
+          }
           className="flex items-start flex-col gap-[5px] "
         >
           <div className="flex items-center w-full mx-auto p-3 gap-4">
@@ -211,13 +215,18 @@ const Collaborators = (props: any) => {
           <div className="flex justify-end items-center bg-[#272729] w-full py-5 gap-2">
             <button
               className="py-2 px-6 text-[20px] hover:bg-borderColor outline-none border-none cursor-pointer"
-              onClick={() => props.setShowCollaboratorModal(false)}
+              onClick={() => props.setOpenCollabModal(false)}
             >
               Cancel
             </button>
             <button
-              className="py-2 px-6 text-[20px] hover:bg-borderColor outline-none border-none cursor-pointer"
+              className={
+                singleNote?._id == undefined
+                  ? "py-2 px-6 text-[20px] cursor-not-allowed outline-none border-none  "
+                  : "py-2 px-6 text-[20px] hover:bg-borderColor outline-none border-none cursor-pointer "
+              }
               type="submit"
+              disabled={singleNote?._id == undefined}
             >
               Save{" "}
             </button>

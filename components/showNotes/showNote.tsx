@@ -54,7 +54,6 @@ const ShowNote = (props: any) => {
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [closeIcon, setCloseIcon] = useState(false);
   const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
-  // const [showBgModal, setShowBgModal] = useState(false);
   const [picture, setPicture] = React.useState<any>();
   const [video, setVideo] = useState<string>();
   const [openOptionsModal, setOpenOptionsModal] = useState<boolean>(false);
@@ -65,6 +64,7 @@ const ShowNote = (props: any) => {
   const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
   const [openCanvasModal, setOpenCanvasModal] = useState<boolean>(false);
   const [openLabelModal, setOpenLabelModal] = useState<boolean>(false);
+
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
   };

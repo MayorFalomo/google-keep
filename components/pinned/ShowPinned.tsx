@@ -19,6 +19,8 @@ import "./showPinned.css";
 import Image from "next/image";
 import Tippy from "@tippyjs/react";
 import toast, { Toaster } from "react-hot-toast";
+import { AnimatePresence, motion } from "framer-motion";
+import Collaborators from "../collaborators/Collaborators";
 
 type Props = {};
 
@@ -26,10 +28,10 @@ type Props = {};
 const ShowPinned = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  const [noteUrlParams, setNoteUrlParams] = React.useState(""); //Send the id of the clicked note
+  const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
-  const [openNotifyModal, setOpenNotifyModal] = React.useState(false);
-
+  const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
+  const [openCollabModal, setOpenCollabModal] = React.useState<boolean>(false); //Toggle the [openCollabModal]
   const handleClick = (e: any) => {
     e.preventDefault();
     setNoteUrlParams(props.pinned?._id);
@@ -156,7 +158,14 @@ const ShowPinned = (props: any) => {
             ""
           )}
           <Tippy placement="bottom" content="Collaborator ">
-            <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
+            <span
+              onClick={() => {
+                setNoteUrlParams(props.pinned?._id);
+                setOpenCollabModal(!openCollabModal);
+                props?.setOverLayBg(true);
+              }}
+              className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 "
+            >
               {
                 <MdOutlinePersonAddAlt1
                   className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
@@ -165,6 +174,7 @@ const ShowPinned = (props: any) => {
               }{" "}
             </span>
           </Tippy>
+
           <Tippy placement="bottom" content="Background options ">
             <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 cursor-pointer ">
               {
@@ -245,6 +255,25 @@ const ShowPinned = (props: any) => {
           },
         }}
       />
+
+      {openCollabModal ? (
+        <AnimatePresence>
+          <motion.div
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className=" "
+          >
+            <Collaborators
+              noteUrlParams={noteUrlParams}
+              setOpenCollabModal={setOpenCollabModal}
+              setOverLayBg={props.setOverLayBg}
+            />
+          </motion.div>
+        </AnimatePresence>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

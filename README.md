@@ -1,5 +1,5 @@
 
-# Tweeks
+# Keep-Notepad
 
 Keep-notepad is a Full Stack project based on the google keep notepad, It is a notepad Web App with multi functional features where users can basically keep their notes, links, pictures and whatever else users store.
 
@@ -13,6 +13,7 @@ https://keep-notepad.netlify.app/
 ## Features
 
 - Create Notes.
+- Add Canvas to each note.
 - Set Remainders for your notes for Morning, Afternoon, Evening, Tomorrow or Next Week Monday.
 - Send or Collaborate on a note with another user. 
 - Pin Notes
@@ -22,7 +23,6 @@ https://keep-notepad.netlify.app/
 - Delete Note
 - View your profile
 - See other users so you can send notes
-- currently working on adding Canvas to each note
 - currently working on adding Drag and Drop functionality to each note.
 - currently working on translating note to your custom language.
 ## Tech Stack
@@ -49,15 +49,16 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 
 I needed my web application to be fast so i used Next Js which is known for it's speed.
 
-I avoided making too many API Calls and instead used context to pass my data through out my application so the data is always readily available for users instead of requesting that same information from the server again.
+I avoided making too many API Calls and instead used context to share my data through out my application so the data is always readily available for users instead of requesting that same information from the server again.
 
 I stored each users information on a cookie that way, the users login and information is better secured and persists instead of using Local storage.
 
-When registering, I added a auto generate username, email and password functionality, so users can register with ease at a click of buttons, plus they don't have to remember all this info since it's all stored on a cookie that makes sure they are always logged in of course the can all be edited later by each user if you don't like the names.
+When registering, I added a auto generate username, email and password functionality, so users can register with ease at a click of buttons, plus they don't have to remember all this info since it's all stored on a cookie, so they are always logged in
+N:B: I'm well aware of the compatibility of cookies with phone, so user data might not save as it should.
 
-i made sure Components were reusable so i didn't have to build as much many components as i should have from screatch.
+I made sure Components were reusable so i didn't have to build as much many components as i could have from scratch.
 
-All useEfects have a dependency Array, so there's no chance of your browser crashing from too many repeated API calls.
+All useEffects have a dependency Array, so there's no chance of your browser crashing from too many repeated API calls.
 ## Deployment
 
 To deploy this project run

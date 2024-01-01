@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import Canvas from "../createCanvas/canvas/Canvas";
 import NoteBg from "../noteBg/NoteBg";
 import BgImage from "../noteBg/BgImage";
+import Collaborators from "../collaborators/Collaborators";
 type Props = {};
 
 const Notes = (props: Props) => {
@@ -42,7 +43,7 @@ const Notes = (props: Props) => {
   const [showBgModal, setShowBgModal] = useState<boolean>(false);
   const [backgroundImage, setBackgroundImage] = useState<string>("");
   const [color, setColor] = useState<string>("");
-
+  const [openCollabModal, setOpenCollabModal] = useState<boolean>(false); //State that controls the collab modal
   //generateId
   function dec2hex(dec: any) {
     return dec.toString(16).padStart(2, "0");
@@ -247,11 +248,6 @@ const Notes = (props: Props) => {
   ];
 
   const bgImages = [
-    // {
-    //   id: 0,
-    //   name: "Default",
-    //   defaultImage: `${(<MdHideImage />)}`,
-    // },
     {
       id: 1,
       name: "Groceries",
@@ -299,6 +295,53 @@ const Notes = (props: Props) => {
     },
   ];
 
+  const createPinned = async () => {
+    const newNote = {
+      userId: contextValue.user?._id,
+      username: contextValue.user?.username,
+      _id: generateId(24),
+      title,
+      note,
+      picture,
+      video,
+      drawing,
+      bgImage,
+      bgColor,
+      remainder,
+      collaborator,
+      labels,
+      location,
+      canvas: noteCanvas,
+    };
+    try {
+      await axios
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/add-pinned`,
+          newNote
+        )
+        .then(() =>
+          axios.post(
+            `https://keep-backend-theta.vercel.app/api/notes/create-note`,
+            newNote
+          )
+        )
+        .then(() =>
+          contextValue?.setPinnedNote((prevNotes: any) => [
+            newNote,
+            ...prevNotes,
+          ])
+        )
+        .then(() => contextValue?.setNotes((prev: any) => [newNote, ...prev]))
+        .catch((err) => console.log(err));
+
+      contextValue.setOpenTextArea(false);
+      setTitle("");
+      setNote(" ");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="bg-red">
       <form onSubmit={createNote} className="flex justify-center">
@@ -325,15 +368,18 @@ const Notes = (props: Props) => {
                   className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"
                   placeholder="Title"
                 />
-                <Tippy placement="bottom" content="pinned ">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                <Tippy placement="bottom" content="pin note ">
+                  <button
+                    onClick={() => createPinned}
+                    className="p-3 rounded-full hover:bg-hover"
+                  >
                     {
                       <BsPin
                         className=" text-[#9AA0A6] text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
                         cursor="pointer"
                       />
                     }{" "}
-                  </span>
+                  </button>
                 </Tippy>
               </div>
               <textarea
@@ -343,17 +389,20 @@ const Notes = (props: Props) => {
               />
               <div className="flex item-center gap-6 ">
                 <Tippy placement="bottom" content="Remind me">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                  <span className="p-3 rounded-full cursor-not-allowed ">
                     {
                       <BiBellPlus
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                        cursor="pointer"
+                        // cursor="pointer"
                       />
                     }{" "}
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="Collaborator ">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                  <span
+                    onClick={() => setOpenCollabModal(true)}
+                    className="p-3 rounded-full hover:bg-hover"
+                  >
                     {
                       <MdOutlinePersonAddAlt1
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -362,9 +411,14 @@ const Notes = (props: Props) => {
                     }{" "}
                   </span>
                 </Tippy>
+                {openCollabModal ? (
+                  <Collaborators setOpenCollabModal={setOpenCollabModal} />
+                ) : (
+                  ""
+                )}
                 <Tippy placement="bottom" content="Background options ">
                   <span
-                    onClick={() => setShowBgModal(true)}
+                    onClick={() => setShowBgModal(!showBgModal)}
                     className="p-3 rounded-full hover:bg-hover"
                   >
                     {
@@ -377,8 +431,13 @@ const Notes = (props: Props) => {
                 </Tippy>
                 {showBgModal ? (
                   <AnimatePresence>
-                    <div className="bg-[#2D2E30] fixed z-30 h-auto max-h-[200px] w-fit m-auto inset-x-0 inset-y-0 rounded-[10px]">
-                      <div className="flex flex-col gap-1 p-1">
+                    <motion.div
+                      exit={{ opacity: 0 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="bg-[#2D2E30] fixed z-30 h-fit max-h-[200px] w-fit m-auto inset-x-0 inset-y-0 rounded-[10px]"
+                    >
+                      <div className="flex flex-col items-start justify-center gap-2 h-full p-1">
                         <div className="flex items-start gap-3">
                           {colors?.map((bgColor: any) => {
                             return (
@@ -413,7 +472,7 @@ const Notes = (props: Props) => {
                           })}
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </AnimatePresence>
                 ) : (
                   ""
@@ -463,21 +522,21 @@ const Notes = (props: Props) => {
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="Undo ">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                  <span className="p-3 rounded-full  cursor-not-allowed ">
                     {
                       <BiUndo
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl pointer-disabled  "
-                        cursor="pointer"
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        // cursor="pointer"
                       />
                     }{" "}
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="Redo ">
-                  <span className="p-3 rounded-full hover:bg-hover pointer-events-none ">
+                  <span className="p-3 rounded-full cursor-not-allowed ">
                     {
                       <GrRedo
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
-                        cursor="pointer"
+                        // cursor="pointer"
                       />
                     }{" "}
                   </span>
