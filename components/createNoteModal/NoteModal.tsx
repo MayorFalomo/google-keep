@@ -75,7 +75,7 @@ const NoteModal = (props: any) => {
     };
     try {
       await axios.put(
-        `https://keep-backend-theta.vercel.app/api/notes/update-note/${storeId}`,
+        `http://localhost:5000/api/notes/update-note/${storeId}`,
         updatedNote
       );
 

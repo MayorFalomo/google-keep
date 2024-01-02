@@ -1,4 +1,5 @@
 "use client";
+import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import moment from "moment";
 import Image from "next/image";
@@ -19,6 +20,7 @@ import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 type Props = {};
 
 const PinnedModal = (props: any) => {
+  const { contextValue }: any = useAppContext();
   const [singleNote, setSingleNote] = useState<any>();
   const [editTitle, setEditTitle] = useState<string>("");
   const [editNote, setEditNote] = useState<string>("");
@@ -28,7 +30,7 @@ const PinnedModal = (props: any) => {
   const [editBgColor, setEditBGColor] = useState<string>("");
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
   const [editCollaborator, setEditCollaborator] = useState<string>("");
-  const [label, setLabel] = useState<any>([]);
+  const [label, setLabel] = useState<any>("");
   const [location, setLocation] = useState<string>("");
 
   useEffect(() => {
@@ -61,17 +63,46 @@ const PinnedModal = (props: any) => {
     };
     try {
       await axios.put(
-        `https://keep-backend-theta.vercel.app/api/notes/update/pinned-note/${props.noteUrlParams}`,
+        `http://localhost:5000/api/notes/update/pinned-note/${props.noteUrlParams}`,
         updatedNote
       );
+
+      // Find the index of the note in the notes state
+      const noteIndex = contextValue.notes.findIndex(
+        (note: any) => note._id == props.noteUrlParams
+      );
+
+      // Update the corresponding note in the state by getting the index
+      contextValue.setNotes((prevNotes: any) => {
+        return [
+          //All notes between 0 and the index of our note index
+          ...prevNotes.slice(0, noteIndex),
+          updatedNote,
+          //Now Update All notes between our note index + 1
+          ...prevNotes.slice(noteIndex + 1),
+        ];
+      });
+
+      //First I run a check if the note is in contextValue.pinnedNote it returns a true / false If true then it updated the setPinnedNote the same way with it's index
+      if (
+        contextValue.pinnedNote.some(
+          (note: any) => note._id == props.noteUrlParams
+        )
+      ) {
+        contextValue.setPinnedNote((prevPinnedNotes: any) => {
+          return [
+            ...prevPinnedNotes.slice(0, noteIndex),
+            updatedNote,
+            ...prevPinnedNotes.slice(noteIndex + 1),
+          ];
+        });
+      }
       props.setPinnedModal(false);
       props.setOverLayBg(false);
       toast.success("Note updated successfully");
     } catch (error) {
       console.log(error);
     }
-    // props.setNoteModal(false);
-    // props.setOverLayBg(false);
   };
 
   // console.log(singleNote);

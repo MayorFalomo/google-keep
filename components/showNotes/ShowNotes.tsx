@@ -41,7 +41,6 @@ const ShowNotes = (props: any) => {
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
 
   const router = useRouter();
-  // contact@easeinbiz.com
   // console.log(contextValue?.user?._id.length > 1 ? "Hello" : "Booo");
 
   useEffect(() => {
@@ -272,7 +271,8 @@ const ShowNotes = (props: any) => {
           {emptyMessage ? (
             contextValue?.notes?.length > 0 ? (
               contextValue.notes?.map((note: any, index: any) => (
-                <div                   key={note?._id}
+                <div
+                  key={note?._id}
                   onMouseEnter={() => {
                     setShowIconsOnHover(true);
                     setShowId(note?._id);
