@@ -127,6 +127,50 @@ const ShowPinned = (props: any) => {
       .catch((err) => console.log(err));
   };
 
+  const archiveNote = async (e: any) => {
+    e.preventDefault();
+    const archiveObject = {
+      _id: props.pinned?._id,
+      userId: props.pinned?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.pinned?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.pinned?.username,
+      title: props.pinned?.title,
+      note: props.pinned?.note,
+      picture: props.pinned?.picture,
+      canvas: props.pinned?.canvas,
+      bgImage: props.pinned?.bgImage,
+      bgColor: props.pinned?.bgColor,
+      remainder: props.pinned?.remainder,
+      collaborator: props.pinned?.collaborator,
+      labels: props.pinned?.label,
+      labelId: props?.pinned?.labelId,
+      location: props.pinned?.location,
+      createdAt: props?.pinned.createdAt,
+    };
+    try {
+      await axios
+        .post(
+          `http:localhost:5000/api/notes/add-archived/from-pinned`,
+          archiveObject
+        )
+        .catch((err) => console.log(err));
+      contextValue?.setPinnedNote((prev: any) =>
+        prev.filter((note: any) => note?._id !== props?.pinned?._id)
+      );
+      contextValue?.setNotes((prev: any) =>
+        prev.filter((note: any) => note?._id !== props?.pinned?._id)
+      );
+      contextValue?.setArchivedNote((prevNotes: any) => [
+        archiveObject,
+        ...prevNotes,
+      ]);
+      toast.success("Note archived successfully");
+      contextValue?.setAr;
+    } catch (error) {
+      error && toast.error("Error archiving note");
+    }
+  };
+
   // console.log(contextValue?.pinnedNote);
 
   return (
@@ -281,16 +325,21 @@ const ShowPinned = (props: any) => {
             id="fileInputImage"
             style={{ display: "none" }}
           />
+          {/* <form> */}
           <Tippy placement="bottom" content="Archive ">
-            <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
+            <button
+              onClick={archiveNote}
+              className="p-2 rounded-full hover:bg-hover cursor-pointer "
+            >
               {
                 <BiArchiveIn
                   className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
                   cursor="pointer"
                 />
               }{" "}
-            </span>
+            </button>
           </Tippy>
+          {/* </form> */}
           <Tippy placement="bottom" content="More ">
             <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
               {

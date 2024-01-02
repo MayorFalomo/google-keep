@@ -19,8 +19,6 @@ const Navbar = ({ note }: any) => {
   const { contextValue }: any = useAppContext();
   const [overlay, setOverlay] = useState(false);
 
-  // console.log(contextValue?.notes, "this is notes");
-
   //function to filter notes for notes with label length greater than 1 and assign it to a filterArray variable
   const filteredArray = contextValue?.notes?.filter(
     (element: any) => element?.labelId?.length > 1

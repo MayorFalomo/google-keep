@@ -67,7 +67,7 @@ const Headerbar = (props: any) => {
                 />
               }{" "}
             </span>
-            <img src="./keep.png" className="w-8 h-8 nav:w-12 nav:h-12 " />
+            <img src="/keep.png" className="w-8 h-8 nav:w-12 nav:h-12 " />
             <h1 className="max-lg:text-2xl text-[30px]"> Keep </h1>
           </div>
         )}

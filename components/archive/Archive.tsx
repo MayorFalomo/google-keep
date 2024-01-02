@@ -451,7 +451,8 @@ const Archive = (props: any) => {
       bgColor: props.archived?.bgColor,
       remainder: props.archived?.remainder,
       collaborator: props.archived?.collaborator,
-      labels: props.archived?.labels,
+      label: props.archived?.label,
+      labelId: props?.archived?.labelId,
       location: props.archived?.location,
       createdAt: props?.archived.createdAt,
     };
@@ -465,6 +466,7 @@ const Archive = (props: any) => {
       contextValue?.setArchivedNote((prevState: any) =>
         prevState.filter((note: any) => note._id !== props.archived?._id)
       );
+      contextValue?.setNotes((prevNote: any) => [archiveThisNote, ...prevNote]);
       toast.success("Note unarchived successfully");
       // Update the contextValue.notes array with updated note
     } catch (err) {
