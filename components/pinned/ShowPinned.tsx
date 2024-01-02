@@ -1,7 +1,7 @@
 "use client";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { BsCheck, BsPin, BsPinFill } from "react-icons/bs";
 import { LuClock } from "react-icons/lu";
 import { IoLocationOutline } from "react-icons/io5";
@@ -21,6 +21,8 @@ import Tippy from "@tippyjs/react";
 import toast, { Toaster } from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import Collaborators from "../collaborators/Collaborators";
+import BgImage from "../background/BgImage";
+import BgPin from "../bgPin/BgPin";
 
 type Props = {};
 
@@ -32,11 +34,14 @@ const ShowPinned = (props: any) => {
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [openCollabModal, setOpenCollabModal] = React.useState<boolean>(false); //Toggle the [openCollabModal]
+  const [openBgModal, setOpenBgModal] = useState(false);
+  const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
+
   const handleClick = (e: any) => {
     e.preventDefault();
     setNoteUrlParams(props.pinned?._id);
     // console.log(props.note?.createdAt, "This is the id");
-    props?.setNoteModal(true);
+    setPinnedModal(true);
     props?.setOverLayBg(true);
   };
 
@@ -54,6 +59,72 @@ const ShowPinned = (props: any) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const uploadMedia = async (files: any, mediaType: string) => {
+    setNoteUrlParams(props.note?._id);
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "t3dil6ur");
+
+    const uploadEndpoint =
+      mediaType == "image"
+        ? "https://api.cloudinary.com/v1_1/dsghy4siv/image/upload"
+        : "https://api.cloudinary.com/v1_1/dsghy4siv/video/upload";
+
+    await axios
+      .post(uploadEndpoint, formData)
+      .then((res) => {
+        // setPicture("");
+        // setVideo("");
+
+        if (res.data.url) {
+          const mediaObject =
+            mediaType == "image"
+              ? { picture: res.data.url, video: "" }
+              : { video: res.data.url, picture: "" };
+
+          const updateEndpoint =
+            mediaType == "image"
+              ? "https://keep-backend-theta.vercel.app/api/notes/pinned/upload-picture"
+              : "https://keep-backend-theta.vercel.app/api/notes/pinned/upload-video";
+
+          try {
+            axios
+              .post(updateEndpoint, {
+                id: noteUrlParams,
+                ...mediaObject,
+              })
+              .catch((err) => console.log(err));
+
+            // Update the contextValue.notes array with updated note
+            contextValue?.setPinnedNote((prevState: any) =>
+              prevState.map((note: any) =>
+                note._id == noteUrlParams
+                  ? {
+                      ...note,
+                      ...mediaObject,
+                    }
+                  : note
+              )
+            );
+
+            toast.success(
+              mediaType == "image"
+                ? "Picture has been uploaded successfully"
+                : "Video has been uploaded successfully"
+            );
+          } catch (error) {
+            console.error(
+              error &&
+                (mediaType == "image"
+                  ? "Error updating picture"
+                  : "Error updating video")
+            );
+          }
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   // console.log(contextValue?.pinnedNote);
@@ -176,22 +247,40 @@ const ShowPinned = (props: any) => {
           </Tippy>
 
           <Tippy placement="bottom" content="Background options ">
-            <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 cursor-pointer ">
+            <span
+              onClick={() => {
+                setNoteUrlParams(props.pinned?._id);
+                setOpenBgModal(true);
+              }}
+              className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 cursor-pointer "
+            >
               {
                 <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
               }{" "}
             </span>
           </Tippy>
           <Tippy placement="bottom" content="Add image">
-            <span className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 ">
+            <label
+              onClick={() => {
+                setNoteUrlParams(props.note?._id);
+              }}
+              htmlFor="fileInputImage"
+              className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 "
+            >
               {
                 <BiImageAlt
                   className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
                   cursor="pointer"
                 />
               }{" "}
-            </span>
+            </label>
           </Tippy>
+          <input
+            type="file"
+            onChange={(e) => uploadMedia(e.target.files, "image")}
+            id="fileInputImage"
+            style={{ display: "none" }}
+          />
           <Tippy placement="bottom" content="Archive ">
             <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
               {
@@ -233,16 +322,7 @@ const ShowPinned = (props: any) => {
       ) : (
         " "
       )}
-      <div className="">
-        {props?.noteModal ? (
-          <PinnedModal
-            noteUrlParams={noteUrlParams}
-            setNoteModal={props?.setNoteModal}
-            noteModal={props?.noteModal}
-            setOverLayBg={props.setOverLayBg}
-          />
-        ) : null}
-      </div>
+
       <Toaster
         position="bottom-left"
         toastOptions={{
@@ -271,6 +351,30 @@ const ShowPinned = (props: any) => {
             />
           </motion.div>
         </AnimatePresence>
+      ) : (
+        ""
+      )}
+
+      {openBgModal ? (
+        <div>
+          <BgPin
+            noteUrlParams={noteUrlParams}
+            setOpenBgModal={setOpenBgModal}
+          />
+        </div>
+      ) : (
+        ""
+      )}
+
+      {pinnedModal ? (
+        <div>
+          <PinnedModal
+            noteUrlParams={noteUrlParams}
+            setPinnedModal={setPinnedModal}
+            pinnedModal={pinnedModal}
+            setOverLayBg={props.setOverLayBg}
+          />
+        </div>
       ) : (
         ""
       )}

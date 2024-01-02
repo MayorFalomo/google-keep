@@ -117,12 +117,14 @@ const Collaborators = (props: any) => {
           "https://keep-backend-theta.vercel.app/api/notes/send-note/",
           collaborateObject
         )
-        .then((res) => console.log(res && toast.success("Collaborator Added")))
-        .catch((err) => console.log(err && toast("Collaboration failed")));
+        .catch((err) => err && toast("Collaboration failed"));
+      props?.setShowCollaboratorModal(false);
+      props?.setOpenCollabModal(false); //state from showPinned.tsx
+      props?.setOverLayBg(false); //State from Pinned.tsx
+      toast.success("Collaborator Added");
     } catch (error) {
       console.log(error);
     }
-    props?.setShowCollaboratorModal(false);
   };
 
   const handleError = (e: any) => {
@@ -131,7 +133,7 @@ const Collaborators = (props: any) => {
     return toast.success("note sent ");
   };
 
-  console.log(singleNote?._id);
+  // console.log(singleNote?._id);
 
   return (
     <div className="bg-[#2D2E30] fixed z-20 h-auto max-h-[340px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px]">
@@ -215,7 +217,10 @@ const Collaborators = (props: any) => {
           <div className="flex justify-end items-center bg-[#272729] w-full py-5 gap-2">
             <button
               className="py-2 px-6 text-[20px] hover:bg-borderColor outline-none border-none cursor-pointer"
-              onClick={() => props.setOpenCollabModal(false)}
+              onClick={() => {
+                props.setOpenCollabModal(false);
+                props?.setOverLayBg(false);
+              }}
             >
               Cancel
             </button>

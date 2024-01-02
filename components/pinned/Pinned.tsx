@@ -8,7 +8,7 @@ type Props = {};
 
 const Pinned = () => {
   const { contextValue }: any = useAppContext();
-  const [noteModal, setNoteModal] = React.useState(false); //toggle create note modal
+  const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
   const [overLayBg, setOverLayBg] = useState(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
     false
@@ -83,7 +83,7 @@ const Pinned = () => {
                 {overLayBg ? (
                   <div
                     onClick={() => {
-                      setNoteModal(false);
+                      setPinnedModal(false);
                       setOverLayBg(false);
                     }}
                     className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
@@ -95,8 +95,8 @@ const Pinned = () => {
                   pinned={pinned}
                   showIconsOnHover={showIconsOnHover}
                   setShowIconsOnHover={setShowIconsOnHover}
-                  noteModal={noteModal}
-                  setNoteModal={setNoteModal}
+                  pinnedModal={pinnedModal}
+                  setPinnedModal={setPinnedModal}
                   overLayBg={overLayBg}
                   showId={showId}
                   setOverLayBg={setOverLayBg}

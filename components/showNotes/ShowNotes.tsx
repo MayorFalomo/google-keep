@@ -41,22 +41,26 @@ const ShowNotes = (props: any) => {
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
 
   const router = useRouter();
+  // contact@easeinbiz.com
+  // console.log(contextValue?.user?._id.length > 1 ? "Hello" : "Booo");
 
   useEffect(() => {
-    // if (userCookie) {
+    // const robo = contextValue?.user?._id;
+    // if (contextValue?.user?._id.length > 1) {
     axios
-      .get(
-        `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${userCookie}`
-      )
-      .then((res) => contextValue?.setNotes(res.data.notes))
+      .get(`http://localhost:5000/api/notes/getall-notes/${userCookie}`)
+      .then((res) => contextValue?.setNotes(res.data))
       .then(() => setEmptyMessage(true))
       .catch((err) => console.log(err));
     // setPostLoaded(true);
-    // } else {
+    // }
+    // else {
     //   // router.push("/register");
     //   console.log("The id was not found");
     // }
   }, [userCookie]);
+
+  // console.log(contextValue?.notes, "This is notes");
 
   // console.log(contextValue?.notes, "notes");
 
@@ -268,7 +272,7 @@ const ShowNotes = (props: any) => {
           {emptyMessage ? (
             contextValue?.notes?.length > 0 ? (
               contextValue.notes?.map((note: any, index: any) => (
-                <div
+                <div                   key={note?._id}
                   onMouseEnter={() => {
                     setShowIconsOnHover(true);
                     setShowId(note?._id);
@@ -285,8 +289,6 @@ const ShowNotes = (props: any) => {
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                   }}
-                  key={note?._id}
-                  id={contextValue?.note?._id}
                 >
                   {overLay ? (
                     <AnimatePresence>

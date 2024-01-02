@@ -3,6 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import {
   BiArchiveIn,
   BiBellPlus,
@@ -44,36 +45,40 @@ const PinnedModal = (props: any) => {
     e.preventDefault();
     const updatedNote = {
       _id: singleNote?._id,
-      note: editNote.length > 1 ? editNote : singleNote?.note,
-      title: editTitle.length > 1 ? editTitle : singleNote?.title,
-      picture: editPicture.length > 1 ? editPicture : singleNote?.picture,
-      drawing: editDrawing.length > 1 ? editDrawing : singleNote?.drawing,
-      bgImage: editBgImage.length > 1 ? editBgImage : singleNote?.bgImage,
-      bgColor: editBgColor.length > 1 ? editBgColor : singleNote?.bgColor,
+      note: editNote ? editNote : singleNote?.note,
+      title: editTitle ? editTitle : singleNote?.title,
+      picture: editPicture ? editPicture : singleNote?.picture,
+      bgImage: editBgImage ? editBgImage : singleNote?.bgImage,
+      bgColor: editBgColor ? editBgColor : singleNote?.bgColor,
       remainder: editRemainder ? editRemainder : singleNote?.remainder,
-      collaborator:
-        editCollaborator.length > 1
-          ? editCollaborator
-          : singleNote?.collaborator,
-      labels: label.length > 1 ? label : singleNote?.label,
+      collaborator: editCollaborator
+        ? editCollaborator
+        : singleNote?.collaborator,
+      label: label ? label : singleNote?.label,
+      // labelId: singleNote?.labelId,
       location: location.length > 1 ? location : singleNote?.location,
       createdAt: Date.now(),
     };
     try {
       await axios.put(
-        `https://keep-backend-theta.vercel.app/api/notes/update-note/${props.noteUrlParams}`,
+        `https://keep-backend-theta.vercel.app/api/notes/update/pinned-note/${props.noteUrlParams}`,
         updatedNote
       );
-      props.setNoteModal(false);
+      props.setPinnedModal(false);
       props.setOverLayBg(false);
+      toast.success("Note updated successfully");
     } catch (error) {
       console.log(error);
     }
     // props.setNoteModal(false);
     // props.setOverLayBg(false);
   };
+
+  // console.log(singleNote);
+
   return (
     <div
+      className="fixed z-20 min-h-[200px] h-fit w-1/2 border-2 border-[#5F6368] m-auto inset-x-0 inset-y-0 rounded-[10px] p-[8px]"
       style={{
         backgroundColor: singleNote?.bgColor ? singleNote?.bgColor : "#202124",
         backgroundImage: `url(${
@@ -83,17 +88,30 @@ const PinnedModal = (props: any) => {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="fixed z-20 min-h-[200px] h-fit w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px]"
     >
       {singleNote?.picture ? (
-        <Image
-          className="w-[100%] max-h-[350px] h-300px object-cover "
+        <div>
+          <Image
+            className="w-[100%] max-h-[350px] h-300px object-cover "
+            width={200}
+            height={120}
+            src={singleNote?.picture}
+            // objectFit="cover"
+            alt=" "
+          />
+        </div>
+      ) : (
+        ""
+      )}
+      {singleNote?.video ? (
+        <video
+          className="w-[100%] max-h-[150px]"
           width={200}
           height={120}
-          src={singleNote?.picture}
-          objectFit="cover"
-          alt=" "
-        />
+          controls
+          src={singleNote?.video}
+          // objectFit="cover"
+        ></video>
       ) : (
         ""
       )}
@@ -196,11 +214,7 @@ const PinnedModal = (props: any) => {
             </div>
 
             <div className=" flex justify-end">
-              <button
-                type="submit"
-                // onClick={() => }
-                className="cursor-pointer "
-              >
+              <button type="submit" className="cursor-pointer ">
                 Close{" "}
               </button>
             </div>
