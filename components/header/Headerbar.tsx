@@ -131,7 +131,10 @@ const Headerbar = (props: any) => {
               />
             }{" "}
           </span>
-          <span className="p-3 rounded-full hover:bg-hover">
+          <span
+            onClick={() => window.location.reload()}
+            className="p-3 rounded-full hover:bg-hover"
+          >
             {
               <IoRefreshSharp
                 className=" text-[#9AA0A6] text-[30px] max-sm:text-[20px] max-md:text-[30px] max-lg:text-[30px] "

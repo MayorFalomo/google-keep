@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import Trash from "./Trash";
 import "./trash.module.css";
-import Masonry from "masonry-layout";
 import toast from "react-hot-toast";
 type Props = {};
 
@@ -34,13 +33,13 @@ const Archives = (props: any) => {
       .then(() => setEmptyMessage(true));
   }, []);
 
-  useEffect(() => {
-    if (contextValue?.trashedNotes) {
-      var msnry = new Masonry(".grid", {
-        //options
-      });
-    }
-  }, [contextValue?.trashedNotes]);
+  // useEffect(() => {
+  //   if (contextValue?.trashedNotes) {
+  //     var msnry = new Masonry(".grid", {
+  //       //options
+  //     });
+  //   }
+  // }, [contextValue?.trashedNotes]);
 
   const emptyTrash = async () => {
     let trashed: any = [];
@@ -81,7 +80,8 @@ const Archives = (props: any) => {
           onClick={() => {
             contextValue.setOpenTextArea(false);
           }}
-          className="grid"
+          className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
+          // className="grid"
           // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
           data-masonry='{ "itemSelector": ".grid-item",
           "columnWidth": 300

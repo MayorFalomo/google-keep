@@ -66,7 +66,7 @@ const Options = (props: any) => {
       bgColor: props.trashNote?.bgColor,
       remainder: props.trashNote?.remainder,
       collaborator: props.trashNote?.collaborator,
-      labels: props.trashNote?.label,
+      label: props.trashNote?.label,
       location: props.trashNote?.location,
       createdAt: new Date(),
     };
@@ -79,7 +79,7 @@ const Options = (props: any) => {
         )
         .catch((err) => console.log(err && toast.error("failed")));
       contextValue?.setNotes((prevNote: any) => {
-        return [...prevNote, createCopy].reverse();
+        return [createCopy, ...prevNote];
       });
 
       toast.success("Copy successfully created");

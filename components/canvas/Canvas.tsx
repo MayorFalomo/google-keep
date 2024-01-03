@@ -51,10 +51,6 @@ const Canvas = (props: any) => {
       ctx.beginPath();
       const startX = e.nativeEvent.offsetX;
       const startY = e.nativeEvent.offsetY;
-      // drawingDataRef.current.push({
-      //   type: "draw",
-      //   points: [{ x: startX, y: startY }],
-      // });
       ctx.moveTo(startX, startY);
 
       setCoordinates([

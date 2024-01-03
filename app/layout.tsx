@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Keep-notepad",
-  description: "Made with love by Web Wizard",
+  description: "A notepad for all your notes",
   manifest: "/manifest.json",
   icons: { apple: "/keep.png" },
   themeColor: "#202124",
@@ -24,9 +24,9 @@ export default function RootLayout({
         name="viewport"
         content="width=device-width, initial-scale=1.00, minimum-scale=1.00, maximum-scale=2.00"
       ></meta>
-      <Head>
-        <script src="https://unpkg.com/packery@2/dist/packery.pkgd.js"></script>
-      </Head>
+      {/* <Head>
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+      </Head> */}
       <body>
         <AppContextProvider>{children}</AppContextProvider>
       </body>

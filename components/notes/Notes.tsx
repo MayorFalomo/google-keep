@@ -35,7 +35,8 @@ const Notes = (props: Props) => {
   const [bgColor, setBgColor] = useState<string>("");
   const [remainder, setRemainder] = useState<boolean>(false);
   const [collaborator, setCollaborator] = useState<string>("");
-  const [labels, setLabels] = useState<any>([]);
+  const [label, setLabel] = useState<any>(" ");
+  const [labelId, setLabelId] = useState<any>(" ");
   const [location, setLocation] = useState<string>("");
   const [noteCanvas, setNoteCanvas] = useState<any>([]);
   const [noteUrlParams, setNoteUrlParams] = useState<string>("");
@@ -73,7 +74,7 @@ const Notes = (props: Props) => {
       bgColor,
       remainder,
       collaborator,
-      labels,
+      label,
       location,
       canvas: noteCanvas,
     };
@@ -131,7 +132,8 @@ const Notes = (props: Props) => {
             bgColor,
             remainder,
             collaborator,
-            labels,
+            label,
+            labelId,
             location,
             canvas: noteCanvas,
           };
@@ -142,17 +144,22 @@ const Notes = (props: Props) => {
           //     : "https://keep-backend-theta.vercel.app/api/notes/upload-video";
 
           try {
+            console.log(newNoteObject, mediaObject);
+
             axios
-              .post(`http:localhost:5000/api/notes/create-note`, newNoteObject)
+              .post(
+                `http://localhost:5000/api/notes/create-note-with-picture`,
+                newNoteObject
+              )
               .catch((err) => console.log(err));
             contextValue?.setNotes((prevNotes: any) => [
               newNoteObject,
               ...prevNotes,
             ]);
 
-            contextValue?.setNotes(
-              [...contextValue?.notes, newNoteObject].reverse()
-            );
+            // contextValue?.setNotes(
+            //   [...contextValue?.notes, newNoteObject].reverse()
+            // );
 
             toast.success(
               mediaType == "image"
@@ -185,7 +192,7 @@ const Notes = (props: Props) => {
     bgColor,
     remainder,
     collaborator,
-    labels,
+    label,
     location,
   };
 
@@ -309,7 +316,7 @@ const Notes = (props: Props) => {
       bgColor,
       remainder,
       collaborator,
-      labels,
+      label,
       location,
       canvas: noteCanvas,
     };
@@ -612,19 +619,19 @@ const Notes = (props: Props) => {
                   id="fileInputImage"
                   style={{ display: "none" }}
                 />
-                {openCreateCanvas && (
-                  <div className="fixed z-50 top-0 left-0 h-full w-full">
-                    <Canvas
-                      setOpenCreateCanvas={setOpenCreateCanvas}
-                      canvasNoteObject={canvasNoteObject}
-                    />
-                  </div>
-                )}
               </div>
             </motion.div>
           </AnimatePresence>
         )}
       </form>
+      {openCreateCanvas && (
+        <div className="fixed z-50 top-0 left-0 h-full w-full">
+          <Canvas
+            setOpenCreateCanvas={setOpenCreateCanvas}
+            canvasNoteObject={canvasNoteObject}
+          />
+        </div>
+      )}
     </div>
   );
 };

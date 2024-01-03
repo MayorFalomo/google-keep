@@ -36,12 +36,12 @@ const Canvas = (props: any) => {
         ctx.lineJoin = "round";
         ctx.globalAlpha = lineOpacity;
         ctx.strokeStyle = lineColor;
-        ctx.lineWidth = lineWidth;
+        ctx.lineWidth = 5;
         ctx.beginPath(); // Reset the path
         ctxRef.current = ctx;
       }
     }
-  }, [lineOpacity, lineColor, lineWidth]);
+  }, [lineOpacity, lineColor]);
 
   // Function for starting the drawing
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -99,12 +99,23 @@ const Canvas = (props: any) => {
     isDrawingRef.current = false;
   };
 
+  function dec2hex(dec: any) {
+    return dec.toString(16).padStart(2, "0");
+  }
+
+  // generateId :: Integer -> String
+  function generateId(len: any) {
+    var arr = new Uint8Array((len || 40) / 2);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, dec2hex).join("");
+  }
+
   const saveCanvas = async () => {
     if (coordinates?.length > 1) {
       const canvas = canvasRef.current;
       const imageDataURL = canvas?.toDataURL("image/png");
       const canvasObject = {
-        _id: props?.noteUrlParams,
+        _id: generateId(24),
         canvas: [
           {
             type: "draw",
@@ -122,7 +133,7 @@ const Canvas = (props: any) => {
         contextValue?.setNotes((prevState: any) =>
           prevState.map((note: any) => {
             if (note._id == props.noteUrlParams) {
-              console.log(note);
+              // console.log(note);
 
               return {
                 ...note,
@@ -405,7 +416,7 @@ const Canvas = (props: any) => {
       ctx.lineWidth = lineWidth;
       ctx.globalAlpha = lineOpacity;
     }
-  }, [lineColor, lineWidth, lineOpacity]);
+  }, [lineColor, lineOpacity]);
 
   // console.log(coordinates, "coordinates");
 

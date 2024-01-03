@@ -1,22 +1,14 @@
 "use client";
+import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { useAppContext } from "../../helpers/Helpers";
 import { getCookie } from "cookies-next";
-import ShowNote from "./showNote";
-import "./notes.css";
-import Masonry from "masonry-layout";
-// import Packery from "packery";
-import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-// import { Packery } from "packery";
-// import Macy from "macy";
-// import Masonry from "react-responsive-masonry";
-// import { Masonry } from "masonic";
+import React, { useEffect, useState } from "react";
+import ShowNote from "./showNote";
+import "./notes.css";
 type Props = {};
 
-//Tried DND kIT BUT IT WAS MESSING UP WITH MY Onclick, All other onClicks just refused to work anymore
 const ShowNotes = (props: any) => {
   const userCookie = getCookie("user");
 
@@ -41,225 +33,24 @@ const ShowNotes = (props: any) => {
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
 
   const router = useRouter();
-  // console.log(contextValue?.user?._id.length > 1 ? "Hello" : "Booo");
 
   useEffect(() => {
-    // const robo = contextValue?.user?._id;
-    // if (contextValue?.user?._id.length > 1) {
     axios
       .get(`http://localhost:5000/api/notes/getall-notes/${userCookie}`)
       .then((res) => contextValue?.setNotes(res.data))
       .then(() => setEmptyMessage(true))
       .catch((err) => console.log(err));
-    // setPostLoaded(true);
-    // }
-    // else {
-    //   // router.push("/register");
-    //   console.log("The id was not found");
-    // }
   }, [userCookie]);
-
-  // console.log(contextValue?.notes, "This is notes");
-
-  // console.log(contextValue?.notes, "notes");
-
-  const items = contextValue?.notes || []; // Assuming contextValue.notes is the array of items
-
-  let currentX = 0;
-  let currentY = 0;
-
-  const layout = items.map((note: any, index: number) => ({
-    ...note,
-    x: index,
-    y: currentY,
-    w: 2,
-    h: 2,
-  }));
-
-  // const DynamicMason = dynamic(() => import("masonry-layout"), {
-  //   ssr: false,
-  // });
-  // console.log(currentUser, "this is currentUser");
-  // console.log(contextValue.notes);
-  // console.log(contextValue.notes);
-
-  //   const items = contextValue?.notes.map(function(note:any) {
-  //   return <div key={note._id}>{note.name}</div>
-  // });
-
-  // var grid = document.querySelector("grid");
-
-  // // // Check if elem is not null before creating Masonry instance
-  // if (grid !== null) {
-  //   var msnry = new Masonry(grid, {
-  //     // options...
-  //     itemSelector: ".grid-item",
-  //     columnWidth: 300,
-  //   });
-  // } else {
-  //   console.error("Element with class 'grid' not found.");
-  // }
-
-  // var msnry = new Masonry(".grid", {
-  //   // options
-  // });
-
-  React.useEffect(() => {});
-
-  // func()
-
-  // useEffect(() => {
-  //   if (contextValue?.notes) {
-  //     import("masonry-layout")
-  //       .then((masonry) => {
-  //         // Use masonry library here
-  //         var msnry = new Masonry(".grid", {
-  //           //options
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         // Handle error while importing
-  //         console.log(error);
-  //       });
-  //   }
-  // }, []);
-
-  // window is accessible here.
-  // console.log("window.innerHeight", window.innerHeight);
-  // });
-
-  // Function to initialize Packery on the client side
-  // const containerRef = useRef<HTMLDivElement>(null);
-
-  // var elem = document.querySelector(".grid");
-  // //@ts-ignore
-  // var pckry = new Packery(elem, {
-  //   // options
-  //   itemSelector: ".grid-item",
-  //   gutter: 10,
-  // });
-
-  // // element argument can be a selector string
-  // //   for an individual element
-  // //@ts-ignore
-  // var pckry = new Packery(".grid", {
-  //   // options
-  // });
-  // element argument can be a selector string
-  //   for an individual element
-
-  // element argument can be a selector string
-  //   for an individual element
-
-  // useEffect(() => {
-  //   const imgLoad = imagesLoaded(containerRef.current);
-  //   imgLoad.on("always", () => {
-  //     console.log("All images are loaded");
-  //   });
-  // }, [contextValue.notes]);
-
-  // const onDragEnd = (result: any) => {
-  //   if (!result.destination) {
-  //     return;
-  //   }
-
-  //   const reorderedNotes = Array.from(contextValue?.notes);
-  //   const [movedNote] = reorderedNotes.splice(result.source.index, 1);
-  //   reorderedNotes.splice(result.destination.index, 0, movedNote);
-
-  //   contextValue?.setNotes(reorderedNotes);
-  // };
-
-  // const onDragEnd = (event: any) => {
-  //   const { active, over } = event;
-  //   if (active.id == over.id) {
-  //     return;
-  //   }
-  //   contextValue?.setNotes((notes: any) => {
-  //     const oldIndex = notes.findIndex((note: any) => note.id == active.id);
-  //     const newIndex = notes.findIndex((note: any) => note.id == over.id);
-  //     return arrayMove(notes, oldIndex, newIndex);
-  //   });
-  // };
-
-  // const mouseSensor = useSensor(MouseSensor);
-  // const touchSensor = useSensor(TouchSensor);
-  // const keyboardSensor = useSensor(KeyboardSensor);
-
-  // const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
-
-  // const handleDragStart = (event: any) => {
-  //   const id = event.active.data.current.id;
-  //   setActiveId(id);
-  // };
-
-  // const handleDragEnd = (event: any) => {
-  //   const { active, over } = event;
-
-  //   if (active && over) {
-  //     const oldIndex = contextValue?.notes.findIndex(
-  //       (note: any) => note?._id == active.id
-  //     );
-  //     const newIndex = contextValue?.notes.findIndex(
-  //       (note: any) => note?._id == over.id
-  //     );
-
-  //     contextValue?.setNotes((prevNotes: any) =>
-  //       arrayMove(prevNotes, oldIndex, newIndex)
-  //     );
-  //   }
-
-  //   setActiveId(null);
-  // };
-
-  // const handleDragEnd = (event: any) => {
-  //   const { active, over } = event;
-
-  //   if (active && over) {
-  //     const oldIndex = contextValue?.notes.findIndex(
-  //       (note: any) => note._id == active.id
-  //     );
-  //     const newIndex = contextValue?.notes.findIndex(
-  //       (note: any) => note._id == over.id
-  //     );
-
-  //     contextValue?.setNotes((prevNotes: any) =>
-  //       arrayMove(prevNotes, oldIndex, newIndex)
-  //     );
-  //   }
-
-  //   setActiveId(null);
-  // };
-
-  // console.log(successful, "sUCCESSFUL");
-
-  // const layout = [
-  //   // { i: "a", x: 0, y: 0, w: 1, h: 2, static: true },
-  //   // { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
-  //   { i: "c", x: 4, y: 0, w: 1, h: 2 },
-  // ];
-
-  // var elem = document.querySelector(".grid");
-  // //@ts-ignore
-  // var pckry = new Packery(elem, {
-  //   // options
-  //   itemSelector: ".grid-item",
-  //   gutter: 10,
-  // });
-
-  var msnry = new Masonry(".grid", {
-    //options
-  });
-
   return (
-    <div className=" mb-[200px] ">
+    <div>
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
       <AnimatePresence>
         <motion.div
           onClick={() => {
             contextValue.setOpenTextArea(false);
           }}
-          className="grid"
+          className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
+          // className="grid"
           // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
           data-masonry='{ "itemSelector": ".grid-item",
           "columnWidth": 300
