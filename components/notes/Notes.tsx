@@ -45,6 +45,7 @@ const Notes = (props: Props) => {
   const [backgroundImage, setBackgroundImage] = useState<string>("");
   const [color, setColor] = useState<string>("");
   const [openCollabModal, setOpenCollabModal] = useState<boolean>(false); //State that controls the collab modal
+
   //generateId
   function dec2hex(dec: any) {
     return dec.toString(16).padStart(2, "0");
@@ -53,10 +54,13 @@ const Notes = (props: Props) => {
   // generateId :: Integer -> String
   function generateId(len: any) {
     var arr = new Uint8Array((len || 40) / 2);
-    window.crypto.getRandomValues(arr);
-    return Array.from(arr, dec2hex).join("");
+    if (typeof window !== "undefined") {
+      window.crypto.getRandomValues(arr);
+      return Array.from(arr, dec2hex).join("");
+    }
   }
 
+  const randomId = generateId(24);
   // console.log(contextValue?.currentUser);
 
   const createNote = async (e: any) => {
@@ -83,15 +87,15 @@ const Notes = (props: Props) => {
         `https://keep-backend-theta.vercel.app/api/notes/create-note`,
         newNote
       );
-      console.log(response);
+      // console.log(response);
 
       const createdNote = response.data; // Assuming the server returns the created note
       console.log(createdNote);
 
       // window.location.replace("/tweets/" + res.data._id)
-      // contextValue?.setNotes((prevNotes: any) => [createdNote, ...prevNotes]);
+      contextValue?.setNotes((prevNotes: any) => [createdNote, ...prevNotes]);
       // contextValue?.setNotes(...contextValue?.notes.unshift(newNote));
-      contextValue?.setNotes([...contextValue?.notes, response].reverse());
+      // contextValue?.setNotes([...contextValue?.notes, response].reverse());
       // console.log("Note has been added successfully");
       contextValue.setOpenTextArea(false);
       setTitle("");
@@ -101,9 +105,10 @@ const Notes = (props: Props) => {
       console.log(err);
     }
   };
+  console.log(randomId, "This is randomId");
 
   const createNoteWithPicture = (files: any, mediaType: string) => {
-    setNoteUrlParams(generateId(24));
+    setNoteUrlParams(randomId !== undefined ? randomId : "");
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("upload_preset", "t3dil6ur");

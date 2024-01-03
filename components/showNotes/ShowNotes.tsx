@@ -43,6 +43,8 @@ const ShowNotes = (props: any) => {
       .then(() => setEmptyMessage(true))
       .catch((err) => console.log(err));
   }, [userCookie]);
+
+  console.log(userCookie, "This is for vercel");
   return (
     <div>
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>

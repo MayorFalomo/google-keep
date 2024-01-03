@@ -15,8 +15,6 @@ type Props = {};
 const Headerbar = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  // console.log(contextValue.user, "this is logged user");
-
   const [activeInput, setActiveInput] = useState(false); //Changes the background colour
   const [mobileSearchBar, setMobileSearchBar] = useState(false); //This state controls the mobile search bar whether it shows or not
   const [times, setTimes] = useState(false);

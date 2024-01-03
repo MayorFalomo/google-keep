@@ -140,7 +140,6 @@ const Navbar = ({ note }: any) => {
         <Link href="/trash">
           {" "}
           <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
-            {/* <Link href="/about"> */}
             <span>
               {
                 <TfiTrash
@@ -150,7 +149,6 @@ const Navbar = ({ note }: any) => {
                 />
               }{" "}
             </span>
-            {/* </Link> */}
             <span className="max-md:hidden">Trash </span>
           </li>
         </Link>
