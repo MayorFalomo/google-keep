@@ -79,12 +79,17 @@ const Notes = (props: Props) => {
       canvas: noteCanvas,
     };
     try {
-      await axios.post(
+      const response = await axios.post(
         `https://keep-backend-theta.vercel.app/api/notes/create-note`,
         newNote
       );
+      console.log(response);
+
+      const createdNote = response.data; // Assuming the server returns the created note
+      console.log(createdNote);
+
       // window.location.replace("/tweets/" + res.data._id)
-      contextValue?.setNotes((prevNotes: any) => [newNote, ...prevNotes]);
+      contextValue?.setNotes((prevNotes: any) => [createdNote, ...prevNotes]);
       // contextValue?.setNotes(...contextValue?.notes.unshift(newNote));
       // contextValue?.setNotes([...contextValue?.notes, newNote].reverse());
       // console.log("Note has been added successfully");
