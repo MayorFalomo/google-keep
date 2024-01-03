@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 type Props = {};
 
 const Archives = (props: any) => {
+  const userCookie = getCookie("user");
+
   const { contextValue }: any = useAppContext();
 
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
@@ -25,7 +27,7 @@ const Archives = (props: any) => {
   useEffect(() => {
     axios
       .get(
-        `https://keep-backend-theta.vercel.app/api/notes/get-trash/${contextValue?.user?._id}`
+        `https://keep-backend-theta.vercel.app/api/notes/get-trash/${userCookie}`
       )
       .then((res) => {
         contextValue?.setTrashedNotes(res.data);
@@ -45,7 +47,7 @@ const Archives = (props: any) => {
     let trashed: any = [];
     try {
       await axios
-        .delete("http://localhost:5000/api/notes/empty-trash")
+        .delete("https://keep-backend-theta.vercel.app/api/notes/empty-trash")
         .catch((err) => console.log(err));
       //set contextValue?.setTrashedNotes to empty array
       contextValue?.setTrashedNotes((prevNotes: any) => {

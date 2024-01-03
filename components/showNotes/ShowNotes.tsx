@@ -36,7 +36,9 @@ const ShowNotes = (props: any) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/notes/getall-notes/${userCookie}`)
+      .get(
+        `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${userCookie}`
+      )
       .then((res) => contextValue?.setNotes(res.data))
       .then(() => setEmptyMessage(true))
       .catch((err) => console.log(err));
@@ -52,9 +54,9 @@ const ShowNotes = (props: any) => {
           className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
           // className="grid"
           // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-          data-masonry='{ "itemSelector": ".grid-item",
-          "columnWidth": 300
-         }'
+          //   data-masonry='{ "itemSelector": ".grid-item",
+          //   "columnWidth": 300
+          //  }'
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
