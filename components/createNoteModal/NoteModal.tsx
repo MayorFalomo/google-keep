@@ -40,6 +40,8 @@ const NoteModal = (props: any) => {
 
   const storeId = props.noteUrlParams;
 
+  console.log(props?.noteUrlParams, "THis is note url params");
+
   useEffect(() => {
     if (props.noteUrlParams) {
       axios
@@ -75,7 +77,7 @@ const NoteModal = (props: any) => {
     };
     try {
       await axios.put(
-        `http://localhost:5000/api/notes/update-note/${storeId}`,
+        `https://keep-backend-theta.vercel.app/api/notes/update-note/${props?.noteUrlParams}`,
         updatedNote
       );
 
@@ -109,7 +111,7 @@ const NoteModal = (props: any) => {
       //   "This is note modal"
       // );
       props.setNoteModal(false);
-      props.setOverLay(false);
+      contextValue?.setOverLay(false);
       toast.success("Note updated successfully");
     } catch (error) {
       console.log(error);

@@ -42,11 +42,11 @@ const Archives = (props: any) => {
           onClick={() => {
             contextValue.setOpenTextArea(false);
           }}
-          className="grid"
+          className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
           // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-          data-masonry='{ "itemSelector": ".grid-item",
-          "columnWidth": 300
-         }'
+          //   data-masonry='{ "itemSelector": ".grid-item",
+          //   "columnWidth": 300
+          //  }'
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

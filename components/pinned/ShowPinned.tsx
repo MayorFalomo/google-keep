@@ -33,7 +33,6 @@ const ShowPinned = (props: any) => {
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
-  const [openCollabModal, setOpenCollabModal] = React.useState<boolean>(false); //Toggle the [openCollabModal]
   const [openBgModal, setOpenBgModal] = useState(false);
   const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
 
@@ -92,7 +91,7 @@ const ShowPinned = (props: any) => {
           try {
             axios
               .post(updateEndpoint, {
-                id: noteUrlParams,
+                id: props.note?._id,
                 ...mediaObject,
               })
               .catch((err) => console.log(err));
@@ -100,7 +99,7 @@ const ShowPinned = (props: any) => {
             // Update the contextValue.notes array with updated note
             contextValue?.setPinnedNote((prevState: any) =>
               prevState.map((note: any) =>
-                note._id == noteUrlParams
+                note._id == props.note?._id
                   ? {
                       ...note,
                       ...mediaObject,
@@ -276,8 +275,8 @@ const ShowPinned = (props: any) => {
             <span
               onClick={() => {
                 setNoteUrlParams(props.pinned?._id);
-                setOpenCollabModal(!openCollabModal);
-                props?.setOverLayBg(true);
+                contextValue?.setOverLay(true);
+                contextValue?.setShowCollaboratorModal(true);
               }}
               className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 "
             >
@@ -385,7 +384,7 @@ const ShowPinned = (props: any) => {
         }}
       />
 
-      {openCollabModal ? (
+      {contextValue?.showCollaboratorModal ? (
         <AnimatePresence>
           <motion.div
             exit={{ opacity: 0 }}
@@ -395,8 +394,7 @@ const ShowPinned = (props: any) => {
           >
             <Collaborators
               noteUrlParams={noteUrlParams}
-              setOpenCollabModal={setOpenCollabModal}
-              setOverLayBg={props.setOverLayBg}
+              // setOverLayBg={props.setOverLayBg}
             />
           </motion.div>
         </AnimatePresence>
@@ -421,7 +419,7 @@ const ShowPinned = (props: any) => {
             noteUrlParams={noteUrlParams}
             setPinnedModal={setPinnedModal}
             pinnedModal={pinnedModal}
-            setOverLayBg={props.setOverLayBg}
+            // setOverLayBg={props.setOverLayBg}
           />
         </div>
       ) : (

@@ -98,7 +98,7 @@ const PinnedModal = (props: any) => {
         });
       }
       props.setPinnedModal(false);
-      props.setOverLayBg(false);
+      contextValue?.setOverLay(false);
       toast.success("Note updated successfully");
     } catch (error) {
       console.log(error);

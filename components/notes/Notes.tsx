@@ -90,7 +90,7 @@ const Notes = (props: Props) => {
       // console.log(response);
 
       const createdNote = response.data; // Assuming the server returns the created note
-      console.log(createdNote);
+      // console.log(createdNote);
 
       // window.location.replace("/tweets/" + res.data._id)
       contextValue?.setNotes((prevNotes: any) => [createdNote, ...prevNotes]);
@@ -105,7 +105,7 @@ const Notes = (props: Props) => {
       console.log(err);
     }
   };
-  console.log(randomId, "This is randomId");
+  // console.log(randomId, "This is randomId");
 
   const createNoteWithPicture = (files: any, mediaType: string) => {
     setNoteUrlParams(randomId !== undefined ? randomId : "");
@@ -154,11 +154,11 @@ const Notes = (props: Props) => {
           //     : "https://keep-backend-theta.vercel.app/api/notes/upload-video";
 
           try {
-            console.log(newNoteObject, mediaObject);
+            // console.log(newNoteObject, mediaObject);
 
             axios
               .post(
-                `http://localhost:5000/api/notes/create-note-with-picture`,
+                `https://keep-backend-theta.vercel.app/api/notes/create-note-with-picture`,
                 newNoteObject
               )
               .catch((err) => console.log(err));

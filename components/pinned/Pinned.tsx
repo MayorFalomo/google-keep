@@ -80,11 +80,11 @@ const Pinned = () => {
                 }}
                 key={pinned?._id}
               >
-                {overLayBg ? (
+                {contextValue?.overLay ? (
                   <div
                     onClick={() => {
                       setPinnedModal(false);
-                      setOverLayBg(false);
+                      contextValue?.setOverLay(false);
                     }}
                     className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
                   ></div>
@@ -97,9 +97,9 @@ const Pinned = () => {
                   setShowIconsOnHover={setShowIconsOnHover}
                   pinnedModal={pinnedModal}
                   setPinnedModal={setPinnedModal}
-                  overLayBg={overLayBg}
+                  // overLayBg={overLayBg}
                   showId={showId}
-                  setOverLayBg={setOverLayBg}
+                  // setOverLayBg={setOverLayBg}
                 />
               </div>
             ))}

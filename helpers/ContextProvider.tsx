@@ -29,6 +29,9 @@ const AppContextProvider = ({ children }: any) => {
   const [changeLayout, setChangeLayout] = useState<boolean>(false);
   const [notesLabel, setNotesLabel] = useState<any>([]);
   const [editLabelModal, setEditLabelModal] = useState<boolean>(false);
+  // const [openCollabModal, setOpenCollabModal] = React.useState<boolean>(false); //Toggle the [openCollabModal]
+  const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
+
   // const [cookies, setCookies] = useCookies(["user"]);
 
   //Define functions for updating state
@@ -117,6 +120,11 @@ const AppContextProvider = ({ children }: any) => {
     setNotesLabel,
     editLabelModal,
     setEditLabelModal,
+    showCollaboratorModal,
+    setShowCollaboratorModal,
+    overLay,
+    setOverLay,
+
     // changeLayout,
     // setChangeLayout,
   };

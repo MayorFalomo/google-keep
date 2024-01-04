@@ -53,7 +53,6 @@ const ShowNote = (props: any) => {
   const options = useMemo(() => countryList().getData(), []); //Options for country
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [closeIcon, setCloseIcon] = useState(false);
-  const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
   const [picture, setPicture] = React.useState<any>();
   const [video, setVideo] = useState<string>();
   const [openOptionsModal, setOpenOptionsModal] = useState<boolean>(false);
@@ -81,7 +80,7 @@ const ShowNote = (props: any) => {
     props?.setNoteModal(true);
     // console.log(noteModal, "This is Note Modal");
     // props?.setNoteModal(true);
-    props?.setOverLay(true);
+    contextValue?.setOverLay(true);
 
     // console.log(noteModal, "Hello!!....I am Clicking");
   };
@@ -231,20 +230,21 @@ const ShowNote = (props: any) => {
     e.preventDefault();
     const country = {
       _id: props.note?._id,
-      userId: props.note?.userId,
-      note: props.note?.note,
-      title: props.note?.title,
-      picture: props.note?.picture,
-      bgImage: props.note?.bgImage,
-      bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
-      collaborator: props.note.collaborator,
-      labels: props.note?.label,
-      location: countryValue?.label || props.note?.location || "",
+      // userId: props.note?.userId,
+      // note: props.note?.note,
+      // title: props.note?.title,
+      // picture: props.note?.picture,
+      // bgImage: props.note?.bgImage,
+      // bgColor: props.note?.bgColor,
+      // remainder: props.note?.remainder,
+      // collaborator: props.note.collaborator,
+      // label: props.note?.label,
+      // canvas: props.note?.canvas,
+      location: countryValue?.label || props.note?.location,
     };
     try {
       axios.put(
-        `https://keep-backend-theta.vercel.app/api/notes/update-note/${props.note?._id}`,
+        `https://keep-backend-theta.vercel.app/api/notes/add-country/${props.note?._id}`,
         country
       );
       contextValue?.setNotes((prevState: any) =>
@@ -254,6 +254,7 @@ const ShowNote = (props: any) => {
             : note
         )
       );
+      toast.success("Location added successfully");
     } catch (err) {
       console.log(err);
     }
@@ -452,15 +453,18 @@ const ShowNote = (props: any) => {
           return <CanvasImage key={index} canvas={canvas} />;
         })}
         {props?.note?.picture ? (
-          <Image
-            className="w-[100%] max-h-[150px]"
-            width={200}
-            height={120}
-            src={props?.note?.picture}
-            loading="lazy"
-            // objectFit="cover"
-            alt=" "
-          />
+          <div className="w-[100%]">
+            <Image
+              className="w-[100%]"
+              width={120}
+              height={120}
+              src={props?.note?.picture}
+              loading="lazy"
+              // fill={true}
+              objectFit="cover"
+              alt=" "
+            />
+          </div>
         ) : (
           ""
         )}
@@ -663,7 +667,7 @@ const ShowNote = (props: any) => {
           <Tippy placement="bottom" content="Collaborator ">
             <span
               onClick={() => {
-                setShowCollaboratorModal(true);
+                contextValue?.setShowCollaboratorModal(true);
                 setOpenNotifyModal(false);
                 props.setNoteUrlParams(props.note?._id);
               }}
@@ -766,7 +770,6 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-
       {props?.showIconsOnHover ? (
         contextValue?.pinnedNote?.some(
           (pinned: any) => pinned?._id == props?.note?._id
@@ -806,12 +809,12 @@ const ShowNote = (props: any) => {
               setNoteModal={props?.setNoteModal}
               noteModal={props?.noteModal}
               setNoteUrlParams={props.setNoteUrlParams}
-              setOverLay={props.setOverLay}
+              // setOverLay={props.setOverLay}
             />
           </motion.div>
         ) : null}
       </AnimatePresence>
-      {showCollaboratorModal ? (
+      {contextValue?.showCollaboratorModal ? (
         <AnimatePresence>
           <motion.div
             exit={{ opacity: 0 }}
@@ -821,14 +824,14 @@ const ShowNote = (props: any) => {
           >
             <Collaborators
               noteUrlParams={props.noteUrlParams}
-              setShowCollaboratorModal={setShowCollaboratorModal}
+              // setShowCollaboratorModal={setShowCollaboratorModal}
+              // setOpenCollabModal={setOpenCollabModal}
             />
           </motion.div>
         </AnimatePresence>
       ) : (
         ""
       )}
-
       {props?.showBgModal ? (
         <AnimatePresence>
           <motion.div
@@ -840,19 +843,18 @@ const ShowNote = (props: any) => {
               noteUrlParams={props?.noteUrlParams}
               showBgModal={props?.showBgModal}
               setShowBgModal={props?.setShowBgModal}
-              overLay={props?.overLay}
-              setOverLay={props?.setOverLay}
+              // overLay={props?.overLay}
+              // setOverLay={props?.setOverLay}
             />
           </motion.div>
         </AnimatePresence>
       ) : (
         ""
       )}
-
-      {showCollaboratorModal ? (
+      {contextValue?.showCollaboratorModal ? (
         <div
           onClick={() => {
-            setShowCollaboratorModal(false);
+            contextValue?.setShowCollaboratorModal(false);
           }}
           className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
         ></div>

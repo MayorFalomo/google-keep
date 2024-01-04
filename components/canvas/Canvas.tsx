@@ -105,7 +105,7 @@ const Canvas = (props: any) => {
       const canvas = canvasRef.current;
       const imageDataURL = canvas?.toDataURL("image/png");
       const canvasObject = {
-        _id: props?.noteUrlParams,
+        id: props?.noteUrlParams,
         canvas: [
           {
             type: "draw",
@@ -116,10 +116,11 @@ const Canvas = (props: any) => {
           },
         ],
       };
+      // console.log(canvasObject, "canvasObject");
 
       try {
         await axios.post(
-          "https://keep-backend-theta.vercel.app/notes/save-canvas",
+          "https://keep-backend-theta.vercel.app/api/notes/save-canvas",
           canvasObject
         );
         contextValue?.setNotes((prevState: any) =>

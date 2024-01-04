@@ -118,9 +118,10 @@ const Collaborators = (props: any) => {
           collaborateObject
         )
         .catch((err) => err && toast("Collaboration failed"));
-      props?.setShowCollaboratorModal(false);
-      props?.setOpenCollabModal(false); //state from showPinned.tsx
-      props?.setOverLayBg(false); //State from Pinned.tsx
+      contextValue?.setShowCollaboratorModal(false);
+      // props?.setShowCollaboratorModal(false);
+      // props?.setOpenCollabModal(false); //state from showPinned.tsx
+      contextValue?.setOverLay(false); //State from Pinned.tsx
       toast.success("Collaborator Added");
     } catch (error) {
       console.log(error);
@@ -218,8 +219,8 @@ const Collaborators = (props: any) => {
             <button
               className="py-2 px-6 text-[20px] hover:bg-borderColor outline-none border-none cursor-pointer"
               onClick={() => {
-                props.setOpenCollabModal(false);
-                props?.setOverLayBg(false);
+                contextValue?.setShowCollaboratorModal(false);
+                contextValue?.setOverLay(false);
               }}
             >
               Cancel

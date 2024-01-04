@@ -14,7 +14,6 @@ const ShowNotes = (props: any) => {
 
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
-  const [overLay, setOverLay] = useState<boolean>(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
     false
   );
@@ -44,7 +43,7 @@ const ShowNotes = (props: any) => {
       .catch((err) => console.log(err));
   }, [userCookie]);
 
-  console.log(userCookie, "This is for vercel");
+  // console.log(userCookie, "This is for vercel");
   return (
     <div>
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
@@ -85,12 +84,12 @@ const ShowNotes = (props: any) => {
                     backgroundRepeat: "no-repeat",
                   }}
                 >
-                  {overLay ? (
+                  {contextValue?.overLay ? (
                     <AnimatePresence>
                       <motion.div
                         onClick={() => {
                           setNoteModal(false);
-                          setOverLay(false);
+                          contextValue?.setOverLay(false);
                           setShowBgModal(false);
                         }}
                         exit={{ opacity: 0 }}
@@ -105,8 +104,8 @@ const ShowNotes = (props: any) => {
 
                   <ShowNote
                     note={note}
-                    overLay={overLay}
-                    setOverLay={setOverLay}
+                    // overLay={overLay}
+                    // setOverLay={setOverLay}
                     noteModal={noteModal}
                     setNoteModal={setNoteModal}
                     noteUrlParams={noteUrlParams}
