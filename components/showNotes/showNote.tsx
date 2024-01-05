@@ -493,8 +493,8 @@ const ShowNote = (props: any) => {
             <p className="text-[16px] whitespace-break-spaces ">
               {props.note?.note?.slice(0, 600)}...
             </p>
-            {props.note?.location?.length > 1 ? (
-              <form onSubmit={removeLocation}>
+            <form onSubmit={removeLocation}>
+              {props.note?.location ? (
                 <p
                   onMouseOver={() => {
                     setCloseIcon(true);
@@ -520,10 +520,10 @@ const ShowNote = (props: any) => {
                     )}{" "}
                   </button>
                 </p>
-              </form>
-            ) : (
-              ""
-            )}
+              ) : (
+                ""
+              )}
+            </form>
           </div>
         )}
       </div>
@@ -686,7 +686,7 @@ const ShowNote = (props: any) => {
             <span
               onClick={() => {
                 props?.setShowBgModal(true);
-                props?.setOverLay(true);
+                contextValue?.setOverLay(true);
                 props?.setNoteUrlParams(props.note?._id);
               }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer "

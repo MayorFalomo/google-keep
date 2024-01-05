@@ -11,6 +11,7 @@ type Props = {};
 //Parent component is Background.tsx
 const BgImage = (props: any) => {
   const { contextValue }: any = useAppContext();
+  // console.log(props?.noteUrlParams, "This is noteUrl");
 
   const appendBgImageToNote = () => {
     const bgObject = {
@@ -20,7 +21,7 @@ const BgImage = (props: any) => {
     };
 
     try {
-      console.log(bgObject);
+      // console.log(bgObject);
 
       axios
         .post(
@@ -52,7 +53,7 @@ const BgImage = (props: any) => {
       // );
       toast.success("Background Image set successfully");
       props.setShowBgModal(false);
-      props?.setOverLay(false);
+      contextValue?.setOverLay(false);
     } catch (error) {
       console.error("Error updating bgColor:", error);
     }

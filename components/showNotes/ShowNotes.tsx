@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ShowNote from "./showNote";
 import "./notes.css";
+// import Masonry from "masonry-layout";
 type Props = {};
 
 const ShowNotes = (props: any) => {
@@ -43,98 +44,193 @@ const ShowNotes = (props: any) => {
       .catch((err) => console.log(err));
   }, [userCookie]);
 
+  // window.addEventListener("DOMSubtreeModified", function () {
+  //   var elem = document.querySelector(".grid");
+  //   if (elem) {
+  //     var msnry = new Masonry(elem, {
+  //       // options
+  //       itemSelector: ".grid-item",
+  //       columnWidth: 160,
+  //       gutter: 20,
+  //     });
+  //   }
+  // });
+
+  const [masonryLoaded, setMasonryLoaded] = useState(false);
+
+  // console.log(Masonry, "Masonry-layout");
+
+  // useEffect(() => {
+  //   const loadMasonry = async () => {
+  //     try {
+  //       // Import masonry-layout dynamically
+  //       var { default: Masonry } = await import("masonry-layout");
+  //       var elem = document.querySelector(".grid");
+  //       // console.log(Masonry, "MASONRY");
+  //       // console.log(elem, "ELEM");
+
+  //       // Initialize Masonry on the container element
+  //       var msnry = new Masonry(elem, {
+  //         // options
+  //         // itemSelector: ".grid-item",
+  //         // columnWidth: 160,
+  //         // gutter: 20,
+  //       });
+
+  //       setMasonryLoaded(true);
+  //     } catch (error) {
+  //       console.error("Error loading Masonry:", error);
+  //     }
+  //   };
+
+  //   // Call the function to load Masonry when the component mounts
+  //   loadMasonry();
+  // }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("DOMSubtreeModified", async function () {
+        var { default: Masonry } = await import("masonry-layout");
+        var elem = document.querySelector(".grid");
+
+        var msnry = new Masonry(".grid", {
+          // options
+          // itemSelector: ".grid-item",
+          // columnWidth: 160,
+          // gutter: 20,
+        });
+        setMasonryLoaded(true);
+      });
+    }
+  });
+
+  // useEffect(() => {
+  //   var msnry = new Masonry(".grid", {
+  //     // options
+  //     // itemSelector: ".grid-item",
+  //     // columnWidth: 160,
+  //     // gutter: 20,
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     var msnry = new Masonry(".grid", {
+  //       // options
+  //       // itemSelector: ".grid-item",
+  //       // columnWidth: 160,
+  //       // gutter: 20,
+  //     });
+  //   }
+  // });
+  // if (typeof window !== "undefined") {
+  //    var msnry = new Masonry(".grid", {
+  //   // options
+  //   // itemSelector: ".grid-item",
+  //   // columnWidth: 160,
+  //   // gutter: 20,
+  // });
+  // }
+
+  // console.log(masonryLoaded, "Masonry loaded");
+
   // console.log(userCookie, "This is for vercel");
   return (
     <div>
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
       <AnimatePresence>
-        <motion.div
-          onClick={() => {
-            contextValue.setOpenTextArea(false);
-          }}
-          className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
-          // className="grid"
-          // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-          //   data-masonry='{ "itemSelector": ".grid-item",
-          //   "columnWidth": 300
-          //  }'
-          exit={{ opacity: 0 }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          {emptyMessage ? (
-            contextValue?.notes?.length > 0 ? (
-              contextValue.notes?.map((note: any, index: any) => (
-                <div
-                  key={note?._id}
-                  onMouseEnter={() => {
-                    setShowIconsOnHover(true);
-                    setShowId(note?._id);
-                  }}
-                  onMouseLeave={() => {
-                    setShowIconsOnHover(false);
-                    setShowId("");
-                  }}
-                  className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
-                  style={{
-                    backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
-                    backgroundImage: `url(${note?.bgImage})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                >
-                  {contextValue?.overLay ? (
-                    <AnimatePresence>
-                      <motion.div
-                        onClick={() => {
-                          setNoteModal(false);
-                          contextValue?.setOverLay(false);
-                          setShowBgModal(false);
-                        }}
-                        exit={{ opacity: 0 }}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
-                      ></motion.div>
-                    </AnimatePresence>
-                  ) : (
-                    ""
-                  )}
+        {
+          <motion.div
+            onClick={() => {
+              contextValue.setOpenTextArea(false);
+            }}
+            // className="flex items-start gap-4 ml-[50px] mb-[150px] flex-wrap w-[95%] "
+            // className="columns-4 gap-3 w-95% mx-auto space-y-8 pb-4"
+            className="grid"
+            // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
+            //   data-masonry='{ "itemSelector": ".grid-item",
+            //   "columnWidth": 300
+            //  }'
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {emptyMessage ? (
+              contextValue?.notes?.length > 0 ? (
+                contextValue.notes?.map((note: any, index: any) => (
+                  <div
+                    key={note?._id}
+                    onMouseEnter={() => {
+                      setShowIconsOnHover(true);
+                      setShowId(note?._id);
+                    }}
+                    onMouseLeave={() => {
+                      setShowIconsOnHover(false);
+                      setShowId("");
+                    }}
+                    className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                    style={{
+                      backgroundColor: note?.bgColor
+                        ? note?.bgColor
+                        : "#202124",
+                      backgroundImage: `url(${note?.bgImage})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  >
+                    {contextValue?.overLay ? (
+                      <AnimatePresence>
+                        <motion.div
+                          onClick={() => {
+                            setNoteModal(false);
+                            contextValue?.setOverLay(false);
+                            setShowBgModal(false);
+                          }}
+                          exit={{ opacity: 0 }}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+                        ></motion.div>
+                      </AnimatePresence>
+                    ) : (
+                      ""
+                    )}
 
-                  <ShowNote
-                    note={note}
-                    // overLay={overLay}
-                    // setOverLay={setOverLay}
-                    noteModal={noteModal}
-                    setNoteModal={setNoteModal}
-                    noteUrlParams={noteUrlParams}
-                    setNoteUrlParams={setNoteUrlParams}
-                    showIconsOnHover={showIconsOnHover}
-                    setShowIconsOnHover={setShowIconsOnHover}
-                    picture={picture}
-                    setPicture={setPicture}
-                    showId={showId}
-                    showBgModal={showBgModal}
-                    setShowBgModal={setShowBgModal}
-                    successful={successful}
-                    setSuccessful={setSuccessful}
-                    pinnedSuccess={pinnedSuccess}
-                    setPinnedSuccess={setPinnedSuccess}
-                  />
+                    <ShowNote
+                      note={note}
+                      // overLay={overLay}
+                      // setOverLay={setOverLay}
+                      noteModal={noteModal}
+                      setNoteModal={setNoteModal}
+                      noteUrlParams={noteUrlParams}
+                      setNoteUrlParams={setNoteUrlParams}
+                      showIconsOnHover={showIconsOnHover}
+                      setShowIconsOnHover={setShowIconsOnHover}
+                      picture={picture}
+                      setPicture={setPicture}
+                      showId={showId}
+                      showBgModal={showBgModal}
+                      setShowBgModal={setShowBgModal}
+                      successful={successful}
+                      setSuccessful={setSuccessful}
+                      pinnedSuccess={pinnedSuccess}
+                      setPinnedSuccess={setPinnedSuccess}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="flex justify-center m-[auto] ">
+                  <p className="text-[20px]"> You have no notes </p>
                 </div>
-              ))
+              )
             ) : (
-              <div className="flex justify-center m-[auto] ">
-                <p className="text-[20px]"> You have no notes </p>
+              <div className="flex justify-center text-center m-[auto] ">
+                <span style={{ textAlign: "center" }} className="loader"></span>
               </div>
-            )
-          ) : (
-            <div className="flex justify-center text-center m-[auto] ">
-              <span style={{ textAlign: "center" }} className="loader"></span>
-            </div>
-          )}
-        </motion.div>
+            )}
+          </motion.div>
+        }
       </AnimatePresence>
     </div>
   );

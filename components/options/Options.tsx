@@ -22,7 +22,10 @@ const Options = (props: any) => {
   const handleTrashNote = async () => {
     try {
       await axios
-        .post(`http://localhost:5000/api/notes/trash-note`, props.trashNote)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/trash-note`,
+          props.trashNote
+        )
         .then(() =>
           contextValue?.setNotes((prevState: any) =>
             prevState.filter((note: any) => note._id !== props.trashNote?._id)
@@ -70,7 +73,7 @@ const Options = (props: any) => {
       location: props.trashNote?.location,
       createdAt: new Date(),
     };
-    console.log(createCopy);
+    // console.log(createCopy);
     try {
       axios
         .post(

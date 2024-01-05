@@ -634,13 +634,15 @@ const Notes = (props: Props) => {
           </AnimatePresence>
         )}
       </form>
-      {openCreateCanvas && (
+      {openCreateCanvas ? (
         <div className="fixed z-50 top-0 left-0 h-full w-full">
           <Canvas
             setOpenCreateCanvas={setOpenCreateCanvas}
             canvasNoteObject={canvasNoteObject}
           />
         </div>
+      ) : (
+        ""
       )}
     </div>
   );

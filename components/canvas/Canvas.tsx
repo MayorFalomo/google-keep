@@ -81,7 +81,7 @@ const Canvas = (props: any) => {
       // Draw the line segment
       ctx.lineTo(offsetX, offsetY);
       ctx.stroke();
-      setCoordinates((prev) => [
+      setCoordinates((prev: any) => [
         ...prev,
         {
           x: offsetX,
@@ -210,7 +210,7 @@ const Canvas = (props: any) => {
 
   useEffect(() => {
     recreateCanvas();
-    console.log("functions has ben run");
+    // console.log("functions has ben run");
   }, []);
 
   //Function to recreate the canvas drawing
@@ -259,14 +259,14 @@ const Canvas = (props: any) => {
   }, []);
 
   // UseEffect to update the strokeStyle in the canvas when lineColor changes
-  useEffect(() => {
-    const ctx = ctxRef.current;
-    if (ctx) {
-      ctx.strokeStyle = lineColor;
-      ctx.lineWidth = lineWidth;
-      ctx.globalAlpha = lineOpacity;
-    }
-  }, [lineColor, lineWidth, lineOpacity]);
+  // useEffect(() => {
+  //   const ctx = ctxRef.current;
+  //   if (ctx) {
+  //     ctx.strokeStyle = lineColor;
+  //     ctx.lineWidth = lineWidth;
+  //     ctx.globalAlpha = lineOpacity;
+  //   }
+  // }, [lineColor, lineWidth, lineOpacity]);
 
   // console.log(coordinates, "coordinates");
 
