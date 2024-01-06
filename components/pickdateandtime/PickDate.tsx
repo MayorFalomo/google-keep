@@ -20,11 +20,11 @@ const PickDate = (props: any) => {
   const [customTime, setCustomTime] = React.useState<boolean>(false);
   const [userId, setUserId] = React.useState<string>(props.notepad.userId);
   const [onePm, setOnePm] = React.useState<any>(1);
-  const [eightPm, setEightPm] = React.useState<any>(20);
+  const [amOrPm, setAmOrPm] = React.useState<any>(20);
   const [timeObject, setTimeObject] = React.useState<any>();
   // console.log(props.notepad, "Pick a date");
 
-  console.log(value, "This is  value");
+  // console.log(value, "This is  value");
 
   const pickATime = async (e: any, digits: number) => {
     e.preventDefault();
@@ -33,8 +33,8 @@ const PickDate = (props: any) => {
     const selectedTime = new Date(value);
     selectedTime.setHours(digits, 0, 0, 0);
     // console.log(selectedTime.toISOString, "The toIsoString");
-    console.log(digits, "digits");
-    setEightPm(digits);
+    // console.log(digits, "digits");
+    setAmOrPm(digits);
     // setTime(digits);
     const pickATimeObject = {
       _id: props.notepad?._id,
@@ -54,6 +54,7 @@ const PickDate = (props: any) => {
       createdAt: new Date(),
     };
     setTimeObject(pickATimeObject);
+    setShowTime(false);
     // console.log(pickATimeObject, "Pick a time object");
     // try {
     //   await axios
@@ -72,18 +73,18 @@ const PickDate = (props: any) => {
   };
 
   const submitCustomTime = async () => {
-    console.log(timeObject, "Time object");
+    // console.log(timeObject, "Time object");
 
     try {
       await axios
         .post(
-          `http:/localhost:5000/api/notes/set-notification/pick-a-time`,
+          `https://keep-backend-theta.vercel.app/api/notes/set-notification/pick-a-time`,
           timeObject
         )
         .catch((err: any) => {
           console.log(err);
         });
-      toast.success(`Remainder has been set for ${eightPm}:00`);
+      toast.success(`Remainder has been set for ${amOrPm}:00`);
       props.setPickADayModal(false);
     } catch (error) {
       console.log(error);
