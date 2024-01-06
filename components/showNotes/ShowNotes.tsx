@@ -4,11 +4,17 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ShowNote from "./showNote";
 import "./notes.css";
 // import Masonry from "masonry-layout";
 type Props = {};
+
+declare global {
+  interface HTMLElement {
+    masonry?: any; // Define the masonry property on HTMLElement
+  }
+}
 
 const ShowNotes = (props: any) => {
   const userCookie = getCookie("user");
@@ -87,54 +93,59 @@ const ShowNotes = (props: any) => {
   //   loadMasonry();
   // }, []);
 
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     if (contextValue?.changeNoteLayout == false) {
+  //       window.addEventListener("DOMSubtreeModified", async function () {
+  //         var { default: Masonry } = await import("masonry-layout");
+  //         var elem = document.querySelector(".grid");
+  //         if (!contextValue?.changeNoteLayout) {
+  //           var msnry = new Masonry(".grid", {
+  //             // options
+  //             // itemSelector: ".grid-item",
+  //             // columnWidth: 160,
+  //             // gutter: 20,
+  //           });
+  //         } else {
+  //           return null;
+  //         }
+  //       });
+  //     }
+  //   }
+  // }, [!contextValue?.changeNoteLayout]);
+
+  const gridRef = useRef(null);
+  const masonryRef = useRef(null);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      window.addEventListener("DOMSubtreeModified", async function () {
-        var { default: Masonry } = await import("masonry-layout");
-        var elem = document.querySelector(".grid");
+      let masonryInstance: any;
+      if (contextValue?.changeNoteLayout == false) {
+        import("masonry-layout").then((module) => {
+          const Masonry = module.default;
+          // console.log(Masonry, "This is Masonry");
 
-        var msnry = new Masonry(".grid", {
-          // options
-          // itemSelector: ".grid-item",
-          // columnWidth: 160,
-          // gutter: 20,
+          masonryInstance = new Masonry(gridRef.current, {
+            // options
+            // itemSelector: ".grid-item",
+            // columnWidth: 160,
+            // gutter: 20,
+          });
+          // console.log(masonryInstance, "This is masonryInstance");
+          // console.log(masonryRef.current, "This is masonryRef");
+          masonryRef.current = masonryInstance;
         });
-        setMasonryLoaded(true);
-      });
+      }
+      return () => {
+        if (masonryInstance) {
+          masonryInstance.destroy();
+        }
+      };
     }
   });
 
-  // useEffect(() => {
-  //   var msnry = new Masonry(".grid", {
-  //     // options
-  //     // itemSelector: ".grid-item",
-  //     // columnWidth: 160,
-  //     // gutter: 20,
-  //   });
-  // }, []);
+  // console.log(contextValue?.changeNoteLayout, "layout");
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     var msnry = new Masonry(".grid", {
-  //       // options
-  //       // itemSelector: ".grid-item",
-  //       // columnWidth: 160,
-  //       // gutter: 20,
-  //     });
-  //   }
-  // });
-  // if (typeof window !== "undefined") {
-  //    var msnry = new Masonry(".grid", {
-  //   // options
-  //   // itemSelector: ".grid-item",
-  //   // columnWidth: 160,
-  //   // gutter: 20,
-  // });
-  // }
-
-  // console.log(masonryLoaded, "Masonry loaded");
-
-  // console.log(userCookie, "This is for vercel");
   return (
     <div>
       <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
@@ -144,9 +155,10 @@ const ShowNotes = (props: any) => {
             onClick={() => {
               contextValue.setOpenTextArea(false);
             }}
+            ref={gridRef}
             // className="flex items-start gap-4 ml-[50px] mb-[150px] flex-wrap w-[95%] "
             // className="columns-4 gap-3 w-95% mx-auto space-y-8 pb-4"
-            className="grid"
+            className={contextValue?.changeNoteLayout ? "flex-layout" : "grid"}
             // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
             //   data-masonry='{ "itemSelector": ".grid-item",
             //   "columnWidth": 300
@@ -168,7 +180,11 @@ const ShowNotes = (props: any) => {
                       setShowIconsOnHover(false);
                       setShowId("");
                     }}
-                    className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                    className={
+                      contextValue?.changeNoteLayout
+                        ? " relative max-w-[600px] min-w-[60%] h-fit min-h-[150px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                        : "relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                    }
                     style={{
                       backgroundColor: note?.bgColor
                         ? note?.bgColor
@@ -221,7 +237,10 @@ const ShowNotes = (props: any) => {
                 ))
               ) : (
                 <div className="flex justify-center m-[auto] ">
-                  <p className="text-[20px]"> You have no notes </p>
+                  <p className="flex justify-center text-center text-[20px]">
+                    {" "}
+                    You have no notes{" "}
+                  </p>
                 </div>
               )
             ) : (

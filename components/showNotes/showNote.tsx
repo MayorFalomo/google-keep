@@ -156,20 +156,25 @@ const ShowNote = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.label,
+      label: props.note?.label,
+      labelId: props?.note?.labelId,
       location: props.note?.location,
+      canvas: props?.note?.canvas,
       createdAt: new Date(),
     };
+    console.log(noteRemainder, "note remainder");
     try {
-      axios.post(
-        "https://keep-backend-theta.vercel.app/api/notes/set-notification/tomorrow",
-        noteRemainder
-      );
+      axios
+        .post(
+          "http://localhost:5000/api/notes/set-notification/tomorrow",
+          noteRemainder
+        )
+        .catch((err) => console.log(err && toast.error("internal error")));
       toast.success("Remainder set for tomorrow ");
+      setOpenNotifyModal(false);
     } catch (error) {
       console.log(error, "This did not work");
     }
-    setOpenNotifyModal(false);
   };
 
   const nextMondayRemainder = async (e: any) => {
@@ -182,12 +187,13 @@ const ShowNote = (props: any) => {
       title: props.note?.title,
       note: props.note?.note,
       picture: props.note?.picture,
-      drawing: props.note?.drawing,
+      video: props?.note?.video,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.label,
+      label: props.note?.label,
+      labelId: props?.note?.labelId,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -542,7 +548,11 @@ const ShowNote = (props: any) => {
                 ? props?.note?.bgColor || props?.note?.bgImage
                 : "",
           }}
-          className="absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center "
+          className={
+            contextValue?.changeNoteLayout
+              ? "absolute z-10 bottom-[5px] left-0 w-1/2 flex justify-around item-center "
+              : "absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center "
+          }
         >
           <Tippy placement="bottom" content="Notification">
             <span className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 ">

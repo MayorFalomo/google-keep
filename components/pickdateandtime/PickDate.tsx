@@ -21,26 +21,30 @@ const PickDate = (props: any) => {
   const [userId, setUserId] = React.useState<string>(props.notepad.userId);
   const [onePm, setOnePm] = React.useState<any>(1);
   const [eightPm, setEightPm] = React.useState<any>(20);
-
+  const [timeObject, setTimeObject] = React.useState<any>();
   // console.log(props.notepad, "Pick a date");
+
+  console.log(value, "This is  value");
 
   const pickATime = async (e: any, digits: number) => {
     e.preventDefault();
 
-    const time = new Date();
-    time.setHours(digits, 0, 0, 0);
-    // console.log(time.toISOString, "The toIsoString");
-
+    //So you can set the hours of a specific date like this
+    const selectedTime = new Date(value);
+    selectedTime.setHours(digits, 0, 0, 0);
+    // console.log(selectedTime.toISOString, "The toIsoString");
+    console.log(digits, "digits");
+    setEightPm(digits);
     // setTime(digits);
     const pickATimeObject = {
       _id: props.notepad?._id,
-      time: time.toISOString(), //This converts the hours to a time format
+      time: selectedTime.toISOString(), //This converts the hours to a time format
       userId: props.notepad.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
       username: props.notepad?.username,
       title: props.notepad?.title,
       note: props.notepad?.note,
       picture: props.notepad?.picture,
-      drawing: props.notepad?.drawing,
+      video: props?.notepad?.video,
       bgImage: props.notepad?.bgImage,
       bgColor: props.notepad?.bgColor,
       remainder: props.notepad?.remainder,
@@ -49,17 +53,38 @@ const PickDate = (props: any) => {
       location: props.notepad?.location,
       createdAt: new Date(),
     };
+    setTimeObject(pickATimeObject);
+    // console.log(pickATimeObject, "Pick a time object");
+    // try {
+    //   await axios
+    //     .post(
+    //       `https://keep-backend-theta.vercel.app/api/notes/set-notification/pick-a-time`,
+    //       pickATimeObject
+    //     )
+    //     .catch((err: any) => {
+    //       console.log(err);
+    //     });
+    //   toast.success(`Remainder has been set for ${digits}:00`);
+    //   props.setPickADayModal(false);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
+  const submitCustomTime = async () => {
+    console.log(timeObject, "Time object");
+
     try {
       await axios
         .post(
-          `https://keep-backend-theta.vercel.app/api/notes/set-notification/pick-a-time`,
-          pickATimeObject
+          `http:/localhost:5000/api/notes/set-notification/pick-a-time`,
+          timeObject
         )
         .catch((err: any) => {
           console.log(err);
         });
-      toast.success("Notification has been set!");
-      props.setPickAModal(false);
+      toast.success(`Remainder has been set for ${eightPm}:00`);
+      props.setPickADayModal(false);
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +92,7 @@ const PickDate = (props: any) => {
 
   return (
     <div className="pickCon">
-      <form className="sub">
+      <form onSubmit={submitCustomTime} className="sub">
         <h1 className="flex items-center gap-[8px] w-[90%] py-3 text-[20px] border-1 border-[#313235]">
           {
             <span className="p-2 rounded-full hover:bg-lighterHover">
@@ -130,14 +155,14 @@ const PickDate = (props: any) => {
             >
               <button
                 onClick={(e) => pickATime(e, 8)}
-                type="submit"
+                // type="submit"
                 className="flex items-center justify-between w-full px-3 pt-3 pb-2 mt-1 cursor-pointer outline-none border-none  hover:bg-lighterHover "
               >
                 Morning <span>8:000 AM </span>{" "}
               </button>
               <button
                 onClick={(e) => pickATime(e, 13)}
-                type="submit"
+                // type="submit"
                 className="flex items-center justify-between w-full px-3 pt-3 pb-2 mt-1 cursor-pointer outline-none border-none hover:bg-lighterHover "
               >
                 {" "}
@@ -145,26 +170,26 @@ const PickDate = (props: any) => {
               </button>
               <button
                 onClick={(e) => pickATime(e, 18)}
-                type="submit"
+                // type="submit"
                 className="flex items-center justify-between w-full px-3 pt-3 pb-2 mt-1 cursor-pointer outline-none border-none hover:bg-lighterHover "
               >
                 Evening <span>6:00 PM </span>{" "}
               </button>
               <button
                 onClick={(e) => pickATime(e, 20)}
-                type="submit"
+                // type="submit"
                 className="flex items-center justify-between w-full px-3 pt-3 pb-2 mt-1 cursor-pointer outline-none border-none hover:bg-lighterHover "
               >
                 Night <span>8:00 PM </span>{" "}
               </button>
 
-              <button
+              {/* <button
                 onClick={() => setCustomTime(true)}
                 type="submit"
                 className="flex justify-start px-3 pt-3 pb-2 w-full mt-1 cursor-pointer  outline-none border-none hover:bg-lighterHover "
               >
                 Custom{" "}
-              </button>
+              </button> */}
             </form>
           ) : (
             ""

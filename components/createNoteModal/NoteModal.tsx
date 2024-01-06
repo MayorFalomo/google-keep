@@ -40,7 +40,7 @@ const NoteModal = (props: any) => {
 
   const storeId = props.noteUrlParams;
 
-  console.log(props?.noteUrlParams, "THis is note url params");
+  // console.log(props?.noteUrlParams, "THis is note url params");
 
   useEffect(() => {
     if (props.noteUrlParams) {
@@ -148,7 +148,7 @@ const NoteModal = (props: any) => {
       )}
       {singleNote?.video ? (
         <video
-          className="w-[100%] max-h-[350px] h-300px object-cover "
+          className="w-[100%] max-h-[350px] h-300px object-contain "
           width={200}
           height={120}
           controls

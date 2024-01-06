@@ -2,17 +2,20 @@
    width: 95% !important;
    margin-bottom: 150px;
    margin-left: 50px;
+   /* border: 2px green solid; */
 }
-/* 
-.flex{
+
+.flex-layout{
    width: 95% !important;
+   /* border: 2px red solid; */
    margin-bottom: 150px;
    margin-left: 50px;
    display: flex;
-   align-items: flex-start;
+   flex-direction: column;
+   align-items: center;
    gap: 10px;
-   flex-wrap: wrap;
-} */
+   /* flex-wrap: wrap; */
+}
 
 .empty{
    width: 100%;

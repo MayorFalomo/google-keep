@@ -17,7 +17,7 @@ import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Tippy from "@tippyjs/react";
 import toast from "react-hot-toast";
-import Canvas from "../createCanvas/canvas/Canvas";
+import Drawing from "../createCanvas/canvas/Drawing";
 import NoteBg from "../noteBg/NoteBg";
 import BgImage from "../noteBg/BgImage";
 import Collaborators from "../collaborators/Collaborators";
@@ -636,7 +636,7 @@ const Notes = (props: Props) => {
       </form>
       {openCreateCanvas ? (
         <div className="fixed z-50 top-0 left-0 h-full w-full">
-          <Canvas
+          <Drawing
             setOpenCreateCanvas={setOpenCreateCanvas}
             canvasNoteObject={canvasNoteObject}
           />

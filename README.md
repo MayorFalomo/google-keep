@@ -13,18 +13,24 @@ https://keep-notepad.netlify.app/
 ## Features
 
 - Create Notes.
+-View each notes
 - Add Canvas to each note.
 - Set Remainders for your notes for Morning, Afternoon, Evening, Tomorrow or Next Week Monday.
-- Send or Collaborate on a note with another user. 
+- Get a notification of remainders
+- Search and Send a note to another user.
 - Pin Notes
 - Archive Notes.
-- Add Images to any note.
-- Add Custom background Images or colour to suit your taste.
-- Delete Note
+- Add a picture or video to any note.
+- Add Custom background Images or Colors to suit your taste.
+- Delete a Note
+- Edit a Note
+- Add Tags/Label to your notes for easier sorting.
+- Add Location to your notes
 - View your profile
 - See other users so you can send notes
 - currently working on adding Drag and Drop functionality to each note.
 - currently working on translating note to your custom language.
+- working on Real time note writing with another person
 ## Tech Stack
 
 **Client:** Next Js, Tailwind, CSS, PWA, Firebase

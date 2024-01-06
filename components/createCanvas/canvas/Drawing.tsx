@@ -8,7 +8,7 @@ import { get } from "http";
 import { getCookie } from "cookies-next";
 type Props = {};
 
-const Canvas = (props: any) => {
+const Drawing = (props: any) => {
   const userId = getCookie("user");
   const { contextValue }: any = useAppContext();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -365,4 +365,4 @@ const Canvas = (props: any) => {
   );
 };
 
-export default Canvas;
+export default Drawing;
