@@ -236,7 +236,7 @@ const ShowPinned = (props: any) => {
         >
           <Tippy placement="bottom" content="Notification">
             <span
-              className="p-2 rounded-full hover:bg-hover"
+              className="p-2 rounded-full hover:bg-[#28292C]"
               onClick={() => setOpenNotifyModal(true)}
             >
               {
@@ -253,16 +253,16 @@ const ShowPinned = (props: any) => {
               <div className=" ">
                 <p>Remainder: </p>
                 <ul>
-                  <li className="hover:bg-hover p-2 cursor-pointer ">
+                  <li className="hover:bg-[#28292C] p-2 cursor-pointer ">
                     Tomorrow <span>8am </span>{" "}
                   </li>
-                  <li className="hover:bg-hover p-2 cursor-pointer">
+                  <li className="hover:bg-[#28292C] p-2 cursor-pointer">
                     Next Week <span>8am </span>{" "}
                   </li>
-                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-[#28292C] p-2">
                     <LuClock /> Pick date and time{" "}
                   </li>
-                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-hover p-2">
+                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-[#28292C] p-2">
                     <IoLocationOutline /> Pick place and time{" "}
                   </li>
                 </ul>
@@ -278,7 +278,7 @@ const ShowPinned = (props: any) => {
                 contextValue?.setOverLay(true);
                 contextValue?.setShowCollaboratorModal(true);
               }}
-              className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 "
+              className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 "
             >
               {
                 <MdOutlinePersonAddAlt1
@@ -295,7 +295,7 @@ const ShowPinned = (props: any) => {
                 setNoteUrlParams(props.pinned?._id);
                 setOpenBgModal(true);
               }}
-              className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 cursor-pointer "
+              className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 cursor-pointer "
             >
               {
                 <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
@@ -308,7 +308,7 @@ const ShowPinned = (props: any) => {
                 setNoteUrlParams(props.note?._id);
               }}
               htmlFor="fileInputImage"
-              className="p-2 rounded-full hover:bg-hover transition ease-in-out delay-150 "
+              className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 "
             >
               {
                 <BiImageAlt
@@ -328,7 +328,7 @@ const ShowPinned = (props: any) => {
           <Tippy placement="bottom" content="Archive ">
             <button
               onClick={archiveNote}
-              className="p-2 rounded-full hover:bg-hover cursor-pointer "
+              className="p-2 rounded-full hover:bg-[#28292C] cursor-pointer "
             >
               {
                 <BiArchiveIn
@@ -340,7 +340,7 @@ const ShowPinned = (props: any) => {
           </Tippy>
           {/* </form> */}
           <Tippy placement="bottom" content="More ">
-            <span className="p-2 rounded-full hover:bg-hover cursor-pointer ">
+            <span className="p-2 rounded-full hover:bg-[#28292C] cursor-pointer ">
               {
                 <BiDotsVerticalRounded
                   className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
@@ -358,7 +358,7 @@ const ShowPinned = (props: any) => {
           <Tippy placement="bottom" content="Unpin note ">
             <button
               type="submit"
-              className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] border-none outline-none "
+              className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-[#28292C] rounded-full  hover:text-white text-[#5F6368] border-none outline-none "
             >
               <BsPinFill
                 className="  text-[18px] max-sm:text-[18px] max-md:text-[26px] "

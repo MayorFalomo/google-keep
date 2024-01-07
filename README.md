@@ -12,8 +12,7 @@ https://keep-notepad.netlify.app/
 
 ## Features
 
-- Create Notes.
--View each notes
+- Create Notes & View each Notes
 - Add Canvas to each note.
 - Set Remainders for your notes for Morning, Afternoon, Evening, Tomorrow or Next Week Monday.
 - Get a notification of remainders

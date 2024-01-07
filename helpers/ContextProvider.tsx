@@ -45,19 +45,29 @@ const AppContextProvider = ({ children }: any) => {
     setUser(null);
   };
 
+  // console.log(currentUser, "currentUser");
+
   //getCurrentUser takes in a parameter called Id which we'll get from currentUser which is cookies.user
+
   const getCurrentUser = async (id: string) => {
-    await axios
-      .get(`https://keep-backend-theta.vercel.app/api/users/get-user/${id}`)
-      .then((res) => {
-        setUser(res.data);
-        router.push("/");
-        toast.success("login successful");
-        toast.success(`Merry Christmas ${res.data?.username} `);
-      })
-      .catch((err) => {
-        console.log(err && router.push("/register"));
-      });
+    try {
+      // console.log(id, "This is id");
+      await axios
+        .get(`http://localhost:5000/api/users/get-user/${id}`)
+        .then((res: any) => {
+          console.log(res.data, "This is res.data");
+          setUser(res.data);
+          router.push("/");
+          toast.success("login successful");
+          // toast.success(`Merry Christmas ${res.data?.username} `);
+        })
+        .catch((err) => {
+          console.log(err && router.push("/register"));
+        });
+      // console.log(res, "This is res");
+    } catch (err) {
+      console.log(err);
+    }
 
     // try {
     //   console.log(res.data, "this is res.data");
@@ -85,7 +95,7 @@ const AppContextProvider = ({ children }: any) => {
 
   //UseEffect to load cookies.user and just
   useEffect(() => {
-    // console.log(currentUser, "This is currentUser");
+    console.log(currentUser, "This is currentUser");
 
     getCurrentUser(currentUser ? currentUser : "");
     // console.log(getCookie("user"), "This is the provider");

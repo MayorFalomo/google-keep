@@ -236,15 +236,15 @@ const ShowNotes = (props: any) => {
                   </div>
                 ))
               ) : (
-                <div className="flex justify-center m-[auto] ">
-                  <p className="flex justify-center text-center text-[20px]">
+                <div className="flex justify-center mx-[auto] w-full ">
+                  <p className="flex justify-center text-center text-[20px] mx-auto">
                     {" "}
                     You have no notes{" "}
                   </p>
                 </div>
               )
             ) : (
-              <div className="flex justify-center text-center m-[auto] ">
+              <div className="flex justify-center text-center mx-[auto] w-full ">
                 <span style={{ textAlign: "center" }} className="loader"></span>
               </div>
             )}

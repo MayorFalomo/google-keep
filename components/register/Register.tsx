@@ -10,6 +10,7 @@ import { useAppContext } from "@/helpers/Helpers";
 import { auth, provider } from "../../firebase.config";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
+import Link from "next/link";
 
 type Props = {};
 
@@ -26,30 +27,35 @@ const Register = (props: any) => {
   // generateId :: Integer -> String
   function generateId(len: any) {
     var arr = new Uint8Array((len || 40) / 2);
-    window.crypto.getRandomValues(arr);
-    return Array.from(arr, dec2hex).join("");
+    if (typeof window !== "undefined") {
+      window.crypto.getRandomValues(arr);
+      return Array.from(arr, dec2hex).join("");
+    }
   }
+
   // const {getCurrentUser} = useContext(AppContextProvider)
   const [email, setEmail] = useState<string>("");
   const [userNames, setUserName] = useState<string>("");
-  const [passwords, setPasswords] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [notifications, setNotifications] = useState<any>([]);
 
   // const [cookies, setCookie] = useCookies(["user"]);
   const [name, setName] = useState("");
   // const [isAuth, setIsAuth] = useState<boolean>(false)
+  const generatedId = generateId(24);
 
   // Sign Up With Google
-  const signUpWithGoogle = async () => {
-    const generatedId = generateId(24);
+  const signUpWithGoogle = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     try {
-      signInWithPopup(auth, provider).then((response) => {
+      signInWithPopup(auth, provider).then(async (response) => {
+        console.log(response, "response");
         // setCookie("user", generatedId, { path: "/" });
-        setCookie("user", generateId);
+        setCookie("user", generatedId);
         // setCookie("user", generatedId, { path: "/" });
         let userInfo = {
-          id: generatedId,
+          _id: generatedId,
           userId: response.user.uid,
           username: response.user.displayName,
           password: "12345",
@@ -63,29 +69,29 @@ const Register = (props: any) => {
           // location: "Lagos, Nigeria",
           // links: "https://mayowa-falomo.netlify.app"
         };
-        // console.log(userInfo);
-        axios
-          .post(
-            "https://keep-backend-theta.vercel.app/api/users/register",
-            userInfo
-          )
+        console.log(userInfo, "this is userInfo");
+        await axios
+          .post("http://localhost:5000/api/users/register", userInfo)
+          // .catch((err) => console.log(err))
           .then(() => router.push("/"))
+          // .then(() => contextValue.getCurrentUser(userInfo?._id))
           .then(() => window.location.reload())
-          // .then(() => console.log(userInfo))
           .catch((err) => console.log(err));
-        contextValue?.getCurrentUser(userInfo.id);
+        // window.location.reload();
+        contextValue?.getCurrentUser(userInfo?._id);
+        router.push("/");
         // console.log(userInfo);
       });
     } catch (err) {
       console.log("Sign up with Google error:", err);
     }
   };
+  // const generatedId = generateId(24);
 
   //Sign up by creating account
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const generatedId = generateId(24);
-    createUserWithEmailAndPassword(auth, email, passwords).then((response) => {
+    createUserWithEmailAndPassword(auth, email, password).then((response) => {
       setCookie("user", generatedId);
       // cookies().set("name", "lee");
       //Since monogoDb can't find google's id since it's 28 digits, i generated my 24 digit id for each user id
@@ -94,17 +100,14 @@ const Register = (props: any) => {
         userId: response.user.uid, //userId is from google
         username: userNames,
         email: email,
-        password: passwords,
+        password: password,
         profileDp:
           "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
         notifications: notifications,
       };
       try {
         axios
-          .post(
-            "https://keep-backend-theta.vercel.app/api/users/register",
-            userInfo
-          )
+          .post("http://localhost:5000/api/users/register", userInfo)
           .then(() => router.push("/"))
           .then(() => window.location.reload())
           .then(() => contextValue?.getCurrentUser(userInfo?._id))
@@ -159,8 +162,8 @@ const Register = (props: any) => {
 
   return (
     <div className="bg-white text-black h-[100vh] flex justify-center items-center">
-      <div className="flex flex-col justify-between items-center w-[650px] h-[90%]">
-        <div className="border-2 border-black-200 rounded-xl p-8 mt-2 flex flex-col justify-end mx-[auto] gap-6 w-[90%] ">
+      <div className="flex flex-col justify-between items-center w-[650px] h-[90%] ">
+        <div className="border-2 border-black-200 rounded-xl p-8 mt-2 flex flex-col justify-end mx-[auto] gap-6 w-[95%] max-sm:p-[8px] max-[400px]:w-[100%] max-[400px]:mx-[5px] ">
           <div className="flex flex-col items-center gap-3">
             <Image
               className="flex justify-center m-auto"
@@ -169,19 +172,25 @@ const Register = (props: any) => {
               height="120"
               alt="Google"
             />
-            <h1 className="text-[25px] text-center">
+            <h1 className="text-[20px] text-center max-sm:text-[16px] ">
               Create a Hi-Notepad account{" "}
             </h1>
-            <button
-              onClick={signUpWithGoogle}
-              className="w-[60%] text-[22px] border-2 border-black-500 rounded-[35px] flex justify-center gap-2 p-4"
+            <form
+              className="flex justify-center w-[100%]"
+              onSubmit={signUpWithGoogle}
             >
-              {<FcGoogle size={30} />} Sign Up With Google
-            </button>
+              <button
+                type="submit"
+                className="w-[55%] text-[20px] border-2 border-black-500 rounded-[35px] flex justify-center items-center gap-2 p-2 max-[600px]:w-[80%] max-sm:text-[16px] "
+              >
+                {<FcGoogle className="text-[24px] max-[400px]:text-[18px]" />}{" "}
+                Sign Up With Google
+              </button>
+            </form>
           </div>
           <form
             onSubmit={(e) => handleSubmit(e)}
-            className="flex flex-col items-end gap-4"
+            className="flex flex-col items-end gap-4 w-[100%]"
           >
             <div className="relative w-[100%]">
               <input
@@ -194,7 +203,7 @@ const Register = (props: any) => {
               />
               <div
                 onClick={getRandomEmail}
-                className="absolute bg-[#000] top-0 right-0 text-[#fff] p-2 rounded-[7px] cursor-pointer "
+                className="absolute bg-[#000] top-0 right-0 text-[#fff] p-1 rounded-[7px] cursor-pointer "
               >
                 generate email{" "}
               </div>
@@ -211,7 +220,7 @@ const Register = (props: any) => {
               />
               <div
                 onClick={getRandomName}
-                className="absolute bg-[#000] top-0 right-0 text-[#fff] p-2 rounded-[7px] cursor-pointer"
+                className="absolute bg-[#000] top-0 right-0 text-[#fff] p-1 rounded-[7px] cursor-pointer"
               >
                 generate name{" "}
               </div>
@@ -220,33 +229,36 @@ const Register = (props: any) => {
             <div className="relative w-[100%]">
               <input
                 className="p-4 w-full rounded-[6px] bg-white border-2 border-black-500 placeholder:px-3"
-                value={passwords}
-                onChange={(e: any) => setPasswords(e.target.value)}
+                value={password}
+                onChange={(e: any) => setPassword(e.target.value)}
                 type="password"
                 name="confirmPassword"
                 placeholder="Enter Password"
               />
               <div
-                onClick={() => setPasswords(getRandomPassword())}
-                className="absolute bg-[#000] top-0 right-0 text-[#fff] p-2 rounded-[7px] cursor-pointer "
+                onClick={() => setPassword(getRandomPassword())}
+                className="absolute bg-[#000] top-0 right-0 text-[#fff] p-1 rounded-[7px] cursor-pointer "
               >
                 generate password{" "}
               </div>
             </div>
             <button
               type="submit"
-              className="mt-6 p-3 w-1/4  bg-[#1B66C9] rounded-[8px] text-[18px] text-white"
+              className="mt-6 p-3 w-1/4  bg-[#1B66C9] rounded-[8px] text-[18px] text-white max-sm:w-[100px] max-sm:text-[16px] max-sm:p-2"
             >
               Sign Up{" "}
             </button>
           </form>
+          <Link href="/login">
+            <p className="flex justify-center">Log in? </p>
+          </Link>
         </div>
-        <div className=" w-[90%]">
+        <div className=" w-[90%] max-[400px]:w-95%">
           <ul className="flex items-start justify-between w-full">
-            <li className="flex items-center gap-8">
+            <li className="flex items-center gap-2 max-[400px]:gap-3 max-sm:text-[12px]">
               English (United States) <span>{<MdOutlineArrowDropDown />} </span>{" "}
             </li>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 max-[400px]:gap-2 max-sm:text-[12px]">
               <span>Help </span>
               <span>Privacy </span>
               <span>Terms </span>

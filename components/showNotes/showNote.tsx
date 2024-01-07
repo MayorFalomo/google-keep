@@ -797,7 +797,7 @@ const ShowNote = (props: any) => {
             <Tippy placement="bottom" content="Pin note ">
               <button
                 type="submit"
-                className="absolute top-[10px] right-[5px] z-[9] p-2 hover:bg-hover rounded-full  hover:text-white text-[#5F6368] cursor-pointer border-none outline-none "
+                className="absolute top-[10px] right-[5px] z-[9] p-2 hover:bg-[#27292C] rounded-full  hover:text-white text-[#5F6368] cursor-pointer border-none outline-none "
               >
                 <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />
               </button>

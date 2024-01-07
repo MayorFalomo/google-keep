@@ -10,7 +10,7 @@ type Props = {};
 //parent component Navbar.tsx
 const Label = (props: any) => {
   return (
-    <div className=" rounded-r-full transition ease-in-out delay-150 cursor-pointer hover:bg-hover">
+    <div className=" rounded-r-full transition ease-in-out delay-150 cursor-pointer hover:bg-[#28292C]">
       <div>
         {props?.labelNotes.label ? (
           <Link href={`/label/${props?.labelNotes.labelId}`}>

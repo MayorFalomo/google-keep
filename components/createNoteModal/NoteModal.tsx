@@ -171,7 +171,7 @@ const NoteModal = (props: any) => {
                 // e.stopPropagation();
               }}
             />
-            <span className="p-3 rounded-full hover:bg-hover">
+            <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
               {
                 <BsPin
                   className=" text-[#9AA0A6] text-[24px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl "
@@ -198,7 +198,7 @@ const NoteModal = (props: any) => {
           </p>
           <div className="flex justify-between item-center gap-4 ">
             <div className="flex item-center gap-4 ">
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiBellPlus
                     className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -206,7 +206,7 @@ const NoteModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <MdOutlinePersonAddAlt1
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -214,7 +214,7 @@ const NoteModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <IoColorPaletteOutline
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -222,7 +222,7 @@ const NoteModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiImageAlt
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -230,7 +230,7 @@ const NoteModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiArchiveIn
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -238,7 +238,7 @@ const NoteModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiDotsVerticalRounded
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -246,7 +246,7 @@ const NoteModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiUndo
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -254,7 +254,7 @@ const NoteModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer ">
                 {
                   <GrRedo
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[22px] lg:text-3xl  "

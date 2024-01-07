@@ -388,7 +388,7 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="pin note ">
                   <button
                     onClick={() => createPinned}
-                    className="p-3 rounded-full hover:bg-hover"
+                    className="p-3 rounded-full hover:bg-[#28292C]"
                   >
                     {
                       <BsPin
@@ -418,7 +418,7 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="Collaborator ">
                   <span
                     onClick={() => setOpenCollabModal(true)}
-                    className="p-3 rounded-full hover:bg-hover"
+                    className="p-3 rounded-full hover:bg-[#28292C]"
                   >
                     {
                       <MdOutlinePersonAddAlt1
@@ -436,7 +436,7 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="Background options ">
                   <span
                     onClick={() => setShowBgModal(!showBgModal)}
-                    className="p-3 rounded-full hover:bg-hover"
+                    className="p-3 rounded-full hover:bg-[#28292C]"
                   >
                     {
                       <IoColorPaletteOutline
@@ -497,7 +497,7 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="Add image">
                   <label
                     htmlFor="fileInputImage"
-                    className="p-3 rounded-full hover:bg-hover"
+                    className="p-3 rounded-full hover:bg-[#28292C]"
                   >
                     {
                       <BiImageAlt
@@ -518,7 +518,7 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="Archive ">
                   <span
                     onClick={() => toast.success("Note archived")}
-                    className="p-3 rounded-full hover:bg-hover"
+                    className="p-3 rounded-full hover:bg-[#28292C]"
                   >
                     {
                       <BiArchiveIn
@@ -529,7 +529,7 @@ const Notes = (props: Props) => {
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="More ">
-                  <span className="p-3 rounded-full hover:bg-hover">
+                  <span className="p-3 rounded-full hover:bg-[#28292C]">
                     {
                       <BiDotsVerticalRounded
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -586,7 +586,7 @@ const Notes = (props: Props) => {
               />
               <div className="flex items-center gap-6">
                 <Tippy placement="bottom" content="New list ">
-                  <span className="p-4 rounded-full hover:bg-hover">
+                  <span className="p-4 rounded-full hover:bg-[#28292C]">
                     {
                       <AiOutlineCheckSquare
                         className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
@@ -598,7 +598,7 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="New note with Drawing ">
                   <span
                     onClick={() => setOpenCreateCanvas(true)}
-                    className="p-4 rounded-full hover:bg-hover"
+                    className="p-4 rounded-full hover:bg-[#28292C]"
                   >
                     {
                       <IoBrushOutline
@@ -611,7 +611,7 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="New note with picture ">
                   <label
                     htmlFor="fileInputImage"
-                    className="p-4 rounded-full hover:bg-hover"
+                    className="p-4 rounded-full hover:bg-[#28292C]"
                   >
                     {
                       <BiImageAlt

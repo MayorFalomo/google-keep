@@ -103,6 +103,7 @@ box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
+    text-align: center;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
     margin: 0 auto;

@@ -156,7 +156,7 @@ const PinnedModal = (props: any) => {
               placeholder="Title"
               onChange={(e) => setEditTitle(e.target.value)}
             />
-            <span className="p-3 rounded-full hover:bg-hover">
+            <span className="p-3 rounded-full hover:bg-[#28292C]">
               {
                 <BsPin
                   className=" text-[#9AA0A6] text-[24px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl "
@@ -178,7 +178,7 @@ const PinnedModal = (props: any) => {
           </p>
           <div className="flex justify-between item-center gap-4 ">
             <div className="flex item-center gap-4 ">
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiBellPlus
                     className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -186,7 +186,7 @@ const PinnedModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <MdOutlinePersonAddAlt1
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -194,7 +194,7 @@ const PinnedModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <IoColorPaletteOutline
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -202,7 +202,7 @@ const PinnedModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiImageAlt
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -210,7 +210,7 @@ const PinnedModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiArchiveIn
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -218,7 +218,7 @@ const PinnedModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiDotsVerticalRounded
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -226,7 +226,7 @@ const PinnedModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiUndo
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
@@ -234,7 +234,7 @@ const PinnedModal = (props: any) => {
                   />
                 }{" "}
               </span>
-              <span className="p-3 rounded-full hover:bg-hover">
+              <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <GrRedo
                     className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[22px] lg:text-3xl  "

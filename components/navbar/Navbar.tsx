@@ -50,7 +50,7 @@ const Navbar = ({ note }: any) => {
     <nav className="h-[100vh] flex flex-col overflow-none ">
       <ul className=" h-full max-[600px]:flex flex-col items-center mt-[100px] ">
         <Link href="/">
-          <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer">
             <span>
               {
                 <MdLightbulbOutline
@@ -64,7 +64,7 @@ const Navbar = ({ note }: any) => {
           </li>
         </Link>
 
-        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+        <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer">
           <span>
             {
               <IoMdNotificationsOutline
@@ -92,7 +92,7 @@ const Navbar = ({ note }: any) => {
             contextValue?.setEditLabelModal(true);
             setOverlay(false);
           }}
-          className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer"
+          className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer"
         >
           <span>
             {
@@ -123,7 +123,7 @@ const Navbar = ({ note }: any) => {
           ""
         )}
         <Link href="/archive">
-          <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer">
             <span>
               {
                 <BiArchiveIn
@@ -139,7 +139,7 @@ const Navbar = ({ note }: any) => {
 
         <Link href="/trash">
           {" "}
-          <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-hover rounded-r-full transition ease-in-out delay-150 cursor-pointer">
+          <li className="flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer">
             <span>
               {
                 <TfiTrash
