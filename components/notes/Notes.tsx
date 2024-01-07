@@ -608,7 +608,7 @@ const Notes = (props: Props) => {
                     }{" "}
                   </span>
                 </Tippy>
-                <Tippy placement="bottom" content="New note with picture ">
+                <Tippy placement="bottom" content="New note with image ">
                   <label
                     htmlFor="fileInputImage"
                     className="p-4 rounded-full hover:bg-[#28292C]"
