@@ -55,7 +55,7 @@ const AppContextProvider = ({ children }: any) => {
       await axios
         .get(`http://localhost:5000/api/users/get-user/${id}`)
         .then((res: any) => {
-          console.log(res.data, "This is res.data");
+          // console.log(res.data, "This is res.data");
           setUser(res.data);
           router.push("/");
           toast.success("login successful");

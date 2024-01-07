@@ -49,7 +49,7 @@ const BgColor = (props: any) => {
       // );
       toast.success("Bg color set successfully");
       props?.setShowBgModal(false);
-      props?.setOverLay(false);
+      contextValue?.setOverLay(false);
     } catch (error) {
       console.error("Error updating bgColor:", error);
     }

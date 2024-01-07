@@ -442,6 +442,7 @@ const ShowNote = (props: any) => {
     setOpenOptionsModal(!openOptionsModal);
     props?.setNoteUrlParams(props?.note?._id);
     setOpenNotifyModal(false);
+    props?.setShowBgModal(false);
   };
   // console.log(props?.note, "This is note props");
 
@@ -563,6 +564,7 @@ const ShowNote = (props: any) => {
                   onClick={() => {
                     setOpenNotifyModal(!openNotifyModal);
                     setOpenOptionsModal(false);
+                    props?.setShowBgModal(false);
                   }}
                 />
               }{" "}
@@ -698,6 +700,8 @@ const ShowNote = (props: any) => {
                 props?.setShowBgModal(true);
                 contextValue?.setOverLay(true);
                 props?.setNoteUrlParams(props.note?._id);
+                setOpenNotifyModal(false);
+                setOpenOptionsModal(false);
               }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer "
             >
