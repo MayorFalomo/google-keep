@@ -19,6 +19,7 @@ const Headerbar = (props: any) => {
   const [activeInput, setActiveInput] = useState(false); //Changes the background colour
   const [mobileSearchBar, setMobileSearchBar] = useState(false); //This state controls the mobile search bar whether it shows or not
   const [times, setTimes] = useState(false);
+  const [showHover, setShowHover] = useState(false);
 
   // console.log(times);
   const handleClick = () => {
@@ -98,8 +99,8 @@ const Headerbar = (props: any) => {
             }}
             className={
               activeInput
-                ? "min-p-[2px] p-2 bg-white w-full border-none outline-none placeholder: text-black text-[20px] font-weight: black"
-                : "p-2 bg-searchbar border-none outline-none placeholder:text-[#E9E9E9] text-[22px] font-weight: black"
+                ? "min-p-[2px] p-1 bg-white w-full border-none outline-none placeholder: text-black text-[18px] font-weight: black"
+                : "p-1 bg-searchbar border-none outline-none placeholder:text-[#E9E9E9] text-[18px] font-weight: black"
             }
             type="text"
             placeholder="Search"
@@ -205,14 +206,24 @@ const Headerbar = (props: any) => {
               }{" "}
             </span>
           </Tippy>
-          <img
-            className="rounded-full"
-            src={contextValue.user?.profilePic}
-            // src="/irene.jpg"
-            width="40"
-            height="50"
-            alt="img"
-          />
+          <div className="relative h-[45px] w-[45px] rounded-full">
+            <img
+              className="w-[100%] h-[100%] rounded-full "
+              src={contextValue.user?.profilePic}
+              width="40"
+              height="50"
+              alt="img"
+              onMouseOver={() => setShowHover(true)}
+              onMouseOut={() => setShowHover(false)}
+            />
+            {showHover && (
+              <div className="bg-[#393D40] absolute p-1 px-4 top-[40px] left-[-200px] rounded-[8px]  ">
+                <span>Google Account </span>
+                <p className="text-[#ADB1B5]">{contextValue.user?.username} </p>
+                <p className="text-[#ADB1B5]">{contextValue.user?.email} </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

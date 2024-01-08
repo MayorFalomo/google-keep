@@ -148,7 +148,9 @@ const ShowNotes = (props: any) => {
 
   return (
     <div>
-      <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1>
+      <h1 className="ml-[50px] text-[#8A949E] text-[20px]  mb-[20px]">
+        OTHERS{" "}
+      </h1>
       <AnimatePresence>
         {
           <motion.div
