@@ -13,7 +13,9 @@ export default function Page({ params }: any) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/notes/get-label/${params.id}`)
+      .get(
+        `https://keep-backend-theta.vercel.app/api/notes/get-label/${params.id}`
+      )
       .then((res) => setLabeledNotes(res.data))
       .then(() => setEmptyMessage(true))
       .catch((err) => console.log(err));

@@ -166,7 +166,7 @@ const ShowNote = (props: any) => {
     try {
       axios
         .post(
-          "http://localhost:5000/api/notes/set-notification/tomorrow",
+          "https://keep-backend-theta.vercel.app/api/notes/set-notification/tomorrow",
           noteRemainder
         )
         .catch((err) => console.log(err && toast.error("internal error")));

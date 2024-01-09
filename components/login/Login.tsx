@@ -30,7 +30,7 @@ const Login = (props: any) => {
     if (typeof window !== "undefined") {
       if (window.innerWidth < 700) {
         setInLocalStorage(true);
-        console.log(InLocalStorage, "save on storage");
+        // console.log(InLocalStorage, "save on storage");
       } else {
         setInLocalStorage(false);
       }
@@ -59,7 +59,7 @@ const Login = (props: any) => {
         console.log(userInfo);
 
         const userObject = await axios.get(
-          `http://localhost:5000/api/users/get-user/uid/${userInfo?.userId}`
+          `https://keep-backend-theta.vercel.app/api/users/get-user/uid/${userInfo?.userId}`
         );
         InLocalStorage
           ? localStorage.setItem("user", userObject.data?._id)

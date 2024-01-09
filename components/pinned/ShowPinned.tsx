@@ -149,7 +149,7 @@ const ShowPinned = (props: any) => {
     try {
       await axios
         .post(
-          `http:localhost:5000/api/notes/add-archived/from-pinned`,
+          `https://keep-backend-theta.vercel.app/api/notes/add-archived/from-pinned`,
           archiveObject
         )
         .catch((err) => console.log(err));
