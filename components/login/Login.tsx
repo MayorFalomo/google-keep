@@ -65,9 +65,14 @@ const Login = (props: any) => {
           ? localStorage.setItem("user", userObject.data?._id)
           : setCookie("user", userObject.data?._id, { path: "/" });
         // setCookie("user", userObject.data?._id, { path: "/" });
-        router.push("/");
+        if (userObject.data?._id) {
+          userObject.data?._id
+            ? contextValue?.getCurrentUser(userObject.data?._id)
+            : "";
+          router.push("/");
+        }
+
         // window.location.reload();
-        await contextValue?.getCurrentUser(userObject.data?._id);
       })
       .catch((err) => console.log(err));
   };
@@ -89,10 +94,15 @@ const Login = (props: any) => {
         InLocalStorage
           ? localStorage.setItem("user", userObject.data?._id)
           : setCookie("user", userObject.data?._id, { path: "/" });
-        // setCookie("user", userObject.data?._id, { path: "/" });
-        router.push("/");
+        if (userObject.data?._id) {
+          userObject.data?._id
+            ? contextValue?.getCurrentUser(userObject.data?._id)
+            : "";
+          router.push("/");
+        }
+        // router.push("/");
         // window.location.reload();
-        await contextValue?.getCurrentUser(userObject.data?._id);
+        // await contextValue?.getCurrentUser(userObject.data?._id);
       })
       .catch((err) => console.log(err));
   };

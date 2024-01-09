@@ -543,15 +543,17 @@ const ShowNote = (props: any) => {
       {props?.showId == props?.note?._id ? (
         <div
           style={{
-            backgroundColor:
-              props?.note?.bgColor || props?.note?.bgImage
-                ? props?.note?.bgColor || props?.note?.bgImage
-                : "",
+            backgroundColor: props?.note?.bgColor
+              ? props?.note?.bgColor
+              : "#202124",
+            backgroundImage: props?.note?.bgImage
+              ? `url(${props?.note?.bgImage})`
+              : "",
           }}
           className={
             contextValue?.changeNoteLayout
-              ? "absolute z-10 bottom-[5px] left-0 w-1/2 flex justify-around item-center "
-              : "absolute z-10 bottom-[5px] left-0 w-full flex justify-around item-center "
+              ? "absolute z-10 bottom-[6px] left-0 w-1/2 flex justify-around item-center "
+              : "absolute z-10 bottom-[6px] left-0 w-full flex justify-around item-center "
           }
         >
           <Tippy placement="bottom" content="Notification">
