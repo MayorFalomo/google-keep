@@ -18,21 +18,27 @@ const EditLabel = (props: any) => {
     (element: any) => element.labelId?.length > 1
   );
 
+  // console.log(filteredArray, "this is filtered array");
+
   return (
     <div className="editLabelContainer">
       <h1 className="text-[22px] py-2">Edit Labels </h1>
-      {/* <div className="" > */}
-      <div className="flex flex-col gap-2 my-4 border-2 border-red-600 ">
-        {filteredArray?.map((label: any) => (
-          <div onClick={() => setShowId(label?._id)} key={label?._id}>
-            <Edited
-              label={label}
-              showDeleteIcon={showDeleteIcon}
-              setShowDeleteIcon={setShowDeleteIcon}
-              showId={showId}
-            />
-          </div>
-        ))}{" "}
+      <div className="w-full border-[1px] border-[#9AA0A6] "></div>
+      <div className="flex flex-col gap-2 my-4 min-h-[200px] ">
+        {filteredArray.length <= 0 ? (
+          filteredArray?.map((label: any) => (
+            <div onClick={() => setShowId(label?._id)} key={label?._id}>
+              <Edited
+                label={label}
+                showDeleteIcon={showDeleteIcon}
+                setShowDeleteIcon={setShowDeleteIcon}
+                showId={showId}
+              />
+            </div>
+          ))
+        ) : (
+          <p>You have no Labels </p>
+        )}{" "}
       </div>
       <p
         onClick={() => contextValue?.setEditLabelModal(false)}

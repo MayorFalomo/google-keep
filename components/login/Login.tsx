@@ -5,7 +5,7 @@ import axios from "axios";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineArrowDropDown } from "react-icons/md";
@@ -22,7 +22,21 @@ const Login = (props: any) => {
   const [password, setPassword] = useState<string>("");
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [hidePassword, setHidePassword] = useState<boolean>(false);
+  const [InLocalStorage, setInLocalStorage] = useState<boolean>(false);
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 700) {
+        setInLocalStorage(true);
+        console.log(InLocalStorage, "save on storage");
+      } else {
+        setInLocalStorage(false);
+      }
+    }
+    // console.log(window.innerWidth);
+  }, [InLocalStorage]);
 
   function dec2hex(dec: any) {
     return dec.toString(16).padStart(2, "0");
@@ -47,10 +61,13 @@ const Login = (props: any) => {
         const userObject = await axios.get(
           `http://localhost:5000/api/users/get-user/uid/${userInfo?.userId}`
         );
-        setCookie("user", userObject.data?._id, { path: "/" });
+        InLocalStorage
+          ? localStorage.setItem("user", userObject.data?._id)
+          : setCookie("user", userObject.data?._id, { path: "/" });
+        // setCookie("user", userObject.data?._id, { path: "/" });
         router.push("/");
-        window.location.reload();
-        contextValue?.getCurrentUser(userObject.data?._id);
+        // window.location.reload();
+        await contextValue?.getCurrentUser(userObject.data?._id);
       })
       .catch((err) => console.log(err));
   };
@@ -60,18 +77,23 @@ const Login = (props: any) => {
   //? so now i need to find the uid in the server then the response from the get request i would then extract the _id user
   //! Then set the cookie to that _id after that i can now do a get request of that _id so the server can return the user object....Easy Peasy savvy ??
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    // e.preventDefault();
-    const generatedId = generateId(24);
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        console.log(res, "This is res");
-        console.log(res.user.uid, "This is res.user.uid");
-
-        setCookie("user", res.user.uid, { path: "/" });
+      .then(async (res) => {
+        // console.log(res, "This is res");
+        // console.log(res.user.uid, "This is res.user.uid");
+        const userObject = await axios.get(
+          `https://keep-backend-theta.vercel.app/api/users/get-user/uid/${res.user.uid}`
+        );
+        InLocalStorage
+          ? localStorage.setItem("user", userObject.data?._id)
+          : setCookie("user", userObject.data?._id, { path: "/" });
+        // setCookie("user", userObject.data?._id, { path: "/" });
+        router.push("/");
+        // window.location.reload();
+        await contextValue?.getCurrentUser(userObject.data?._id);
       })
-      .then(() => router.push("/"))
-      .then(() => window.location.reload())
       .catch((err) => console.log(err));
   };
 

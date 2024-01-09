@@ -40,10 +40,16 @@ const ShowNotes = (props: any) => {
 
   const router = useRouter();
 
+  const localStorageId = localStorage?.getItem("user");
+
+  console.log(localStorageId, "This is local storage");
+
   useEffect(() => {
     axios
       .get(
-        `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${userCookie}`
+        `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${
+          userCookie || localStorageId
+        }`
       )
       .then((res) => contextValue?.setNotes(res.data))
       .then(() => setEmptyMessage(true))
@@ -114,6 +120,16 @@ const ShowNotes = (props: any) => {
   //   }
   // }, [!contextValue?.changeNoteLayout]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", () => {
+        window.innerWidth <= 550
+          ? contextValue?.setChangeNoteLayout(true)
+          : contextValue?.setChangeNoteLayout(false);
+      });
+    }
+  }, [window.innerWidth <= 550]);
+
   const gridRef = useRef(null);
   const masonryRef = useRef(null);
 
@@ -144,13 +160,11 @@ const ShowNotes = (props: any) => {
     }
   });
 
-  // console.log(contextValue?.changeNoteLayout, "layout");
+  console.log(contextValue?.changeNoteLayout, "layout");
 
   return (
-    <div>
-      <h1 className="ml-[50px] text-[#8A949E] text-[20px]  mb-[20px]">
-        OTHERS{" "}
-      </h1>
+    <div className="ml-[50px] max-md:ml-[10px] ">
+      <h1 className=" text-[#8A949E] text-[20px]  mb-[20px]">OTHERS </h1>
       <AnimatePresence>
         {
           <motion.div
@@ -184,7 +198,7 @@ const ShowNotes = (props: any) => {
                     }}
                     className={
                       contextValue?.changeNoteLayout
-                        ? " relative max-w-[600px] min-w-[60%] h-fit min-h-[150px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                        ? " relative max-w-[600px] min-w-[270px] w-[95%] h-fit min-h-[150px] border-2 border-[#5F6368] rounded-[10px]"
                         : "relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
                     }
                     style={{

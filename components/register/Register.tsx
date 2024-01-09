@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 // import { useCookies } from "react-cookie";
@@ -18,6 +18,21 @@ const Register = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   const router = useRouter();
+
+  const [saveOnStorage, setSaveOnStorage] = useState<boolean>(false);
+
+  useEffect(() => {
+    //I'm checking the innerwidth and changing setBased on it
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 700) {
+        setSaveOnStorage(true);
+        console.log(saveOnStorage, "save on storage");
+      } else {
+        setSaveOnStorage(false);
+      }
+    }
+    console.log(window.innerWidth);
+  }, [saveOnStorage]);
 
   //generateId
   function dec2hex(dec: any) {
@@ -42,7 +57,7 @@ const Register = (props: any) => {
   // const [cookies, setCookie] = useCookies(["user"]);
   const [name, setName] = useState("");
   // const [isAuth, setIsAuth] = useState<boolean>(false)
-  const generatedId = generateId(24);
+  const generatedId: any = generateId(24);
 
   // Sign Up With Google
   const signUpWithGoogle = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,9 +65,10 @@ const Register = (props: any) => {
 
     try {
       signInWithPopup(auth, provider).then(async (response) => {
-        console.log(response, "response");
-        // setCookie("user", generatedId, { path: "/" });
-        setCookie("user", generatedId);
+        //Checks if the saveOnStorage is true then saves to either local storage based on the state
+        saveOnStorage
+          ? localStorage.setItem("user", generatedId)
+          : setCookie("user", generatedId, { path: "/" });
         // setCookie("user", generatedId, { path: "/" });
         let userInfo = {
           _id: generatedId,
@@ -69,9 +85,12 @@ const Register = (props: any) => {
           // location: "Lagos, Nigeria",
           // links: "https://mayowa-falomo.netlify.app"
         };
-        console.log(userInfo, "this is userInfo");
+        // console.log(userInfo, "this is userInfo");
         await axios
-          .post("http://localhost:5000/api/users/register", userInfo)
+          .post(
+            "https://keep-backend-theta.vercel.app/api/users/register",
+            userInfo
+          )
           // .catch((err) => console.log(err))
           .then(() => router.push("/"))
           // .then(() => contextValue.getCurrentUser(userInfo?._id))
@@ -86,38 +105,48 @@ const Register = (props: any) => {
       console.log("Sign up with Google error:", err);
     }
   };
+
   // const generatedId = generateId(24);
 
   //Sign up by creating account
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password).then((response) => {
-      setCookie("user", generatedId);
-      // cookies().set("name", "lee");
-      //Since monogoDb can't find google's id since it's 28 digits, i generated my 24 digit id for each user id
-      const userInfo = {
-        _id: generatedId, //Self generated
-        userId: response.user.uid, //userId is from google
-        username: userNames,
-        email: email,
-        password: password,
-        profileDp:
-          "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
-        notifications: notifications,
-      };
-      try {
-        axios
-          .post("http://localhost:5000/api/users/register", userInfo)
-          .then(() => router.push("/"))
-          .then(() => window.location.reload())
-          .then(() => contextValue?.getCurrentUser(userInfo?._id))
-          .catch((err) => err);
-        // console.log(userInfo);
-      } catch (error) {
-        console.log(error);
+    createUserWithEmailAndPassword(auth, email, password).then(
+      async (response) => {
+        saveOnStorage
+          ? localStorage.setItem("user", generatedId)
+          : setCookie("user", generatedId);
+        // cookies().set("name", "lee");
+        //Since monogoDb can't find google's id since it's 28 digits, i generated my 24 digit id for each user id
+        const userInfo = {
+          _id: generatedId, //Self generated
+          userId: response.user.uid, //userId is from google
+          username: userNames,
+          email: email,
+          password: password,
+          profileDp:
+            "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
+          notifications: notifications,
+        };
+        try {
+          await axios
+            .post(
+              "https://keep-backend-theta.vercel.app/api/users/register",
+              userInfo
+            )
+            .then(() => router.push("/"));
+          // .then(() => window.location.reload())
+          // .then(() => contextValue?.getCurrentUser(userInfo?._id))
+          await contextValue
+            ?.getCurrentUser(userInfo?._id)
+            .catch((err: any) => err);
+          // console.log(userInfo);
+        } catch (error) {
+          console.log(error);
+        }
+        // contextValue?.getCurrentUser(userInfo?.id);
       }
-      // contextValue?.getCurrentUser(userInfo?.id);
-    });
+    );
   };
 
   const getRandomName = () => {

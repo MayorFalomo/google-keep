@@ -11,6 +11,7 @@ type Props = {};
 
 const Archives = (props: any) => {
   const userCookie = getCookie("user");
+  const localStorageId = localStorage?.getItem("user");
 
   const { contextValue }: any = useAppContext();
 
@@ -27,7 +28,9 @@ const Archives = (props: any) => {
   useEffect(() => {
     axios
       .get(
-        `https://keep-backend-theta.vercel.app/api/notes/get-trash/${userCookie}`
+        `https://keep-backend-theta.vercel.app/api/notes/get-trash/${
+          userCookie || localStorageId
+        }`
       )
       .then((res) => {
         contextValue?.setTrashedNotes(res.data);

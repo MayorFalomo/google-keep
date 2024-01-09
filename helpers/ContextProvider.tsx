@@ -12,11 +12,11 @@ type Props = {};
 
 const AppContextProvider = ({ children }: any) => {
   const router = useRouter();
-
+  const localStorageId = localStorage.getItem("user");
   const [isAuth, setIsAuth] = useState(true);
   const [user, setUser] = useState(null);
   const [notes, setNotes] = useState([]);
-  const currentUser = getCookie("user");
+  const currentUser = getCookie("user") || localStorageId;
   const [bookmarks, setBookmarks] = useState([]);
   const [openTextArea, setOpenTextArea] = useState(false);
   const [noteModal, setNoteModal] = useState(false); //toggle create note modal
@@ -55,7 +55,7 @@ const AppContextProvider = ({ children }: any) => {
       await axios
         .get(`http://localhost:5000/api/users/get-user/${id}`)
         .then((res: any) => {
-          console.log(res.data, "This is res.data");
+          // console.log(res.data, "This is res.data");
           setUser(res.data);
           router.push("/");
           toast.success("login successful");

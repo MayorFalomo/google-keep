@@ -27,7 +27,7 @@ const Headerbar = (props: any) => {
   };
 
   return (
-    <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode ">
+    <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode max-[550px]:mb-2 ">
       <div className="flex items-center justify-between gap-16 w-[60%] min-[850px]:  ">
         {mobileSearchBar ? (
           <form className="bg-white flex items-center rounded-xl px-4 ">
@@ -217,7 +217,7 @@ const Headerbar = (props: any) => {
               onMouseOut={() => setShowHover(false)}
             />
             {showHover && (
-              <div className="bg-[#393D40] absolute p-1 px-4 top-[40px] left-[-200px] rounded-[8px]  ">
+              <div className="bg-[#393D40] absolute p-1 px-4 top-[40px] right-[1px] rounded-[8px]  ">
                 <span>Google Account </span>
                 <p className="text-[#ADB1B5]">{contextValue.user?.username} </p>
                 <p className="text-[#ADB1B5]">{contextValue.user?.email} </p>

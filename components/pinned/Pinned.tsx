@@ -41,9 +41,9 @@ const Pinned = () => {
   // console.log(contextValue.pinnedNote);
 
   return (
-    <div>
+    <div className="ml-[50px] max-md:ml-[10px]">
       {contextValue?.pinnedNote?.length > 0 ? (
-        <h1 className="ml-[50px] text-[20px] mb-[20px]">PINNED </h1>
+        <h1 className="text-[20px] mb-[20px]">PINNED </h1>
       ) : (
         ""
       )}
@@ -52,7 +52,7 @@ const Pinned = () => {
           <motion.div
             onClick={() => contextValue.setOpenTextArea(false)}
             style={{ position: "relative" }}
-            className="relative ml-[50px] flex items-start flex-wrap gap-20px "
+            className="relative flex items-start flex-wrap gap-20px "
             // className="relative ml-[50px] flex items-start flex-wrap gap-20px "
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
