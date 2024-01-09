@@ -11,7 +11,15 @@ type Props = {};
 const Archives = (props: any) => {
   const { contextValue }: any = useAppContext();
   const userCookie = getCookie("user");
-  const localStorageId = localStorage?.getItem("user");
+  const [activeId, setActiveId] = useState<any>(" ");
+
+  useEffect(() => {
+    // Perform localStorage action
+    if (typeof window !== "undefined") {
+      const localStorageId = localStorage?.getItem("user");
+      setActiveId(localStorageId);
+    }
+  }, []);
 
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
   const [overLay, setOverLay] = useState<boolean>(false);
@@ -27,14 +35,14 @@ const Archives = (props: any) => {
     axios
       .get(
         `https://keep-backend-theta.vercel.app/api/notes/get-archived/${
-          contextValue?.user?._id || localStorageId
+          contextValue?.user?._id || activeId
         }`
       )
       .then((res) => {
         contextValue?.setArchivedNote(res.data);
       })
       .then(() => setEmptyMessage(true));
-  }, []);
+  }, [contextValue?.user?._id, activeId]);
 
   return (
     <div className=" mb-[200px] ">

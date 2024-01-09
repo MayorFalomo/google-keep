@@ -11,7 +11,17 @@ type Props = {};
 
 const Archives = (props: any) => {
   const userCookie = getCookie("user");
-  const localStorageId = localStorage?.getItem("user");
+  const [activeId, setActiveId] = useState<any>(" ");
+
+  // const localStorageId = localStorage?.getItem("user");
+
+  useEffect(() => {
+    // Perform localStorage action
+    if (typeof window !== "undefined") {
+      const localStorageId = localStorage?.getItem("user");
+      setActiveId(localStorageId);
+    }
+  }, []);
 
   const { contextValue }: any = useAppContext();
 
@@ -29,14 +39,14 @@ const Archives = (props: any) => {
     axios
       .get(
         `https://keep-backend-theta.vercel.app/api/notes/get-trash/${
-          userCookie || localStorageId
+          userCookie || activeId
         }`
       )
       .then((res) => {
         contextValue?.setTrashedNotes(res.data);
       })
       .then(() => setEmptyMessage(true));
-  }, []);
+  }, [userCookie, activeId]);
 
   // useEffect(() => {
   //   if (contextValue?.trashedNotes) {
