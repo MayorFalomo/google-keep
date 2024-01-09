@@ -12,11 +12,21 @@ type Props = {};
 
 const AppContextProvider = ({ children }: any) => {
   const router = useRouter();
-  const localStorageId = localStorage.getItem("user");
+  const [activeId, setActiveId] = useState<any>(" ");
+
+  useEffect(() => {
+    // Perform localStorage action
+    if (typeof window !== "undefined") {
+      const localStorageId = localStorage?.getItem("user");
+      setActiveId(localStorageId);
+    }
+  }, []);
+
+  // const localStorageId = localStorage.getItem("user");
   const [isAuth, setIsAuth] = useState(true);
   const [user, setUser] = useState(null);
   const [notes, setNotes] = useState([]);
-  const currentUser = getCookie("user") || localStorageId;
+  const currentUser = getCookie("user") || activeId;
   const [bookmarks, setBookmarks] = useState([]);
   const [openTextArea, setOpenTextArea] = useState(false);
   const [noteModal, setNoteModal] = useState(false); //toggle create note modal
@@ -45,60 +55,36 @@ const AppContextProvider = ({ children }: any) => {
     setUser(null);
   };
 
-  // console.log(currentUser, "currentUser");
+  console.log(currentUser, "currentUser");
 
   //getCurrentUser takes in a parameter called Id which we'll get from currentUser which is cookies.user
 
   const getCurrentUser = async (id: string) => {
-    try {
-      // console.log(id, "This is id");
-      await axios
-        .get(`http://localhost:5000/api/users/get-user/${id}`)
-        .then((res: any) => {
-          // console.log(res.data, "This is res.data");
-          setUser(res.data);
-          router.push("/");
-          toast.success("login successful");
-          // toast.success(`Merry Christmas ${res.data?.username} `);
-        })
-        .catch((err) => {
-          console.log(err && router.push("/register"));
-        });
-      // console.log(res, "This is res");
-    } catch (err) {
-      console.log(err);
+    if (id) {
+      try {
+        // console.log(id, "This is id");
+        await axios
+          .get(`http://localhost:5000/api/users/get-user/${id}`)
+          .then((res: any) => {
+            // console.log(res.data, "This is res.data");
+            setUser(res.data);
+            router.push("/");
+            toast.success("login successful");
+            // toast.success(`Merry Christmas ${res.data?.username} `);
+          })
+          .catch((err) => {
+            console.log(err && router.push("/register"));
+          });
+        // console.log(res, "This is res");
+      } catch (err) {
+        console.log(err);
+      }
     }
-
-    // try {
-    //   console.log(res.data, "this is res.data");
-
-    //   if (res.data) {
-    //     router.push("/");
-    //     // console.log(res.data);
-    //     // setUser(res.data);
-    //     toast.success("Login Successful!");
-    //     // return res.data;
-    //   } else {
-    //     router.push("/register");
-    //     console.log("The id was not found");
-    //     setUser(null);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   //UseEffect to load cookies.user and just
-  // useEffect(() => {
-  //   getCurrentUser(cookies?.user);
-  // }, [cookies.user]);
-
-  //UseEffect to load cookies.user and just
   useEffect(() => {
-    console.log(currentUser, "This is currentUser");
-
     getCurrentUser(currentUser ? currentUser : "");
-    // console.log(getCookie("user"), "This is the provider");
   }, [currentUser]);
 
   const contextValue = {

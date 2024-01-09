@@ -31,7 +31,7 @@ const ShowNotes = (props: any) => {
   );
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
   const [picture, setPicture] = React.useState<string>("");
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState<any>(" ");
   const [showId, setShowId] = useState<string>("");
   const [showBgModal, setShowBgModal] = useState(false);
   const [successful, setSuccessful] = useState<boolean>(false);
@@ -40,21 +40,27 @@ const ShowNotes = (props: any) => {
 
   const router = useRouter();
 
-  const localStorageId = localStorage?.getItem("user");
-
-  console.log(localStorageId, "This is local storage");
+  useEffect(() => {
+    // Perform localStorage action
+    if (typeof window !== "undefined") {
+      const localStorageId = localStorage?.getItem("user");
+      setActiveId(localStorageId);
+    }
+  }, []);
 
   useEffect(() => {
-    axios
-      .get(
-        `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${
-          userCookie || localStorageId
-        }`
-      )
-      .then((res) => contextValue?.setNotes(res.data))
-      .then(() => setEmptyMessage(true))
-      .catch((err) => console.log(err));
-  }, [userCookie]);
+    if (activeId || userCookie) {
+      axios
+        .get(
+          `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${
+            activeId ? userCookie : activeId
+          }`
+        )
+        .then((res) => contextValue?.setNotes(res.data))
+        .then(() => setEmptyMessage(true))
+        .catch((err) => console.log(err));
+    }
+  }, [userCookie, activeId]);
 
   // window.addEventListener("DOMSubtreeModified", function () {
   //   var elem = document.querySelector(".grid");
