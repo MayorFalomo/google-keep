@@ -166,7 +166,7 @@ const ShowNotes = (props: any) => {
     }
   });
 
-  console.log(contextValue?.changeNoteLayout, "layout");
+  // console.log(contextValue?.changeNoteLayout, "layout");
 
   return (
     <div className="ml-[50px] max-md:ml-[10px] ">

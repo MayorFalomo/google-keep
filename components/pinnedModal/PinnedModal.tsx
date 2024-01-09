@@ -63,7 +63,7 @@ const PinnedModal = (props: any) => {
     };
     try {
       await axios.put(
-        `http://localhost:5000/api/notes/update/pinned-note/${props.noteUrlParams}`,
+        `https://keep-backend-theta.vercel.app/api/notes/update/pinned-note/${props.noteUrlParams}`,
         updatedNote
       );
 

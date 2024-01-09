@@ -64,7 +64,7 @@ const AppContextProvider = ({ children }: any) => {
       try {
         // console.log(id, "This is id");
         await axios
-          .get(`http://localhost:5000/api/users/get-user/${id}`)
+          .get(`https://keep-backend-theta.vercel.app/api/users/get-user/${id}`)
           .then((res: any) => {
             // console.log(res.data, "This is res.data");
             setUser(res.data);

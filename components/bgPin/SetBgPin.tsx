@@ -18,10 +18,13 @@ const SetBgPin = (props: any) => {
     };
 
     try {
-      console.log(bgObject);
+      // console.log(bgObject);
 
       await axios
-        .post(`http://localhost:5000/api/notes/set-pinned-bgcolor`, bgObject)
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/set-pinned-bgcolor`,
+          bgObject
+        )
         .catch((err) =>
           console.log(err && toast("setting Background color failed"))
         );
