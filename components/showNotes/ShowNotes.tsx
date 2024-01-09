@@ -134,7 +134,7 @@ const ShowNotes = (props: any) => {
           : contextValue?.setChangeNoteLayout(false);
       });
     }
-  }, [window.innerWidth <= 550]);
+  }, [contextValue?.changeNoteLayout]);
 
   const gridRef = useRef(null);
   const masonryRef = useRef(null);

@@ -92,9 +92,9 @@ const Register = (props: any) => {
             userInfo
           )
           // .catch((err) => console.log(err))
-          .then(() => router.push("/"))
+          // .then(() => router.push("/"))
           // .then(() => contextValue.getCurrentUser(userInfo?._id))
-          .then(() => window.location.reload())
+          // .then(() => window.location.reload())
           .catch((err) => console.log(err));
         // window.location.reload();
         contextValue?.getCurrentUser(userInfo?._id);
@@ -129,17 +129,16 @@ const Register = (props: any) => {
           notifications: notifications,
         };
         try {
-          await axios
-            .post(
-              "https://keep-backend-theta.vercel.app/api/users/register",
-              userInfo
-            )
-            .then(() => router.push("/"));
+          await axios.post(
+            "https://keep-backend-theta.vercel.app/api/users/register",
+            userInfo
+          );
           // .then(() => window.location.reload())
           // .then(() => contextValue?.getCurrentUser(userInfo?._id))
           await contextValue
             ?.getCurrentUser(userInfo?._id)
             .catch((err: any) => err);
+          router.push("/");
           // console.log(userInfo);
         } catch (error) {
           console.log(error);
