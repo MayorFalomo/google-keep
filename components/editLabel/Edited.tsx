@@ -37,8 +37,6 @@ const Edited = (props: any) => {
       labelId: " ",
     };
     try {
-      // console.log(labelObject, "this is label object");
-      // console.log(props?.labelNotes?._id, "this is label props id");
       axios
         .post(
           `https://keep-backend-theta.vercel.app/api/notes/delete-label`,
@@ -52,7 +50,6 @@ const Edited = (props: any) => {
         );
         return updatedNotes;
       });
-      // props?.setOpenEditLabel(false);
       toast.success("label is deleted ");
     } catch (error) {
       console.log(error);

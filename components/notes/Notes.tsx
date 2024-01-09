@@ -365,7 +365,7 @@ const Notes = (props: Props) => {
         {contextValue.openTextArea ? (
           <AnimatePresence>
             <motion.div
-              className="p-4  rounded-[10px] border-2 border-[#525355] "
+              className="p-4  rounded-[10px] border-2 border-[#525355] max-[700px]:w-full max-[550px]:p-1 "
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -404,12 +404,12 @@ const Notes = (props: Props) => {
                 className="bg-transparent text-white w-full text-[18px] border-none outline-none resize-none whitespace-break-spaces [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
                 placeholder="Take a note..."
               />
-              <div className="flex item-center gap-6 ">
+              <div className="flex item-center gap-6 max-[620px]:gap-2 max-sm:gap-2 max-[360px]:gap-[5px] border-2 border-red-500 ">
                 <Tippy placement="bottom" content="Remind me">
-                  <span className="p-3 rounded-full cursor-not-allowed ">
+                  <span className="p-3 rounded-full cursor-not-allowed max-nav:p-2 ">
                     {
                       <BiBellPlus
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] lg:text-3xl  "
                         // cursor="pointer"
                       />
                     }{" "}
@@ -418,11 +418,11 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="Collaborator ">
                   <span
                     onClick={() => setOpenCollabModal(true)}
-                    className="p-3 rounded-full hover:bg-[#28292C]"
+                    className="p-3 rounded-full hover:bg-[#28292C] max-nav:p-2 max-[400px]:p-1 "
                   >
                     {
                       <MdOutlinePersonAddAlt1
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-3xl  "
                         cursor="pointer"
                       />
                     }{" "}
@@ -436,11 +436,11 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="Background options ">
                   <span
                     onClick={() => setShowBgModal(!showBgModal)}
-                    className="p-3 rounded-full hover:bg-[#28292C]"
+                    className="p-3 rounded-full hover:bg-[#28292C] max-nav:p-2 max-[400px]:p-1 "
                   >
                     {
                       <IoColorPaletteOutline
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-3xl  "
                         cursor="pointer"
                       />
                     }{" "}
@@ -497,11 +497,11 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="Add image">
                   <label
                     htmlFor="fileInputImage"
-                    className="p-3 rounded-full hover:bg-[#28292C]"
+                    className="p-3 rounded-full hover:bg-[#28292C] max-nav:p-2 max-[400px]:p-1 "
                   >
                     {
                       <BiImageAlt
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-3xl  "
                         cursor="pointer"
                       />
                     }{" "}
@@ -518,41 +518,41 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="Archive ">
                   <span
                     onClick={() => toast.success("Note archived")}
-                    className="p-3 rounded-full hover:bg-[#28292C]"
+                    className="p-3 rounded-full hover:bg-[#28292C] max-nav:p-2 max-[400px]:p-1 "
                   >
                     {
                       <BiArchiveIn
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-3xl  "
                         cursor="pointer"
                       />
                     }{" "}
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="More ">
-                  <span className="p-3 rounded-full hover:bg-[#28292C]">
+                  <span className="p-3 rounded-full hover:bg-[#28292C] max-nav:p-2 max-[400px]:p-1">
                     {
                       <BiDotsVerticalRounded
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-3xl  "
                         cursor="pointer"
                       />
                     }{" "}
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="Undo ">
-                  <span className="p-3 rounded-full  cursor-not-allowed ">
+                  <span className="p-3 rounded-full  cursor-not-allowed max-nav:p-2 max-[400px]:p-1">
                     {
                       <BiUndo
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-3xl  "
                         // cursor="pointer"
                       />
                     }{" "}
                   </span>
                 </Tippy>
                 <Tippy placement="bottom" content="Redo ">
-                  <span className="p-3 rounded-full cursor-not-allowed ">
+                  <span className="p-3 rounded-full cursor-not-allowed max-nav:p-2 max-[400px]:p-1">
                     {
                       <GrRedo
-                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                        className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-3xl  "
                         // cursor="pointer"
                       />
                     }{" "}
@@ -573,24 +573,24 @@ const Notes = (props: Props) => {
         ) : (
           <AnimatePresence>
             <motion.div
-              className="flex items-center min-w-[50%] rounded-[10px] border-2 border-[#525355]  "
+              className="flex items-center min-w-[50%] rounded-[10px] border-2 border-[#525355] max-md:w-full "
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
               <input
-                className="bg-transparent outline-none w-full placeholder:text-[#E9E9E9]  px-4 text-[20px] font-weight: black"
+                className="bg-transparent outline-none w-full placeholder:text-[#E9E9E9]  px-4 text-[20px]"
                 onClick={() => contextValue.setOpenTextArea(true)}
                 type="text"
                 placeholder="Take a note..."
               />
               <div className="flex items-center gap-6">
                 <Tippy placement="bottom" content="New list ">
-                  <span className="p-4 rounded-full hover:bg-[#28292C]">
+                  <span className="p-4 rounded-full hover:bg-[#28292C] cursor-pointer max-md:p-[5px] ">
                     {
                       <AiOutlineCheckSquare
-                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                        cursor="pointer"
+                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[22px] lg:text-3xl  "
+                        // cursor="pointer"
                       />
                     }{" "}
                   </span>
@@ -598,12 +598,12 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="New note with Drawing ">
                   <span
                     onClick={() => setOpenCreateCanvas(true)}
-                    className="p-4 rounded-full hover:bg-[#28292C]"
+                    className="p-4 rounded-full hover:bg-[#28292C] cursor-pointer  max-md:p-[5px]"
                   >
                     {
                       <IoBrushOutline
-                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                        cursor="pointer"
+                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[22px] lg:text-3xl  "
+                        // cursor="pointer"
                       />
                     }{" "}
                   </span>
@@ -611,12 +611,12 @@ const Notes = (props: Props) => {
                 <Tippy placement="bottom" content="New note with image ">
                   <label
                     htmlFor="fileInputImage"
-                    className="p-4 rounded-full hover:bg-[#28292C]"
+                    className="p-4 rounded-full hover:bg-[#28292C] cursor-pointer "
                   >
                     {
                       <BiImageAlt
-                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
-                        cursor="pointer"
+                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[22px] lg:text-3xl  "
+                        // cursor="pointer"
                       />
                     }{" "}
                   </label>

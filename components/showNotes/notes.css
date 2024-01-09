@@ -1,18 +1,20 @@
 .grid{
    width: 95% !important;
    margin-bottom: 150px;
-   margin-left: 50px;
+   /* margin-left: 50px; */
    /* border: 2px green solid; */
 }
 
 .flex-layout{
    width: 95% !important;
+   height: 100% !important;
    /* border: 2px red solid; */
    margin-bottom: 150px;
-   margin-left: 50px;
+   /* margin-left: 50px; */
    display: flex;
    flex-direction: column;
    align-items: center;
+   /* flex-wrap: wrap; */
    gap: 10px;
    /* flex-wrap: wrap; */
 }
