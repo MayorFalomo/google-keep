@@ -139,13 +139,17 @@ const ShowNotes = (props: any) => {
   const gridRef = useRef(null);
   const masonryRef = useRef(null);
 
+  //Useffect to run Masonry
   useEffect(() => {
+    //Checks if the window is undefined first, It should be because it's a client component
     if (typeof window !== "undefined") {
       let masonryInstance: any;
+      // If changeNoteLayout is false then masonry-layout should be imported and a new instance of for it
       if (contextValue?.changeNoteLayout == false) {
         import("masonry-layout").then((module) => {
           const Masonry = module.default;
           // console.log(Masonry, "This is Masonry");
+          // console.log(gridRef.current, "This is gridRef");
 
           masonryInstance = new Masonry(gridRef.current, {
             // options
@@ -178,11 +182,8 @@ const ShowNotes = (props: any) => {
               contextValue.setOpenTextArea(false);
             }}
             ref={gridRef}
-            // className="flex items-start gap-4 ml-[50px] mb-[150px] flex-wrap w-[95%] "
-            // className="columns-4 gap-3 w-95% mx-auto space-y-8 pb-4"
             className={contextValue?.changeNoteLayout ? "flex-layout" : "grid"}
-            // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-            //   data-masonry='{ "itemSelector": ".grid-item",
+            // data-masonry='{ "itemSelector": ".grid-item",
             //   "columnWidth": 300
             //  }'
             exit={{ opacity: 0 }}

@@ -37,6 +37,7 @@ const NoteModal = (props: any) => {
 
   const [editLocation, EditLocation] = useState<string>("");
   const [id, setId] = useState<string>(props.noteUrlParams);
+  const [row, setRow] = useState<boolean>(false);
 
   const storeId = props.noteUrlParams;
 
@@ -105,11 +106,6 @@ const NoteModal = (props: any) => {
       //? contextValue?.setNotes((prevNotes: any) => [
       //?   { ...prevNotes, ...updatedNote },
       //? ]);
-      // console.log(
-      //   contextValue?.notes,
-      //   [{ ...updatedNote }],
-      //   "This is note modal"
-      // );
       props.setNoteModal(false);
       contextValue?.setOverLay(false);
       toast.success("Note updated successfully");
@@ -121,7 +117,36 @@ const NoteModal = (props: any) => {
   const formattedDate: Moment = moment(singleNote?.createdAt);
   // console.log(formattedDate.format("MMMM Do"), "This is the formattedDate"); // Adjust the format as needed
 
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     window.addEventListener("resize", () => {
+  //       window.innerWidth <= 550 ? setRow(true) : setRow(false);
+  //     });
+  //   }
+  // }, [contextValue?.changeNoteLayout]);
+
+  const calculateColumns = (noteLength: number) => {
+    // Define your breakpoints and corresponding column numbers
+    const breakpoints = [30, 100, 900]; // You can adjust these values
+    const columns = [2, 4, 7, 10]; // Adjust these based on your layout needs
+
+    // Find the appropriate column based on the note length
+    for (let i = 0; i < breakpoints.length; i++) {
+      if (noteLength <= breakpoints[i]) {
+        return columns[i];
+      }
+    }
+
+    // Default to the last column value
+    return columns[columns.length - 1];
+  };
+
+  const columns: number = calculateColumns(singleNote?.note?.length);
+  // console.log(singleNote?.note?.length, "This is columns");
+  // console.log(row, "This is row");
+
   return (
+    // <div className="border-2 border-red-600 ">
     <div
       style={{
         backgroundColor: singleNote?.bgColor ? singleNote?.bgColor : "#202124",
@@ -132,7 +157,7 @@ const NoteModal = (props: any) => {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="fixed z-20 min-h-[200px] h-fit w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px]"
+      className="fixed z-20 h-fit w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px] max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none "
     >
       {singleNote?.picture ? (
         <Image
@@ -174,34 +199,36 @@ const NoteModal = (props: any) => {
             <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
               {
                 <BsPin
-                  className=" text-[#9AA0A6] text-[24px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl "
+                  className=" text-[#9AA0A6] text-[22px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl "
                   cursor="pointer"
                 />
-              }{" "}
+              }
             </span>
           </div>
-          <div className="max-h-[100%]">
+          <div className="max-[600px]:h-[75%] max-[600px]:max-h-fit max-[450px]:h-[70%]">
             <textarea
               typeof="text"
-              className="bg-transparent text-white h-full w-full text-[16px] outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
+              className="max-h-[100%] bg-transparent text-white h-100% whitespace-break-spaces  w-full text-[16px] outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-[600px]:h-[100%] "
               // className="bg-darkmode w-full "
               defaultValue={singleNote?.note || editNote}
               placeholder="Note"
+              rows={columns}
+              // rows={singleNote?.note.length > 300 ? 6 : 4}
               onChange={(e: any) => {
                 setEditNote(e.target.value);
                 // e.stopPropagation();
               }}
             />
           </div>
-          <p className="flex justify-end m-2 ">
+          <p className="flex justify-end m-2  ">
             Edited {formattedDate.format("MMMM Do")}{" "}
           </p>
-          <div className="flex justify-between item-center gap-4 ">
-            <div className="flex item-center gap-4 ">
+          <div className="flex justify-between item-center gap-4 max-[450px]:flex-col max-sm:gap-2 ">
+            <div className="flex item-center gap-2 max-sm:gap-[5px]">
               <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiBellPlus
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] "
                     cursor="pointer"
                   />
                 }{" "}
@@ -209,7 +236,7 @@ const NoteModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <MdOutlinePersonAddAlt1
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px]  "
                     cursor="pointer"
                   />
                 }{" "}
@@ -217,7 +244,7 @@ const NoteModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <IoColorPaletteOutline
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px]  "
                     cursor="pointer"
                   />
                 }{" "}
@@ -225,7 +252,7 @@ const NoteModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiImageAlt
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] "
                     cursor="pointer"
                   />
                 }{" "}
@@ -233,7 +260,7 @@ const NoteModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiArchiveIn
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] "
                     cursor="pointer"
                   />
                 }{" "}
@@ -241,7 +268,7 @@ const NoteModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiDotsVerticalRounded
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px]  "
                     cursor="pointer"
                   />
                 }{" "}
@@ -249,7 +276,7 @@ const NoteModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
                 {
                   <BiUndo
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px]  "
                     cursor="pointer"
                   />
                 }{" "}
@@ -257,7 +284,7 @@ const NoteModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer ">
                 {
                   <GrRedo
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[22px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px]  "
                     cursor="pointer"
                   />
                 }{" "}
@@ -268,7 +295,7 @@ const NoteModal = (props: any) => {
               <button
                 type="submit"
                 // onClick={() => }
-                className="cursor-pointer "
+                className="cursor-pointer text-[22px] max-md:text-[18px] max-sm:text-[16px] "
               >
                 Close{" "}
               </button>
@@ -303,6 +330,7 @@ const NoteModal = (props: any) => {
         )}
       </Toaster>
     </div>
+    // </div>
   );
 };
 
