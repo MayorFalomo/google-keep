@@ -37,7 +37,7 @@ const ShowNotes = (props: any) => {
   const [successful, setSuccessful] = useState<boolean>(false);
   const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
-
+  const [activateSwitch, setActivateSwitch] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -129,12 +129,25 @@ const ShowNotes = (props: any) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.addEventListener("resize", () => {
-        window.innerWidth <= 550
-          ? contextValue?.setChangeNoteLayout(true)
-          : contextValue?.setChangeNoteLayout(false);
+        if (window.innerWidth <= 550) {
+          contextValue?.setChangeNoteLayout(true);
+          // setActivateSwitch(true);
+        } else {
+          // setActivateSwitch(false);
+          contextValue?.setChangeNoteLayout(false);
+        }
       });
     }
   }, [contextValue?.changeNoteLayout]);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     if (window.innerWidth <= 550) {
+  //       contextValue?.setChangeNoteLayout(true);
+  //     } else {
+  //       contextValue?.setChangeNoteLayout(false);
+  //     }
+  //   }
+  // }, [contextValue?.changeNoteLayout]);
 
   const gridRef = useRef(null);
   const masonryRef = useRef(null);
@@ -148,17 +161,12 @@ const ShowNotes = (props: any) => {
       if (contextValue?.changeNoteLayout == false) {
         import("masonry-layout").then((module) => {
           const Masonry = module.default;
-          // console.log(Masonry, "This is Masonry");
-          // console.log(gridRef.current, "This is gridRef");
-
           masonryInstance = new Masonry(gridRef.current, {
             // options
             // itemSelector: ".grid-item",
             // columnWidth: 160,
             // gutter: 20,
           });
-          // console.log(masonryInstance, "This is masonryInstance");
-          // console.log(masonryRef.current, "This is masonryRef");
           masonryRef.current = masonryInstance;
         });
       }
@@ -170,7 +178,7 @@ const ShowNotes = (props: any) => {
     }
   });
 
-  // console.log(contextValue?.changeNoteLayout, "layout");
+  console.log(contextValue?.changeNoteLayout, "layout");
 
   return (
     <div className="ml-[50px] max-md:ml-[10px] ">
@@ -205,8 +213,8 @@ const ShowNotes = (props: any) => {
                     }}
                     className={
                       contextValue?.changeNoteLayout
-                        ? " relative max-w-[600px] min-w-[270px] w-[95%] h-fit min-h-[150px] border-2 border-[#5F6368] rounded-[10px]"
-                        : "relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                        ? " relative max-w-[600px] min-w-[270px] w-[95%] h-fit min-h-[150px] border-2 border-[#5F6368] rounded-[10px] break-words"
+                        : "relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] max-md:max-w-[250px] break-words "
                     }
                     style={{
                       backgroundColor: note?.bgColor

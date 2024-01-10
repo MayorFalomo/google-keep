@@ -137,7 +137,7 @@ const Collaborators = (props: any) => {
   // console.log(singleNote?._id);
 
   return (
-    <div className="bg-[#2D2E30] fixed z-20 h-auto max-h-[340px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px]">
+    <div className="bg-[#2D2E30] fixed z-20 h-auto max-h-[340px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] max-[900px]:w-[80%] max-sm:w-[95%]">
       <div>
         <div className="p-3 ">
           <h1 className="text-[26px] mx-auto w-[100%]">Collaborators</h1>

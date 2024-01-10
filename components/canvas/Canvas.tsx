@@ -45,12 +45,28 @@ const Canvas = (props: any) => {
   }, [lineOpacity, lineColor]);
 
   // Function for starting the drawing
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const startDrawing = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     const ctx = ctxRef.current;
-    if (ctx) {
+    const canvas = canvasRef.current;
+    if (ctx && canvas) {
       ctx.beginPath();
-      const startX = e.nativeEvent.offsetX;
-      const startY = e.nativeEvent.offsetY;
+      // const startX = e.nativeEvent.offsetX;
+      // const startY = e.nativeEvent.offsetY;
+      let startX = 0; // Initialize startX with a default value
+      let startY = 0; // Initialize startY with a default value
+
+      if (e.nativeEvent instanceof MouseEvent) {
+        // Mouse event
+        startX = e.nativeEvent.offsetX;
+        startY = e.nativeEvent.offsetY;
+      } else if (e.nativeEvent instanceof TouchEvent) {
+        // Touch event
+        const rect = canvas.getBoundingClientRect();
+        startX = e.nativeEvent.touches[0].clientX - rect.left;
+        startY = e.nativeEvent.touches[0].clientY - rect.top;
+      }
       ctx.moveTo(startX, startY);
 
       setCoordinates([
@@ -69,14 +85,30 @@ const Canvas = (props: any) => {
   };
 
   // Function for drawing canvas
-  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const draw = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     if (!isDrawingRef.current) {
       return;
     }
 
     const ctx = ctxRef.current;
     if (ctx) {
-      const { offsetX, offsetY } = e.nativeEvent;
+      let offsetX: number = 0,
+        offsetY: number = 0;
+      //The if condition checks if the event is a mouse event while the else checks if it's a touch event.
+      if (e.nativeEvent instanceof MouseEvent) {
+        offsetX = e.nativeEvent.offsetX;
+        offsetY = e.nativeEvent.offsetY;
+      } else if (e.nativeEvent instanceof TouchEvent) {
+        const touch = e.nativeEvent.touches[0];
+        offsetX =
+          touch.clientX -
+          (touch.target as HTMLElement).getBoundingClientRect().left;
+        offsetY =
+          touch.clientY -
+          (touch.target as HTMLElement).getBoundingClientRect().top;
+      }
 
       // Draw the line segment
       ctx.lineTo(offsetX, offsetY);
@@ -87,8 +119,6 @@ const Canvas = (props: any) => {
           x: offsetX,
           y: offsetY,
           color: lineColor,
-          lineWidth: lineWidth,
-          lineOpacity: lineOpacity,
         },
       ]);
     }
@@ -291,8 +321,11 @@ const Canvas = (props: any) => {
         <canvas
           ref={canvasRef}
           onMouseDown={startDrawing}
+          onTouchStart={startDrawing}
           onMouseUp={endDrawing}
           onMouseMove={draw}
+          onTouchMove={draw}
+          onTouchEnd={endDrawing}
           width={window.innerWidth}
           height={window.innerHeight}
           style={{ width: "100%", height: "100vh" }}

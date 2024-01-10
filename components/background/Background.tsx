@@ -127,8 +127,8 @@ const Background = (props: any) => {
 
   return (
     <div>
-      <div className="bg-[#2D2E30] fixed z-30 h-auto max-h-[200px] w-fit m-auto inset-x-0 inset-y-0 rounded-[10px]">
-        <div className="flex items-center gap-3 p-4">
+      <div className="bg-[#2D2E30] fixed z-30 h-auto max-h-[200px] w-fit m-auto inset-x-0 inset-y-0 rounded-[10px] max-[600px]:h-[100%]  max-[600px]:w-[100%] max-[600px]:max-h-[250px] ">
+        <div className="flex items-center gap-3 p-4 max-[600px]:flex-wrap">
           {colors.map((color: any) => {
             return (
               <div className="" key={color?.id}>
@@ -145,7 +145,7 @@ const Background = (props: any) => {
         </div>
 
         <div style={{ border: "1px solid #5F6368" }} className="w-full "></div>
-        <div className="flex items-center gap-3 p-4">
+        <div className="flex items-center gap-3 p-4  max-[600px]:flex-wrap  max-[600px]:p-2">
           {bgImages.map((bgImage: any) => {
             return (
               <div className="" key={bgImage?.id}>

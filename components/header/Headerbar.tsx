@@ -27,7 +27,7 @@ const Headerbar = (props: any) => {
     contextValue?.setChangeNoteLayout(!contextValue.changeNoteLayout);
   };
 
-  console.log(contextValue?.openMobileNav);
+  // console.log(contextValue?.openMobileNav);
 
   return (
     <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode max-[550px]:mb-2 max-[550px]:p-2 ">

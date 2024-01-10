@@ -142,7 +142,7 @@ const NoteModal = (props: any) => {
   };
 
   const columns: number = calculateColumns(singleNote?.note?.length);
-  // console.log(singleNote?.note?.length, "This is columns");
+  console.log(singleNote, "This is columns");
   // console.log(row, "This is row");
 
   return (
@@ -157,8 +157,11 @@ const NoteModal = (props: any) => {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="fixed z-20 h-fit w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px] max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none "
+      className="fixed z-20 h-fit w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px] max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none max-[600px]:overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
     >
+      {singleNote?.canvas?.map((canvas: any, index: number) => {
+        return <CanvasImage key={index} canvas={canvas} />;
+      })}
       {singleNote?.picture ? (
         <Image
           className="w-[100%] max-h-[350px] h-300px object-cover "
@@ -331,6 +334,30 @@ const NoteModal = (props: any) => {
       </Toaster>
     </div>
     // </div>
+  );
+};
+
+const CanvasImage = (canvas: any) => {
+  // console.log(canvas.canvas, "canvasImage");
+  return (
+    <div className=" ">
+      {canvas.canvas.map((canvas: any, index: number) => {
+        return <ShowCanvasImage key={index} canvas={canvas} />;
+      })}
+      {/* <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" /> */}
+    </div>
+  );
+};
+
+const ShowCanvasImage = (canvas: any) => {
+  // console.log(draw.draw?.imageDataURL, "canvasImage");
+  return (
+    <div className="w-[100%] h-[100%] max-[600px]:h-[100%] ">
+      <img
+        src={canvas.canvas?.imageDataURL}
+        className="w-[100%] h-[100%] max-[600px]:h-[30%] "
+      />
+    </div>
   );
 };
 
