@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { BsCheck, BsPin, BsPinFill } from "react-icons/bs";
 import { LuClock } from "react-icons/lu";
-import { IoLocationOutline } from "react-icons/io5";
+import { IoCloseOutline, IoLocationOutline } from "react-icons/io5";
 import {
   BiArchiveIn,
   BiBellPlus,
@@ -35,13 +35,16 @@ const ShowPinned = (props: any) => {
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [openBgModal, setOpenBgModal] = useState(false);
   const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
+  const [pickALocation, setPickALocation] = React.useState<boolean>(false);
+
+  const [closeIcon, setCloseIcon] = useState(false);
 
   const handleClick = (e: any) => {
     e.preventDefault();
     setNoteUrlParams(props.pinned?._id);
     // console.log(props.note?.createdAt, "This is the id");
     setPinnedModal(true);
-    props?.setOverLayBg(true);
+    contextValue?.setOverLay(true);
   };
 
   const unPinNote = async (e: any) => {
@@ -164,13 +167,40 @@ const ShowPinned = (props: any) => {
         ...prevNotes,
       ]);
       toast.success("Note archived successfully");
-      contextValue?.setAr;
     } catch (error) {
       error && toast.error("Error archiving note");
     }
   };
 
-  // console.log(contextValue?.pinnedNote);
+  const removeLocation = async (e: any) => {
+    e.preventDefault();
+    props?.setNoteModal(false);
+
+    const noteId = props.pinned?._id;
+
+    try {
+      props?.setNoteModal(false);
+      await axios.put(
+        `https://keep-backend-theta.vercel.app/api/notes/delete-country/from-pinned/${noteId}`
+      );
+      // console.log(noteId, "This is noteId");
+
+      contextValue?.setPinnedNote((prevNotes: any) => {
+        const updatedNotes = prevNotes.map((note: any) => {
+          if (note._id == noteId) {
+            // Update the location to an empty string for the specific note
+            return { ...note, location: " " };
+          }
+          return note;
+        });
+        return updatedNotes;
+      });
+      // setPickALocation(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // console.log(contextValue?.overLay, "overlay");
 
   return (
     <div>
@@ -216,6 +246,37 @@ const ShowPinned = (props: any) => {
             </p>
           </div>
         )}
+        <form onSubmit={removeLocation}>
+          {props.pinned?.location ? (
+            <p
+              onMouseOver={() => {
+                setCloseIcon(true);
+              }}
+              onMouseLeave={() => setCloseIcon(false)}
+              className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
+            >
+              <IoLocationOutline />
+              {props.pinned?.location}{" "}
+              <button
+                type="submit"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
+              >
+                {closeIcon ? (
+                  <Tippy placement="bottom" content="Delete location ">
+                    <IoCloseOutline />
+                  </Tippy>
+                ) : (
+                  ""
+                )}{" "}
+              </button>
+            </p>
+          ) : (
+            ""
+          )}
+        </form>
       </div>
       {props?.showId == props?.pinned?._id ? (
         <Tippy placement="bottom" content="Select note">

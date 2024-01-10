@@ -64,13 +64,13 @@ const BgImage = (props: any) => {
   return (
     <div>
       <form
-        className="flex items-center gap-2 w-[100%]"
+        className="flex items-center gap-2 w-[100%] max-[600px]:flex-wrap "
         onSubmit={appendBgImageToNote}
       >
         <Tippy placement="bottom" content={`${props?.bgImage?.name}`}>
           <button
             type="submit"
-            className={`w-[50px] h-[50px]  outline-none border-none rounded-full`}
+            className={`w-[50px] h-[50px]  outline-none border-none rounded-full max-[600px]:w-auto  `}
           >
             <Image
               src={props?.bgImage?.image}

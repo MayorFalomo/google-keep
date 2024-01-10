@@ -70,17 +70,17 @@ const Pinned = () => {
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                 }}
-                onMouseOver={() => {
+                onMouseEnter={() => {
                   setShowIconsOnHover(true);
                   setShowId(pinned?._id);
                 }}
-                onMouseOut={() => {
+                onMouseLeave={() => {
                   setShowIconsOnHover(false);
                   setShowId("");
                 }}
                 key={pinned?._id}
               >
-                {contextValue?.overLay ? (
+                {/* {contextValue?.overLay ? (
                   <div
                     onClick={() => {
                       setPinnedModal(false);
@@ -90,7 +90,25 @@ const Pinned = () => {
                   ></div>
                 ) : (
                   ""
+                )} */}
+
+                {contextValue?.overLay ? (
+                  <AnimatePresence>
+                    <motion.div
+                      onClick={() => {
+                        setPinnedModal(false);
+                        contextValue?.setOverLay(false);
+                      }}
+                      exit={{ opacity: 0 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+                    ></motion.div>
+                  </AnimatePresence>
+                ) : (
+                  ""
                 )}
+
                 <ShowPinned
                   pinned={pinned}
                   showIconsOnHover={showIconsOnHover}

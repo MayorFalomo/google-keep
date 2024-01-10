@@ -66,7 +66,7 @@ const BgColor = (props: any) => {
         <Tippy placement="bottom" content={`${props?.color?.name}`}>
           <button
             type="submit"
-            className={`w-[40px] h-[40px] hover:border-2 border-white outline-none border-none rounded-full`}
+            className={`w-[40px] h-[40px] hover:border-2 border-white outline-none border-none rounded-full  `}
             style={{ backgroundColor: props?.color?.color }}
           ></button>
         </Tippy>

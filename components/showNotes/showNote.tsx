@@ -76,7 +76,7 @@ const ShowNote = (props: any) => {
     e.preventDefault();
     // e.stopPropagation();
     props.setNoteUrlParams(props.note?._id);
-    console.log(props.note?._id, "This is the id");
+    // console.log(props.note?._id, "This is the id");
     props?.setNoteModal(true);
     // console.log(noteModal, "This is Note Modal");
     // props?.setNoteModal(true);
@@ -496,7 +496,7 @@ const ShowNote = (props: any) => {
         ) : (
           <div className="p-4">
             <h1 className="text-[20px]">{props.note?.title}</h1>
-            <p className="text-[16px] whitespace-break-spaces ">
+            <p className="text-[16px] whitespace-break-spaces">
               {props.note?.note?.slice(0, 600)}...
             </p>
             <form onSubmit={removeLocation}>
@@ -548,11 +548,11 @@ const ShowNote = (props: any) => {
               : "#202124",
             backgroundImage: props?.note?.bgImage
               ? `url(${props?.note?.bgImage})`
-              : "",
+              : "#202124",
           }}
           className={
             contextValue?.changeNoteLayout
-              ? "absolute z-10 bottom-[6px] left-0 w-1/2 flex justify-around item-center "
+              ? "absolute z-10 bottom-[6px] left-0 w-full  flex justify-around item-center "
               : "absolute z-10 bottom-[6px] left-0 w-full flex justify-around item-center "
           }
         >
