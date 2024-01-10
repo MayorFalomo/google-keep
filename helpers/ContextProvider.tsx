@@ -27,7 +27,6 @@ const AppContextProvider = ({ children }: any) => {
   const [user, setUser] = useState(null);
   const [notes, setNotes] = useState([]);
   const currentUser = getCookie("user") || activeId;
-  const [bookmarks, setBookmarks] = useState([]);
   const [openTextArea, setOpenTextArea] = useState(false);
   const [noteModal, setNoteModal] = useState(false); //toggle create note modal
   const [pinnedNote, setPinnedNote] = useState<any>();
@@ -36,11 +35,10 @@ const AppContextProvider = ({ children }: any) => {
   const [backgroundColor, setBackgroundColor] = useState("");
   const [trashedNotes, setTrashedNotes] = useState([]);
   const [changeNoteLayout, setChangeNoteLayout] = useState<boolean>(false);
-  const [changeLayout, setChangeLayout] = useState<boolean>(false);
   const [notesLabel, setNotesLabel] = useState<any>([]);
   const [editLabelModal, setEditLabelModal] = useState<boolean>(false);
-  // const [openCollabModal, setOpenCollabModal] = React.useState<boolean>(false); //Toggle the [openCollabModal]
   const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
+  const [openMobileNav, setOpenMobileNav] = useState(false);
 
   // const [cookies, setCookies] = useCookies(["user"]);
 
@@ -55,7 +53,7 @@ const AppContextProvider = ({ children }: any) => {
     setUser(null);
   };
 
-  console.log(currentUser, "currentUser");
+  // console.log(currentUser, "currentUser");
 
   //getCurrentUser takes in a parameter called Id which we'll get from currentUser which is cookies.user
 
@@ -94,7 +92,6 @@ const AppContextProvider = ({ children }: any) => {
     notes,
     setNotes,
     currentUser,
-    bookmarks,
     getCurrentUser,
     login,
     logout,
@@ -120,7 +117,8 @@ const AppContextProvider = ({ children }: any) => {
     setShowCollaboratorModal,
     overLay,
     setOverLay,
-
+    openMobileNav,
+    setOpenMobileNav,
     // changeLayout,
     // setChangeLayout,
   };

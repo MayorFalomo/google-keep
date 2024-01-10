@@ -365,7 +365,7 @@ const Notes = (props: Props) => {
         {contextValue.openTextArea ? (
           <AnimatePresence>
             <motion.div
-              className="p-4  rounded-[10px] border-2 border-[#525355] max-[700px]:w-full max-[550px]:p-1 "
+              className="p-4  rounded-[10px] border-2 border-[#525355] max-[700px]:w-[95%] max-[550px]:p-1 "
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -404,9 +404,9 @@ const Notes = (props: Props) => {
                 className="bg-transparent text-white w-full text-[18px] border-none outline-none resize-none whitespace-break-spaces [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
                 placeholder="Take a note..."
               />
-              <div className="flex item-center gap-6 max-[620px]:gap-2 max-sm:gap-2 max-[360px]:gap-[5px] border-2 border-red-500 ">
+              <div className="flex item-center gap-6 max-[620px]:gap-2 max-sm:gap-2 max-[360px]:gap-[5px] ">
                 <Tippy placement="bottom" content="Remind me">
-                  <span className="p-3 rounded-full cursor-not-allowed max-nav:p-2 ">
+                  <span className="p-3 rounded-full cursor-not-allowed max-nav:p-2 max-[400px]:p-1 ">
                     {
                       <BiBellPlus
                         className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] lg:text-3xl  "
