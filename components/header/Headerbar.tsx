@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiGrid, FiMenu } from "react-icons/fi";
 import { HiSearch } from "react-icons/hi";
 import { IoRefreshSharp, IoSettingsOutline } from "react-icons/io5";
@@ -22,10 +22,14 @@ const Headerbar = (props: any) => {
   const [times, setTimes] = useState(false);
   const [showHover, setShowHover] = useState(false);
 
-  // console.log(times);
-  const handleClick = () => {
-    contextValue?.setChangeNoteLayout(!contextValue.changeNoteLayout);
-  };
+  // // console.log(times);
+  // const handleClick = () => {
+  //   contextValue?.setChangeNoteLayout(!contextValue.changeNoteLayout);
+  // };
+
+  // useEffect(() => {
+  //   contextValue?.setChangeNoteLayout(true);
+  // }, []);
 
   // console.log(contextValue?.openMobileNav);
 

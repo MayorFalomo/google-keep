@@ -1,11 +1,11 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
-import Canvasmenu from "./Canvasmenu";
 import "./Canvas.css";
 import axios from "axios";
 import { useAppContext } from "@/helpers/Helpers";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
-import { get } from "http";
 import { getCookie } from "cookies-next";
+import DrawingMenu from "./DrawingMenu";
 type Props = {};
 
 const Drawing = (props: any) => {
@@ -16,9 +16,9 @@ const Drawing = (props: any) => {
   const isDrawingRef = useRef(false);
 
   // const [isDrawing, setIsDrawing] = useState(false);
-  const [lineWidth, setLineWidth] = useState(5);
-  const [lineColor, setLineColor] = useState("black");
-  const [lineOpacity, setLineOpacity] = useState(1);
+  const [lineWidth, setLineWidth] = useState<number>(5);
+  const [lineColor, setLineColor] = useState<string>("black");
+  const [lineOpacity, setLineOpacity] = useState<number>(1);
 
   const [coordinates, setCoordinates] = useState<
     Array<{
@@ -47,13 +47,28 @@ const Drawing = (props: any) => {
   }, [lineOpacity, lineColor]);
 
   // Function for starting the drawing
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const startDrawing = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     const ctx = ctxRef.current;
-    if (ctx) {
+    const canvas = canvasRef.current;
+    if (ctx && canvas) {
       ctx.beginPath();
-      const startX = e.nativeEvent.offsetX;
-      const startY = e.nativeEvent.offsetY;
+      // const startX = e.nativeEvent.offsetX;
+      // const startY = e.nativeEvent.offsetY;
+      let startX = 0; // Initialize startX with a default value
+      let startY = 0; // Initialize startY with a default value
 
+      if (e.nativeEvent instanceof MouseEvent) {
+        // Mouse event
+        startX = e.nativeEvent.offsetX;
+        startY = e.nativeEvent.offsetY;
+      } else if (e.nativeEvent instanceof TouchEvent) {
+        // Touch event
+        const rect = canvas.getBoundingClientRect();
+        startX = e.nativeEvent.touches[0].clientX - rect.left;
+        startY = e.nativeEvent.touches[0].clientY - rect.top;
+      }
       ctx.moveTo(startX, startY);
 
       setCoordinates([
@@ -72,14 +87,30 @@ const Drawing = (props: any) => {
   };
 
   // Function for drawing
-  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const draw = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     if (!isDrawingRef.current) {
       return;
     }
 
     const ctx = ctxRef.current;
     if (ctx) {
-      const { offsetX, offsetY } = e.nativeEvent;
+      let offsetX: number = 0,
+        offsetY: number = 0;
+      //The if condition checks if the event is a mouse event while the else checks if it's a touch event.
+      if (e.nativeEvent instanceof MouseEvent) {
+        offsetX = e.nativeEvent.offsetX;
+        offsetY = e.nativeEvent.offsetY;
+      } else if (e.nativeEvent instanceof TouchEvent) {
+        const touch = e.nativeEvent.touches[0];
+        offsetX =
+          touch.clientX -
+          (touch.target as HTMLElement).getBoundingClientRect().left;
+        offsetY =
+          touch.clientY -
+          (touch.target as HTMLElement).getBoundingClientRect().top;
+      }
 
       // Draw the line segment
       ctx.lineTo(offsetX, offsetY);
@@ -90,8 +121,6 @@ const Drawing = (props: any) => {
           x: offsetX,
           y: offsetY,
           color: lineColor,
-          lineWidth: lineWidth,
-          lineOpacity: lineOpacity,
         },
       ]);
     }
@@ -119,13 +148,13 @@ const Drawing = (props: any) => {
       const imageDataURL = canvas?.toDataURL("image/png");
       const canvasObject = {
         _id: generateId(24),
+        userId: contextValue?.user?.userId,
         note: "",
         title: "",
         picture: "",
         video: "",
         bgColor: "",
         bgImage: "",
-        userId,
         label: "",
         labelId: "",
         location: "",
@@ -214,14 +243,14 @@ const Drawing = (props: any) => {
     }
   };
 
-  const recreateCanvas = () => {
+  const recreateCanvas = async () => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
 
     if (canvas && ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       //We map over the canvas array and draw each action
-      props?.canvasNote?.canvas?.forEach((drawArray: any) => {
+      await props?.canvasNote?.canvas?.forEach((drawArray: any) => {
         drawArray.forEach((action: any) => {
           if (action.type == "draw" && action.points?.length > 1) {
             ctx.beginPath();
@@ -252,7 +281,7 @@ const Drawing = (props: any) => {
 
   useEffect(() => {
     recreateCanvas();
-  });
+  }, []);
 
   // console.log(props?.noteUrlParams, "Log it");
 
@@ -315,7 +344,7 @@ const Drawing = (props: any) => {
   return (
     <div>
       <div className="draw-area">
-        <Canvasmenu
+        <DrawingMenu
           setLineColor={setLineColor}
           setLineWidth={setLineWidth}
           setLineOpacity={setLineOpacity}
@@ -328,8 +357,11 @@ const Drawing = (props: any) => {
         <canvas
           ref={canvasRef}
           onMouseDown={startDrawing}
+          onTouchStart={startDrawing}
           onMouseUp={endDrawing}
           onMouseMove={draw}
+          onTouchMove={draw}
+          onTouchEnd={endDrawing}
           width={window.innerWidth}
           height={window.innerHeight}
           style={{ width: "100%", height: "100vh" }}

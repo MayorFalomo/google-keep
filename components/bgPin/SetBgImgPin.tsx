@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 type Props = {};
 
+//Parent component is BgPin.tsx
 const SetBgImgPin = (props: any) => {
   const { contextValue }: any = useAppContext();
 

@@ -64,15 +64,12 @@ const Login = (props: any) => {
         InLocalStorage
           ? localStorage.setItem("user", userObject.data?._id)
           : setCookie("user", userObject.data?._id, { path: "/" });
-        // setCookie("user", userObject.data?._id, { path: "/" });
         if (userObject.data?._id) {
           userObject.data?._id
             ? contextValue?.getCurrentUser(userObject.data?._id)
             : "";
           router.push("/");
         }
-
-        // window.location.reload();
       })
       .catch((err) => console.log(err));
   };

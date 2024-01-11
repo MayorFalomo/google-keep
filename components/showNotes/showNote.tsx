@@ -429,12 +429,12 @@ const ShowNote = (props: any) => {
       note: props.note?.note,
       picture: props.note?.picture,
       video: props.note?.video,
-      drawing: props.note?.drawing,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.labels,
+      label: props.note?.label,
+      labelId: props.note?.labelId,
       location: props.note?.location,
       canvas: props.note?.canvas,
       createdAt: props?.note.createdAt,
@@ -700,6 +700,8 @@ const ShowNote = (props: any) => {
                 props?.setShowBgModal(true);
                 contextValue?.setOverLay(true);
                 props?.setNoteUrlParams(props.note?._id);
+                setOpenNotifyModal(false);
+                setOpenOptionsModal(false);
               }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer "
             >

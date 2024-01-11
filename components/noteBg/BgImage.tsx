@@ -10,6 +10,7 @@ type Props = {};
 
 //Parent component is Background.tsx
 const BgImage = (props: any) => {
+  const { contextValue }: any = useAppContext();
   return (
     <div>
       <div className="flex items-center gap-2 w-[100%]">
@@ -19,6 +20,7 @@ const BgImage = (props: any) => {
               props?.setBgColor(" ");
               props?.setBackgroundImage(props?.bgImage?.image);
               props?.setShowBgModal(false);
+              contextValue?.setOverLay(false);
             }}
             className={`w-[50px] h-[50px]  outline-none border-none rounded-full`}
           >

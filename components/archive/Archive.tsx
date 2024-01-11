@@ -93,7 +93,7 @@ const Archive = (props: any) => {
       location: props.archived?.location,
       createdAt: new Date(),
     };
-    console.log(pinThisNote, "pin this note");
+    // console.log(pinThisNote, "pin this note");
 
     try {
       await axios
@@ -102,7 +102,7 @@ const Archive = (props: any) => {
           pinThisNote
         )
         .catch((err) => console.log(err));
-      console.log(props?.archived?._id, "This is props?.archived?._id");
+      // console.log(props?.archived?._id, "This is props?.archived?._id");
 
       contextValue.setArchivedNote((prevState: any) => {
         return prevState.filter(

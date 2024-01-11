@@ -14,7 +14,6 @@ import {
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import PinnedModal from "../pinnedModal/PinnedModal";
-// import "react-responsive-modal/styles.css";
 import "./showPinned.css";
 import Image from "next/image";
 import Tippy from "@tippyjs/react";
@@ -36,7 +35,7 @@ const ShowPinned = (props: any) => {
   const [openBgModal, setOpenBgModal] = useState(false);
   const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
-
+  const [overLayBg, setOverLayBg] = useState(false);
   const [closeIcon, setCloseIcon] = useState(false);
 
   const handleClick = (e: any) => {
@@ -200,7 +199,6 @@ const ShowPinned = (props: any) => {
       console.log(err);
     }
   };
-  // console.log(contextValue?.overLay, "overlay");
 
   return (
     <div>
@@ -298,7 +296,7 @@ const ShowPinned = (props: any) => {
           <Tippy placement="bottom" content="Notification">
             <span
               className="p-2 rounded-full hover:bg-[#28292C]"
-              onClick={() => setOpenNotifyModal(true)}
+              onClick={() => setOpenNotifyModal(!openNotifyModal)}
             >
               {
                 <BiBellPlus
@@ -314,13 +312,13 @@ const ShowPinned = (props: any) => {
               <div className=" ">
                 <p>Remainder: </p>
                 <ul>
-                  <li className="hover:bg-[#28292C] p-2 cursor-pointer ">
+                  <li className="hover:bg-[#28292C] p-2  cursor-not-allowed ">
                     Tomorrow <span>8am </span>{" "}
                   </li>
-                  <li className="hover:bg-[#28292C] p-2 cursor-pointer">
+                  <li className="hover:bg-[#28292C] p-2  cursor-not-allowed">
                     Next Week <span>8am </span>{" "}
                   </li>
-                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-[#28292C] p-2">
+                  <li className="flex items-center gap-[10px]  cursor-not-allowed hover:bg-[#28292C] p-2">
                     <LuClock /> Pick date and time{" "}
                   </li>
                   <li className="flex items-center gap-[10px] cursor-pointer hover:bg-[#28292C] p-2">
@@ -401,7 +399,7 @@ const ShowPinned = (props: any) => {
           </Tippy>
           {/* </form> */}
           <Tippy placement="bottom" content="More ">
-            <span className="p-2 rounded-full hover:bg-[#28292C] cursor-pointer ">
+            <span className="p-2  cursor-not-allowed rounded-full hover:bg-[#28292C] ">
               {
                 <BiDotsVerticalRounded
                   className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
@@ -475,12 +473,31 @@ const ShowPinned = (props: any) => {
       )}
 
       {pinnedModal ? (
+        <AnimatePresence>
+          <motion.div
+            onClick={() => {
+              setPinnedModal(false);
+
+              setOverLayBg(false);
+              // setShowBgModal(false);
+            }}
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed z-20 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
+          ></motion.div>
+        </AnimatePresence>
+      ) : (
+        ""
+      )}
+
+      {pinnedModal ? (
         <div>
           <PinnedModal
             noteUrlParams={noteUrlParams}
             setPinnedModal={setPinnedModal}
             pinnedModal={pinnedModal}
-            // setOverLayBg={props.setOverLayBg}
+            setOverLayBg={setOverLayBg}
           />
         </div>
       ) : (

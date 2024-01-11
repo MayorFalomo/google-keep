@@ -18,14 +18,14 @@ const Pinned = () => {
   useEffect(() => {
     axios
       .get(
-        `https://keep-backend-theta.vercel.app/api/notes/getall-pinned-notes/${contextValue?.user?._id}`
+        `https://keep-backend-theta.vercel.app/api/notes/getall-pinned-notes/${contextValue?.user?.userId}`
       )
       .then((res) => {
         contextValue.setPinnedNote(res.data.reverse());
         // console.log(res.data);
       })
       .catch((err) => console.log(err));
-  }, [contextValue?.user?._id]);
+  }, [contextValue?.user?.userId]);
 
   // console.log(contextValue?.pinnedNote);
 
