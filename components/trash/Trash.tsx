@@ -167,7 +167,7 @@ const Archive = (props: any) => {
     const noteId = props?.trashedNote?._id;
     try {
       await axios.delete(
-        `http://localhost:5000/api/notes/delete-forever/${noteId}`
+        `https://keep-backend-theta.vercel.app/api/notes/delete-forever/${noteId}`
       );
       contextValue?.setTrashedNotes((prevState: any) =>
         prevState.filter((note: any) => note._id !== props?.trashedNote?._id)

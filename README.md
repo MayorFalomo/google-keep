@@ -54,6 +54,8 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 
 I needed my web application to be fast so i used Next Js which is known for it's speed.
 
+i did Code splitting for my code to reduce bundle dize
+
 I avoided making too many API Calls and instead used context to share my data through out my application so the data is always readily available for users instead of requesting that same information from the server again.
 
 I stored each users information on a cookie that way, the users login and information is better secured and persists instead of using Local storage.
@@ -64,6 +66,8 @@ N:B: I'm well aware of the compatibility of cookies with phone, so user data mig
 I made sure Components were reusable so i didn't have to build as much many components as i could have from scratch.
 
 All useEffects have a dependency Array, so there's no chance of your browser crashing from too many repeated API calls.
+
+
 ## Deployment
 
 To deploy this project run

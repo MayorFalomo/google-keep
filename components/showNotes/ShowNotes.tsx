@@ -50,7 +50,7 @@ const ShowNotes = (props: any) => {
       // console.log(contextValue?.user?.userId, "Inside get");
       axios
         .get(
-          `http://localhost:5000/api/notes/getall-notes/${contextValue?.user?.userId}`
+          `https://keep-backend-theta.vercel.app/api/notes/getall-notes/${contextValue?.user?.userId}`
         )
         .then((res) => contextValue?.setNotes(res.data))
         .then(() => setEmptyMessage(true))

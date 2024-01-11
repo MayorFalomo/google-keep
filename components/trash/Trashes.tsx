@@ -41,7 +41,7 @@ const Archives = (props: any) => {
 
       axios
         .get(
-          `http://localhost:5000/api/notes/get-trash/${contextValue?.user?.userId}`
+          `https://keep-backend-theta.vercel.app/api/notes/get-trash/${contextValue?.user?.userId}`
         )
         .then((res) => {
           contextValue?.setTrashedNotes(res.data);
@@ -82,14 +82,15 @@ const Archives = (props: any) => {
 
   return (
     <div className=" mb-[200px] ">
-      <h1 className="text-center ml-[50px] text-[20px]  mb-[20px]">
+      <h1 className="flex items-center justify-center text-center ml-[50px] text-[20px]  mb-[20px] max-sm:text-[16px]">
         <i>
           Notes in Trash are deleted after 1 day{" "}
-          <a onClick={emptyTrash}>
-            <span className="text-[#84B4F8] hover:bg-[#24272D] py-4 px-6 rounded-[8px] cursor-pointer">
-              empty trash{" "}
-            </span>
-          </a>{" "}
+          <span
+            onClick={() => emptyTrash}
+            className="text-[#84B4F8] place-content-center hover:bg-[#24272D] py-3 px-3 rounded-[8px] cursor-pointer"
+          >
+            <i>empty trash </i>
+          </span>{" "}
         </i>
       </h1>
       {/* <DynamicMason /> */}
