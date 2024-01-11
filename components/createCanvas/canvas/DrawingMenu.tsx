@@ -3,9 +3,7 @@ import "./Canvas.css";
 
 type Props = {};
 
-const Canvasmenu = (props: any) => {
-  // console.log(props?.lineColor, "this is line color");
-
+const DrawingMenu = (props: any) => {
   return (
     <div className="Menu">
       <div className="container">
@@ -120,4 +118,4 @@ const Canvasmenu = (props: any) => {
   );
 };
 
-export default Canvasmenu;
+export default DrawingMenu;

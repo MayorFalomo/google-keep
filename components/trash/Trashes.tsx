@@ -36,17 +36,20 @@ const Archives = (props: any) => {
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
 
   useEffect(() => {
-    axios
-      .get(
-        `https://keep-backend-theta.vercel.app/api/notes/get-trash/${
-          userCookie || activeId
-        }`
-      )
-      .then((res) => {
-        contextValue?.setTrashedNotes(res.data);
-      })
-      .then(() => setEmptyMessage(true));
-  }, [userCookie, activeId]);
+    if (contextValue?.user?.userId) {
+      // console.log(contextValue?.user?.userId);
+
+      axios
+        .get(
+          `http://localhost:5000/api/notes/get-trash/${contextValue?.user?.userId}`
+        )
+        .then((res) => {
+          contextValue?.setTrashedNotes(res.data);
+        })
+        .then(() => setEmptyMessage(true))
+        .catch((err) => console.log(err));
+    }
+  }, [contextValue?.user?.userId]);
 
   // useEffect(() => {
   //   if (contextValue?.trashedNotes) {
@@ -96,11 +99,6 @@ const Archives = (props: any) => {
             contextValue.setOpenTextArea(false);
           }}
           className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
-          // className="grid"
-          // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-          data-masonry='{ "itemSelector": ".grid-item",
-          "columnWidth": 300
-         }'
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -122,7 +120,9 @@ const Archives = (props: any) => {
                     backgroundColor: trash?.bgColor
                       ? trash?.bgColor
                       : "#202124",
-                    backgroundImage: `url(${trash?.bgImage})`,
+                    backgroundImage: trash?.bgImage
+                      ? `url(${trash?.bgImage})`
+                      : "#202124",
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",

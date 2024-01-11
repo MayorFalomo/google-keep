@@ -21,6 +21,7 @@ import Drawing from "../createCanvas/canvas/Drawing";
 import NoteBg from "../noteBg/NoteBg";
 import BgImage from "../noteBg/BgImage";
 import Collaborators from "../collaborators/Collaborators";
+
 type Props = {};
 
 const Notes = (props: Props) => {
@@ -66,7 +67,7 @@ const Notes = (props: Props) => {
   const createNote = async (e: any) => {
     e.preventDefault();
     const newNote = {
-      userId: contextValue.user?._id,
+      userId: contextValue.user?.userId,
       username: contextValue.user?.username,
       _id: generateId(24),
       title,
@@ -133,7 +134,7 @@ const Notes = (props: Props) => {
           const newNoteObject = {
             id: generateId(24),
             ...mediaObject,
-            userId: contextValue.user?._id,
+            userId: contextValue.user?.userId,
             username: contextValue.user?.username,
             title,
             note,
@@ -190,7 +191,7 @@ const Notes = (props: Props) => {
   };
 
   const canvasNoteObject = {
-    userId: contextValue.user?._id,
+    userId: contextValue.user?.userId,
     username: contextValue.user?.username,
     _id: generateId(24),
     title,
@@ -314,7 +315,7 @@ const Notes = (props: Props) => {
 
   const createPinned = async () => {
     const newNote = {
-      userId: contextValue.user?._id,
+      userId: contextValue.user?.userId,
       username: contextValue.user?.username,
       _id: generateId(24),
       title,
@@ -586,7 +587,7 @@ const Notes = (props: Props) => {
               />
               <div className="flex items-center gap-6">
                 <Tippy placement="bottom" content="New list ">
-                  <span className="p-4 rounded-full hover:bg-[#28292C] cursor-pointer max-md:p-[5px] ">
+                  <span className="p-4  rounded-full hover:bg-[#28292C]  cursor-not-allowed max-md:p-[5px] ">
                     {
                       <AiOutlineCheckSquare
                         className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[22px] lg:text-3xl  "
@@ -636,10 +637,12 @@ const Notes = (props: Props) => {
       </form>
       {openCreateCanvas ? (
         <div className="fixed z-50 top-0 left-0 h-full w-full">
-          <Drawing
-            setOpenCreateCanvas={setOpenCreateCanvas}
-            canvasNoteObject={canvasNoteObject}
-          />
+          <div>
+            <Drawing
+              setOpenCreateCanvas={setOpenCreateCanvas}
+              canvasNoteObject={canvasNoteObject}
+            />
+          </div>
         </div>
       ) : (
         ""

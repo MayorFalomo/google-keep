@@ -34,30 +34,22 @@ const Archives = (props: any) => {
   useEffect(() => {
     axios
       .get(
-        `https://keep-backend-theta.vercel.app/api/notes/get-archived/${
-          contextValue?.user?._id || activeId
-        }`
+        `https://keep-backend-theta.vercel.app/api/notes/get-archived/${contextValue?.user?.userId}`
       )
-      .then((res) => {
+      .then((res: any) => {
         contextValue?.setArchivedNote(res.data);
       })
       .then(() => setEmptyMessage(true));
-  }, [contextValue?.user?._id, activeId]);
+  }, []);
 
   return (
-    <div className=" mb-[200px] ">
-      {/* <h1 className="ml-[50px] text-[20px]  mb-[20px]">ARCHIVED NOTES </h1> */}
-      {/* <DynamicMason /> */}
+    <div className="mt-[] mb-[200px] ">
       <AnimatePresence>
         <motion.div
           onClick={() => {
             contextValue.setOpenTextArea(false);
           }}
           className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
-          // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-          //   data-masonry='{ "itemSelector": ".grid-item",
-          //   "columnWidth": 300
-          //  }'
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -66,9 +58,6 @@ const Archives = (props: any) => {
             contextValue?.archivedNote?.length > 0 ? (
               contextValue.archivedNote?.map((archived: any, index: any) => (
                 <div
-                  // data-grid={{ ...note, x: currentX, y: currentY, w: 2, h: 2 }}
-                  // data-grid={{ ...note, x: index }}
-                  // data-grid={note}
                   onMouseEnter={() => {
                     setShowIconsOnHover(true);
                     setShowId(archived?._id);

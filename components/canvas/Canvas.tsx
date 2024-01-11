@@ -139,15 +139,11 @@ const Canvas = (props: any) => {
         canvas: [
           {
             type: "draw",
-            // color: lineColor,
-            // lineWidth: lineWidth,
             points: [...coordinates],
             imageDataURL: imageDataURL || "",
           },
         ],
       };
-      // console.log(canvasObject, "canvasObject");
-
       try {
         await axios.post(
           "https://keep-backend-theta.vercel.app/api/notes/save-canvas",
@@ -156,8 +152,6 @@ const Canvas = (props: any) => {
         contextValue?.setNotes((prevState: any) =>
           prevState.map((note: any) => {
             if (note._id == props.noteUrlParams) {
-              // console.log(note);
-
               return {
                 ...note,
                 canvas: [canvasObject.canvas],
@@ -261,8 +255,8 @@ const Canvas = (props: any) => {
               // Extract color from each point object
               const { x, y, color } = point;
 
-              console.log(point, "This is point");
-              console.log(action.points, "This is action.points");
+              // console.log(point, "This is point");
+              // console.log(action.points, "This is action.points");
 
               ctx.strokeStyle = color;
               ctx.lineWidth = lineWidth;

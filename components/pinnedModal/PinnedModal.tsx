@@ -98,18 +98,34 @@ const PinnedModal = (props: any) => {
         });
       }
       props.setPinnedModal(false);
-      contextValue?.setOverLay(false);
+      props?.setOverLayBg(false);
       toast.success("Note updated successfully");
     } catch (error) {
       console.log(error);
     }
   };
 
-  // console.log(singleNote);
+  const calculateColumns = (noteLength: number) => {
+    // Define your breakpoints and corresponding column numbers
+    const breakpoints = [30, 100, 900]; // You can adjust these values
+    const columns = [2, 4, 7, 10]; // Adjust these based on your layout needs
+
+    // Find the appropriate column based on the note length
+    for (let i = 0; i < breakpoints.length; i++) {
+      if (noteLength <= breakpoints[i]) {
+        return columns[i];
+      }
+    }
+
+    // Default to the last column value
+    return columns[columns.length - 1];
+  };
+
+  const columns: number = calculateColumns(singleNote?.note?.length);
 
   return (
     <div
-      className="fixed z-20 min-h-[200px] h-fit w-1/2 border-2 border-[#5F6368] m-auto inset-x-0 inset-y-0 rounded-[10px] p-[8px]"
+      className="fixed z-30 min-h-[200px] h-fit w-1/2 border-2 border-[#5F6368] m-auto inset-x-0 inset-y-0 rounded-[10px] p-[8px]  max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none max-[600px]:overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
       style={{
         backgroundColor: singleNote?.bgColor ? singleNote?.bgColor : "#202124",
         backgroundImage: `url(${
@@ -120,6 +136,9 @@ const PinnedModal = (props: any) => {
         backgroundRepeat: "no-repeat",
       }}
     >
+      {singleNote?.canvas?.map((canvas: any, index: number) => {
+        return <CanvasImage key={index} canvas={canvas} />;
+      })}
       {singleNote?.picture ? (
         <div>
           <Image
@@ -159,15 +178,15 @@ const PinnedModal = (props: any) => {
             <span className="p-3 rounded-full hover:bg-[#28292C]">
               {
                 <BsPin
-                  className=" text-[#9AA0A6] text-[24px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl "
+                  className="  text-[#9AA0A6] text-[22px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
                   cursor="pointer"
                 />
               }{" "}
             </span>
           </div>
-          <div className=" h-[50%]">
+          <div className="max-[600px]:h-[75%] max-[600px]:max-h-fit max-[450px]:h-[70%]">
             <textarea
-              className="bg-transparent text-white h-full w-full text-[16px] outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
+              className="max-h-[100%] bg-transparent text-white h-100% whitespace-break-spaces  w-full text-[16px] outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-[600px]:h-[100%]"
               onChange={(e) => setEditNote(e.target.value)}
               defaultValue={singleNote?.note || editNote}
               placeholder="Note"
@@ -176,12 +195,12 @@ const PinnedModal = (props: any) => {
           <p className="flex justify-end m-2 ">
             Edited {moment(singleNote?.createdAt).format("MMMM do")}{" "}
           </p>
-          <div className="flex justify-between item-center gap-4 ">
-            <div className="flex item-center gap-4 ">
-              <span className="p-3 rounded-full hover:bg-[#28292C]">
+          <div className="flex justify-between item-center gap-4 max-[450px]:flex-col max-sm:gap-2">
+            <div className="flex item-center gap-2 max-sm:gap-[5px] ">
+              <span className="p-3 rounded-full hover:bg-[#28292C] cursor-pointer ">
                 {
                   <BiBellPlus
-                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] "
                     cursor="pointer"
                   />
                 }{" "}
@@ -189,7 +208,7 @@ const PinnedModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <MdOutlinePersonAddAlt1
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px]  "
                     cursor="pointer"
                   />
                 }{" "}
@@ -197,7 +216,7 @@ const PinnedModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <IoColorPaletteOutline
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className="  text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] "
                     cursor="pointer"
                   />
                 }{" "}
@@ -205,7 +224,7 @@ const PinnedModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiImageAlt
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] "
                     cursor="pointer"
                   />
                 }{" "}
@@ -213,7 +232,7 @@ const PinnedModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiArchiveIn
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] "
                     cursor="pointer"
                   />
                 }{" "}
@@ -221,7 +240,7 @@ const PinnedModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiDotsVerticalRounded
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className="  text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px]  "
                     cursor="pointer"
                   />
                 }{" "}
@@ -229,7 +248,7 @@ const PinnedModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <BiUndo
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px] "
                     cursor="pointer"
                   />
                 }{" "}
@@ -237,7 +256,7 @@ const PinnedModal = (props: any) => {
               <span className="p-3 rounded-full hover:bg-[#28292C]">
                 {
                   <GrRedo
-                    className=" text-[#9AA0A6] text-[18px] max-sm:text-[18px] max-md:text-[22px] lg:text-3xl  "
+                    className=" text-[#9AA0A6] text-[22px] max-sm:text-[16px] max-md:text-[20px]  "
                     cursor="pointer"
                   />
                 }{" "}
@@ -245,13 +264,40 @@ const PinnedModal = (props: any) => {
             </div>
 
             <div className=" flex justify-end">
-              <button type="submit" className="cursor-pointer ">
+              <button
+                type="submit"
+                className="cursor-pointer text-[22px] max-md:text-[18px] max-sm:text-[16px]"
+              >
                 Close{" "}
               </button>
             </div>
           </div>
         </form>
       </div>
+    </div>
+  );
+};
+
+const CanvasImage = (canvas: any) => {
+  // console.log(canvas.canvas, "canvasImage");
+  return (
+    <div className=" ">
+      {canvas.canvas.map((canvas: any, index: number) => {
+        return <ShowCanvasImage key={index} canvas={canvas} />;
+      })}
+      {/* <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" /> */}
+    </div>
+  );
+};
+
+const ShowCanvasImage = (canvas: any) => {
+  // console.log(draw.draw?.imageDataURL, "canvasImage");
+  return (
+    <div className="w-[100%] h-[100%] max-[600px]:h-[100%] ">
+      <img
+        src={canvas.canvas?.imageDataURL}
+        className="w-[100%] h-[100%] max-[600px]:h-[30%] "
+      />
     </div>
   );
 };

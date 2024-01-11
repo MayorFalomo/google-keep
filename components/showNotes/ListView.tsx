@@ -8,16 +8,9 @@ import React, { useEffect, useRef, useState } from "react";
 import ShowNote from "./showNote";
 import "./notes.css";
 import Login from "../login/Login";
-// import Masonry from "masonry-layout";
 type Props = {};
 
-declare global {
-  interface HTMLElement {
-    masonry?: any; // Define the masonry property on HTMLElement
-  }
-}
-
-const ShowNotes = (props: any) => {
+const ListView = (props: any) => {
   const userCookie = getCookie("user");
 
   const { contextValue }: any = useAppContext();
@@ -86,43 +79,6 @@ const ShowNotes = (props: any) => {
     }
   }, [contextValue?.changeNoteLayout]);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     if (window.innerWidth <= 550) {
-  //       contextValue?.setChangeNoteLayout(true);
-  //     } else {
-  //       contextValue?.setChangeNoteLayout(false);
-  //     }
-  //   }
-  // }, [contextValue?.changeNoteLayout]);
-
-  const gridRef = useRef<any>(null);
-  const masonryRef = useRef<any>(null);
-  const none = useRef<any>(null);
-  const [masonry, setMasonry] = useState<any>(null);
-
-  const switchLayout = () => {
-    let masonryInstance: any = null;
-
-    if (typeof window !== "undefined") {
-      if (contextValue?.changeNoteLayout == false) {
-        import("masonry-layout").then((module) => {
-          const Masonry = module.default;
-          masonryInstance = new Masonry(gridRef.current, {
-            // options
-            // itemSelector: ".grid-item",
-            // columnWidth: 160,
-            // gutter: 20,
-          });
-
-          masonryRef.current = masonryInstance;
-        });
-      }
-    }
-  };
-
-  switchLayout();
-
   return (
     <div className="ml-[50px] max-md:ml-[10px]">
       <h1 className="text-[#8A949E] text-[20px]  mb-[20px]">OTHERS </h1>
@@ -132,8 +88,8 @@ const ShowNotes = (props: any) => {
             onClick={() => {
               contextValue.setOpenTextArea(false);
             }}
-            ref={gridRef}
-            className="grid"
+            // ref={gridRef}
+            className="flex-layout"
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -225,4 +181,4 @@ const ShowNotes = (props: any) => {
   );
 };
 
-export default ShowNotes;
+export default ListView;

@@ -91,7 +91,7 @@ const NoteModal = (props: any) => {
           // If the note is found, update it
           const updatedNotes = [...prevNotes];
           updatedNotes[index] = { ...prevNotes[index], ...updatedNote };
-          return updatedNotes.reverse();
+          return updatedNotes;
         }
 
         // If the note is not found, return the original array
@@ -115,15 +115,6 @@ const NoteModal = (props: any) => {
   };
 
   const formattedDate: Moment = moment(singleNote?.createdAt);
-  // console.log(formattedDate.format("MMMM Do"), "This is the formattedDate"); // Adjust the format as needed
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     window.addEventListener("resize", () => {
-  //       window.innerWidth <= 550 ? setRow(true) : setRow(false);
-  //     });
-  //   }
-  // }, [contextValue?.changeNoteLayout]);
 
   const calculateColumns = (noteLength: number) => {
     // Define your breakpoints and corresponding column numbers
@@ -143,7 +134,6 @@ const NoteModal = (props: any) => {
 
   const columns: number = calculateColumns(singleNote?.note?.length);
   console.log(singleNote, "This is columns");
-  // console.log(row, "This is row");
 
   return (
     // <div className="border-2 border-red-600 ">
