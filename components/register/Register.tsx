@@ -7,11 +7,11 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useAppContext } from "@/helpers/Helpers";
-import { auth, provider } from "../../firebase.config";
+import { auth, db, provider } from "../../firebase.config";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
-
+import { doc, setDoc } from "firebase/firestore";
 type Props = {};
 
 const Register = (props: any) => {
@@ -50,10 +50,10 @@ const Register = (props: any) => {
 
   // const {getCurrentUser} = useContext(AppContextProvider)
   const [email, setEmail] = useState<string>("");
-  const [userNames, setUserName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [notifications, setNotifications] = useState<any>([]);
-
+  const [isAuth, setIsAuth] = useState<boolean>(false);
   // const [cookies, setCookie] = useCookies(["user"]);
   const [name, setName] = useState("");
   // const [isAuth, setIsAuth] = useState<boolean>(false)
@@ -64,45 +64,54 @@ const Register = (props: any) => {
     e.preventDefault();
 
     try {
-      signInWithPopup(auth, provider).then(async (response) => {
-        //Checks if the saveOnStorage is true then saves to either local storage based on the state
-        saveOnStorage
-          ? localStorage.setItem("user", generatedId)
-          : setCookie("user", generatedId, { path: "/" });
-        // setCookie("user", generatedId, { path: "/" });
-        let userInfo = {
-          _id: generatedId,
-          userId: response.user.uid,
-          username: response.user.displayName,
-          password: "12345",
-          email: response.user.email,
-          profilePic:
-            response.user.photoURL == null || ""
-              ? "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg"
-              : response.user.photoURL,
-          notifications: notifications,
-          // bio: "Regular Human",
-          // location: "Lagos, Nigeria",
-          // links: "https://mayowa-falomo.netlify.app"
-        };
-        // console.log(userInfo, "this is userInfo");
-        await axios
-          .post(
+      signInWithPopup(auth, provider)
+        .then(async (response) => {
+          //Checks if the saveOnStorage is true then saves to either local storage based on the state
+          saveOnStorage
+            ? localStorage.setItem("user", generatedId)
+            : setCookie("user", generatedId, { path: "/" });
+          // setCookie("user", generatedId, { path: "/" });
+          let userInfo = {
+            _id: generatedId,
+            userId: response.user.uid,
+            username: response.user.displayName,
+            password: "12345",
+            email: response.user.email,
+            profilePic:
+              response.user.photoURL == null || ""
+                ? "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg"
+                : response.user.photoURL,
+            notifications: notifications,
+            // bio: "Regular Human",
+            // location: "Lagos, Nigeria",
+            // links: "https://mayowa-falomo.netlify.app"
+          };
+          // console.log(userInfo, "this is userInfo");
+          await axios.post(
             "https://keep-backend-theta.vercel.app/api/users/register",
             userInfo
-          )
+          );
+          setDoc(doc(db, "users", response.user.uid), {
+            uid: response.user.uid,
+            username: userName,
+            email: response.user.email,
+            profilePic: response.user.photoURL
+              ? response.user.photoURL
+              : "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
+          });
+          setDoc(doc(db, "userChats", response.user.uid), {});
           // .catch((err) => console.log(err))
           // .then(() => router.push("/"))
           // .then(() => contextValue.getCurrentUser(userInfo?._id))
           // .then(() => window.location.reload())
-          .catch((err) => console.log(err));
-        // window.location.reload();
-        contextValue?.getCurrentUser(userInfo?._id);
-        router.push("/");
-        // console.log(userInfo);
-      });
+
+          // window.location.reload();
+          contextValue?.getCurrentUser(userInfo?._id);
+          router.push("/");
+        })
+        .catch((err) => console.log(err && setIsAuth(true)));
     } catch (err) {
-      console.log("Sign up with Google error:", err);
+      console.log("Sign up with Google error:", err && setIsAuth(true));
     }
   };
 
@@ -121,7 +130,7 @@ const Register = (props: any) => {
         const userInfo = {
           _id: generatedId, //Self generated
           userId: response.user.uid, //userId is from google
-          username: userNames,
+          username: userName,
           email: email,
           password: password,
           profileDp:
@@ -133,17 +142,23 @@ const Register = (props: any) => {
             "https://keep-backend-theta.vercel.app/api/users/register",
             userInfo
           );
+          setDoc(doc(db, "users", response.user.uid), {
+            uid: response.user.uid,
+            username: userName,
+            email: response.user.email,
+            profileDp:
+              "https://i.pinimg.com/564x/33/f4/d8/33f4d8c6de4d69b21652512cbc30bb05.jpg",
+          });
+          setDoc(doc(db, "userChats", response.user.uid), {});
           // .then(() => window.location.reload())
           // .then(() => contextValue?.getCurrentUser(userInfo?._id))
           await contextValue
             ?.getCurrentUser(userInfo?._id)
-            .catch((err: any) => err);
+            .catch((err: any) => err && setIsAuth(true));
           router.push("/");
-          // console.log(userInfo);
         } catch (error) {
-          console.log(error);
+          console.log(error && setIsAuth(true));
         }
-        // contextValue?.getCurrentUser(userInfo?.id);
       }
     );
   };
@@ -240,7 +255,7 @@ const Register = (props: any) => {
             <div className="relative w-[100%]">
               <input
                 className="p-4 w-full rounded-[6px] bg-white border-2 border-black-500 placeholder:px-3"
-                value={userNames}
+                value={userName}
                 onChange={(e: any) => setUserName(e.target.value)}
                 type="text"
                 name="username"
@@ -277,6 +292,17 @@ const Register = (props: any) => {
               Sign Up{" "}
             </button>
           </form>
+          {isAuth && (
+            <p
+              style={{
+                color: "red",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              An Error has occurred{" "}
+            </p>
+          )}
           <Link href="/login">
             <p className="flex justify-center">Log in? </p>
           </Link>

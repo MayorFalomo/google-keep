@@ -67,36 +67,20 @@ const PinnedModal = (props: any) => {
         updatedNote
       );
 
-      // Find the index of the note in the notes state
-      const noteIndex = contextValue.notes.findIndex(
-        (note: any) => note._id == props.noteUrlParams
+      // Update the note in contextValue.notes
+      contextValue.setNotes((prevNotes: any) =>
+        prevNotes.map((note: any) =>
+          note._id == updatedNote._id ? updatedNote : note
+        )
       );
 
-      // Update the corresponding note in the state by getting the index
-      contextValue.setNotes((prevNotes: any) => {
-        return [
-          //All notes between 0 and the index of our note index
-          ...prevNotes.slice(0, noteIndex),
-          updatedNote,
-          //Now Update All notes between our note index + 1
-          ...prevNotes.slice(noteIndex + 1),
-        ];
-      });
-
-      //First I run a check if the note is in contextValue.pinnedNote it returns a true / false If true then it updated the setPinnedNote the same way with it's index
-      if (
-        contextValue.pinnedNote.some(
-          (note: any) => note._id == props.noteUrlParams
+      // Update the note in contextValue.pinnedNote if it exists
+      contextValue.setPinnedNote((prevPinnedNotes: any) =>
+        prevPinnedNotes.map((note: any) =>
+          note._id == updatedNote._id ? updatedNote : note
         )
-      ) {
-        contextValue.setPinnedNote((prevPinnedNotes: any) => {
-          return [
-            ...prevPinnedNotes.slice(0, noteIndex),
-            updatedNote,
-            ...prevPinnedNotes.slice(noteIndex + 1),
-          ];
-        });
-      }
+      );
+
       props.setPinnedModal(false);
       props?.setOverLayBg(false);
       toast.success("Note updated successfully");

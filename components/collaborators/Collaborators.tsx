@@ -96,7 +96,7 @@ const Collaborators = (props: any) => {
 
     const collaborateObject = {
       _id: singleNote?._id,
-      userId: getCollaboratorId,
+      userId: getCollaboratorId, //The id of the person we're sending to
       generatedId: generateId(24),
       // email: singleNote?.email,
       username: getCollaboratorUsername,
@@ -104,10 +104,12 @@ const Collaborators = (props: any) => {
       title: singleNote?.title,
       note: singleNote?.note,
       picture: singleNote?.picture,
-      drawing: singleNote?.drawing,
+      video: singleNote?.video,
+      canvas: singleNote?.canvas,
       bgImage: singleNote?.bgImage,
       bgColor: singleNote?.bgColor,
-      labels: singleNote?.labels,
+      label: singleNote?.label,
+      labelId: singleNote?.labelId,
       collaborator: singleNote?.username,
       createdAt: new Date(),
     };

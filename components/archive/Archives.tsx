@@ -30,6 +30,7 @@ const Archives = (props: any) => {
   const [showBgModal, setShowBgModal] = useState(false);
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
+  const [archivedModal, setArchivedModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -43,7 +44,7 @@ const Archives = (props: any) => {
   }, []);
 
   return (
-    <div className="mt-[] mb-[200px] ">
+    <div className="mt-[30px] mb-[200px] ml-[40px] max-md:ml-[20px] ">
       <AnimatePresence>
         <motion.div
           onClick={() => {
@@ -86,6 +87,7 @@ const Archives = (props: any) => {
                           setNoteModal(false);
                           setOverLay(false);
                           setShowBgModal(false);
+                          setArchivedModal(false);
                         }}
                         exit={{ opacity: 0 }}
                         initial={{ opacity: 0 }}
@@ -101,8 +103,8 @@ const Archives = (props: any) => {
                     archived={archived}
                     overLay={overLay}
                     setOverLay={setOverLay}
-                    noteModal={noteModal}
-                    setNoteModal={setNoteModal}
+                    archivedModal={archivedModal}
+                    setArchivedModal={setArchivedModal}
                     noteUrlParams={noteUrlParams}
                     setNoteUrlParams={setNoteUrlParams}
                     showIconsOnHover={showIconsOnHover}

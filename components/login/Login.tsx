@@ -56,7 +56,7 @@ const Login = (props: any) => {
         let userInfo = {
           userId: res.user.uid,
         };
-        console.log(userInfo);
+        // console.log(userInfo);
 
         const userObject = await axios.get(
           `https://keep-backend-theta.vercel.app/api/users/get-user/uid/${userInfo?.userId}`

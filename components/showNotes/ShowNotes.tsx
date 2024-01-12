@@ -124,7 +124,7 @@ const ShowNotes = (props: any) => {
   switchLayout();
 
   return (
-    <div className="ml-[50px] max-md:ml-[10px]">
+    <div className="ml-[50px] max-md:ml-[20px]">
       <h1 className="text-[#8A949E] text-[20px]  mb-[20px]">OTHERS </h1>
       <AnimatePresence>
         {
