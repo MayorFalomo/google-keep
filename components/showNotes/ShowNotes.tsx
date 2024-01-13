@@ -72,20 +72,6 @@ const ShowNotes = (props: any) => {
 
   const [masonryLoaded, setMasonryLoaded] = useState(false);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", () => {
-        if (window.innerWidth <= 550) {
-          contextValue?.setChangeNoteLayout(true);
-          // setActivateSwitch(true);
-        } else {
-          // setActivateSwitch(false);
-          contextValue?.setChangeNoteLayout(false);
-        }
-      });
-    }
-  }, [contextValue?.changeNoteLayout]);
-
   // useEffect(() => {
   //   if (typeof window !== "undefined") {
   //     if (window.innerWidth <= 550) {
@@ -124,7 +110,7 @@ const ShowNotes = (props: any) => {
   switchLayout();
 
   return (
-    <div className="ml-[50px] max-md:ml-[20px]">
+    <div className="ml-[50px] max-md:ml-[20px] ">
       <h1 className="text-[#8A949E] text-[20px]  mb-[20px]">OTHERS </h1>
       <AnimatePresence>
         {
@@ -151,10 +137,12 @@ const ShowNotes = (props: any) => {
                       setShowIconsOnHover(false);
                       setShowId("");
                     }}
+                    onTouchStart={() => {
+                      setShowIconsOnHover(true);
+                      setShowId(note?._id);
+                    }}
                     className={
-                      contextValue?.changeNoteLayout
-                        ? " relative max-w-[600px] min-w-[270px] w-[95%] h-fit min-h-[150px] border-2 border-[#5F6368] ml-[50px] rounded-[10px] break-words"
-                        : "relative max-w-[350px] min-w-[300px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] max-md:max-w-[250px] break-words "
+                      "relative max-w-[350px] min-w-[300px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] max-md:max-w-[250px] break-words "
                     }
                     style={{
                       backgroundColor: note?.bgColor

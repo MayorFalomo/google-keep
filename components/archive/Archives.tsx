@@ -33,15 +33,19 @@ const Archives = (props: any) => {
   const [archivedModal, setArchivedModal] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(
-        `https://keep-backend-theta.vercel.app/api/notes/get-archived/${contextValue?.user?.userId}`
-      )
-      .then((res: any) => {
-        contextValue?.setArchivedNote(res.data);
-      })
-      .then(() => setEmptyMessage(true));
-  }, []);
+    console.log(contextValue?.user?.userId, "userId");
+    if (contextValue?.user?.userId) {
+      axios
+        .get(
+          `http://localhost:5000/api/notes/getall-archived/${contextValue?.user?.userId}`
+        )
+        .then((res: any) => {
+          contextValue?.setArchivedNote(res.data);
+        })
+        .then(() => setEmptyMessage(true))
+        .catch((err) => console.log(err));
+    }
+  }, [contextValue?.user?.userId]);
 
   return (
     <div className="mt-[30px] mb-[200px] ml-[40px] max-md:ml-[20px] ">

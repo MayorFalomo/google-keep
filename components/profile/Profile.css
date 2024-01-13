@@ -1,0 +1,27 @@
+.profile{
+    position: absolute;
+    top: 40px;
+    right: 1px;
+    z-index: 9;
+    background-color: #202124;
+    width: 400px;
+    height: 350px;
+    padding: 15px;
+    border-radius: 20px;
+      box-shadow: 0.2em 0.2em calc(0.2em * 2) rgb(0,0,0, 0.4), calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) rgb(0,0,0, 0.4) !important;
+}
+
+@media (max-width: 420px) {
+    .profile{
+        position: fixed;
+        top: 50px;
+        left: 0;
+   /* max-width: 100% !important; */
+   /* max-width: 400px; */
+       background-color: #202124;
+
+   width: 100% !important;
+    height: 350px;
+    }
+
+}

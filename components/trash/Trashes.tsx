@@ -82,7 +82,7 @@ const Archives = (props: any) => {
 
   return (
     <div className=" mt-[10px] mb-[200px] ml-[40px] max-md:ml-[20px] ">
-      <h1 className="flex items-center justify-center text-center ml-[50px] text-[20px]  mb-[20px] max-sm:text-[16px] max-[850px]:ml-[5px] ">
+      <h1 className="flex items-center justify-center text-center ml-[20px] text-[20px]  mb-[20px] max-sm:text-[16px] max-[850px]:ml-[5px] ">
         <i>
           Notes in Trash are deleted after 1 day{" "}
           <span

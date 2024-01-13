@@ -85,10 +85,13 @@ const AppContextProvider = ({ children }: any) => {
     getCurrentUser(currentUser ? currentUser : "");
   }, [currentUser]);
 
+  // console.log(changeNoteLayout, "ChangeNoteLayout");
+
   const contextValue = {
     isAuth,
     setIsAuth,
     user,
+    setUser,
     notes,
     setNotes,
     currentUser,

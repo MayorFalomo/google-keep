@@ -478,7 +478,7 @@ const ShowPinned = (props: any) => {
             onClick={() => {
               setPinnedModal(false);
 
-              setOverLayBg(false);
+              // setOverLayBg(false);
               // setShowBgModal(false);
             }}
             exit={{ opacity: 0 }}

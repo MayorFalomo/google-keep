@@ -11,6 +11,8 @@ import { BiLeftArrowAlt } from "react-icons/bi";
 import { useAppContext } from "@/helpers/Helpers";
 import Tippy from "@tippyjs/react";
 import MobileNav from "../mobileNav/MobileNav";
+import Profile from "../profile/Profile";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {};
 
@@ -21,7 +23,7 @@ const Headerbar = (props: any) => {
   const [mobileSearchBar, setMobileSearchBar] = useState(false); //This state controls the mobile search bar whether it shows or not
   const [times, setTimes] = useState(false);
   const [showHover, setShowHover] = useState(false);
-
+  const [openProfileModal, setOpenProfileModal] = useState(false);
   // // console.log(times);
   // const handleClick = () => {
   //   contextValue?.setChangeNoteLayout(!contextValue.changeNoteLayout);
@@ -243,6 +245,7 @@ const Headerbar = (props: any) => {
               alt="img"
               onMouseOver={() => setShowHover(true)}
               onMouseOut={() => setShowHover(false)}
+              onClick={() => setOpenProfileModal(true)}
             />
             {showHover && (
               <div className="bg-[#393D40] absolute p-1 px-4 top-[40px] right-[1px] rounded-[8px]  ">
@@ -250,6 +253,17 @@ const Headerbar = (props: any) => {
                 <p className="text-[#ADB1B5]">{contextValue.user?.username} </p>
                 <p className="text-[#ADB1B5]">{contextValue.user?.email} </p>
               </div>
+            )}
+            {openProfileModal && (
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <Profile setOpenProfileModal={setOpenProfileModal} />
+                </motion.div>
+              </AnimatePresence>
             )}
           </div>
         </div>
