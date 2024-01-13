@@ -24,7 +24,7 @@ export default function Page() {
         }
       });
     }
-  }, [window.innerWidth]);
+  }, [contextValue?.changeNoteLayout]);
 
   // console.log(window.innerWidth, "width");
 

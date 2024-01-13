@@ -221,20 +221,23 @@ const Archive = (props: any) => {
         ) : (
           ""
         )}
-        {props?.trashedNote?.title?.length == 0 &&
-        props.note?.note?.length == 0 ? (
+        {
           <div className="p-4">
-            <input
-              className="bg-transparent border-none outline-none "
-              placeholder="Empty Note"
-            />
-          </div>
-        ) : (
-          <div className="p-4">
-            <h1 className="text-[20px]">{props?.trashedNote?.title}</h1>
-            <p className="text-[16px] whitespace-break-spaces ">
-              {props?.trashedNote?.note?.slice(0, 600)}...
-            </p>
+            {props?.trashedNote?.title?.length == 0 ? (
+              ""
+            ) : (
+              <h1 className="text-[20px]">{props?.trashedNote?.title}</h1>
+            )}
+            {props?.trashedNote?.note.length == 0 ? (
+              <input
+                className="bg-transparent border-none outline-none "
+                placeholder="Empty Note"
+              />
+            ) : (
+              <p className="text-[16px] whitespace-break-spaces ">
+                {props?.trashedNote?.note?.slice(0, 600)}...
+              </p>
+            )}
             {props?.trashedNote?.location?.length > 1 ? (
               <form>
                 <p
@@ -267,7 +270,7 @@ const Archive = (props: any) => {
               ""
             )}
           </div>
-        )}
+        }
       </div>
 
       {props?.showId == props?.trashedNote?._id ? (

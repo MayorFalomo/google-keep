@@ -111,7 +111,9 @@ const NoteModal = (props: any) => {
       //? ]);
       props.setNoteModal(false);
       contextValue?.setOverLay(false);
-      toast.success("Note updated successfully");
+      singleNote?.note == editNote
+        ? toast.success("Note updated successfully")
+        : "";
     } catch (error) {
       console.log(error);
     }
