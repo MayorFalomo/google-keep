@@ -23,7 +23,7 @@ const Label = (props: any) => {
                   cursor="pointer"
                 />
               }{" "}
-              <span>{props?.labelNotes.label} </span>
+              <span className="max-md:hidden">{props?.labelNotes.label} </span>
             </p>
           </Link>
         ) : (

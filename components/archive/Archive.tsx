@@ -538,19 +538,26 @@ const Archive = (props: any) => {
         ) : (
           ""
         )}
-        {props.archived?.title?.length == 0 && props.note?.note?.length == 0 ? (
+
+        {
           <div className="p-4">
-            <input
-              className="bg-transparent border-none outline-none "
-              placeholder="Empty Note"
-            />
-          </div>
-        ) : (
-          <div className="p-4">
-            <h1 className="text-[20px]">{props.archived?.title}</h1>
-            <p className="text-[16px] whitespace-break-spaces ">
-              {props.archived?.note?.slice(0, 600)}...
-            </p>
+            {props.archived?.title.length == 0 ? (
+              " "
+            ) : (
+              <h1 className="text-[20px]">{props.archived?.title}</h1>
+            )}
+            {props.archived?.note.length == 0 ? (
+              <div className="p-4">
+                <input
+                  className="bg-transparent border-none outline-none "
+                  placeholder="Empty Note"
+                />
+              </div>
+            ) : (
+              <p className="text-[16px] whitespace-break-spaces ">
+                {props.archived?.note?.slice(0, 600)}...
+              </p>
+            )}
             {props.archived?.location?.length > 1 ? (
               <form onSubmit={removeLocation}>
                 <p
@@ -583,7 +590,7 @@ const Archive = (props: any) => {
               ""
             )}
           </div>
-        )}
+        }
       </div>
       {props?.showId == props?.archived?._id ? (
         <Tippy placement="bottom" content="Select note">

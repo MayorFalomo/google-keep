@@ -33,11 +33,11 @@ const Archives = (props: any) => {
   const [archivedModal, setArchivedModal] = useState(false);
 
   useEffect(() => {
-    console.log(contextValue?.user?.userId, "userId");
+    // console.log(contextValue?.user?.userId, "userId");
     if (contextValue?.user?.userId) {
       axios
         .get(
-          `http://localhost:5000/api/notes/getall-archived/${contextValue?.user?.userId}`
+          `https://keep-backend-theta.vercel.app/api/notes/getall-archived/${contextValue?.user?.userId}`
         )
         .then((res: any) => {
           contextValue?.setArchivedNote(res.data);
