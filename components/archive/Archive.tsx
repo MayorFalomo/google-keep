@@ -55,7 +55,7 @@ const Archive = (props: any) => {
     // e.stopPropagation();
     props.setNoteUrlParams(props.archived?._id);
 
-    console.log(props.archived?._id, "This is the id");
+    // console.log(props.archived?._id, "This is the id");
     props?.setArchivedModal(true);
     // console.log(noteModal, "This is Note Modal");
     // props?.setNoteModal(true);

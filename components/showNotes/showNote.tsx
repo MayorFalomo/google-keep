@@ -335,7 +335,7 @@ const ShowNote = (props: any) => {
             // Update the contextValue.notes array with updated note
             contextValue?.setNotes((prevState: any) =>
               prevState.map((note: any) =>
-                note._id == props?.noteUrlParams
+                note?._id == props?.noteUrlParams
                   ? {
                       ...note,
                       ...mediaObject,
@@ -496,8 +496,10 @@ const ShowNote = (props: any) => {
           </div>
         ) : (
           <div className="p-4">
-            <h1 className="text-[20px]">{props.note?.title}</h1>
-            <p className="text-[16px] whitespace-break-spaces">
+            <h1 className="text-[20px] max-sm:text-[18px] ">
+              {props.note?.title}
+            </h1>
+            <p className="mt-[15px] text-[18px] font-medium whitespace-break-spaces max-sm:text-[16px] ">
               {props.note?.note?.slice(0, 600)}...
             </p>
             <form onSubmit={removeLocation}>

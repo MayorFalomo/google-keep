@@ -7,9 +7,27 @@ import ShowNotes from "@/components/showNotes/ShowNotes";
 import Pinned from "@/components/pinned/Pinned";
 import { useAppContext } from "@/helpers/Helpers";
 import ListView from "@/components/showNotes/ListView";
+import { useEffect } from "react";
 
 export default function Page() {
   const { contextValue }: any = useAppContext();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", () => {
+        if (window.innerWidth <= 550) {
+          contextValue?.setChangeNoteLayout(true);
+          // setActivateSwitch(true);
+        } else {
+          // setActivateSwitch(false);
+          contextValue?.setChangeNoteLayout(false);
+        }
+      });
+    }
+  }, [window.innerWidth]);
+
+  // console.log(window.innerWidth, "width");
+
   return (
     <div>
       <Headerbar />
@@ -20,7 +38,15 @@ export default function Page() {
           <div className="my-[50px]">
             <Pinned />
             <div>
-              {contextValue?.changeNoteLayout ? <ListView /> : <ShowNotes />}
+              {typeof window !== "undefined" ? (
+                window.innerWidth <= 550 || contextValue?.changeNoteLayout ? (
+                  <ListView />
+                ) : (
+                  <ShowNotes />
+                )
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
