@@ -574,7 +574,7 @@ const Notes = (props: Props) => {
         ) : (
           <AnimatePresence>
             <motion.div
-              className="flex items-center min-w-[50%] rounded-[10px] border-2 border-[#525355] max-md:w-full "
+              className="flex items-center min-w-[50%] rounded-[10px] border-2 border-[#525355] max-md:w-[95%] "
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -616,7 +616,7 @@ const Notes = (props: Props) => {
                   >
                     {
                       <BiImageAlt
-                        className=" text-[#9AA0A6]  text-[30px] max-sm:text-[20px] max-md:text-[22px] lg:text-3xl  "
+                        className=" text-[#9AA0A6]  text-[22px] max-sm:text-[20px] max-md:text-[22px] lg:text-3xl  "
                         // cursor="pointer"
                       />
                     }{" "}

@@ -109,7 +109,7 @@ const ListView = (props: any) => {
                     }}
                     className={
                       contextValue?.changeNoteLayout
-                        ? " relative max-w-[600px] min-w-[270px] w-[95%] h-fit min-h-[150px] border-2 border-[#5F6368] ml-[50px] rounded-[10px] break-words"
+                        ? " relative max-w-[600px] min-w-[270px] w-[95%] h-fit min-h-[150px] border-2 border-[#5F6368] ml-[50px]  max-md:ml-[5px] rounded-[10px] break-words"
                         : "relative max-w-[350px] min-w-[300px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] max-md:max-w-[250px] break-words "
                     }
                     style={{

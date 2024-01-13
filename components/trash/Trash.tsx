@@ -104,7 +104,6 @@ const Archive = (props: any) => {
           pinThisNote
         )
         .catch((err) => console.log(err));
-      console.log(props?.trashedNote?._id, "This is props?.trashedNote?._id");
 
       contextValue.setTrashedNotes((prevState: any) => {
         return prevState.filter(
@@ -112,10 +111,10 @@ const Archive = (props: any) => {
         );
       });
       contextValue.setPinnedNote((prevState: any) => {
-        return [...prevState, pinThisNote];
+        return [pinThisNote, ...prevState];
       });
       contextValue.setNotes((prevState: any) => {
-        return [...prevState, pinThisNote];
+        return [pinThisNote, ...prevState];
       });
       toast.success("Note Pinned Successfully!");
     } catch (err) {
@@ -163,17 +162,22 @@ const Archive = (props: any) => {
     }
   };
 
-  const deleteForever = async () => {
-    const noteId = props?.trashedNote?._id;
+  const deleteForever = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    const id = props?.trashedNote?._id;
+
     try {
-      await axios.delete(
-        `https://keep-backend-theta.vercel.app/api/notes/delete-forever/${noteId}`
+      await axios.post(
+        `https://keep-backend-theta.vercel.app/api/notes/delete-forever/${id}`
       );
+
       contextValue?.setTrashedNotes((prevState: any) =>
-        prevState.filter((note: any) => note._id !== props?.trashedNote?._id)
+        prevState.filter((note: any) => note?._id !== props?.trashedNote?._id)
       );
       toast.success("Note deleted");
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

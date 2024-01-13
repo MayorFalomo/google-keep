@@ -43,7 +43,7 @@ const ShowPinned = (props: any) => {
     setNoteUrlParams(props.pinned?._id);
     // console.log(props.note?.createdAt, "This is the id");
     setPinnedModal(true);
-    contextValue?.setOverLay(true);
+    setOverLayBg(true);
   };
 
   const unPinNote = async (e: any) => {
@@ -278,7 +278,7 @@ const ShowPinned = (props: any) => {
       </div>
       {props?.showId == props?.pinned?._id ? (
         <Tippy placement="bottom" content="Select note">
-          <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+          <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-[22px] max-md:left-[-10px] max-md:top-[-10px] border-2 border-blue-600 " />
         </Tippy>
       ) : (
         " "

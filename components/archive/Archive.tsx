@@ -22,6 +22,8 @@ import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import countryList from "react-select-country-list";
 import Select from "react-select";
 import axios from "axios";
+import NoteModal from "../createNoteModal/NoteModal";
+import ArchivedModal from "../archived/ArchivedModal";
 
 type Props = {};
 
@@ -42,6 +44,7 @@ const Archive = (props: any) => {
   const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
     false
   );
+
   const [trashNote, setTrashNote] = useState<any>();
   const changeHandler = (countryValue: any) => {
     setCountryValue(countryValue);
@@ -51,8 +54,9 @@ const Archive = (props: any) => {
     e.preventDefault();
     // e.stopPropagation();
     props.setNoteUrlParams(props.archived?._id);
+
     console.log(props.archived?._id, "This is the id");
-    props?.setNoteModal(true);
+    props?.setArchivedModal(true);
     // console.log(noteModal, "This is Note Modal");
     // props?.setNoteModal(true);
     props?.setOverLay(true);
@@ -508,7 +512,7 @@ const Archive = (props: any) => {
       }}
       className="mapped"
     >
-      <div className="subContainer" onClick={handleClick}>
+      <div onClick={handleClick} className="subContainer">
         {props?.archived?.picture ? (
           <Image
             className="w-[100%] max-h-[150px]"
@@ -848,13 +852,13 @@ const Archive = (props: any) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            {/* <NoteModal
-              noteUrlParams={props.noteUrlParams}
-              setNoteModal={props?.setNoteModal}
+            <ArchivedModal
+              archivedUrlParams={props.noteUrlParams}
+              setArchivedModal={props?.setArchivedModal}
               noteModal={props?.noteModal}
               setNoteUrlParams={props.setNoteUrlParams}
               setOverLay={props.setOverLay}
-            /> */}
+            />
           </motion.div>
         ) : null}
       </AnimatePresence>

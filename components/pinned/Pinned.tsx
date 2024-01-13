@@ -41,7 +41,7 @@ const Pinned = () => {
   // console.log(contextValue.pinnedNote);
 
   return (
-    <div className="ml-[50px] max-md:ml-[10px]">
+    <div className="ml-[50px] max-md:ml-[20px]">
       {contextValue?.pinnedNote?.length > 0 ? (
         <h1 className="text-[20px] mb-[20px]">PINNED </h1>
       ) : (
@@ -60,7 +60,7 @@ const Pinned = () => {
           >
             {contextValue?.pinnedNote?.map((pinned: any) => (
               <div
-                className="relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5f6368] mr-[25px] mb-[25px] rounded-[10px]"
+                className="relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5f6368] mr-[25px] mb-[25px] rounded-[10px] max-sm:w-[100%] "
                 style={{
                   backgroundColor: pinned?.bgColor
                     ? pinned?.bgColor

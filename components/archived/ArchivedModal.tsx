@@ -20,7 +20,7 @@ import toast, { ToastBar, Toaster } from "react-hot-toast";
 type Props = {};
 
 //Parent component is ShowNote.tsx
-const NoteModal = (props: any) => {
+const ArchivedModal = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   const [singleNote, setSingleNote] = useState<any>();
@@ -44,17 +44,17 @@ const NoteModal = (props: any) => {
   // console.log(props?.noteUrlParams, "THis is note url params");
 
   useEffect(() => {
-    if (props.noteUrlParams) {
+    if (props.archivedUrlParams) {
       axios
         .get(
-          `https://keep-backend-theta.vercel.app/api/notes/get-note/${props.noteUrlParams}`
+          `https://keep-backend-theta.vercel.app/api/notes/get-archived/${props.archivedUrlParams}`
         )
         .then((res) => setSingleNote(res.data))
         .catch((err) => console.log(err));
     }
-  }, [props?.noteUrlParams]);
+  }, [props?.archivedUrlParams]);
 
-  // console.log(singleNote?._id, "THIS IS Single Note Id");
+  //   console.log(singleNote, "THIS IS Single Note Id");
   // console.log(props.noteUrlParams, "This is noteUrlParams");
   // console.log(props, "This is props");
 
@@ -63,7 +63,7 @@ const NoteModal = (props: any) => {
     // console.log(singleNote?._id, "This is single note id");
 
     const updatedNote = {
-      _id: props.noteUrlParams,
+      _id: props.archivedUrlParams,
       note: editNote || singleNote?.note,
       title: editTitle || singleNote?.title,
       picture: editPicture || singleNote?.picture,
@@ -109,8 +109,8 @@ const NoteModal = (props: any) => {
       //? contextValue?.setNotes((prevNotes: any) => [
       //?   { ...prevNotes, ...updatedNote },
       //? ]);
-      props.setNoteModal(false);
-      contextValue?.setOverLay(false);
+      props.setArchivedModal(false);
+      props?.setOverLay(false);
       toast.success("Note updated successfully");
     } catch (error) {
       console.log(error);
@@ -119,6 +119,7 @@ const NoteModal = (props: any) => {
 
   const formattedDate: Moment = moment(singleNote?.createdAt);
 
+  //Function to calculate how big the noteModal should be based on the length of the text
   const calculateColumns = (noteLength: number) => {
     // Define your breakpoints and corresponding column numbers
     const breakpoints = [30, 100, 900]; // You can adjust these values
@@ -354,4 +355,4 @@ const ShowCanvasImage = (canvas: any) => {
   );
 };
 
-export default NoteModal;
+export default ArchivedModal;
