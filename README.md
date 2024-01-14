@@ -7,7 +7,7 @@ Keep-notepad is a Full Stack project based on the google keep notepad, It is a n
 
 https://keep-notepad.netlify.app/
 
-![Logo](https://res.cloudinary.com/dsghy4siv/image/upload/v1705009492/grhj0acavgvsbzusk5nx.png)
+![Logo](https://res.cloudinary.com/dsghy4siv/image/upload/v1705153077/k48h4trfrty3m0s6ylla.png)
 
 
 ## Features
