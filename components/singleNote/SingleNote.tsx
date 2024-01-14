@@ -9,6 +9,7 @@ import ShowNote from "../showNotes/showNote";
 
 type Props = {};
 
+//Parent component is Label[id]
 const SingleNote = (props: any) => {
   const { contextValue }: any = useAppContext();
 

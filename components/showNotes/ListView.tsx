@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ShowNote from "./showNote";
 import "./notes.css";
 import Login from "../login/Login";
+import Results from "../results/Results";
 type Props = {};
 
 const ListView = (props: any) => {
@@ -80,7 +81,10 @@ const ListView = (props: any) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            {emptyMessage ? (
+            {contextValue?.searchResults?.searchResults &&
+            contextValue?.searchValue?.length > 0 ? (
+              <Results />
+            ) : emptyMessage ? (
               contextValue?.notes?.length > 0 ? (
                 contextValue.notes?.map((note: any, index: any) => (
                   <div
@@ -97,10 +101,6 @@ const ListView = (props: any) => {
                       setShowIconsOnHover(true);
                       setShowId(note?._id);
                     }}
-                    // onTouchEnd={() => {
-                    //   setShowIconsOnHover(false);
-                    //   setShowId("");
-                    // }}
                     className=" relative max-w-[600px] min-w-[270px] w-[95%] h-fit min-h-[150px] border-2 border-[#5F6368] ml-[50px]  max-md:ml-[5px] rounded-[10px] break-words"
                     style={{
                       backgroundColor: note?.bgColor

@@ -14,6 +14,7 @@ import EditLabel from "../editLabel/EditLabel";
 import { AnimatePresence, motion } from "framer-motion";
 import MobileNav from "../mobileNav/MobileNav";
 import { usePathname } from "next/navigation";
+import { BsPersonFill } from "react-icons/bs";
 // import "../../app/Home.module.css"
 type Props = {};
 
@@ -178,6 +179,26 @@ const Navbar = ({ note }: any) => {
                   }{" "}
                 </span>
                 <span className="max-md:hidden">Trash </span>
+              </li>
+            </Link>
+
+            <Link href="/allusers">
+              {" "}
+              <li
+                className={`flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer ${
+                  currentRoute == "/allusers" ? "bg-[#41331C]" : ""
+                } `}
+              >
+                <span className="">
+                  {
+                    <BsPersonFill
+                      className=" max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
+                      color="#9AA0A6"
+                      cursor="pointer"
+                    />
+                  }{" "}
+                </span>
+                <span className="max-md:hidden">All Users </span>
               </li>
             </Link>
           </ul>

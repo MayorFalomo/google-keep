@@ -39,6 +39,8 @@ const AppContextProvider = ({ children }: any) => {
   const [editLabelModal, setEditLabelModal] = useState<boolean>(false);
   const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
   const [openMobileNav, setOpenMobileNav] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   // const [cookies, setCookies] = useCookies(["user"]);
 
@@ -122,6 +124,10 @@ const AppContextProvider = ({ children }: any) => {
     setOverLay,
     openMobileNav,
     setOpenMobileNav,
+    searchResults,
+    setSearchResults,
+    searchValue,
+    setSearchValue,
     // changeLayout,
     // setChangeLayout,
   };

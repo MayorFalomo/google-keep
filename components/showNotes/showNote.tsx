@@ -121,7 +121,7 @@ const ShowNote = (props: any) => {
       canvas: props.note?.canvas,
       createdAt: new Date(),
     };
-    console.log(props?.note?.canvas);
+    // console.log(props?.note?.canvas);
 
     try {
       await axios
@@ -296,71 +296,7 @@ const ShowNote = (props: any) => {
     }
   };
 
-  const uploadMedia = (files: any, mediaType: string) => {
-    props.setNoteUrlParams(props.note?._id);
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    formData.append("upload_preset", "t3dil6ur");
-
-    const uploadEndpoint =
-      mediaType == "image"
-        ? "https://api.cloudinary.com/v1_1/dsghy4siv/image/upload"
-        : "https://api.cloudinary.com/v1_1/dsghy4siv/video/upload";
-
-    axios
-      .post(uploadEndpoint, formData)
-      .then((res) => {
-        // setPicture("");
-        // setVideo("");
-
-        if (res.data.url) {
-          const mediaObject =
-            mediaType == "image"
-              ? { picture: res.data.url, video: "" }
-              : { video: res.data.url, picture: "" };
-
-          const updateEndpoint =
-            mediaType == "image"
-              ? "https://keep-backend-theta.vercel.app/api/notes/upload-picture"
-              : "https://keep-backend-theta.vercel.app/api/notes/upload-video";
-
-          try {
-            axios
-              .post(updateEndpoint, {
-                id: props?.noteUrlParams,
-                ...mediaObject,
-              })
-              .catch((err) => console.log(err));
-
-            // Update the contextValue.notes array with updated note
-            contextValue?.setNotes((prevState: any) =>
-              prevState.map((note: any) =>
-                note?._id == props?.noteUrlParams
-                  ? {
-                      ...note,
-                      ...mediaObject,
-                    }
-                  : note
-              )
-            );
-
-            toast.success(
-              mediaType == "image"
-                ? "Picture has been uploaded successfully"
-                : "Video has been uploaded successfully"
-            );
-          } catch (error) {
-            console.error(
-              error &&
-                (mediaType == "image"
-                  ? "Error updating picture"
-                  : "Error updating video")
-            );
-          }
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+  // console.log(props?.noteUrlParams, "This is note props");
 
   const archiveNote = async (e: any) => {
     e.preventDefault();
@@ -444,8 +380,75 @@ const ShowNote = (props: any) => {
     setOpenNotifyModal(false);
     props?.setShowBgModal(false);
   };
-  // console.log(props?.note, "This is note props");
 
+  const uploadPicOrVid = async (files: any, mediaType: any) => {
+    props.setNoteUrlParams(props.note?._id);
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "t3dil6ur");
+
+    const uploadEndpoint =
+      mediaType == "image"
+        ? "https://api.cloudinary.com/v1_1/dsghy4siv/image/upload"
+        : "https://api.cloudinary.com/v1_1/dsghy4siv/video/upload";
+
+    await axios
+      .post(uploadEndpoint, formData)
+      .then(async (res) => {
+        // setPicture("");
+        // setVideo("");
+
+        if (res.data.url) {
+          const mediaObject =
+            mediaType == "image"
+              ? { picture: res.data.url, video: "" }
+              : { video: res.data.url, picture: "" };
+
+          const updateEndpoint =
+            mediaType == "image"
+              ? "http://localhost:5000/api/notes/upload-picture"
+              : "http://keep-backend-theta.vercel.app/api/notes/upload-video";
+
+          try {
+            // console.log(mediaObject, "mediaObject");
+            // console.log(props?.note?._id, "id");
+
+            await axios
+              .post(updateEndpoint, {
+                _id: props.note?._id,
+                ...mediaObject,
+              })
+              .catch((err) => console.log(err));
+
+            // Update the contextValue.notes array with updated note
+            contextValue?.setNotes((prevState: any) =>
+              prevState.map((note: any) =>
+                note._id == props?.noteUrlParams
+                  ? {
+                      ...note,
+                      ...mediaObject,
+                    }
+                  : note
+              )
+            );
+
+            toast.success(
+              mediaType == "image"
+                ? "Picture has been uploaded successfully"
+                : "Video has been uploaded successfully"
+            );
+          } catch (error) {
+            console.error(
+              error &&
+                (mediaType == "image"
+                  ? "Error updating picture"
+                  : "Error updating video")
+            );
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   // console.log(props?.note.canvas, "This is props");
 
   return (
@@ -487,54 +490,64 @@ const ShowNote = (props: any) => {
         ) : (
           ""
         )}
-        {props.note?.title?.length == 0 && props.note?.note?.length == 0 ? (
+        {
           <div className="p-4">
-            <input
-              className="bg-transparent border-none outline-none "
-              placeholder="Empty Note"
-            />
-          </div>
-        ) : (
-          <div className="p-4">
-            <h1 className="text-[20px] max-sm:text-[18px] ">
-              {props.note?.title}
-            </h1>
-            <p className="mt-[15px] text-[18px] font-medium whitespace-break-spaces max-sm:text-[16px] ">
-              {props.note?.note?.slice(0, 600)}...
-            </p>
-            <form onSubmit={removeLocation}>
-              {props.note?.location ? (
-                <p
-                  onMouseOver={() => {
-                    setCloseIcon(true);
-                  }}
-                  onMouseLeave={() => setCloseIcon(false)}
-                  className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
-                >
-                  <IoLocationOutline />
-                  {props.note?.location}{" "}
-                  <button
-                    type="submit"
-                    onClick={(e) => {
-                      e.stopPropagation();
+            {props.note?.title ? (
+              <h1 className="text-[20px] max-sm:text-[18px] ">
+                {props.note?.title}
+              </h1>
+            ) : (
+              ""
+            )}
+            {props.note?.note ? (
+              <p className="mt-[15px] text-[18px] font-medium whitespace-break-spaces max-sm:text-[16px] ">
+                {props.note?.note?.slice(0, 600)}...
+              </p>
+            ) : (
+              <input
+                className="bg-transparent border-none outline-none "
+                placeholder="Empty Note"
+              />
+            )}
+            {props.note?.location?.length > 0 ? (
+              <form onSubmit={removeLocation}>
+                {props.note?.location?.length > 0 ? (
+                  <p
+                    onMouseOver={() => {
+                      setCloseIcon(true);
                     }}
-                    className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
+                    onMouseLeave={() => setCloseIcon(false)}
+                    className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
                   >
-                    {closeIcon ? (
-                      <Tippy placement="bottom" content="Delete location ">
-                        <IoCloseOutline />
-                      </Tippy>
-                    ) : (
-                      ""
-                    )}{" "}
-                  </button>
-                </p>
-              ) : (
-                ""
-              )}
-            </form>
+                    <IoLocationOutline />
+                    {props.note?.location}{" "}
+                    <button
+                      type="submit"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
+                    >
+                      {closeIcon ? (
+                        <Tippy placement="bottom" content="Delete location ">
+                          <span>
+                            <IoCloseOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px] " />
+                          </span>
+                        </Tippy>
+                      ) : (
+                        ""
+                      )}{" "}
+                    </button>
+                  </p>
+                ) : (
+                  ""
+                )}
+              </form>
+            ) : (
+              ""
+            )}
           </div>
-        )}
+        }
       </div>
       {props?.showId == props?.note?._id ? (
         <Tippy placement="bottom" content="Select note">
@@ -555,7 +568,7 @@ const ShowNote = (props: any) => {
           }}
           className={
             contextValue?.changeNoteLayout
-              ? "absolute z-10 bottom-[6px] left-0 w-full  flex justify-around item-center "
+              ? "absolute z-10 bottom-[6px] left-0 w-full  flex justify-around item-end"
               : "absolute z-10 bottom-[6px] left-0 w-full flex justify-around item-center "
           }
         >
@@ -715,13 +728,15 @@ const ShowNote = (props: any) => {
             </span>
           </Tippy>
 
-          <Tippy placement="bottom" content="Add image">
+          {/* <Tippy placement="bottom" content="Add image">
             <label
-              onClick={() => {
-                props.setNoteUrlParams(props.note?._id);
-              }}
-              htmlFor="fileInputImage"
-              className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 "
+              // onClick={(e) => {
+              //   // e.stopPropagation();
+              //   props.setNoteUrlParams(props.note?._id);
+              //   uploadPicOrVid;
+              // }}
+              htmlFor="fileInput"
+              className="p-2 border-2 border-red-600 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 "
             >
               {
                 <BiImageAlt
@@ -733,11 +748,35 @@ const ShowNote = (props: any) => {
           </Tippy>
           <input
             type="file"
-            onChange={(e) => uploadMedia(e.target.files, "image")}
-            id="fileInputImage"
+            onClick={() => uploadPicOrVid}
+            onChange={(e) => uploadPicOrVid}
+            id="fileInput"
             style={{ display: "none" }}
-          />
-
+          /> */}
+          <form
+            className="flex items-center p-2"
+            onSubmit={(e) => uploadPicOrVid(e, "images")}
+          >
+            <Tippy placement="bottom" content="Add image">
+              <label
+                htmlFor="fileInputFile"
+                className=" rounded-full hover:bg-[#313236] transition ease-in-out delay-150 "
+              >
+                {
+                  <BiImageAlt
+                    className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                    cursor="pointer"
+                  />
+                }{" "}
+              </label>
+            </Tippy>
+            <input
+              type="file"
+              onChange={(e) => uploadPicOrVid(e.target.files, "image")}
+              id="fileInputFile"
+              style={{ display: "none" }}
+            />
+          </form>
           <form onSubmit={archiveNote}>
             <Tippy placement="bottom" content="Archive ">
               <button

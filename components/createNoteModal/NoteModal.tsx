@@ -13,9 +13,14 @@ import {
 } from "react-icons/bi";
 import { BsPin } from "react-icons/bs";
 import { GrRedo } from "react-icons/gr";
-import { IoColorPaletteOutline } from "react-icons/io5";
+import {
+  IoCloseOutline,
+  IoColorPaletteOutline,
+  IoLocationOutline,
+} from "react-icons/io5";
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
+import Tippy from "@tippyjs/react";
 
 type Props = {};
 
@@ -34,7 +39,7 @@ const NoteModal = (props: any) => {
   const [editCollaborator, setEditCollaborator] = useState<any>([]);
   const [label, setLabel] = useState<any>([]);
   const [noteCanvas, setNoteCanvas] = useState<any>([]);
-
+  const [closeIcon, setCloseIcon] = useState(false);
   const [editLocation, EditLocation] = useState<string>("");
   const [id, setId] = useState<string>(props.noteUrlParams);
   const [row, setRow] = useState<boolean>(false);
@@ -120,6 +125,35 @@ const NoteModal = (props: any) => {
   };
 
   const formattedDate: Moment = moment(singleNote?.createdAt);
+
+  const removeLocation = async (e: any) => {
+    e.preventDefault();
+    props?.setNoteModal(false);
+
+    const noteId = props.note?._id;
+
+    try {
+      props?.setNoteModal(false);
+      await axios.put(
+        `https://keep-backend-theta.vercel.app/api/notes/delete-country/${noteId}`
+      );
+      // console.log(noteId, "This is noteId");
+
+      contextValue?.setNotes((prevNotes: any) => {
+        const updatedNotes = prevNotes.map((note: any) => {
+          if (note._id == noteId) {
+            // Update the location to an empty string for the specific note
+            return { ...note, location: " " };
+          }
+          return note;
+        });
+        return updatedNotes;
+      });
+      // setPickALocation(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const calculateColumns = (noteLength: number) => {
     // Define your breakpoints and corresponding column numbers
@@ -218,6 +252,37 @@ const NoteModal = (props: any) => {
               }}
             />
           </div>
+          <form onSubmit={removeLocation}>
+            {props.note?.location ? (
+              <p
+                onMouseOver={() => {
+                  setCloseIcon(true);
+                }}
+                onMouseLeave={() => setCloseIcon(false)}
+                className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
+              >
+                <IoLocationOutline />
+                {props.note?.location}{" "}
+                <button
+                  type="submit"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
+                >
+                  {closeIcon ? (
+                    <Tippy placement="bottom" content="Delete location ">
+                      <IoCloseOutline />
+                    </Tippy>
+                  ) : (
+                    ""
+                  )}{" "}
+                </button>
+              </p>
+            ) : (
+              ""
+            )}
+          </form>
           <p className="flex justify-end m-2  ">
             Edited {formattedDate.format("MMMM Do")}{" "}
           </p>

@@ -40,6 +40,7 @@ import CreateLabel from "../label/CreateLabel";
 
 type Props = {};
 
+//Parent component is SingleNote.tsx
 const Single = (props: any) => {
   const { contextValue }: any = useAppContext();
 
@@ -284,102 +285,6 @@ const Single = (props: any) => {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const uploadImage = (files: any) => {
-    props.setNoteUrlParams(props.note?._id);
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    formData.append("upload_preset", "t3dil6ur");
-
-    axios
-      .post("https://api.cloudinary.com/v1_1/dsghy4siv/image/upload", formData)
-      .then((res) => {
-        setVideo("");
-        setPicture(res.data.url);
-        if (res.data.url) {
-          const pictureObject = {
-            id: props?.noteUrlParams,
-            picture: res.data.url,
-            video: " ",
-          };
-
-          try {
-            // console.log(props?.note?._id, "This is props?.note?._id");
-            axios
-              .post(
-                `https://keep-backend-theta.vercel.app/api/notes/upload-picture`,
-                pictureObject
-              )
-              .catch((err) => console.log(err));
-
-            // Update the contextValue.notes array with updated note
-            contextValue?.setNotes((prevState: any) =>
-              prevState.map((note: any) =>
-                note._id == pictureObject?.id
-                  ? {
-                      ...note,
-                      picture: pictureObject?.picture,
-                      video: pictureObject?.video,
-                    }
-                  : note
-              )
-            );
-            toast.success("Picture has been uploaded successfully");
-          } catch (error) {
-            console.error(error && "Error updating bgColor:");
-          }
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const uploadVideo = (files: any) => {
-    props.setNoteUrlParams(props.note?._id);
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    formData.append("upload_preset", "t3dil6ur");
-
-    axios
-      .post("https://api.cloudinary.com/v1_1/dsghy4siv/video/upload", formData)
-      .then((res) => {
-        setPicture("");
-        setVideo(res.data.url);
-        if (res.data.url) {
-          const videoObject = {
-            id: props?.noteUrlParams,
-            video: res.data.url,
-            picture: " ",
-          };
-
-          try {
-            // console.log(props?.note?._id, "This is props?.note?._id");
-            axios
-              .post(
-                `https://keep-backend-theta.vercel.app/api/notes/upload-video`,
-                videoObject
-              )
-              .catch((err) => console.log(err));
-
-            // Update the contextValue.notes array with updated note
-            contextValue?.setNotes((prevState: any) =>
-              prevState.map((note: any) =>
-                note._id == videoObject?.id
-                  ? {
-                      ...note,
-                      video: videoObject?.video,
-                      picture: videoObject?.picture,
-                    }
-                  : note
-              )
-            );
-            toast.success("Video has been uploaded successfully");
-          } catch (error) {
-            console.error(error && "Error updating Video");
-          }
-        }
-      })
-      .catch((err) => console.log(err));
   };
 
   const uploadMedia = (files: any, mediaType: string) => {
