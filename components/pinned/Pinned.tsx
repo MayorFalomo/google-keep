@@ -43,7 +43,7 @@ const Pinned = () => {
   return (
     <div className="ml-[50px] max-md:ml-[20px]">
       {contextValue?.pinnedNote?.length > 0 ? (
-        <h1 className="text-[20px] mb-[20px]">PINNED </h1>
+        <h1 className="text-[20px] mb-[20px]  max-sm:text-[18px] ">PINNED </h1>
       ) : (
         ""
       )}
@@ -77,6 +77,10 @@ const Pinned = () => {
                 onMouseLeave={() => {
                   setShowIconsOnHover(false);
                   setShowId("");
+                }}
+                onTouchStart={() => {
+                  setShowIconsOnHover(true);
+                  setShowId(pinned?._id);
                 }}
                 key={pinned?._id}
               >

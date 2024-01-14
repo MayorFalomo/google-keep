@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ShowNote from "./showNote";
 import "./notes.css";
 import Login from "../login/Login";
+import Results from "../results/Results";
 // import Masonry from "masonry-layout";
 type Props = {};
 
@@ -109,9 +110,13 @@ const ShowNotes = (props: any) => {
 
   switchLayout();
 
+  console.log(contextValue?.searchResults?.searchResults);
+
   return (
     <div className="ml-[50px] max-md:ml-[20px] ">
-      <h1 className="text-[#8A949E] text-[20px]  mb-[20px]">OTHERS </h1>
+      <h1 className="text-[#8A949E] text-[20px]  mb-[20px] max-sm:text-[18px] ">
+        OTHERS{" "}
+      </h1>
       <AnimatePresence>
         {
           <motion.div
@@ -124,7 +129,10 @@ const ShowNotes = (props: any) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            {emptyMessage ? (
+            {contextValue?.searchResults?.searchResults &&
+            contextValue?.searchValue?.length > 0 ? (
+              <Results />
+            ) : emptyMessage ? (
               contextValue?.notes?.length > 0 ? (
                 contextValue.notes?.map((note: any, index: any) => (
                   <div
@@ -142,7 +150,7 @@ const ShowNotes = (props: any) => {
                       setShowId(note?._id);
                     }}
                     className={
-                      "relative max-w-[350px] min-w-[300px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] max-md:max-w-[250px] break-words "
+                      "relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] max-md:max-w-[250px] break-words "
                     }
                     style={{
                       backgroundColor: note?.bgColor

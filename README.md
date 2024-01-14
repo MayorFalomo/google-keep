@@ -11,7 +11,7 @@ https://keep-notepad.netlify.app/
 
 
 ## Features
-
+- Masonry Layout && row Layout
 - Create Notes & View each Notes
 - Add a Canvas to any note / Create a Canvas as a note.
 - Set Remainders for your notes for Morning, Afternoon, Evening, Tomorrow or Next Week Monday.
@@ -25,7 +25,7 @@ https://keep-notepad.netlify.app/
 - Edit a Note
 - Add Tags/Label to your notes for easier sorting and find notes by the tags.
 - Add Location to your notes.
-- View your profile.
+- View your profile && Edit your profile.
 - See other users so you can send notes
 - currently working on adding Drag and Drop functionality to each note.
 - currently working on translating note to your custom language.

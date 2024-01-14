@@ -31,7 +31,7 @@ const Notes = (props: Props) => {
   const [note, setNote] = useState<string>("");
   const [picture, setPicture] = useState<string>("");
   const [video, setVideo] = useState<string>("");
-  const [drawing, setDrawing] = useState<string>("");
+  // const [drawing, setDrawing] = useState<string>("");
   const [bgImage, setBgImage] = useState<string>("");
   const [bgColor, setBgColor] = useState<string>("");
   const [remainder, setRemainder] = useState<boolean>(false);
@@ -74,7 +74,6 @@ const Notes = (props: Props) => {
       note,
       picture,
       video,
-      drawing,
       bgImage,
       bgColor,
       remainder,
@@ -138,7 +137,7 @@ const Notes = (props: Props) => {
             username: contextValue.user?.username,
             title,
             note,
-            drawing,
+            // drawing,
             bgImage,
             bgColor,
             remainder,
@@ -198,7 +197,7 @@ const Notes = (props: Props) => {
     note,
     picture,
     video,
-    drawing,
+    // drawing,
     bgImage,
     bgColor,
     remainder,
@@ -322,7 +321,7 @@ const Notes = (props: Props) => {
       note,
       picture,
       video,
-      drawing,
+      // drawing,
       bgImage,
       bgColor,
       remainder,
@@ -566,7 +565,7 @@ const Notes = (props: Props) => {
                   // onClick={() => }
                   className="cursor-pointer "
                 >
-                  Close{" "}
+                  Save{" "}
                 </button>
               </div>
             </motion.div>

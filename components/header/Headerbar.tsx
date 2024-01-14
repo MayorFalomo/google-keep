@@ -13,17 +13,19 @@ import Tippy from "@tippyjs/react";
 import MobileNav from "../mobileNav/MobileNav";
 import Profile from "../profile/Profile";
 import { AnimatePresence, motion } from "framer-motion";
+import axios from "axios";
 
 type Props = {};
 
 const Headerbar = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  const [activeInput, setActiveInput] = useState(false); //Changes the background colour
-  const [mobileSearchBar, setMobileSearchBar] = useState(false); //This state controls the mobile search bar whether it shows or not
-  const [times, setTimes] = useState(false);
-  const [showHover, setShowHover] = useState(false);
-  const [openProfileModal, setOpenProfileModal] = useState(false);
+  const [activeInput, setActiveInput] = useState<boolean>(false); //Changes the background colour
+  const [mobileSearchBar, setMobileSearchBar] = useState<boolean>(false); //This state controls the mobile search bar whether it shows or not
+  const [times, setTimes] = useState<boolean>(false);
+  const [showHover, setShowHover] = useState<boolean>(false);
+  const [openProfileModal, setOpenProfileModal] = useState<boolean>(false);
+
   // // console.log(times);
   // const handleClick = () => {
   //   contextValue?.setChangeNoteLayout(!contextValue.changeNoteLayout);
@@ -35,11 +37,31 @@ const Headerbar = (props: any) => {
 
   // console.log(contextValue?.openMobileNav);
 
+  const handleInputChange = (e: any) => {
+    const value = e.target.value;
+    contextValue?.setSearchValue(value);
+    fetchNotes(value);
+  }; //This function handles the input change
+  const fetchNotes = async (query: string) => {
+    if (query) {
+      try {
+        await axios
+          .get(
+            `http://localhost:5000/api/notes/search-notes?searchQuery=${query}`
+          )
+          .then((res) => contextValue?.setSearchResults(res.data))
+          .catch((err) => console.log(err));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode max-[550px]:mb-2 max-[550px]:p-2 ">
       <div className="flex items-center justify-between gap-16 w-[60%] min-[850px]:  ">
         {mobileSearchBar ? (
-          <form className="bg-white flex items-center rounded-xl px-4 ">
+          <form className="border-2 border-red-500 bg-white flex items-center rounded-xl px-4 ">
             <Tippy placement="bottom" content="Refresh">
               <span className="bg-#fff border-2 px-1 outline-none border-none  ">
                 {
@@ -53,7 +75,7 @@ const Headerbar = (props: any) => {
               </span>
             </Tippy>
             <input
-              className="bg-white text-black w-full rounded-xl text-#000 py-2 border-none outline-none placeholder:text-[16px] font-weight: black "
+              className="bg-white  text-black w-full rounded-xl text-#000 py-2 border-none outline-none placeholder:text-[16px] font-weight: black "
               placeholder="Search"
               type="text"
             />
@@ -107,13 +129,14 @@ const Headerbar = (props: any) => {
           </div>
         )}
         <form
+          onSubmit={handleInputChange}
           className={
             activeInput
               ? "max-md:hidden flex items-center bg-white w-full rounded-xl py-2 px-6"
               : "max-md:hidden flex items-center bg-searchbar w-full rounded-xl py-2 px-6 "
           }
         >
-          <span>
+          <button type="submit">
             {
               <HiSearch
                 className="sm:text-[18px] md:text-[18px] lg:text-[22px]"
@@ -121,7 +144,7 @@ const Headerbar = (props: any) => {
                 cursor="pointer"
               />
             }{" "}
-          </span>
+          </button>
           <input
             onClick={() => {
               setActiveInput(true);
@@ -133,6 +156,8 @@ const Headerbar = (props: any) => {
                 : "p-1 bg-searchbar border-none outline-none placeholder:text-[#E9E9E9] text-[18px] font-weight: black"
             }
             type="text"
+            value={contextValue?.searchValue}
+            onChange={handleInputChange}
             placeholder="Search"
           />
           {activeInput ? (
