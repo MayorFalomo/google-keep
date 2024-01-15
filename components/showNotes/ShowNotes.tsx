@@ -110,7 +110,7 @@ const ShowNotes = (props: any) => {
 
   switchLayout();
 
-  console.log(contextValue?.searchResults?.searchResults);
+  // console.log(contextValue?.searchResults?.searchResults);
 
   return (
     <div className="ml-[50px] max-md:ml-[20px] ">

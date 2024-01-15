@@ -23,7 +23,7 @@ const AppContextProvider = ({ children }: any) => {
   }, []);
 
   // const localStorageId = localStorage.getItem("user");
-  const [isAuth, setIsAuth] = useState(true);
+  // const [isAuth, setIsAuth] = useState(true);
   const [user, setUser] = useState(null);
   const [notes, setNotes] = useState([]);
   const currentUser = getCookie("user") || activeId;
@@ -41,19 +41,8 @@ const AppContextProvider = ({ children }: any) => {
   const [openMobileNav, setOpenMobileNav] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchValue, setSearchValue] = useState<string>("");
-
+  const [isSelected, setIsSelected] = useState([]);
   // const [cookies, setCookies] = useCookies(["user"]);
-
-  //Define functions for updating state
-  const login = (user: any) => {
-    setIsAuth(true);
-    setUser(user);
-  };
-
-  const logout = () => {
-    setIsAuth(false);
-    setUser(null);
-  };
 
   // console.log(currentUser, "currentUser");
 
@@ -90,16 +79,14 @@ const AppContextProvider = ({ children }: any) => {
   // console.log(changeNoteLayout, "ChangeNoteLayout");
 
   const contextValue = {
-    isAuth,
-    setIsAuth,
+    // isAuth,
+    // setIsAuth,
     user,
     setUser,
     notes,
     setNotes,
     currentUser,
     getCurrentUser,
-    login,
-    logout,
     openTextArea,
     setOpenTextArea,
     noteModal,
@@ -128,6 +115,8 @@ const AppContextProvider = ({ children }: any) => {
     setSearchResults,
     searchValue,
     setSearchValue,
+    isSelected,
+    setIsSelected,
     // changeLayout,
     // setChangeLayout,
   };
