@@ -449,7 +449,8 @@ const ShowNote = (props: any) => {
       })
       .catch((err) => console.log(err));
   };
-  // console.log(props?.note.canvas, "This is props");
+
+  const selectedNotes = () => {};
 
   return (
     <div

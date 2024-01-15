@@ -61,7 +61,7 @@ const Headerbar = (props: any) => {
     <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode max-[550px]:mb-2 max-[550px]:p-2 ">
       <div className="flex items-center justify-between gap-16 w-[60%] min-[850px]:  ">
         {mobileSearchBar ? (
-          <form className="border-2 border-red-500 bg-white flex items-center rounded-xl px-4 ">
+          <form className=" bg-white flex items-center rounded-xl px-4 ">
             <Tippy placement="bottom" content="Refresh">
               <span className="bg-#fff border-2 px-1 outline-none border-none  ">
                 {
@@ -262,16 +262,26 @@ const Headerbar = (props: any) => {
             </span>
           </Tippy>
           <div className="relative h-[45px] w-[45px] rounded-full max-sm:h-[40px] max-sm:w-[40px] ">
-            <img
+            <div
+              style={{
+                backgroundImage: `url(${contextValue.user?.profilePic})`,
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+              }}
+              onMouseOver={() => setShowHover(true)}
+              onMouseOut={() => setShowHover(false)}
+              onClick={() => setOpenProfileModal(!openProfileModal)}
+              className="w-[50px] h-[50px] rounded-full bg-[#313236]"
+            ></div>
+            {/* <img
               className="w-[100%] h-[100%] rounded-full  "
               src={contextValue.user?.profilePic}
               width="40"
               height="50"
               alt="img"
-              onMouseOver={() => setShowHover(true)}
-              onMouseOut={() => setShowHover(false)}
-              onClick={() => setOpenProfileModal(true)}
-            />
+             
+            /> */}
             {showHover && (
               <div className="bg-[#393D40] absolute p-1 px-4 top-[40px] right-[1px] rounded-[8px]  ">
                 <span>Google Account </span>
