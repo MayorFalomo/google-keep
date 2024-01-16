@@ -450,7 +450,41 @@ const ShowNote = (props: any) => {
       .catch((err) => console.log(err));
   };
 
-  const selectedNotes = () => {};
+  const selectedNotes = () => {
+    contextValue?.setIsSelectedShow(true);
+    props?.setNoteUrlParams(props?.note?._id);
+    contextValue?.setIsSelected((prevState: any) => [
+      props?.note?._id,
+      ...prevState,
+    ]);
+  };
+
+  const unSelectNotes = () => {
+    contextValue?.setIsSelectedShow(false);
+    props?.setNoteUrlParams(props?.note?._id);
+    contextValue?.setIsSelected((prevState: any) => [
+      prevState.filter((note: any) => note !== props?.note?._id),
+    ]);
+  };
+
+  // const selectedNotes = () => {
+  //   contextValue?.isSelected((prevState:any) =>
+  //     prevState.map((selected:any) =>
+  //       selected._id == props?.note?._id
+  //         ? [...selected, props?.note?._id]
+  //         : selected
+  //     )
+  //   );
+  // };
+
+  console.log(contextValue?.isSelected, "This is isSelected");
+  // console.log(props?.noteUrlParams, "This is isSelected");
+
+  console.log(
+    contextValue?.isSelected?.some((pinned: any) =>
+      pinned == props.note?._id ? "Hello World" : "Boo"
+    )
+  );
 
   return (
     <div
@@ -550,12 +584,26 @@ const ShowNote = (props: any) => {
           </div>
         }
       </div>
-      {props?.showId == props?.note?._id ? (
-        <Tippy placement="bottom" content="Select note">
-          <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+      {contextValue.isSelected.some(
+        (selected: any) => selected == props?.note?._id
+      ) ? (
+        <Tippy placement="bottom" content="unselect note">
+          <span
+            onClick={unSelectNotes}
+            className="absolute top-[-18px] left-[-18px] border-2 border-red-400 z-10 "
+          >
+            <BsCheck className="  bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+          </span>
         </Tippy>
       ) : (
-        " "
+        <Tippy placement="bottom" content="select note">
+          <span
+            onClick={selectedNotes}
+            className="absolute top-[-18px] left-[-18px] z-10 border-2 border-blue-400 "
+          >
+            <BsCheck className="  bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+          </span>
+        </Tippy>
       )}
       {props?.showId == props?.note?._id ? (
         <div
