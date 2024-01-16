@@ -42,7 +42,7 @@ const AppContextProvider = ({ children }: any) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchValue, setSearchValue] = useState<string>("");
   const [isSelected, setIsSelected] = useState([]);
-  // const [cookies, setCookies] = useCookies(["user"]);
+  const [isSelectedShow, setIsSelectedShow] = useState(false);
 
   // console.log(currentUser, "currentUser");
 
@@ -117,6 +117,8 @@ const AppContextProvider = ({ children }: any) => {
     setSearchValue,
     isSelected,
     setIsSelected,
+    isSelectedShow,
+    setIsSelectedShow,
     // changeLayout,
     // setChangeLayout,
   };

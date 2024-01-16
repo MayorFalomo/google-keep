@@ -14,6 +14,7 @@ import MobileNav from "../mobileNav/MobileNav";
 import Profile from "../profile/Profile";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
+import { TfiTrash } from "react-icons/tfi";
 
 type Props = {};
 
@@ -54,6 +55,31 @@ const Headerbar = (props: any) => {
       } catch (err) {
         console.log(err);
       }
+    }
+  };
+
+  //
+
+  const trashSelectedNotes = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    const arrayOfTrashIds = contextValue?.isSelected;
+    try {
+      console.log(arrayOfTrashIds, "Array of trash ids");
+
+      await axios
+        .post("http://localhost:5000/api/notes/trash/selected-notes", {
+          arrayOfTrashIds,
+        })
+        .catch((err) => console.log(err));
+
+      contextValue?.setNotes((prevNotes: any) => {
+        return prevNotes.filter(
+          (note: any) => !contextValue?.isSelected.includes(note._id)
+        );
+      });
+      contextValue?.setIsSelected([]);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -191,6 +217,19 @@ const Headerbar = (props: any) => {
               />
             }{" "}
           </span>
+          {contextValue?.isSelectedShow && (
+            <form onSubmit={trashSelectedNotes}>
+              <button type="submit" className="">
+                {
+                  <TfiTrash
+                    className=" max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
+                    color="#9AA0A6"
+                    cursor="pointer"
+                  />
+                }{" "}
+              </button>
+            </form>
+          )}
           <Tippy placement="bottom" content="Refresh">
             <span
               onClick={() => window.location.reload()}
