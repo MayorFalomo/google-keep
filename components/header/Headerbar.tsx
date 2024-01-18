@@ -15,6 +15,8 @@ import Profile from "../profile/Profile";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { TfiTrash } from "react-icons/tfi";
+import SelectedBar from "../selectedbar/SelectedBar";
+import { useDebounce } from "../hook/useDebounce";
 
 type Props = {};
 
@@ -26,7 +28,7 @@ const Headerbar = (props: any) => {
   const [times, setTimes] = useState<boolean>(false);
   const [showHover, setShowHover] = useState<boolean>(false);
   const [openProfileModal, setOpenProfileModal] = useState<boolean>(false);
-
+  const debounceSearch = useDebounce(contextValue?.searchValue, 500);
   // // console.log(times);
   // const handleClick = () => {
   //   contextValue?.setChangeNoteLayout(!contextValue.changeNoteLayout);
@@ -41,14 +43,14 @@ const Headerbar = (props: any) => {
   const handleInputChange = (e: any) => {
     const value = e.target.value;
     contextValue?.setSearchValue(value);
-    fetchNotes(value);
+    fetchNotes(debounceSearch);
   }; //This function handles the input change
   const fetchNotes = async (query: string) => {
     if (query) {
       try {
         await axios
           .get(
-            `http://localhost:5000/api/notes/search-notes?searchQuery=${query}`
+            `http://keep-backend-theta.vercel.app/api/notes/search-notes?searchQuery=${query}`
           )
           .then((res) => contextValue?.setSearchResults(res.data))
           .catch((err) => console.log(err));
@@ -59,29 +61,6 @@ const Headerbar = (props: any) => {
   };
 
   //
-
-  const trashSelectedNotes = async (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    const arrayOfTrashIds = contextValue?.isSelected;
-    try {
-      console.log(arrayOfTrashIds, "Array of trash ids");
-
-      await axios
-        .post("http://localhost:5000/api/notes/trash/selected-notes", {
-          arrayOfTrashIds,
-        })
-        .catch((err) => console.log(err));
-
-      contextValue?.setNotes((prevNotes: any) => {
-        return prevNotes.filter(
-          (note: any) => !contextValue?.isSelected.includes(note._id)
-        );
-      });
-      contextValue?.setIsSelected([]);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode max-[550px]:mb-2 max-[550px]:p-2 ">
@@ -217,19 +196,7 @@ const Headerbar = (props: any) => {
               />
             }{" "}
           </span>
-          {contextValue?.isSelectedShow && (
-            <form onSubmit={trashSelectedNotes}>
-              <button type="submit" className="">
-                {
-                  <TfiTrash
-                    className=" max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
-                    color="#9AA0A6"
-                    cursor="pointer"
-                  />
-                }{" "}
-              </button>
-            </form>
-          )}
+          {contextValue?.isSelected.length > 0 && <SelectedBar />}
           <Tippy placement="bottom" content="Refresh">
             <span
               onClick={() => window.location.reload()}

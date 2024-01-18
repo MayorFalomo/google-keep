@@ -54,7 +54,7 @@ const Profile = (props: any) => {
       if (response.data.url) {
         await axios
           .put(
-            `http://localhost:5000/api/users/update-userinfo/${contextValue?.user?._id}`,
+            `https://keep-backend-theta.vercel.app/api/users/update-userinfo/${contextValue?.user?._id}`,
             updated
           )
           .catch((err) => console.log(err));

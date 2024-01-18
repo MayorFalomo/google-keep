@@ -406,8 +406,8 @@ const ShowNote = (props: any) => {
 
           const updateEndpoint =
             mediaType == "image"
-              ? "http://localhost:5000/api/notes/upload-picture"
-              : "http://keep-backend-theta.vercel.app/api/notes/upload-video";
+              ? "https://keep-backend-theta.vercel.app/api/api/notes/upload-picture"
+              : "https://keep-backend-theta.vercel.app/api/notes/upload-video";
 
           try {
             // console.log(mediaObject, "mediaObject");
@@ -462,9 +462,9 @@ const ShowNote = (props: any) => {
   const unSelectNotes = () => {
     contextValue?.setIsSelectedShow(false);
     props?.setNoteUrlParams(props?.note?._id);
-    contextValue?.setIsSelected((prevState: any) => [
-      prevState.filter((note: any) => note !== props?.note?._id),
-    ]);
+    contextValue?.setIsSelected((prevState: any) =>
+      prevState.filter((note: any) => note !== props?.note?._id)
+    );
   };
 
   // const selectedNotes = () => {
@@ -477,14 +477,14 @@ const ShowNote = (props: any) => {
   //   );
   // };
 
-  console.log(contextValue?.isSelected, "This is isSelected");
+  // console.log(contextValue?.isSelected, "This is isSelected");
   // console.log(props?.noteUrlParams, "This is isSelected");
 
-  console.log(
-    contextValue?.isSelected?.some((pinned: any) =>
-      pinned == props.note?._id ? "Hello World" : "Boo"
-    )
-  );
+  // console.log(
+  //   contextValue?.isSelected?.some((pinned: any) =>
+  //     pinned == props.note?._id ? "Hello World" : "Boo"
+  //   )
+  // );
 
   return (
     <div
@@ -528,7 +528,7 @@ const ShowNote = (props: any) => {
         {
           <div className="p-4">
             {props.note?.title ? (
-              <h1 className="text-[20px] max-sm:text-[18px] ">
+              <h1 className="text-[20px] font-semibold max-sm:text-[18px] ">
                 {props.note?.title}
               </h1>
             ) : (
@@ -584,26 +584,35 @@ const ShowNote = (props: any) => {
           </div>
         }
       </div>
-      {contextValue.isSelected.some(
-        (selected: any) => selected == props?.note?._id
-      ) ? (
-        <Tippy placement="bottom" content="unselect note">
-          <span
-            onClick={unSelectNotes}
-            className="absolute top-[-18px] left-[-18px] border-2 border-red-400 z-10 "
-          >
-            <BsCheck className="  bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
-          </span>
-        </Tippy>
+      {/* //props?.showId == props?.note?._id */}
+      {props?.showId == props?.note?._id ? (
+        contextValue.isSelected.some(
+          (selected: any) => selected == props?.note?._id
+        ) ? (
+          <Tippy placement="bottom" content="unselect note">
+            <span
+              style={{ backgroundColor: "#5F6368" }}
+              onClick={unSelectNotes}
+              className=" bg-#fff absolute top-[-18px] left-[-18px] rounded-full cursor-pointer  z-10 "
+            >
+              <BsCheck
+                style={{ backgroundColor: "#5F6368" }}
+                className=" rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl "
+              />
+            </span>
+          </Tippy>
+        ) : (
+          <Tippy placement="bottom" content="select note">
+            <span
+              onClick={selectedNotes}
+              className="absolute top-[-18px] left-[-18px] z-10 cursor-pointer "
+            >
+              <BsCheck className="  bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
+            </span>
+          </Tippy>
+        )
       ) : (
-        <Tippy placement="bottom" content="select note">
-          <span
-            onClick={selectedNotes}
-            className="absolute top-[-18px] left-[-18px] z-10 border-2 border-blue-400 "
-          >
-            <BsCheck className="  bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
-          </span>
-        </Tippy>
+        ""
       )}
       {props?.showId == props?.note?._id ? (
         <div

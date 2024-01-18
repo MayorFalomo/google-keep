@@ -25,7 +25,7 @@ const EditLabel = (props: any) => {
       <h1 className="text-[22px] py-2">Edit Labels </h1>
       <div className="w-full border-[1px] border-[#9AA0A6] "></div>
       <div className="flex flex-col gap-2 my-4 min-h-[200px] ">
-        {filteredArray.length <= 0 ? (
+        {filteredArray.length > 0 ? (
           filteredArray?.map((label: any) => (
             <div onClick={() => setShowId(label?._id)} key={label?._id}>
               <Edited
