@@ -17,6 +17,7 @@ https://keep-notepad.netlify.app/
 - Set Remainders for your notes for Morning, Afternoon, Evening, Tomorrow or Next Week Monday.
 - Get notification of remainders
 - Search and Send a note to another user.
+- Mass select notes
 - Pin your Notes.
 - Archive Notes.
 - Add a picture or video to any note.

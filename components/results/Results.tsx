@@ -386,8 +386,8 @@ const Results = (props: any) => {
 
           const updateEndpoint =
             mediaType == "image"
-              ? "http://localhost:5000/api/notes/upload-picture"
-              : "http://keep-backend-theta.vercel.app/api/notes/upload-video";
+              ? "https://keep-backend-theta.vercel.app/api/notes/upload-picture"
+              : "https://keep-backend-theta.vercel.app/api/notes/upload-video";
 
           try {
             // console.log(mediaObject, "mediaObject");

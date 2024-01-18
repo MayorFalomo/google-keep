@@ -25,7 +25,6 @@ const PinnedModal = (props: any) => {
   const [editTitle, setEditTitle] = useState<string>("");
   const [editNote, setEditNote] = useState<string>("");
   const [editPicture, setEditPicture] = useState<string>("");
-  const [editDrawing, setEditDrawing] = useState<string>("");
   const [editBgImage, setEditBGImage] = useState<string>("");
   const [editBgColor, setEditBGColor] = useState<string>("");
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
@@ -33,15 +32,18 @@ const PinnedModal = (props: any) => {
   const [label, setLabel] = useState<any>("");
   const [location, setLocation] = useState<string>("");
 
+  // console.log(props?.noteUrlParams, "this is url params");
+
   useEffect(() => {
-    axios
-      .get(
-        `https://keep-backend-theta.vercel.app/api/notes/pinned-id/${props.noteUrlParams}`
-      )
-      .then((res) => setSingleNote(res.data))
-      .catch((err) => console.log(err));
+    if (props?.noteUrlParams) {
+      axios
+        .get(
+          `https://keep-backend-theta.vercel.app/api/notes/pinned-id/${props.noteUrlParams}`
+        )
+        .then((res) => setSingleNote(res.data))
+        .catch((err) => console.log(err));
+    }
   }, [props.noteUrlParams]);
-  // console.log(singleNote);
 
   const handleEditNote = async (e: any) => {
     e.preventDefault();
@@ -77,11 +79,11 @@ const PinnedModal = (props: any) => {
       // Update the note in contextValue.pinnedNote if it exists
       contextValue.setPinnedNote((prevPinnedNotes: any) =>
         prevPinnedNotes.map((note: any) =>
-          note._id == updatedNote._id ? updatedNote : note
+          note._id == updatedNote?._id ? updatedNote : note
         )
       );
-
       props.setPinnedModal(false);
+      props?.setOverLayBg(false);
       contextValue?.setOverLay(false);
       toast.success("Note updated successfully");
     } catch (error) {
@@ -89,6 +91,7 @@ const PinnedModal = (props: any) => {
     }
   };
 
+  //Function to calculate how many columns should be used for the modal size
   const calculateColumns = (noteLength: number) => {
     // Define your breakpoints and corresponding column numbers
     const breakpoints = [30, 100, 900]; // You can adjust these values

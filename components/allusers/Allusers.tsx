@@ -13,7 +13,7 @@ const Allusers = (props: any) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/users/getall-users"
+          "https://keep-backend-theta.vercel.app/api/users/getall-users"
         );
         const allUsers = response.data;
         setAllUsers(allUsers);

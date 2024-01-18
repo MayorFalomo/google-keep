@@ -33,7 +33,7 @@ const ShowPinned = (props: any) => {
   // const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [openBgModal, setOpenBgModal] = useState(false);
-  const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
+  // const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [overLayBg, setOverLayBg] = useState(false);
   const [closeIcon, setCloseIcon] = useState(false);
@@ -41,8 +41,8 @@ const ShowPinned = (props: any) => {
   const handleClick = (e: any) => {
     e.preventDefault();
     setNoteUrlParams(props.pinned?._id);
-    // console.log(props.note?.createdAt, "This is the id");
-    setPinnedModal(true);
+    console.log(props.pinned?._id, "This is the id");
+    props?.setPinnedModal(true);
     setOverLayBg(true);
   };
 
@@ -200,6 +200,9 @@ const ShowPinned = (props: any) => {
     }
   };
 
+  // console.log(contextValue?.overLay, "overlay");
+  // console.log(props?.pinnedModal, "pinned modal");
+
   return (
     <div>
       <div onClick={handleClick} className="subContainer">
@@ -207,13 +210,16 @@ const ShowPinned = (props: any) => {
           return <CanvasImage key={index} canvas={canvas} />;
         })}
         {props?.pinned?.picture ? (
-          <Image
-            className="w-[100%] max-h-[150px]"
-            width={200}
-            height={120}
-            src={props?.pinned?.picture}
-            alt=" "
-          />
+          <div className="w-[100%]">
+            <Image
+              className="w-[100%]"
+              width={120}
+              height={120}
+              src={props?.pinned?.picture}
+              alt=" "
+              objectFit="cover"
+            />
+          </div>
         ) : (
           ""
         )}
@@ -229,257 +235,269 @@ const ShowPinned = (props: any) => {
         ) : (
           ""
         )}
-        {props.pinned?.title?.length == 0 && props.pinned?.note?.length == 0 ? (
+        {
           <div className="p-4">
+            {props.pinned?.title ? (
+              <h1 className="text-[20px] font-semibold max-sm:text-[18px]">
+                {props.pinned?.title}
+              </h1>
+            ) : (
+              ""
+            )}
+            {props.pinned?.note ? (
+              <p className="mt-[15px] text-[18px] font-medium whitespace-break-spaces max-sm:text-[16px] ">
+                {props.pinned?.note?.slice(0, 600)}...
+              </p>
+            ) : (
+              <input
+                className="bg-transparent border-none outline-none "
+                placeholder="Empty Note"
+              />
+            )}
+            {props.pinned?.location?.location?.length > 0 ? (
+              <form onSubmit={removeLocation}>
+                {props.pinned?.location?.length > 0 ? (
+                  <p
+                    onMouseOver={() => {
+                      setCloseIcon(true);
+                    }}
+                    onMouseLeave={() => setCloseIcon(false)}
+                    className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
+                  >
+                    <IoLocationOutline />
+                    {props.pinned?.location}{" "}
+                    <button
+                      type="submit"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
+                    >
+                      {closeIcon ? (
+                        <Tippy placement="bottom" content="Delete location ">
+                          <span>
+                            <IoCloseOutline />
+                          </span>
+                        </Tippy>
+                      ) : (
+                        ""
+                      )}{" "}
+                    </button>
+                  </p>
+                ) : (
+                  ""
+                )}
+              </form>
+            ) : (
+              ""
+            )}
+          </div>
+        }
+        {props?.showId == props?.pinned?._id ? (
+          <Tippy placement="bottom" content="Select note">
+            <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-[22px] max-md:left-[-10px] max-md:top-[-10px] border-2 border-blue-600 " />
+          </Tippy>
+        ) : (
+          " "
+        )}
+        {props?.showId == props?.pinned?._id ? (
+          <div
+            style={{
+              backgroundColor:
+                props?.pinned?.bgColor || props?.pinned?.bgImage
+                  ? props?.pinned?.bgColor || props?.pinned?.bgImage
+                  : "",
+            }}
+            className="absolute z-10 bottom-0 left-0 w-full flex justify-around  "
+          >
+            <Tippy placement="bottom" content="Notification">
+              <span
+                className="p-2 rounded-full hover:bg-[#28292C]"
+                onClick={() => setOpenNotifyModal(!openNotifyModal)}
+              >
+                {
+                  <BiBellPlus
+                    className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
+                    cursor="pointer"
+                  />
+                }
+              </span>
+            </Tippy>
+
+            {openNotifyModal ? (
+              <div className="absolute left-0 bottom-[-210px] z-20 p-4 rounded-[10px] bg-darkmode text-white">
+                <div className=" ">
+                  <p>Remainder: </p>
+                  <ul>
+                    <li className="hover:bg-[#28292C] p-2  cursor-not-allowed ">
+                      Tomorrow <span>8am </span>{" "}
+                    </li>
+                    <li className="hover:bg-[#28292C] p-2  cursor-not-allowed">
+                      Next Week <span>8am </span>{" "}
+                    </li>
+                    <li className="flex items-center gap-[10px]  cursor-not-allowed hover:bg-[#28292C] p-2">
+                      <LuClock /> Pick date and time{" "}
+                    </li>
+                    <li className="flex items-center gap-[10px] cursor-pointer hover:bg-[#28292C] p-2">
+                      <IoLocationOutline /> Pick place and time{" "}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            <Tippy placement="bottom" content="Collaborator ">
+              <span
+                onClick={() => {
+                  setNoteUrlParams(props.pinned?._id);
+                  contextValue?.setOverLay(true);
+                  contextValue?.setShowCollaboratorModal(true);
+                }}
+                className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 "
+              >
+                {
+                  <MdOutlinePersonAddAlt1
+                    className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
+                    cursor="pointer"
+                  />
+                }{" "}
+              </span>
+            </Tippy>
+
+            <Tippy placement="bottom" content="Background options ">
+              <span
+                onClick={() => {
+                  setNoteUrlParams(props.pinned?._id);
+                  setOpenBgModal(true);
+                }}
+                className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 cursor-pointer "
+              >
+                {
+                  <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
+                }{" "}
+              </span>
+            </Tippy>
+            <Tippy placement="bottom" content="Add image">
+              <label
+                onClick={() => {
+                  setNoteUrlParams(props.pinned?._id);
+                }}
+                htmlFor="fileInputImage"
+                className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 "
+              >
+                {
+                  <BiImageAlt
+                    className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                    cursor="pointer"
+                  />
+                }{" "}
+              </label>
+            </Tippy>
             <input
-              className="bg-transparent border-none outline-none "
-              placeholder="Empty Note"
+              type="file"
+              onChange={(e) => uploadMedia(e.target.files, "image")}
+              id="fileInputImage"
+              style={{ display: "none" }}
+            />
+            {/* <form> */}
+            <Tippy placement="bottom" content="Archive ">
+              <button
+                onClick={archiveNote}
+                className="p-2 rounded-full hover:bg-[#28292C] cursor-pointer "
+              >
+                {
+                  <BiArchiveIn
+                    className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                    cursor="pointer"
+                  />
+                }{" "}
+              </button>
+            </Tippy>
+            {/* </form> */}
+            <Tippy placement="bottom" content="More ">
+              <span className="p-2  cursor-not-allowed rounded-full hover:bg-[#28292C] ">
+                {
+                  <BiDotsVerticalRounded
+                    className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
+                    cursor="pointer"
+                  />
+                }{" "}
+              </span>
+            </Tippy>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {props?.showId == props?.pinned?._id ? (
+          <form onSubmit={unPinNote}>
+            <Tippy placement="bottom" content="Unpin note ">
+              <button
+                onClick={(e: any) => e.stopPropagation()}
+                type="submit"
+                className="absolute top-[7px] right-[2px] z-10 p-2 hover:bg-[#28292C] rounded-full  hover:text-white text-[#5F6368] border-none outline-none "
+              >
+                <BsPinFill
+                  className="  text-[18px] max-sm:text-[18px] max-md:text-[26px] "
+                  cursor="pointer"
+                />
+              </button>
+            </Tippy>
+          </form>
+        ) : (
+          " "
+        )}
+
+        <Toaster
+          position="bottom-left"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: "#313235",
+              color: "#fff",
+              width: "350px",
+              height: "70px",
+            },
+          }}
+        />
+
+        {contextValue?.showCollaboratorModal ? (
+          <AnimatePresence>
+            <motion.div
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className=" "
+            >
+              <Collaborators
+                noteUrlParams={noteUrlParams}
+                // setOverLayBg={props.setOverLayBg}
+              />
+            </motion.div>
+          </AnimatePresence>
+        ) : (
+          ""
+        )}
+
+        {openBgModal ? (
+          <div>
+            <BgPin
+              noteUrlParams={noteUrlParams}
+              setOpenBgModal={setOpenBgModal}
             />
           </div>
         ) : (
-          <div className="p-4">
-            <h1 className="text-[20px]">{props.pinned?.title}</h1>
-            <p className="text-[16px] whitespace-break-spaces ">
-              {props.pinned?.note?.slice(0, 600)}...
-            </p>
-          </div>
+          ""
         )}
-        <form onSubmit={removeLocation}>
-          {props.pinned?.location ? (
-            <p
-              onMouseOver={() => {
-                setCloseIcon(true);
-              }}
-              onMouseLeave={() => setCloseIcon(false)}
-              className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
-            >
-              <IoLocationOutline />
-              {props.pinned?.location}{" "}
-              <button
-                type="submit"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                className="outline-none border-none cursor-pointer p-1 rounded-full hover:bg-lighterHover "
-              >
-                {closeIcon ? (
-                  <Tippy placement="bottom" content="Delete location ">
-                    <IoCloseOutline />
-                  </Tippy>
-                ) : (
-                  ""
-                )}{" "}
-              </button>
-            </p>
-          ) : (
-            ""
-          )}
-        </form>
       </div>
-      {props?.showId == props?.pinned?._id ? (
-        <Tippy placement="bottom" content="Select note">
-          <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-[22px] max-md:left-[-10px] max-md:top-[-10px] border-2 border-blue-600 " />
-        </Tippy>
-      ) : (
-        " "
-      )}
-      {props?.showId == props?.pinned?._id ? (
-        <div
-          style={{
-            backgroundColor:
-              props?.pinned?.bgColor || props?.pinned?.bgImage
-                ? props?.pinned?.bgColor || props?.pinned?.bgImage
-                : "",
-          }}
-          className="absolute z-10 bottom-0 left-0 w-full flex justify-around  "
-        >
-          <Tippy placement="bottom" content="Notification">
-            <span
-              className="p-2 rounded-full hover:bg-[#28292C]"
-              onClick={() => setOpenNotifyModal(!openNotifyModal)}
-            >
-              {
-                <BiBellPlus
-                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
-                  cursor="pointer"
-                />
-              }
-            </span>
-          </Tippy>
-
-          {openNotifyModal ? (
-            <div className="absolute left-0 bottom-[-210px] z-20 p-4 rounded-[10px] bg-darkmode text-white">
-              <div className=" ">
-                <p>Remainder: </p>
-                <ul>
-                  <li className="hover:bg-[#28292C] p-2  cursor-not-allowed ">
-                    Tomorrow <span>8am </span>{" "}
-                  </li>
-                  <li className="hover:bg-[#28292C] p-2  cursor-not-allowed">
-                    Next Week <span>8am </span>{" "}
-                  </li>
-                  <li className="flex items-center gap-[10px]  cursor-not-allowed hover:bg-[#28292C] p-2">
-                    <LuClock /> Pick date and time{" "}
-                  </li>
-                  <li className="flex items-center gap-[10px] cursor-pointer hover:bg-[#28292C] p-2">
-                    <IoLocationOutline /> Pick place and time{" "}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-          <Tippy placement="bottom" content="Collaborator ">
-            <span
-              onClick={() => {
-                setNoteUrlParams(props.pinned?._id);
-                contextValue?.setOverLay(true);
-                contextValue?.setShowCollaboratorModal(true);
-              }}
-              className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 "
-            >
-              {
-                <MdOutlinePersonAddAlt1
-                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[18px] max-md:text-[22px] lg:text-[22px]  "
-                  cursor="pointer"
-                />
-              }{" "}
-            </span>
-          </Tippy>
-
-          <Tippy placement="bottom" content="Background options ">
-            <span
-              onClick={() => {
-                setNoteUrlParams(props.pinned?._id);
-                setOpenBgModal(true);
-              }}
-              className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 cursor-pointer "
-            >
-              {
-                <IoColorPaletteOutline className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
-              }{" "}
-            </span>
-          </Tippy>
-          <Tippy placement="bottom" content="Add image">
-            <label
-              onClick={() => {
-                setNoteUrlParams(props.note?._id);
-              }}
-              htmlFor="fileInputImage"
-              className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 "
-            >
-              {
-                <BiImageAlt
-                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                  cursor="pointer"
-                />
-              }{" "}
-            </label>
-          </Tippy>
-          <input
-            type="file"
-            onChange={(e) => uploadMedia(e.target.files, "image")}
-            id="fileInputImage"
-            style={{ display: "none" }}
-          />
-          {/* <form> */}
-          <Tippy placement="bottom" content="Archive ">
-            <button
-              onClick={archiveNote}
-              className="p-2 rounded-full hover:bg-[#28292C] cursor-pointer "
-            >
-              {
-                <BiArchiveIn
-                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                  cursor="pointer"
-                />
-              }{" "}
-            </button>
-          </Tippy>
-          {/* </form> */}
-          <Tippy placement="bottom" content="More ">
-            <span className="p-2  cursor-not-allowed rounded-full hover:bg-[#28292C] ">
-              {
-                <BiDotsVerticalRounded
-                  className=" text-[#9AA0A6] text-[16px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  "
-                  cursor="pointer"
-                />
-              }{" "}
-            </span>
-          </Tippy>
-        </div>
-      ) : (
-        ""
-      )}
-      {props?.showId == props?.pinned?._id ? (
-        <form onSubmit={unPinNote}>
-          <Tippy placement="bottom" content="Unpin note ">
-            <button
-              type="submit"
-              className="absolute top-[10px] right-[5px] z-10 p-2 hover:bg-[#28292C] rounded-full  hover:text-white text-[#5F6368] border-none outline-none "
-            >
-              <BsPinFill
-                className="  text-[18px] max-sm:text-[18px] max-md:text-[26px] "
-                cursor="pointer"
-              />
-            </button>
-          </Tippy>
-        </form>
-      ) : (
-        " "
-      )}
-
-      <Toaster
-        position="bottom-left"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#313235",
-            color: "#fff",
-            width: "350px",
-            height: "70px",
-          },
-        }}
-      />
-
-      {contextValue?.showCollaboratorModal ? (
-        <AnimatePresence>
-          <motion.div
-            exit={{ opacity: 0 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className=" "
-          >
-            <Collaborators
-              noteUrlParams={noteUrlParams}
-              // setOverLayBg={props.setOverLayBg}
-            />
-          </motion.div>
-        </AnimatePresence>
-      ) : (
-        ""
-      )}
-
-      {openBgModal ? (
-        <div>
-          <BgPin
-            noteUrlParams={noteUrlParams}
-            setOpenBgModal={setOpenBgModal}
-          />
-        </div>
-      ) : (
-        ""
-      )}
-
-      {pinnedModal ? (
+      {overLayBg && (
         <AnimatePresence>
           <motion.div
             onClick={() => {
-              setPinnedModal(false);
-
-              // setOverLayBg(false);
-              // setShowBgModal(false);
+              props?.setPinnedModal(false);
+              setOverLayBg(false);
+              contextValue?.setOverLay(false);
             }}
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
@@ -487,19 +505,19 @@ const ShowPinned = (props: any) => {
             className="fixed z-20 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
           ></motion.div>
         </AnimatePresence>
-      ) : (
-        ""
       )}
 
-      {pinnedModal ? (
-        <div>
-          <PinnedModal
-            noteUrlParams={noteUrlParams}
-            setPinnedModal={setPinnedModal}
-            pinnedModal={pinnedModal}
-            setOverLayBg={setOverLayBg}
-          />
-        </div>
+      {props?.pinnedModal ? (
+        <AnimatePresence>
+          <motion.div>
+            <PinnedModal
+              noteUrlParams={noteUrlParams}
+              setPinnedModal={props?.setPinnedModal}
+              pinnedModal={props?.pinnedModal}
+              setOverLayBg={setOverLayBg}
+            />
+          </motion.div>
+        </AnimatePresence>
       ) : (
         ""
       )}

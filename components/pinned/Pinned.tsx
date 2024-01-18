@@ -43,7 +43,9 @@ const Pinned = () => {
   return (
     <div className="ml-[50px] max-md:ml-[20px]">
       {contextValue?.pinnedNote?.length > 0 ? (
-        <h1 className="text-[20px] mb-[20px]  max-sm:text-[18px] ">PINNED </h1>
+        <h1 className="text-[#8A949E] text-[20px] mb-[20px]  max-sm:text-[18px] ">
+          PINNED{" "}
+        </h1>
       ) : (
         ""
       )}
@@ -52,7 +54,7 @@ const Pinned = () => {
           <motion.div
             onClick={() => contextValue.setOpenTextArea(false)}
             style={{ position: "relative" }}
-            className="relative flex items-start flex-wrap gap-20px "
+            className="relative flex items-start flex-wrap gap-[20px] "
             // className="relative ml-[50px] flex items-start flex-wrap gap-20px "
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
@@ -60,7 +62,7 @@ const Pinned = () => {
           >
             {contextValue?.pinnedNote?.map((pinned: any) => (
               <div
-                className="relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5f6368] mr-[25px] mb-[25px] rounded-[10px] max-sm:w-[100%] "
+                className="relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5f6368] break-words mb-[25px] rounded-[10px] max-sm:w-[100%] "
                 style={{
                   backgroundColor: pinned?.bgColor
                     ? pinned?.bgColor
@@ -96,7 +98,7 @@ const Pinned = () => {
                   ""
                 )} */}
 
-                {contextValue?.overLay ? (
+                {/* {contextValue?.overLay ? (
                   <AnimatePresence>
                     <motion.div
                       onClick={() => {
@@ -111,7 +113,7 @@ const Pinned = () => {
                   </AnimatePresence>
                 ) : (
                   ""
-                )}
+                )} */}
 
                 <ShowPinned
                   pinned={pinned}

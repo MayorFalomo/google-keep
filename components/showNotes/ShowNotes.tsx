@@ -9,6 +9,7 @@ import ShowNote from "./showNote";
 import "./notes.css";
 import Login from "../login/Login";
 import Results from "../results/Results";
+import useLongPress from "../hook/useLongPress";
 // import Masonry from "masonry-layout";
 type Props = {};
 
@@ -150,7 +151,7 @@ const ShowNotes = (props: any) => {
                       setShowId(note?._id);
                     }}
                     className={
-                      "relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] max-md:max-w-[250px] break-words "
+                      "relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] mr-[25px] mb-[25px] rounded-[10px] max-md:max-w-[250px] break-words "
                     }
                     style={{
                       backgroundColor: note?.bgColor
@@ -160,6 +161,11 @@ const ShowNotes = (props: any) => {
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
+                      border: contextValue.isSelected.some(
+                        (selected: any) => selected == note?._id
+                      )
+                        ? "2px white solid"
+                        : "1px solid #5F6368",
                     }}
                   >
                     {contextValue?.overLay ? (
