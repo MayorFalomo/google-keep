@@ -55,7 +55,9 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 
 I needed my web application to be fast so i used Next Js which is known for it's speed.
 
-i did Code splitting for my code to reduce bundle dize
+i did Code splitting for my code to reduce bundle size
+
+I used debouncing when searching for notes to improve performance.
 
 I avoided making too many API Calls and instead used context to share my data through out my application so the data is always readily available for users instead of requesting that same information from the server again.
 

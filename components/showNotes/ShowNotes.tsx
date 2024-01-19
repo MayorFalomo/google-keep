@@ -37,16 +37,6 @@ const ShowNotes = (props: any) => {
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
   const [activateSwitch, setActivateSwitch] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   // Perform localStorage action
-  //   if (typeof window !== "undefined") {
-  //     const localStorageId = localStorage?.getItem("user");
-  //     setActiveId(localStorageId);
-  //   }
-  // }, []);
-
-  // console.log(contextValue?.user?.userId, "userId");
-
   useEffect(() => {
     if (contextValue?.user?.userId) {
       // console.log(contextValue?.user?.userId, "Inside get");
@@ -60,34 +50,8 @@ const ShowNotes = (props: any) => {
     }
   }, [contextValue?.user?.userId]);
 
-  // window.addEventListener("DOMSubtreeModified", function () {
-  //   var elem = document.querySelector(".grid");
-  //   if (elem) {
-  //     var msnry = new Masonry(elem, {
-  //       // options
-  //       itemSelector: ".grid-item",
-  //       columnWidth: 160,
-  //       gutter: 20,
-  //     });
-  //   }
-  // });
-
-  const [masonryLoaded, setMasonryLoaded] = useState(false);
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     if (window.innerWidth <= 550) {
-  //       contextValue?.setChangeNoteLayout(true);
-  //     } else {
-  //       contextValue?.setChangeNoteLayout(false);
-  //     }
-  //   }
-  // }, [contextValue?.changeNoteLayout]);
-
   const gridRef = useRef<any>(null);
   const masonryRef = useRef<any>(null);
-  const none = useRef<any>(null);
-  const [masonry, setMasonry] = useState<any>(null);
 
   const switchLayout = () => {
     let masonryInstance: any = null;

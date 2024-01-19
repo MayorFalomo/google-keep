@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 type Props = {};
 
 const Archives = (props: any) => {
-  const userCookie = getCookie("user");
   const [activeId, setActiveId] = useState<any>(" ");
 
   // const localStorageId = localStorage?.getItem("user");
@@ -37,8 +36,6 @@ const Archives = (props: any) => {
 
   useEffect(() => {
     if (contextValue?.user?.userId) {
-      // console.log(contextValue?.user?.userId);
-
       axios
         .get(
           `https://keep-backend-theta.vercel.app/api/notes/get-trash/${contextValue?.user?.userId}`
@@ -51,21 +48,13 @@ const Archives = (props: any) => {
     }
   }, [contextValue?.user?.userId]);
 
-  // useEffect(() => {
-  //   if (contextValue?.trashedNotes) {
-  //     var msnry = new Masonry(".grid", {
-  //       //options
-  //     });
-  //   }
-  // }, [contextValue?.trashedNotes]);
-
   const emptyTrash = async () => {
     let trashed: any = [];
     try {
       await axios
         .delete("https://keep-backend-theta.vercel.app/api/notes/empty-trash")
         .catch((err) => console.log(err));
-      //set contextValue?.setTrashedNotes to empty array
+      //This sets contextValue?.setTrashedNotes to empty array
       contextValue?.setTrashedNotes((prevNotes: any) => {
         [{ ...prevNotes, trashed }];
       });
@@ -75,10 +64,6 @@ const Archives = (props: any) => {
       toast.error("Error emptying trash");
     }
   };
-
-  // var msnry = new Masonry(".grid", {
-  //   //options
-  // });
 
   return (
     <div className=" mt-[10px] mb-[200px] ml-[40px] max-md:ml-[20px] ">
@@ -93,7 +78,6 @@ const Archives = (props: any) => {
           </span>{" "}
         </i>
       </h1>
-      {/* <DynamicMason /> */}
       <AnimatePresence>
         <motion.div
           onClick={() => {
@@ -165,9 +149,7 @@ const Archives = (props: any) => {
                 </div>
               ))
             ) : (
-              <div className="flex justify-center m-[auto] ">
-                {/* <p className="text-[20px]">No archived notes </p> */}
-              </div>
+              <div className="flex justify-center m-[auto] "></div>
             )
           ) : (
             <div className="flex justify-center m-[auto] ">

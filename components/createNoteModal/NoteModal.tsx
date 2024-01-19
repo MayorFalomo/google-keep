@@ -32,12 +32,13 @@ const NoteModal = (props: any) => {
   const [editTitle, setEditTitle] = useState<string>("");
   const [editNote, setEditNote] = useState<string>("");
   const [editPicture, setEditPicture] = useState<string>("");
+  const [editVideo, setEditVideo] = useState<string>("");
   const [editDrawing, setEditDrawing] = useState<string>("");
   const [editBgImage, setEditBGImage] = useState<string>("");
   const [editBgColor, setEditBGColor] = useState<string>("");
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
   const [editCollaborator, setEditCollaborator] = useState<any>([]);
-  const [label, setLabel] = useState<any>([]);
+  const [label, setLabel] = useState<any>("");
   const [noteCanvas, setNoteCanvas] = useState<any>([]);
   const [closeIcon, setCloseIcon] = useState(false);
   const [editLocation, EditLocation] = useState<string>("");
@@ -45,8 +46,6 @@ const NoteModal = (props: any) => {
   const [row, setRow] = useState<boolean>(false);
 
   const storeId = props.noteUrlParams;
-
-  // console.log(props?.noteUrlParams, "THis is note url params");
 
   useEffect(() => {
     if (props.noteUrlParams) {
@@ -59,25 +58,20 @@ const NoteModal = (props: any) => {
     }
   }, [props?.noteUrlParams]);
 
-  // console.log(singleNote?._id, "THIS IS Single Note Id");
-  // console.log(props.noteUrlParams, "This is noteUrlParams");
-  // console.log(props, "This is props");
-
   const handleEditNote = async (e: any) => {
     e.preventDefault();
-    // console.log(singleNote?._id, "This is single note id");
 
     const updatedNote = {
       _id: props.noteUrlParams,
       note: editNote || singleNote?.note,
       title: editTitle || singleNote?.title,
       picture: editPicture || singleNote?.picture,
-      drawing: editDrawing || singleNote?.drawing,
+      video: editVideo || singleNote?.video,
       bgImage: editBgImage || singleNote?.bgImage,
       bgColor: editBgColor || singleNote?.bgColor,
       remainder: editRemainder || singleNote?.remainder,
       collaborator: editCollaborator || singleNote?.collaborator,
-      labels: label || singleNote?.label,
+      label: label || singleNote?.label,
       location: editLocation || singleNote?.location,
       canvas: noteCanvas || singleNote?.canvas,
     };
@@ -116,9 +110,7 @@ const NoteModal = (props: any) => {
       //? ]);
       props.setNoteModal(false);
       contextValue?.setOverLay(false);
-      singleNote?.note == editNote
-        ? toast.success("Note updated successfully")
-        : "";
+      editNote.length > 0 ? toast.success("Note updated successfully") : "";
     } catch (error) {
       console.log(error);
     }
@@ -137,7 +129,6 @@ const NoteModal = (props: any) => {
       await axios.put(
         `https://keep-backend-theta.vercel.app/api/notes/delete-country/${noteId}`
       );
-      // console.log(noteId, "This is noteId");
 
       contextValue?.setNotes((prevNotes: any) => {
         const updatedNotes = prevNotes.map((note: any) => {
@@ -149,12 +140,12 @@ const NoteModal = (props: any) => {
         });
         return updatedNotes;
       });
-      // setPickALocation(false);
     } catch (err) {
       console.log(err);
     }
   };
 
+  //Function for responsive/resizable note modal based on the content inside
   const calculateColumns = (noteLength: number) => {
     // Define your breakpoints and corresponding column numbers
     const breakpoints = [30, 100, 900]; // You can adjust these values
@@ -172,10 +163,8 @@ const NoteModal = (props: any) => {
   };
 
   const columns: number = calculateColumns(singleNote?.note?.length);
-  // console.log(singleNote, "This is columns");
 
   return (
-    // <div className="border-2 border-red-600 ">
     <div
       style={{
         backgroundColor: singleNote?.bgColor ? singleNote?.bgColor : "#202124",
@@ -215,7 +204,7 @@ const NoteModal = (props: any) => {
         ""
       )}
       <div className="h-[100%]">
-        <form className="h-full " onSubmit={handleEditNote}>
+        <form className="h-full max-sm:mt-[10px] " onSubmit={handleEditNote}>
           <div className="flex items-center max-[600px]:mt-5px  ">
             <input
               className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"
@@ -240,7 +229,7 @@ const NoteModal = (props: any) => {
           <div className="max-[600px]:h-[75%] max-[600px]:max-h-fit max-[450px]:h-[70%]">
             <textarea
               typeof="text"
-              className="max-h-[100%] bg-transparent text-white h-100% whitespace-break-spaces  w-full text-[16px] outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-[600px]:h-[100%] "
+              className="max-h-[100%] bg-transparent text-white h-100% whitespace-break-spaces  w-full text-[16px] font-medium outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-[600px]:h-[100%] "
               // className="bg-darkmode w-full "
               defaultValue={singleNote?.note || editNote}
               placeholder="Note"
@@ -393,7 +382,6 @@ const NoteModal = (props: any) => {
         )}
       </Toaster>
     </div>
-    // </div>
   );
 };
 
@@ -404,7 +392,6 @@ const CanvasImage = (canvas: any) => {
       {canvas.canvas.map((canvas: any, index: number) => {
         return <ShowCanvasImage key={index} canvas={canvas} />;
       })}
-      {/* <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" /> */}
     </div>
   );
 };
