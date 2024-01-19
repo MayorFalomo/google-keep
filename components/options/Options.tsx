@@ -3,12 +3,14 @@ import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
+import Translate from "./translate/Translate";
 
 type Props = {};
 
 //Parent component is ShowNote.tsx
 const Options = (props: any) => {
   const { contextValue }: any = useAppContext();
+  const [translateModal, setTranslateModal] = useState(false);
 
   // useEffect(() => {
   //   if (props.noteUrlParams) {
@@ -65,7 +67,6 @@ const Options = (props: any) => {
       picture: props.trashNote?.picture,
       video: props.trashNote?.video,
       canvas: props.trashNote?.canvas,
-      // drawing: props.trashNote?.drawing,
       bgImage: props.trashNote?.bgImage,
       bgColor: props.trashNote?.bgColor,
       remainder: props.trashNote?.remainder,
@@ -75,7 +76,6 @@ const Options = (props: any) => {
       location: props.trashNote?.location,
       createdAt: new Date(),
     };
-    // console.log(createCopy);
     try {
       axios
         .post(
@@ -113,7 +113,10 @@ const Options = (props: any) => {
         >
           Add Label{" "}
         </li>
-        <li className="hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer">
+        <li
+          onClick={() => setTranslateModal(true)}
+          className="relative hover:bg-[#313236] p-3 transition ease-in-out delay-100 cursor-pointer"
+        >
           Translate Note{" "}
         </li>
         <li
@@ -155,6 +158,14 @@ const Options = (props: any) => {
           </ToastBar>
         )}
       </Toaster>
+      {translateModal ? (
+        <Translate
+          trashNote={props?.trashNote}
+          setTranslateModal={setTranslateModal}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

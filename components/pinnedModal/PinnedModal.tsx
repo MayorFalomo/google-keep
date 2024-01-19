@@ -25,6 +25,7 @@ const PinnedModal = (props: any) => {
   const [editTitle, setEditTitle] = useState<string>("");
   const [editNote, setEditNote] = useState<string>("");
   const [editPicture, setEditPicture] = useState<string>("");
+  const [editVideo, setEditVideo] = useState<string>("");
   const [editBgImage, setEditBGImage] = useState<string>("");
   const [editBgColor, setEditBGColor] = useState<string>("");
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
@@ -52,6 +53,7 @@ const PinnedModal = (props: any) => {
       note: editNote ? editNote : singleNote?.note,
       title: editTitle ? editTitle : singleNote?.title,
       picture: editPicture ? editPicture : singleNote?.picture,
+      video: editVideo ? editVideo : singleNote?.video,
       bgImage: editBgImage ? editBgImage : singleNote?.bgImage,
       bgColor: editBgColor ? editBgColor : singleNote?.bgColor,
       remainder: editRemainder ? editRemainder : singleNote?.remainder,
@@ -85,7 +87,7 @@ const PinnedModal = (props: any) => {
       props.setPinnedModal(false);
       props?.setOverLayBg(false);
       contextValue?.setOverLay(false);
-      toast.success("Note updated successfully");
+      editNote.length > 0 ? toast.success("Note updated successfully") : "";
     } catch (error) {
       console.log(error);
     }

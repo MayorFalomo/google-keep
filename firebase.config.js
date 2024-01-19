@@ -8,12 +8,12 @@ import { getFirestore } from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDlaz2i4T1ClQ-fgPCktEg5zui3VYZcRdU",
+  apiKey: process.env.API_KEY,
   authDomain: "hi-notepad.firebaseapp.com",
   projectId: "hi-notepad",
   storageBucket: "hi-notepad.appspot.com",
-  messagingSenderId: "321564833735",
-  appId: "1:321564833735:web:756a019bd36271d5bf4be2",
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
   measurementId: "G-ED6Y6KSY7J",
 };
 

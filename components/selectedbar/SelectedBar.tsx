@@ -128,12 +128,12 @@ const SelectedBar = (props: any) => {
               <p className="text-[24px] font-medium ">selected </p>
             </div>
           </div>
-          <div className="relative  flex items-center gap-6 ">
+          <div className="relative  flex items-center gap-6 max-sm:gap-2 ">
             {contextValue?.pinnedNote.some(
               (pinned: any) => pinned?._id == contextValue?.isSelected
             ) ? (
               <Tippy placement="bottom" content="already pinned ">
-                <button className="p-4 hover:bg-[#27292C] rounded-full text-[#8AB4F8] cursor-not-allowed border-none outline-none ">
+                <button className="p-4 hover:bg-[#27292C] rounded-full text-[#8AB4F8] cursor-not-allowed border-none outline-none  max-sm:p-2 ">
                   <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />
                 </button>
               </Tippy>
@@ -142,7 +142,7 @@ const SelectedBar = (props: any) => {
                 <Tippy placement="bottom" content="Pin note ">
                   <button
                     type="submit"
-                    className="p-4 hover:bg-[#27292C] rounded-full text-[#8AB4F8]  cursor-pointer border-none outline-none "
+                    className="p-4 hover:bg-[#27292C] rounded-full text-[#8AB4F8]  cursor-pointer border-none outline-none  max-sm:p-2 "
                   >
                     <BsPin className="text-[18px] max-sm:text-[18px] max-md:text-[26px] " />
                   </button>
@@ -155,10 +155,10 @@ const SelectedBar = (props: any) => {
                   setOpenBgModal(true);
                   // contextValue?.setOverLay(true);
                 }}
-                className="rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer "
+                className="p-4 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 cursor-pointer  max-sm:p-2"
               >
                 {
-                  <IoColorPaletteOutline className=" text-[#8AB4F8] text-[24px] max-sm:text-[16px] max-md:text-[22px] lg:text-[22px]  " />
+                  <IoColorPaletteOutline className=" text-[#8AB4F8] text-[24px] max-sm:text-[16px] max-md:text-[22px]  " />
                 }{" "}
               </span>
             </Tippy>
@@ -168,7 +168,7 @@ const SelectedBar = (props: any) => {
                 <button
                   type="submit"
                   // onClick={archiveNote}
-                  className="p-4 rounded-full hover:bg-[#313236] cursor-pointer "
+                  className="p-4 rounded-full hover:bg-[#313236] cursor-pointer  max-sm:p-2 "
                 >
                   {
                     <BiArchiveIn
@@ -184,7 +184,7 @@ const SelectedBar = (props: any) => {
               <Tippy placement="bottom" content="Delete forever ">
                 <button
                   type="submit"
-                  className="p-4 rounded-full hover:bg-[#313236]  cursor-pointer"
+                  className="p-4 rounded-full hover:bg-[#313236]  cursor-pointer max-sm:p-2 "
                 >
                   {
                     <TfiTrash

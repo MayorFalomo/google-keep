@@ -50,7 +50,7 @@ const Headerbar = (props: any) => {
       try {
         await axios
           .get(
-            `http://keep-backend-theta.vercel.app/api/notes/search-notes?searchQuery=${query}`
+            `https://keep-backend-theta.vercel.app/api/notes/search-notes?searchQuery=${query}`
           )
           .then((res) => contextValue?.setSearchResults(res.data))
           .catch((err) => console.log(err));
