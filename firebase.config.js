@@ -12,7 +12,7 @@ const firebaseConfig = {
   authDomain: "hi-notepad.firebaseapp.com",
   projectId: "hi-notepad",
   storageBucket: "hi-notepad.appspot.com",
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  messagingSenderId: "321564833735",
   appId: process.env.APP_ID,
   measurementId: "G-ED6Y6KSY7J",
 };
