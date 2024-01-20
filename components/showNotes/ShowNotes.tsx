@@ -75,10 +75,6 @@ const ShowNotes = (props: any) => {
 
   switchLayout();
 
-  // console.log(process.env.API_KEY, "API_KEY");
-  console.log(process.env.MESSAGING_SENDER_ID, "MESSENGER");
-  // console.log(process.env.APP_ID, "API_ID");
-
   return (
     <div className="ml-[50px] max-md:ml-[20px] ">
       <h1 className="text-[#8A949E] text-[20px]  mb-[20px] max-sm:text-[18px] ">
