@@ -18,7 +18,7 @@ const Translate = (props: any) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/notes/getall-languages")
+      .get("https://keep-backend-theta.vercel.app/api/notes/getall-languages")
       .then((res) => setlanguageToBeTranslatedTo(res.data.languages))
       .catch((err) => console.log(err));
   }, []);
@@ -53,7 +53,7 @@ const Translate = (props: any) => {
     };
     try {
       await axios
-        .post("http://localhost:5000/api/notes/translate", {
+        .post("https://keep-backend-theta.vercel.app/api/notes/translate", {
           noteObject,
         })
         .then((res) =>
