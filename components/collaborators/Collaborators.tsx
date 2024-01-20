@@ -91,7 +91,7 @@ const Collaborators = (props: any) => {
   };
 
   //Function to collaborate with another user
-  const handleAddCollaborator = (e: any) => {
+  const handleAddCollaborator = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
 
     const collaborateObject = {
@@ -99,7 +99,7 @@ const Collaborators = (props: any) => {
       userId: getCollaboratorId, //The id of the person we're sending to
       generatedId: generateId(24),
       // email: singleNote?.email,
-      username: getCollaboratorUsername,
+      username: getCollaboratorUsername, //username of the person we're sending to
       profilePic: getCollaboratorProfilePic,
       title: singleNote?.title,
       note: singleNote?.note,
@@ -110,7 +110,7 @@ const Collaborators = (props: any) => {
       bgColor: singleNote?.bgColor,
       label: singleNote?.label,
       labelId: singleNote?.labelId,
-      collaborator: singleNote?.username,
+      collaborator: singleNote?.username, //username of the current user
       createdAt: new Date(),
     };
     try {
@@ -164,7 +164,7 @@ const Collaborators = (props: any) => {
         </div>
         <form
           onSubmit={
-            singleNote?._id == undefined ? handleAddCollaborator : handleError
+            singleNote?._id !== undefined ? handleAddCollaborator : handleError
           }
           className="flex items-start flex-col gap-[5px] "
         >

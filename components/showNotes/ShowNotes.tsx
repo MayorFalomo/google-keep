@@ -10,6 +10,7 @@ import "./notes.css";
 import Login from "../login/Login";
 import Results from "../results/Results";
 import useLongPress from "../hook/useLongPress";
+import toast from "react-hot-toast";
 // import Masonry from "masonry-layout";
 type Props = {};
 
@@ -75,8 +76,17 @@ const ShowNotes = (props: any) => {
 
   switchLayout();
 
+  useEffect(() => {
+    if (contextValue?.user?.notifications.length > 0) {
+      toast.success("You have a new remainder", {
+        duration: 6000,
+        position: "top-right",
+      });
+    }
+  }, []);
+
   return (
-    <div className="ml-[50px] max-md:ml-[20px] ">
+    <div className="ml-[20px] max-md:ml-[20px] ">
       <h1 className="text-[#8A949E] text-[20px]  mb-[20px] max-sm:text-[18px] ">
         OTHERS{" "}
       </h1>

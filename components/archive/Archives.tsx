@@ -54,7 +54,7 @@ const Archives = (props: any) => {
           onClick={() => {
             contextValue.setOpenTextArea(false);
           }}
-          className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
+          className="flex items-start gap-4 flex-wrap w-[95%] "
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

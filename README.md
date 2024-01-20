@@ -1,13 +1,13 @@
 
 # Keep-Notepad
 
-Keep-notepad is a Full Stack project based on the google keep notepad, It is a notepad Web App with multi functional features where users can basically keep their notes, links, pictures and whatever else users store.
+Keep-notepad is a Full Stack project based on the google keep notepad, It is a notepad Web App with multi functional features where users can basically keep/store their notes, links, pictures and whatever else users store.
 
 ## Demo
 
 https://keep-notepad.netlify.app/
 
-![Logo](https://res.cloudinary.com/dsghy4siv/image/upload/v1705153077/k48h4trfrty3m0s6ylla.png)
+![Logo](https://res.cloudinary.com/dsghy4siv/image/upload/c_crop,h_1010/v1705153077/k48h4trfrty3m0s6ylla.png)
 
 
 ## Features
@@ -15,12 +15,14 @@ https://keep-notepad.netlify.app/
 - Create Notes & View each Notes
 - Add a Canvas to any note / Create a Canvas as a note.
 - Set Remainders for your notes for Morning, Afternoon, Evening, Tomorrow or Next Week Monday.
-- Get notification of remainders
+- Translate your note to any Language you prefer.
+- Get notifications for Remainders
+- See pending Remainders
 - Search and Send a note to another user.
 - Mass select and pin, archive,trash and customize Notes.
 - Pin your Notes.
 - Archive Notes.
-- Add a picture or video to any note.
+- Add a picture or video to any note/ Create a note as a picture or video.
 - Add Custom background Images or Colors to suit your taste.
 - Delete a Note
 - Edit a Note
@@ -29,7 +31,6 @@ https://keep-notepad.netlify.app/
 - View your profile && Edit your profile.
 - See other users so you can send notes
 - currently working on adding Drag and Drop functionality to each note.
-- currently working on translating note to your custom language.
 - working on Real time note writing with another person.
 ## Tech Stack
 

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../helpers/Helpers";
 import ShowPinned from "./ShowPinned";
 import { AnimatePresence, motion } from "framer-motion";
+import toast from "react-hot-toast";
 type Props = {};
 
 const Pinned = () => {
@@ -25,8 +26,17 @@ const Pinned = () => {
       .catch((err) => console.log(err));
   }, [contextValue?.user?.userId]);
 
+  useEffect(() => {
+    if (contextValue?.user?.notifications.length > 0) {
+      toast.success("You have a new remainder", {
+        duration: 6000,
+        position: "top-right",
+      });
+    }
+  }, []);
+
   return (
-    <div className="ml-[50px] max-md:ml-[20px]">
+    <div className="ml-[20px] max-md:ml-[20px]">
       {contextValue?.pinnedNote?.length > 0 ? (
         <h1 className="text-[#8A949E] text-[20px] mb-[20px]  max-sm:text-[18px] ">
           PINNED{" "}
