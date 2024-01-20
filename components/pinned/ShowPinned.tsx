@@ -20,7 +20,6 @@ import Tippy from "@tippyjs/react";
 import toast, { Toaster } from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import Collaborators from "../collaborators/Collaborators";
-import BgImage from "../background/BgImage";
 import BgPin from "../bgPin/BgPin";
 
 type Props = {};
@@ -30,10 +29,8 @@ const ShowPinned = (props: any) => {
   const { contextValue }: any = useAppContext();
 
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
-  // const [showIconsOnHover, setShowIconsOnHover] = React.useState(false);
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [openBgModal, setOpenBgModal] = useState(false);
-  // const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [overLayBg, setOverLayBg] = useState(false);
   const [closeIcon, setCloseIcon] = useState(false);
@@ -41,7 +38,6 @@ const ShowPinned = (props: any) => {
   const handleClick = (e: any) => {
     e.preventDefault();
     setNoteUrlParams(props.pinned?._id);
-    console.log(props.pinned?._id, "This is the id");
     props?.setPinnedModal(true);
     setOverLayBg(true);
   };
@@ -128,6 +124,7 @@ const ShowPinned = (props: any) => {
       .catch((err) => console.log(err));
   };
 
+  //Function to Archive note
   const archiveNote = async (e: any) => {
     e.preventDefault();
     const archiveObject = {
@@ -171,6 +168,7 @@ const ShowPinned = (props: any) => {
     }
   };
 
+  //Function to remove note from pinned
   const removeLocation = async (e: any) => {
     e.preventDefault();
     props?.setNoteModal(false);
@@ -182,7 +180,6 @@ const ShowPinned = (props: any) => {
       await axios.put(
         `https://keep-backend-theta.vercel.app/api/notes/delete-country/from-pinned/${noteId}`
       );
-      // console.log(noteId, "This is noteId");
 
       contextValue?.setPinnedNote((prevNotes: any) => {
         const updatedNotes = prevNotes.map((note: any) => {
@@ -199,9 +196,6 @@ const ShowPinned = (props: any) => {
       console.log(err);
     }
   };
-
-  // console.log(contextValue?.overLay, "overlay");
-  // console.log(props?.pinnedModal, "pinned modal");
 
   return (
     <div>
@@ -295,7 +289,7 @@ const ShowPinned = (props: any) => {
         }
         {props?.showId == props?.pinned?._id ? (
           <Tippy placement="bottom" content="Select note">
-            <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-[22px] max-md:left-[-10px] max-md:top-[-10px] border-2 border-blue-600 " />
+            <BsCheck className="absolute top-[-18px] left-[-18px] z-10 bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[20px] lg:text-[22px] max-md:left-[-10px] max-md:top-[-10px] " />
           </Tippy>
         ) : (
           " "
@@ -400,7 +394,6 @@ const ShowPinned = (props: any) => {
               id="fileInputImage"
               style={{ display: "none" }}
             />
-            {/* <form> */}
             <Tippy placement="bottom" content="Archive ">
               <button
                 onClick={archiveNote}
@@ -414,7 +407,7 @@ const ShowPinned = (props: any) => {
                 }{" "}
               </button>
             </Tippy>
-            {/* </form> */}
+
             <Tippy placement="bottom" content="More ">
               <span className="p-2  cursor-not-allowed rounded-full hover:bg-[#28292C] ">
                 {

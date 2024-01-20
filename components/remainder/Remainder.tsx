@@ -18,7 +18,7 @@ import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import axios from "axios";
 import { useAppContext } from "@/helpers/Helpers";
-import "./notes.css";
+// import "./notes.css";
 import PickDate from "../pickdateandtime/PickDate";
 import Select from "react-select";
 import countryList from "react-select-country-list";
@@ -30,169 +30,27 @@ import Background from "../background/Background";
 import Image from "next/image";
 import Options from "../options/Options";
 import { AnimatePresence, motion } from "framer-motion";
-import Canvas from "@/components/canvas/Canvas";
-import CreateLabel from "../label/CreateLabel";
-
+// import Canvas from "@/components/canvas/Canvas";
+// import CreateLabel from "../label/CreateLabel";
 type Props = {};
 
-const ShowNote = (props: any) => {
+const Remainder = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  // const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
-  // const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
-  //   false
-  // );
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
   const [countryValue, setCountryValue] = React.useState<any>("");
   const options = useMemo(() => countryList().getData(), []); //Options for country
   const [pickALocation, setPickALocation] = React.useState<boolean>(false);
   const [closeIcon, setCloseIcon] = useState(false);
-  const [picture, setPicture] = React.useState<any>();
-  const [video, setVideo] = useState<string>();
   const [openOptionsModal, setOpenOptionsModal] = useState<boolean>(false);
-  const [trashNote, setTrashNote] = useState<any>();
-  const [openCanvasModal, setOpenCanvasModal] = useState<boolean>(false);
-  const [openLabelModal, setOpenLabelModal] = useState<boolean>(false);
-
-  const changeHandler = (countryValue: any) => {
-    setCountryValue(countryValue);
-  };
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    props.setNoteUrlParams(props.note?._id);
+    props.setNoteUrlParams(props.remainder?._id);
     props?.setNoteModal(true);
 
     contextValue?.setOverLay(true);
-  };
-
-  //generateId
-  function dec2hex(dec: any) {
-    return dec.toString(16).padStart(2, "0");
-  }
-
-  // generateId :: Integer -> String
-  function generateId(len: any) {
-    var arr = new Uint8Array((len || 40) / 2);
-    window.crypto.getRandomValues(arr);
-    return Array.from(arr, dec2hex).join("");
-  }
-
-  //Function to pin note
-  const pinNote = async (e: any) => {
-    e.preventDefault();
-
-    const pinThisNote = {
-      _id: props.note?._id,
-      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
-      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
-      username: props.note?.username,
-      title: props.note?.title,
-      note: props.note?.note,
-      picture: props.note?.picture,
-      video: props.note?.video,
-      drawing: props.note?.drawing,
-      bgImage: props.note?.bgImage,
-      bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
-      collaborator: props.note?.collaborator,
-      labels: props.note?.label,
-      location: props.note?.location,
-      canvas: props.note?.canvas,
-      createdAt: new Date(),
-    };
-
-    try {
-      await axios
-        .post(
-          `https://keep-backend-theta.vercel.app/api/notes/add-pinned`,
-          pinThisNote
-        )
-        .then(() =>
-          contextValue.setPinnedNote(
-            [...contextValue?.pinnedNote, pinThisNote].reverse()
-          )
-        )
-        .catch((err) => console.log(err));
-
-      toast.success("Note Pinned Successfully!");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const tomorrowRemainder = (e: any) => {
-    e.preventDefault();
-    const noteRemainder = {
-      _id: props.note?._id,
-      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
-      username: props.note?.username,
-      title: props.note?.title,
-      note: props.note?.note,
-      picture: props.note?.picture,
-      video: props?.note?.video,
-      bgImage: props.note?.bgImage,
-      bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
-      collaborator: props.note?.collaborator,
-      label: props.note?.label,
-      labelId: props?.note?.labelId,
-      location: props.note?.location,
-      canvas: props?.note?.canvas,
-      createdAt: new Date(),
-    };
-    console.log(noteRemainder, "note remainder");
-    try {
-      axios
-        .post(
-          "http://localhost:5000/api/notes/set-notification/tomorrow",
-          noteRemainder
-        )
-        .catch((err) => console.log(err && toast.error("internal error")));
-      contextValue?.setUser((prevUser: any) => [
-        ...prevUser?.pending,
-        noteRemainder,
-      ]);
-      console.log(contextValue?.user);
-      toast.success("Remainder set for tomorrow ");
-      setOpenNotifyModal(false);
-    } catch (error) {
-      console.log(error, "This did not work");
-    }
-  };
-  // console.log(contextValue?.user);
-
-  const nextMondayRemainder = async (e: any) => {
-    e.preventDefault();
-    const noteRemainder = {
-      _id: props.note?._id,
-      userId: props.note?.userId,
-      pinnedId: props.note?._id,
-      username: props.note?.username,
-      title: props.note?.title,
-      note: props.note?.note,
-      picture: props.note?.picture,
-      video: props?.note?.video,
-      bgImage: props.note?.bgImage,
-      bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
-      collaborator: props.note?.collaborator,
-      label: props.note?.label,
-      labelId: props?.note?.labelId,
-      location: props.note?.location,
-      createdAt: new Date(),
-    };
-    try {
-      await axios.post(
-        "https://keep-backend-theta.vercel.app/api/notes/set-notification/next-week",
-        noteRemainder
-      );
-      toast.success("Remainder set for tomorrow ");
-    } catch (error) {
-      console.log(error, "This did not work");
-    }
-    setOpenNotifyModal(false);
   };
 
   const CustomStyle = {
@@ -218,141 +76,9 @@ const ShowNote = (props: any) => {
     }),
   };
 
-  //Function to set Location
-  const setLocation = (e: any) => {
-    e.preventDefault();
-    const country = {
-      _id: props.note?._id,
-      location: countryValue?.label || props.note?.location,
-    };
-    try {
-      axios.put(
-        `https://keep-backend-theta.vercel.app/api/notes/add-country/${props.note?._id}`,
-        country
-      );
-      contextValue?.setNotes((prevState: any) =>
-        prevState.map((note: any) =>
-          note._id == props.note?._id
-            ? { ...note, location: country.location }
-            : note
-        )
-      );
-      toast.success("Location added successfully");
-    } catch (err) {
-      console.log(err);
-    }
-    setPickALocation(false);
-  };
-
-  //Function to remove location
-  const removeLocation = async (e: any) => {
-    e.preventDefault();
-    props?.setNoteModal(false);
-
-    const noteId = props.note?._id;
-
-    try {
-      props?.setNoteModal(false);
-      await axios.put(
-        `https://keep-backend-theta.vercel.app/api/notes/delete-country/${noteId}`
-      );
-
-      contextValue?.setNotes((prevNotes: any) => {
-        const updatedNotes = prevNotes.map((note: any) => {
-          if (note._id == noteId) {
-            // Update the location to an empty string for the specific note
-            return { ...note, location: " " };
-          }
-          return note;
-        });
-        return updatedNotes;
-      });
-      setPickALocation(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  //Function to archive note
-  const archiveNote = async (e: any) => {
-    e.preventDefault();
-
-    const archiveThisNote = {
-      _id: props.note?._id,
-      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
-      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
-      username: props.note?.username,
-      title: props.note?.title,
-      note: props.note?.note,
-      picture: props.note?.picture,
-      drawing: props.note?.drawing,
-      bgImage: props.note?.bgImage,
-      bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
-      collaborator: props.note?.collaborator,
-      labels: props.note?.label,
-      location: props.note?.location,
-      createdAt: props?.note.createdAt,
-    };
-    try {
-      await axios
-        .post(
-          `https://keep-backend-theta.vercel.app/api/notes/archive-note`,
-          archiveThisNote
-        )
-        .catch((err) => console.log(err));
-      contextValue?.setNotes((prevState: any) =>
-        prevState.filter((note: any) => note._id !== props.note?._id)
-      );
-      if (
-        contextValue?.pinnedNote.some(
-          (note: any) => note._id == props.note?._id
-        )
-      ) {
-        contextValue?.setPinnedNote((prevState: any) =>
-          prevState.filter((note: any) => note._id !== props.note?._id)
-        );
-        contextValue?.setArchivedNote((prevNotes: any) => {
-          prevNotes.map((note: any) => [...note, props.note]);
-        });
-      } else {
-        return null;
-      }
-      toast.success("Note archived successfully");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  //Function to trash note to options
-  const addOptions = () => {
-    setTrashNote({
-      _id: props.note?._id,
-      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
-      pinnedId: props.note?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
-      username: props.note?.username,
-      title: props.note?.title,
-      note: props.note?.note,
-      picture: props.note?.picture,
-      video: props.note?.video,
-      bgImage: props.note?.bgImage,
-      bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
-      collaborator: props.note?.collaborator,
-      label: props.note?.label,
-      labelId: props.note?.labelId,
-      location: props.note?.location,
-      canvas: props.note?.canvas,
-      createdAt: props?.note.createdAt,
-    });
-    setOpenOptionsModal(!openOptionsModal);
-    props?.setNoteUrlParams(props?.note?._id);
-    setOpenNotifyModal(false);
-  };
-
   //Function to upload a picture/video and update the note
   const uploadPicOrVid = async (files: any, mediaType: any) => {
-    props.setNoteUrlParams(props.note?._id);
+    props.setNoteUrlParams(props.remainder?._id);
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("upload_preset", "t3dil6ur");
@@ -382,7 +108,7 @@ const ShowNote = (props: any) => {
           try {
             await axios
               .post(updateEndpoint, {
-                _id: props.note?._id,
+                _id: props.remainder?._id,
                 ...mediaObject,
               })
               .catch((err) => console.log(err));
@@ -417,24 +143,58 @@ const ShowNote = (props: any) => {
       .catch((err) => console.log(err));
   };
 
-  //Function to select notes by pushing _id to an array
-  const selectedNotes = () => {
-    contextValue?.setIsSelectedShow(true);
-    props?.setNoteUrlParams(props?.note?._id);
-    contextValue?.setIsSelected((prevState: any) => [
-      props?.note?._id,
-      ...prevState,
-    ]);
+  //Function to archive note
+  const archiveNote = async (e: any) => {
+    e.preventDefault();
+
+    const archiveThisNote = {
+      _id: props.remainder?._id,
+      userId: props.remainder?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      pinnedId: props.remainder?._id, //I need something unique from props.note to be in pinned, so you can't add more than one of the same pinned note
+      username: props.remainder?.username,
+      title: props.remainder?.title,
+      note: props.remainder?.note,
+      picture: props.remainder?.picture,
+      drawing: props.remainder?.drawing,
+      bgImage: props.remainder?.bgImage,
+      bgColor: props.remainder?.bgColor,
+      remainder: props.remainder?.remainder,
+      collaborator: props.remainder?.collaborator,
+      labels: props.remainder?.label,
+      location: props.remainder?.location,
+      createdAt: props?.remainder.createdAt,
+    };
+    try {
+      await axios
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/archive-note`,
+          archiveThisNote
+        )
+        .catch((err) => console.log(err));
+      contextValue?.setNotes((prevState: any) =>
+        prevState.filter((note: any) => note._id !== props.remainder?._id)
+      );
+      if (
+        contextValue?.pinnedNote.some(
+          (note: any) => note._id == props.remainder?._id
+        )
+      ) {
+        contextValue?.setPinnedNote((prevState: any) =>
+          prevState.filter((note: any) => note._id !== props.remainder?._id)
+        );
+        contextValue?.setArchivedNote((prevNotes: any) => {
+          prevNotes.map((note: any) => [...note, props.remainder]);
+        });
+      } else {
+        return null;
+      }
+      toast.success("Note archived successfully");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  //Function to unSelect notes by popping out _id from an array
-  const unSelectNotes = () => {
-    contextValue?.setIsSelectedShow(false);
-    props?.setNoteUrlParams(props?.note?._id);
-    contextValue?.setIsSelected((prevState: any) =>
-      prevState.filter((note: any) => note !== props?.note?._id)
-    );
-  };
+  console.log(props?.remainder);
 
   return (
     <div
@@ -444,16 +204,16 @@ const ShowNote = (props: any) => {
       className="mapped"
     >
       <div className="subContainer" onClick={handleClick}>
-        {props?.note?.canvas?.map((canvas: any, index: number) => {
+        {props?.remainder?.canvas?.map((canvas: any, index: number) => {
           return <CanvasImage key={index} canvas={canvas} />;
         })}
-        {props?.note?.picture ? (
+        {props?.remainder?.picture ? (
           <div className="w-[100%]">
             <Image
               className="w-[100%]"
               width={120}
               height={120}
-              src={props?.note?.picture}
+              src={props?.remainder?.picture}
               loading="lazy"
               // objectFit="cover"
               alt=" "
@@ -462,13 +222,13 @@ const ShowNote = (props: any) => {
         ) : (
           ""
         )}
-        {props?.note?.video ? (
+        {props?.remainder?.video ? (
           <video
             className="w-[100%] max-h-[150px]"
             width={200}
             height={120}
             controls
-            src={props?.note?.video}
+            src={props?.remainder?.video}
             // objectFit="cover"
           ></video>
         ) : (
@@ -476,16 +236,16 @@ const ShowNote = (props: any) => {
         )}
         {
           <div className="p-4">
-            {props.note?.title ? (
+            {props.remainder?.title ? (
               <h1 className="text-[20px] font-semibold max-sm:text-[18px] ">
-                {props.note?.title}
+                {props.remainder?.title}
               </h1>
             ) : (
               ""
             )}
-            {props.note?.note ? (
+            {props?.remainder?.note ? (
               <p className="mt-[15px] text-[18px] font-medium whitespace-break-spaces max-sm:text-[16px] ">
-                {props.note?.note?.slice(0, 600)}...
+                {props.remainder?.note?.slice(0, 600)}...
               </p>
             ) : (
               <input
@@ -493,9 +253,9 @@ const ShowNote = (props: any) => {
                 placeholder="Empty Note"
               />
             )}
-            {props.note?.location?.length > 0 ? (
-              <form onSubmit={removeLocation}>
-                {props.note?.location?.length > 0 ? (
+            {props?.remainder?.location?.length > 0 ? (
+              <form>
+                {props?.remainder?.location?.length > 0 ? (
                   <p
                     onMouseOver={() => {
                       setCloseIcon(true);
@@ -504,7 +264,7 @@ const ShowNote = (props: any) => {
                     className="relative flex items-center gap-2 w-fit py-1 my-1 px-3 rounded-[30px] border-2 border-[#313235]"
                   >
                     <IoLocationOutline />
-                    {props.note?.location}{" "}
+                    {props?.remainder?.location}{" "}
                     <button
                       type="submit"
                       onClick={(e) => {
@@ -533,14 +293,14 @@ const ShowNote = (props: any) => {
           </div>
         }
       </div>
-      {props?.showId == props?.note?._id ? (
+      {props?.showId == props?.remainder?._id ? (
         contextValue.isSelected.some(
-          (selected: any) => selected == props?.note?._id
+          (selected: any) => selected == props?.remainder?._id
         ) ? (
           <Tippy placement="bottom" content="unselect note">
             <span
               style={{ backgroundColor: "#5F6368" }}
-              onClick={unSelectNotes}
+              //   onClick={unSelectNotes}
               className=" bg-#fff absolute top-[-18px] left-[-18px] rounded-full cursor-pointer  z-10 "
             >
               <BsCheck
@@ -552,7 +312,7 @@ const ShowNote = (props: any) => {
         ) : (
           <Tippy placement="bottom" content="select note">
             <span
-              onClick={selectedNotes}
+              //   onClick={selectedNotes}
               className="absolute top-[-18px] left-[-18px] z-10 cursor-pointer "
             >
               <BsCheck className="  bg-white rounded-full text-[#000] text-[22px] max-sm:text-[18px] max-md:text-[26px] lg:text-3xl " />
@@ -562,14 +322,14 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-      {props?.showId == props?.note?._id ? (
+      {props?.showId == props?.remainder?._id ? (
         <div
           style={{
-            backgroundColor: props?.note?.bgColor
-              ? props?.note?.bgColor
+            backgroundColor: props?.remainder?.bgColor
+              ? props?.remainder?.bgColor
               : "#202124",
-            backgroundImage: props?.note?.bgImage
-              ? `url(${props?.note?.bgImage})`
+            backgroundImage: props?.remainder?.bgImage
+              ? `url(${props?.remainder?.bgImage})`
               : "#202124",
           }}
           className={
@@ -604,20 +364,14 @@ const ShowNote = (props: any) => {
                 <div className="rounded-[20px]">
                   <p>Remainder: </p>
                   <ul>
-                    <li
-                      onClick={tomorrowRemainder}
-                      className="flex justify-between items-center hover:bg-lighterHover p-2 cursor-pointer "
-                    >
+                    <li className="flex justify-between items-center hover:bg-lighterHover p-2 cursor-pointer ">
                       Later Today <span>8:00 PM </span>{" "}
                     </li>
-                    <li
-                      onClick={tomorrowRemainder}
-                      className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer "
-                    >
+                    <li className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer ">
                       Tomorrow <span>8:00 AM </span>{" "}
                     </li>
                     <li
-                      onClick={nextMondayRemainder}
+                      // onClick={nextMondayRemainder}
                       className="flex justify-between items-center hover:bg-lighterHover  p-2 cursor-pointer"
                     >
                       Next Week <span>8:00 AM </span>{" "}
@@ -647,7 +401,7 @@ const ShowNote = (props: any) => {
                   >
                     <PickDate
                       setPickADayModal={setPickADayModal}
-                      notepad={props.note}
+                      notepad={props?.remainder}
                     />
                   </motion.div>
                 ) : (
@@ -659,7 +413,7 @@ const ShowNote = (props: any) => {
             )}
           </AnimatePresence>
           {pickALocation ? (
-            <form onSubmit={setLocation} className="pickLocation ">
+            <form className="pickLocation ">
               <h1 className="flex items-center gap-[8px] py-3 text-[20px] border-1 border-[#313235]">
                 {
                   <Tippy placement="bottom" content="Go back ">
@@ -682,7 +436,7 @@ const ShowNote = (props: any) => {
                 placeholder="Choose a location"
                 options={options}
                 value={countryValue}
-                onChange={changeHandler}
+                // onChange={changeHandler}
                 className="bg-transparent"
               />
               <div className="flex justify-end w-[90%] mt-2 ">
@@ -702,7 +456,7 @@ const ShowNote = (props: any) => {
               onClick={() => {
                 contextValue?.setShowCollaboratorModal(true);
                 setOpenNotifyModal(false);
-                props.setNoteUrlParams(props.note?._id);
+                props.setNoteUrlParams(props?.remainder?._id);
               }}
               className="p-2 rounded-full hover:bg-[#313236] transition ease-in-out delay-150 "
             >
@@ -720,7 +474,7 @@ const ShowNote = (props: any) => {
               onClick={() => {
                 props?.setShowBgModal(true);
                 contextValue?.setOverLay(true);
-                props?.setNoteUrlParams(props.note?._id);
+                props?.setNoteUrlParams(props?.remainder?._id);
                 setOpenNotifyModal(false);
                 setOpenOptionsModal(false);
               }}
@@ -774,7 +528,7 @@ const ShowNote = (props: any) => {
 
           <Tippy placement="bottom" content="More ">
             <span
-              onClick={addOptions}
+              // onClick={addOptions}
               className="p-2 rounded-full hover:bg-[#313236] cursor-pointer "
             >
               {
@@ -789,12 +543,12 @@ const ShowNote = (props: any) => {
             {openOptionsModal ? (
               <div className="py-2" id="options">
                 <Options
-                  trashNote={trashNote}
+                  // trashNote={trashNote}
                   setOpenOptionsModal={setOpenOptionsModal}
-                  openCanvasModal={openCanvasModal}
-                  setOpenCanvasModal={setOpenCanvasModal}
-                  openLabelModal={openLabelModal}
-                  setOpenLabelModal={setOpenLabelModal}
+                  // openCanvasModal={openCanvasModal}
+                  // setOpenCanvasModal={setOpenCanvasModal}
+                  // openLabelModal={openLabelModal}
+                  // setOpenLabelModal={setOpenLabelModal}
                 />
               </div>
             ) : (
@@ -807,7 +561,7 @@ const ShowNote = (props: any) => {
       )}
       {props?.showIconsOnHover ? (
         contextValue?.pinnedNote?.some(
-          (pinned: any) => pinned?._id == props?.note?._id
+          (pinned: any) => pinned?._id == props?.remainder?._id
         ) ? (
           <Tippy placement="bottom" content="Unpin note ">
             <button
@@ -818,7 +572,7 @@ const ShowNote = (props: any) => {
             </button>
           </Tippy>
         ) : (
-          <form onSubmit={pinNote}>
+          <form>
             <Tippy placement="bottom" content="Pin note ">
               <button
                 type="submit"
@@ -889,28 +643,7 @@ const ShowNote = (props: any) => {
       ) : (
         ""
       )}
-      {openCanvasModal ? (
-        <div className="fixed z-50 top-0 left-0 h-full w-full">
-          <Canvas
-            noteUrlParams={props?.noteUrlParams}
-            setOpenCanvasModal={setOpenCanvasModal}
-            canvasNote={trashNote}
-          />
-        </div>
-      ) : (
-        ""
-      )}
-      {openLabelModal ? (
-        <div id="shadow" className="label-modal">
-          <CreateLabel
-            noteUrlParams={props?.noteUrlParams}
-            clickedNote={trashNote}
-            setOpenLabelModal={setOpenLabelModal}
-          />
-        </div>
-      ) : (
-        ""
-      )}
+
       <Toaster
         position="bottom-left"
         toastOptions={{
@@ -947,4 +680,4 @@ const ShowCanvasImage = (canvas: any) => {
   );
 };
 
-export default ShowNote;
+export default Remainder;

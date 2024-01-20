@@ -1,21 +1,18 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdLightbulbOutline } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { MdOutlineLabel } from "react-icons/md";
 import { BiArchiveIn, BiPencil } from "react-icons/bi";
 import { TfiTrash } from "react-icons/tfi";
 import Link from "next/link";
 import { useAppContext } from "@/helpers/Helpers";
-import { getCookie } from "cookies-next";
-import axios from "axios";
 import Label from "./Label";
 import EditLabel from "../editLabel/EditLabel";
 import { AnimatePresence, motion } from "framer-motion";
 import MobileNav from "../mobileNav/MobileNav";
 import { usePathname } from "next/navigation";
 import { BsPersonFill } from "react-icons/bs";
-// import "../../app/Home.module.css"
+
 type Props = {};
 
 const Navbar = ({ note }: any) => {
@@ -26,7 +23,6 @@ const Navbar = ({ note }: any) => {
   const filteredArray = contextValue?.notes?.filter(
     (element: any) => element?.labelId?.length > 1
   );
-  // console.log(filteredArray);
 
   //function takes in two arguments, one an array of notes and the second is an array of notes values which is label and labelId
   function getUniqueElementsByProperties(arr: any, properties: any) {
@@ -43,12 +39,14 @@ const Navbar = ({ note }: any) => {
 
     return resultArray;
   }
+
   //we call the function to get unique elements and pass our values of the filtered array(array containing all notes with label length greater than 1) and the properties array
   const uniqueElements = getUniqueElementsByProperties(filteredArray, [
     "label",
     "labelId",
   ]);
 
+  //To get the url pathname
   const currentRoute = usePathname();
 
   return (
@@ -77,22 +75,25 @@ const Navbar = ({ note }: any) => {
               </li>
             </Link>
 
-            <li
-              className={`flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer ${
-                currentRoute == "/reminders" ? "bg-[#41331C]" : ""
-              } `}
-            >
-              <span>
-                {
-                  <IoMdNotificationsOutline
-                    className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
-                    color="#9AA0A6"
-                    cursor="pointer"
-                  />
-                }
-              </span>
-              <span className="max-md:hidden"> Remainders</span>
-            </li>
+            <Link href="/remainders">
+              {" "}
+              <li
+                className={`flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer ${
+                  currentRoute == "/remainders" ? "bg-[#41331C]" : ""
+                } `}
+              >
+                <span>
+                  {
+                    <IoMdNotificationsOutline
+                      className="max-sm:text-2xl md:text-3x1 max-lg:text-3xl xl:text-3xl"
+                      color="#9AA0A6"
+                      cursor="pointer"
+                    />
+                  }
+                </span>
+                <span className="max-md:hidden"> Remainders</span>
+              </li>
+            </Link>
             <li
               className={`flex items-center gap-4 text-[20px]  rounded-r-full transition ease-in-out delay-150 cursor-pointer ${
                 currentRoute == "/label" ? "bg-[#41331C]" : ""

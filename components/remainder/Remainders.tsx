@@ -1,26 +1,14 @@
 "use client";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
-import { getCookie } from "cookies-next";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import Trash from "./Trash";
-import "./trash.module.css";
-import toast from "react-hot-toast";
+import Remainder from "./Remainder";
+import "./Remainders.css";
 type Props = {};
 
-const Archives = (props: any) => {
+const Remainders = (props: any) => {
   const [activeId, setActiveId] = useState<any>(" ");
-
-  // const localStorageId = localStorage?.getItem("user");
-
-  useEffect(() => {
-    // Perform localStorage action
-    if (typeof window !== "undefined") {
-      const localStorageId = localStorage?.getItem("user");
-      setActiveId(localStorageId);
-    }
-  }, []);
 
   const { contextValue }: any = useAppContext();
 
@@ -32,51 +20,29 @@ const Archives = (props: any) => {
   const [showId, setShowId] = useState<string>("");
   const [showBgModal, setShowBgModal] = useState(false);
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
+  const [currentUser, setCurrentUser] = useState<any>([]);
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
 
   useEffect(() => {
     if (contextValue?.user?.userId) {
       axios
         .get(
-          `https://keep-backend-theta.vercel.app/api/notes/get-trash/${contextValue?.user?.userId}`
+          `https://keep-backend-theta.vercel.app/api/users/get-user/uid/${contextValue?.user?.userId}`
         )
         .then((res) => {
-          contextValue?.setTrashedNotes(res.data);
+          setCurrentUser(res.data);
         })
         .then(() => setEmptyMessage(true))
         .catch((err) => console.log(err));
     }
   }, [contextValue?.user?.userId]);
 
-  const emptyTrash = async () => {
-    let trashed: any = [];
-    try {
-      await axios
-        .delete("https://keep-backend-theta.vercel.app/api/notes/empty-trash")
-        .catch((err) => console.log(err));
-      //This sets contextValue?.setTrashedNotes to empty array
-      contextValue?.setTrashedNotes((prevNotes: any) => {
-        [{ ...prevNotes, trashed }];
-      });
-      toast.success("Trash emptied");
-    } catch (error) {
-      console.log(error);
-      toast.error("Error emptying trash");
-    }
-  };
+  // console.log(currentUser, "This is current");
 
   return (
     <div className=" mt-[10px] mb-[200px] ml-[40px] max-md:ml-[20px] ">
-      <h1 className="flex items-center justify-center text-center ml-[20px] text-[20px]  mb-[20px] max-sm:text-[16px] max-[850px]:ml-[0px] ">
-        <i>
-          Notes in Trash are deleted after 1 day{" "}
-          <span
-            onClick={() => emptyTrash}
-            className="text-[#84B4F8] place-content-center hover:bg-[#24272D] py-3 px-3 rounded-[8px] cursor-pointer"
-          >
-            <i>empty trash </i>
-          </span>{" "}
-        </i>
+      <h1 className="flex items-start justify-start text-[22px]  mb-[20px] max-sm:text-[16px] max-[850px]:ml-[0px] ">
+        Pending Remainders
       </h1>
       <AnimatePresence>
         <motion.div
@@ -89,12 +55,12 @@ const Archives = (props: any) => {
           animate={{ opacity: 1 }}
         >
           {emptyMessage ? (
-            contextValue?.trashedNotes?.length > 0 ? (
-              contextValue.trashedNotes?.map((trash: any, index: any) => (
+            contextValue?.user?.pending?.length > 0 ? (
+              contextValue.user?.pending?.map((remainder: any, index: any) => (
                 <div
                   onMouseEnter={() => {
                     setShowIconsOnHover(true);
-                    setShowId(trash?._id);
+                    setShowId(remainder?._id);
                   }}
                   onMouseLeave={() => {
                     setShowIconsOnHover(false);
@@ -102,21 +68,21 @@ const Archives = (props: any) => {
                   }}
                   onTouchStart={() => {
                     setShowIconsOnHover(true);
-                    setShowId(trash?._id);
+                    setShowId(remainder?._id);
                   }}
                   className=" relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] break-words "
                   style={{
-                    backgroundColor: trash?.bgColor
-                      ? trash?.bgColor
+                    backgroundColor: remainder?.bgColor
+                      ? remainder?.bgColor
                       : "#202124",
-                    backgroundImage: trash?.bgImage
-                      ? `url(${trash?.bgImage})`
+                    backgroundImage: remainder?.bgImage
+                      ? `url(${remainder?.bgImage})`
                       : "#202124",
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                   }}
-                  key={trash?._id}
+                  key={remainder?._id}
                 >
                   {overLay ? (
                     <AnimatePresence>
@@ -136,8 +102,8 @@ const Archives = (props: any) => {
                     ""
                   )}
 
-                  <Trash
-                    trashedNote={trash}
+                  <Remainder
+                    remainder={remainder}
                     overLay={overLay}
                     setOverLay={setOverLay}
                     noteModal={noteModal}
@@ -153,7 +119,9 @@ const Archives = (props: any) => {
                 </div>
               ))
             ) : (
-              <div className="flex justify-center m-[auto] "></div>
+              <div className="flex justify-center m-[auto] text-[22px] font-medium ">
+                You have no new remainders{" "}
+              </div>
             )
           ) : (
             <div className="flex justify-center m-[auto] ">
@@ -166,4 +134,4 @@ const Archives = (props: any) => {
   );
 };
 
-export default Archives;
+export default Remainders;

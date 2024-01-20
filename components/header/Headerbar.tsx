@@ -60,8 +60,6 @@ const Headerbar = (props: any) => {
     }
   };
 
-  //
-
   return (
     <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode max-[550px]:mb-2 max-[550px]:p-2 ">
       <div className="flex items-center justify-between gap-16 w-[60%] min-[850px]:  ">
@@ -101,7 +99,7 @@ const Headerbar = (props: any) => {
             <Tippy placement="bottom" content="Main menu">
               <span
                 // onClick={() => contextValue?.setOpenMobileNav(true)}
-                className="p-3 rounded-full :hover bg-[#28292C] cursor-pointer max-sm:hidden"
+                className="p-3 rounded-full :hover bg-[#28292C] cursor-pointer max-md:hidden"
               >
                 {
                   <FiMenu
@@ -116,7 +114,7 @@ const Headerbar = (props: any) => {
                 onClick={() =>
                   contextValue?.setOpenMobileNav(!contextValue?.openMobileNav)
                 }
-                className="p-3 rounded-full :hover bg-[#28292C] cursor-pointer hidden max-sm:block "
+                className="p-3 rounded-full :hover bg-[#28292C] cursor-pointer hidden max-md:block "
               >
                 {
                   <FiMenu
@@ -267,7 +265,7 @@ const Headerbar = (props: any) => {
               }{" "}
             </span>
           </Tippy>
-          <div className="relative h-[45px] w-[45px] rounded-full max-sm:h-[40px] max-sm:w-[40px] ">
+          <div className="relative h-[45px] w-[45px] rounded-full cursor-pointer max-sm:h-[40px] max-sm:w-[40px] ">
             <div
               style={{
                 backgroundImage: `url(${contextValue.user?.profilePic})`,
@@ -280,14 +278,7 @@ const Headerbar = (props: any) => {
               onClick={() => setOpenProfileModal(!openProfileModal)}
               className="w-[50px] h-[50px] rounded-full bg-[#313236]"
             ></div>
-            {/* <img
-              className="w-[100%] h-[100%] rounded-full  "
-              src={contextValue.user?.profilePic}
-              width="40"
-              height="50"
-              alt="img"
-             
-            /> */}
+
             {showHover && (
               <div className="bg-[#393D40] absolute p-1 px-4 top-[40px] right-[1px] rounded-[8px]  ">
                 <span>Google Account </span>
