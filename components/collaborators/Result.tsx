@@ -5,7 +5,7 @@ type Props = {};
 
 const Result = (props: any) => {
   const getUserDetails = () => {
-    props?.setGetCollaboratorId(props?.user?._id);
+    props?.setGetCollaboratorId(props?.user?.userId);
     props?.setGetCollaboratorUsername(props?.user?.username);
     props?.setGetCollaboratorProfilePic(props?.user?.profilePic);
     // props?.setGetCollaboratorEmail(props?.user?.email);

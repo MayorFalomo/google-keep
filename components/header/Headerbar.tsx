@@ -14,7 +14,6 @@ import MobileNav from "../mobileNav/MobileNav";
 import Profile from "../profile/Profile";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
-import { TfiTrash } from "react-icons/tfi";
 import SelectedBar from "../selectedbar/SelectedBar";
 import { useDebounce } from "../hook/useDebounce";
 
@@ -29,17 +28,8 @@ const Headerbar = (props: any) => {
   const [showHover, setShowHover] = useState<boolean>(false);
   const [openProfileModal, setOpenProfileModal] = useState<boolean>(false);
   const debounceSearch = useDebounce(contextValue?.searchValue, 500);
-  // // console.log(times);
-  // const handleClick = () => {
-  //   contextValue?.setChangeNoteLayout(!contextValue.changeNoteLayout);
-  // };
 
-  // useEffect(() => {
-  //   contextValue?.setChangeNoteLayout(true);
-  // }, []);
-
-  // console.log(contextValue?.openMobileNav);
-
+  //Function to handle search
   const handleInputChange = (e: any) => {
     const value = e.target.value;
     contextValue?.setSearchValue(value);
@@ -97,10 +87,7 @@ const Headerbar = (props: any) => {
         ) : (
           <div className="flex items-center gap-2">
             <Tippy placement="bottom" content="Main menu">
-              <span
-                // onClick={() => contextValue?.setOpenMobileNav(true)}
-                className="p-3 rounded-full :hover bg-[#28292C] cursor-pointer max-md:hidden"
-              >
+              <span className="p-3 rounded-full :hover bg-[#28292C] cursor-pointer max-md:hidden">
                 {
                   <FiMenu
                     className="max-sm:text-[18px] md:text-[18px] "
@@ -244,10 +231,10 @@ const Headerbar = (props: any) => {
             </Tippy>
           )}
           <Tippy placement="bottom" content="Settings">
-            <span className="p-3 rounded-full hover:bg-[#313236]  max-sm:p-1 ">
+            <span className="p-3 rounded-full cursor-not-allowed hover:bg-[#313236]  max-sm:p-1 ">
               {
                 <IoSettingsOutline
-                  className=" text-[#9AA0A6] text-[22px] max-sm:text-[18px] max-md:text-[18px] lg:text-[22px]  "
+                  className=" text-[#9AA0A6] cursor-not-allowed text-[22px] max-sm:text-[18px] max-md:text-[18px] lg:text-[22px]  "
                   cursor="pointer"
                 />
               }{" "}
@@ -256,10 +243,10 @@ const Headerbar = (props: any) => {
         </div>
         <div className="flex items-center gap-2  max-sm:w-[100%] max-sm:gap-[4px] ">
           <Tippy placement="bottom" content="Google apps">
-            <span className="p-3 rounded-full hover:bg-[#313236]  max-[600px]:hidden">
+            <span className="p-3 rounded-full cursor-not-allowed hover:bg-[#313236]  max-[600px]:hidden">
               {
                 <CgMenuGridO
-                  className=" text-[22px] max-sm:text-[16px] max-md:text-[18px] lg:text-[22px] "
+                  className=" text-[22px] cursor-not-allowed max-sm:text-[16px] max-md:text-[18px] lg:text-[22px] "
                   cursor="pointer"
                 />
               }{" "}

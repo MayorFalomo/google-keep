@@ -3,11 +3,9 @@ import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ShowNote from "./showNote";
 import "./notes.css";
-import Login from "../login/Login";
 import Results from "../results/Results";
 type Props = {};
 
@@ -28,16 +26,6 @@ const ListView = (props: any) => {
   const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
   const [activateSwitch, setActivateSwitch] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   // Perform localStorage action
-  //   if (typeof window !== "undefined") {
-  //     const localStorageId = localStorage?.getItem("user");
-  //     setActiveId(localStorageId);
-  //   }
-  // }, []);
-
-  // console.log(contextValue?.user?.userId, "userId");
 
   useEffect(() => {
     if (contextValue?.user?.userId) {
@@ -75,7 +63,6 @@ const ListView = (props: any) => {
             onClick={() => {
               contextValue.setOpenTextArea(false);
             }}
-            // ref={gridRef}
             className="flex-layout"
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
