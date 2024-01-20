@@ -2,7 +2,7 @@
     position: absolute;
     top: 40px;
     right: 1px;
-    z-index: 9;
+    z-index: 99999;
     background-color: #202124;
     width: 400px;
     height: 350px;
@@ -16,12 +16,9 @@
         position: fixed;
         top: 50px;
         left: 0;
-   /* max-width: 100% !important; */
-   /* max-width: 400px; */
-       background-color: #202124;
-
-   width: 100% !important;
-    height: 350px;
+        background-color: #202124;
+        width: 100% !important;
+        height: 350px;
     }
 
 }

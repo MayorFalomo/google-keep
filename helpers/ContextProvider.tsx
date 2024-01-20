@@ -27,23 +27,25 @@ const AppContextProvider = ({ children }: any) => {
   const [user, setUser] = useState(null);
   const [notes, setNotes] = useState([]);
   const currentUser = getCookie("user") || activeId;
-  const [openTextArea, setOpenTextArea] = useState(false);
-  const [noteModal, setNoteModal] = useState(false); //toggle create note modal
+  const [openTextArea, setOpenTextArea] = useState<boolean>(false);
+  const [noteModal, setNoteModal] = useState<boolean>(false); //toggle create note modal
   const [pinnedNote, setPinnedNote] = useState<any>();
   const [archivedNote, setArchivedNote] = useState([]);
-  const [overLay, setOverLay] = useState(false);
-  const [backgroundColor, setBackgroundColor] = useState("");
+  const [overLay, setOverLay] = useState<boolean>(false);
+  const [backgroundColor, setBackgroundColor] = useState<string>("");
   const [trashedNotes, setTrashedNotes] = useState([]);
   const [changeNoteLayout, setChangeNoteLayout] = useState<boolean>(false);
   const [notesLabel, setNotesLabel] = useState<any>([]);
   const [editLabelModal, setEditLabelModal] = useState<boolean>(false);
-  const [showCollaboratorModal, setShowCollaboratorModal] = useState(false);
-  const [openMobileNav, setOpenMobileNav] = useState(false);
+  const [showCollaboratorModal, setShowCollaboratorModal] = useState<boolean>(
+    false
+  );
+  const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchValue, setSearchValue] = useState<string>("");
   const [isSelected, setIsSelected] = useState([]);
-  const [isSelectedShow, setIsSelectedShow] = useState(false);
-
+  const [isSelectedShow, setIsSelectedShow] = useState<boolean>(false);
+  const [allRemainders, setAllRemainders] = useState([]);
   // console.log(currentUser, "currentUser");
 
   //getCurrentUser takes in a parameter called Id which we'll get from currentUser which is cookies.user
@@ -79,8 +81,6 @@ const AppContextProvider = ({ children }: any) => {
   // console.log(changeNoteLayout, "ChangeNoteLayout");
 
   const contextValue = {
-    // isAuth,
-    // setIsAuth,
     user,
     setUser,
     notes,
@@ -119,8 +119,6 @@ const AppContextProvider = ({ children }: any) => {
     setIsSelected,
     isSelectedShow,
     setIsSelectedShow,
-    // changeLayout,
-    // setChangeLayout,
   };
 
   return (

@@ -71,7 +71,11 @@ const Archives = (props: any) => {
                     setShowIconsOnHover(false);
                     setShowId("");
                   }}
-                  className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                  onTouchStart={() => {
+                    setShowIconsOnHover(true);
+                    setShowId(archived?._id);
+                  }}
+                  className=" relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] break-words"
                   style={{
                     backgroundColor: archived?.bgColor
                       ? archived?.bgColor

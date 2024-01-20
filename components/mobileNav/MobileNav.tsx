@@ -1,19 +1,16 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdLightbulbOutline } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { MdOutlineLabel } from "react-icons/md";
 import { BiArchiveIn, BiPencil } from "react-icons/bi";
 import { TfiTrash } from "react-icons/tfi";
 import Link from "next/link";
 import { useAppContext } from "@/helpers/Helpers";
-import { getCookie } from "cookies-next";
 import axios from "axios";
 import Label from "./Label";
 import EditLabel from "../editLabel/EditLabel";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname, useRouter } from "next/navigation";
-// import "../../app/Home.module.css"
+import { usePathname } from "next/navigation";
 type Props = {};
 
 const MobileNav = ({ note }: any) => {
@@ -24,7 +21,6 @@ const MobileNav = ({ note }: any) => {
   const filteredArray = contextValue?.notes?.filter(
     (element: any) => element?.labelId?.length > 1
   );
-  // console.log(filteredArray);
 
   //function takes in two arguments, one an array of notes and the second is an array of notes values which is label and labelId
   function getUniqueElementsByProperties(arr: any, properties: any) {
@@ -49,7 +45,6 @@ const MobileNav = ({ note }: any) => {
   ]);
 
   const route = usePathname();
-  //   console.log(route);
 
   return (
     <AnimatePresence>
@@ -82,22 +77,24 @@ const MobileNav = ({ note }: any) => {
               </li>
             </Link>
 
-            <li
-              className={`flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer ${
-                route == "/reminders" ? "bg-[#41331C]" : ""
-              } `}
-            >
-              <span>
-                {
-                  <IoMdNotificationsOutline
-                    className="max-sm:text-[20px] md:text-[22px]"
-                    color="#9AA0A6"
-                    cursor="pointer"
-                  />
-                }
-              </span>
-              <span className="text-[18px]"> Remainders</span>
-            </li>
+            <Link href="/remainders">
+              <li
+                className={`flex items-center gap-6 py-4 px-4 text-[20px]  hover:bg-[#28292C] rounded-r-full transition ease-in-out delay-150 cursor-pointer ${
+                  route == "/reminders" ? "bg-[#41331C]" : ""
+                } `}
+              >
+                <span>
+                  {
+                    <IoMdNotificationsOutline
+                      className="max-sm:text-[20px] md:text-[22px]"
+                      color="#9AA0A6"
+                      cursor="pointer"
+                    />
+                  }
+                </span>
+                <span className="text-[18px]"> Remainders</span>
+              </li>
+            </Link>
             <li
               className={`flex items-center gap-4 text-[20px]  rounded-r-full transition ease-in-out delay-150 cursor-pointer ${
                 route == "/labels" ? "bg-[#41331C]" : ""

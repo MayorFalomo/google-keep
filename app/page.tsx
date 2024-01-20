@@ -12,21 +12,18 @@ import { useEffect } from "react";
 export default function Page() {
   const { contextValue }: any = useAppContext();
 
+  //UseEffect to check what layout to display depending on the size of the screen
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.addEventListener("resize", () => {
         if (window.innerWidth <= 550) {
           contextValue?.setChangeNoteLayout(true);
-          // setActivateSwitch(true);
         } else {
-          // setActivateSwitch(false);
           contextValue?.setChangeNoteLayout(false);
         }
       });
     }
   }, [contextValue?.changeNoteLayout]);
-
-  // console.log(window.innerWidth, "width");
 
   return (
     <div>

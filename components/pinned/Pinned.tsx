@@ -9,7 +9,6 @@ type Props = {};
 const Pinned = () => {
   const { contextValue }: any = useAppContext();
   const [pinnedModal, setPinnedModal] = React.useState(false); //toggle create note modal
-  const [overLayBg, setOverLayBg] = useState(false);
   const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
     false
   );
@@ -22,23 +21,9 @@ const Pinned = () => {
       )
       .then((res) => {
         contextValue.setPinnedNote(res.data.reverse());
-        // console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, [contextValue?.user?.userId]);
-
-  // console.log(contextValue?.pinnedNote);
-
-  // console.log(userCookie, "This is pinned note");
-
-  // useEffect(() => {
-  //   const imgLoad = imagesLoaded(containerRef.current);
-  //   imgLoad.on("always", () => {
-  //     console.log("All images are loaded");
-  //   });
-  // }, [contextValue.notes]);
-
-  // console.log(contextValue.pinnedNote);
 
   return (
     <div className="ml-[50px] max-md:ml-[20px]">
@@ -62,7 +47,7 @@ const Pinned = () => {
           >
             {contextValue?.pinnedNote?.map((pinned: any) => (
               <div
-                className="relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5f6368] break-words mb-[25px] rounded-[10px] max-sm:w-[100%] "
+                className="relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5f6368] break-words mb-[25px] rounded-[10px] max-sm:w-[90%] "
                 style={{
                   backgroundColor: pinned?.bgColor
                     ? pinned?.bgColor
@@ -86,44 +71,13 @@ const Pinned = () => {
                 }}
                 key={pinned?._id}
               >
-                {/* {contextValue?.overLay ? (
-                  <div
-                    onClick={() => {
-                      setPinnedModal(false);
-                      contextValue?.setOverLay(false);
-                    }}
-                    className="fixed z-10 top-0 left-0 h-screen w-screen bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
-                  ></div>
-                ) : (
-                  ""
-                )} */}
-
-                {/* {contextValue?.overLay ? (
-                  <AnimatePresence>
-                    <motion.div
-                      onClick={() => {
-                        setPinnedModal(false);
-                        contextValue?.setOverLay(false);
-                      }}
-                      exit={{ opacity: 0 }}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="fixed z-10 top-0 left-0 h-full w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 "
-                    ></motion.div>
-                  </AnimatePresence>
-                ) : (
-                  ""
-                )} */}
-
                 <ShowPinned
                   pinned={pinned}
                   showIconsOnHover={showIconsOnHover}
                   setShowIconsOnHover={setShowIconsOnHover}
                   pinnedModal={pinnedModal}
                   setPinnedModal={setPinnedModal}
-                  // overLayBg={overLayBg}
                   showId={showId}
-                  // setOverLayBg={setOverLayBg}
                 />
               </div>
             ))}

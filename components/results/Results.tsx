@@ -39,6 +39,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAppContext } from "@/helpers/Helpers";
 type Props = {};
 
+//Parent component is showNotes.tsx
 const Results = (props: any) => {
   const { contextValue }: any = useAppContext();
 
