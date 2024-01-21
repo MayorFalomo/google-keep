@@ -24,7 +24,7 @@ const SingleNote = (props: any) => {
   // console.log(props?.labeledNotes, "this is props");
 
   return (
-    <div className="mt-[50px] mb-[200px] ">
+    <div className="mt-[20px] mb-[200px] ">
       {/* <h1 className="ml-[50px] text-[20px]  mb-[20px]">OTHERS </h1> */}
       <AnimatePresence>
         <motion.div
@@ -32,10 +32,6 @@ const SingleNote = (props: any) => {
             contextValue.setOpenTextArea(false);
           }}
           className="grid"
-          // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
-          data-masonry='{ "itemSelector": ".grid-item",
-          "columnWidth": 300
-         }'
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -52,7 +48,7 @@ const SingleNote = (props: any) => {
                     setShowIconsOnHover(false);
                     setShowId("");
                   }}
-                  className=" relative max-w-[350px] min-w-[250px] h-fit min-h-[120px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
+                  className=" relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px]"
                   style={{
                     backgroundColor: note?.bgColor ? note?.bgColor : "#202124",
                     backgroundImage: `url(${note?.bgImage})`,

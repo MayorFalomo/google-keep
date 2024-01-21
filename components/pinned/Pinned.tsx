@@ -21,7 +21,7 @@ const Pinned = () => {
         `https://keep-backend-theta.vercel.app/api/notes/getall-pinned-notes/${contextValue?.user?.userId}`
       )
       .then((res) => {
-        contextValue.setPinnedNote(res.data.reverse());
+        contextValue.setPinnedNote(res.data);
       })
       .catch((err) => console.log(err));
   }, [contextValue?.user?.userId]);
@@ -36,7 +36,7 @@ const Pinned = () => {
   }, []);
 
   return (
-    <div className="ml-[20px] max-md:ml-[20px]">
+    <div className="ml-[20px] max-md:ml-[20px] max-sm:w-[90%] ">
       {contextValue?.pinnedNote?.length > 0 ? (
         <h1 className="text-[#8A949E] text-[20px] mb-[20px]  max-sm:text-[18px] ">
           PINNED{" "}
@@ -57,7 +57,7 @@ const Pinned = () => {
           >
             {contextValue?.pinnedNote?.map((pinned: any) => (
               <div
-                className="relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5f6368] break-words mb-[25px] rounded-[10px] max-md:max-w-[230px] "
+                className="relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5f6368] break-words mb-[25px] rounded-[10px] max-md:w-[250px] max-sm:min-w-[100%] "
                 style={{
                   backgroundColor: pinned?.bgColor
                     ? pinned?.bgColor
