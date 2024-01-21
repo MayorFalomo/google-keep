@@ -77,11 +77,12 @@ const ShowNotes = (props: any) => {
   switchLayout();
 
   useEffect(() => {
-    if (contextValue?.user?.notifications.length > 0) {
-      toast.success("You have a new remainder", {
-        duration: 6000,
-        position: "top-right",
-      });
+    if (contextValue?.user?.userId) {
+      contextValue?.user?.notifications.length > 0 &&
+        toast.success("You have a new remainder", {
+          duration: 6000,
+          position: "top-right",
+        });
     }
   }, [contextValue?.user?.notifications]);
 

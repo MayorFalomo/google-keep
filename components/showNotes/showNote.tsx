@@ -38,10 +38,6 @@ type Props = {};
 const ShowNote = (props: any) => {
   const { contextValue }: any = useAppContext();
 
-  // const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
-  // const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
-  //   false
-  // );
   const [openNotifyModal, setOpenNotifyModal] = React.useState<boolean>(false);
   const [pickADayModal, setPickADayModal] = React.useState<boolean>(false);
   const [countryValue, setCountryValue] = React.useState<any>("");
@@ -122,6 +118,45 @@ const ShowNote = (props: any) => {
     }
   };
 
+  const laterToday = (e: any) => {
+    e.preventDefault();
+    const noteRemainder = {
+      _id: props.note?._id,
+      userId: props.note?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      username: props.note?.username,
+      title: props.note?.title,
+      note: props.note?.note,
+      picture: props.note?.picture,
+      video: props?.note?.video,
+      bgImage: props.note?.bgImage,
+      bgColor: props.note?.bgColor,
+      remainder: props.note?.remainder,
+      collaborator: props.note?.collaborator,
+      label: props.note?.label,
+      labelId: props?.note?.labelId,
+      location: props.note?.location,
+      canvas: props?.note?.canvas,
+      createdAt: new Date(),
+    };
+    console.log(noteRemainder, "note remainder");
+    try {
+      axios
+        .post(
+          "https://keep-backend-theta.vercel.app/api/notes/set-notification/later-today",
+          noteRemainder
+        )
+        .catch((err) => console.log(err && toast.error("internal error")));
+      contextValue?.setUser((prevUser: any) => [
+        ...prevUser?.pending,
+        noteRemainder,
+      ]);
+      toast.success("Remainder set for tomorrow ");
+      setOpenNotifyModal(false);
+    } catch (error) {
+      console.log(error, "This did not work");
+    }
+  };
+
   const tomorrowRemainder = (e: any) => {
     e.preventDefault();
     const noteRemainder = {
@@ -146,7 +181,7 @@ const ShowNote = (props: any) => {
     try {
       axios
         .post(
-          "http://localhost:5000/api/notes/set-notification/tomorrow",
+          "https://keep-backend-theta.vercel.app/api/notes/set-notification/tomorrow",
           noteRemainder
         )
         .catch((err) => console.log(err && toast.error("internal error")));
@@ -154,7 +189,7 @@ const ShowNote = (props: any) => {
         ...prevUser?.pending,
         noteRemainder,
       ]);
-      console.log(contextValue?.user);
+      // console.log(contextValue?.user);
       toast.success("Remainder set for tomorrow ");
       setOpenNotifyModal(false);
     } catch (error) {
@@ -168,7 +203,6 @@ const ShowNote = (props: any) => {
     const noteRemainder = {
       _id: props.note?._id,
       userId: props.note?.userId,
-      pinnedId: props.note?._id,
       username: props.note?.username,
       title: props.note?.title,
       note: props.note?.note,
@@ -180,6 +214,7 @@ const ShowNote = (props: any) => {
       collaborator: props.note?.collaborator,
       label: props.note?.label,
       labelId: props?.note?.labelId,
+      canvas: props?.note?.canvas,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -188,6 +223,10 @@ const ShowNote = (props: any) => {
         "https://keep-backend-theta.vercel.app/api/notes/set-notification/next-week",
         noteRemainder
       );
+      contextValue?.setUser((prevUser: any) => [
+        ...prevUser?.pending,
+        noteRemainder,
+      ]);
       toast.success("Remainder set for tomorrow ");
     } catch (error) {
       console.log(error, "This did not work");
@@ -605,7 +644,7 @@ const ShowNote = (props: any) => {
                   <p>Remainder: </p>
                   <ul>
                     <li
-                      onClick={tomorrowRemainder}
+                      onClick={laterToday}
                       className="flex justify-between items-center hover:bg-lighterHover p-2 cursor-pointer "
                     >
                       Later Today <span>8:00 PM </span>{" "}

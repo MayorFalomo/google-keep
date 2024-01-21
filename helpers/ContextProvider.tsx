@@ -30,10 +30,10 @@ const AppContextProvider = ({ children }: any) => {
   const [openTextArea, setOpenTextArea] = useState<boolean>(false);
   const [noteModal, setNoteModal] = useState<boolean>(false); //toggle create note modal
   const [pinnedNote, setPinnedNote] = useState<any>();
-  const [archivedNote, setArchivedNote] = useState([]);
+  const [archivedNote, setArchivedNote] = useState([].reverse());
   const [overLay, setOverLay] = useState<boolean>(false);
   const [backgroundColor, setBackgroundColor] = useState<string>("");
-  const [trashedNotes, setTrashedNotes] = useState([]);
+  const [trashedNotes, setTrashedNotes] = useState([].reverse());
   const [changeNoteLayout, setChangeNoteLayout] = useState<boolean>(false);
   const [notesLabel, setNotesLabel] = useState<any>([]);
   const [editLabelModal, setEditLabelModal] = useState<boolean>(false);

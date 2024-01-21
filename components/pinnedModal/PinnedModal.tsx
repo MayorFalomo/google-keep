@@ -155,7 +155,7 @@ const PinnedModal = (props: any) => {
         ""
       )}
       <div className="h-[100%]">
-        <form className="h-full " onSubmit={handleEditNote}>
+        <form className="h-full max-sm:mt-[10px]" onSubmit={handleEditNote}>
           <div className="flex items-center">
             <input
               className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"
