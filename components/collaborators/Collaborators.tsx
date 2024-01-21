@@ -98,7 +98,6 @@ const Collaborators = (props: any) => {
       _id: singleNote?._id,
       userId: getCollaboratorId, //The id of the person we're sending to
       generatedId: generateId(24),
-      // email: singleNote?.email,
       username: getCollaboratorUsername, //username of the person we're sending to
       profilePic: getCollaboratorProfilePic,
       title: singleNote?.title,
@@ -135,8 +134,6 @@ const Collaborators = (props: any) => {
     console.log("Done");
     return toast.success("note sent ");
   };
-
-  // console.log(singleNote?._id);
 
   return (
     <div className="bg-[#2D2E30] fixed z-20 h-auto max-h-[340px] w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] max-[900px]:w-[80%] max-sm:w-[95%]">
