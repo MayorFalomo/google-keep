@@ -70,7 +70,7 @@ const Notifications = (props: Props) => {
                       setShowIconsOnHover(true);
                       setShowId(remainder?._id);
                     }}
-                    className=" relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] break-words "
+                    className=" relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] break-words  max-md:w-[250px] max-sm:min-w-[100%]"
                     style={{
                       backgroundColor: remainder?.bgColor
                         ? remainder?.bgColor
