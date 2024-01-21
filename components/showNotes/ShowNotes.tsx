@@ -1,28 +1,16 @@
 "use client";
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
-import { getCookie } from "cookies-next";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import ShowNote from "./showNote";
 import "./notes.css";
-import Login from "../login/Login";
 import Results from "../results/Results";
 import useLongPress from "../hook/useLongPress";
 import toast from "react-hot-toast";
-// import Masonry from "masonry-layout";
 type Props = {};
 
-declare global {
-  interface HTMLElement {
-    masonry?: any; // Define the masonry property on HTMLElement
-  }
-}
-
 const ShowNotes = (props: any) => {
-  const userCookie = getCookie("user");
-
   const { contextValue }: any = useAppContext();
   const [noteModal, setNoteModal] = React.useState<boolean>(false); //toggle create note modal
   const [showIconsOnHover, setShowIconsOnHover] = React.useState<boolean>(
@@ -30,13 +18,11 @@ const ShowNotes = (props: any) => {
   );
   const [noteUrlParams, setNoteUrlParams] = React.useState<string>(""); //Send the id of the clicked note
   const [picture, setPicture] = React.useState<string>("");
-  const [activeId, setActiveId] = useState<any>(" ");
   const [showId, setShowId] = useState<string>("");
   const [showBgModal, setShowBgModal] = useState(false);
   const [successful, setSuccessful] = useState<boolean>(false);
   const [pinnedSuccess, setPinnedSuccess] = useState<boolean>(false);
   const [emptyMessage, setEmptyMessage] = useState<boolean>(false);
-  const [activateSwitch, setActivateSwitch] = useState<boolean>(false);
 
   useEffect(() => {
     if (contextValue?.user?.userId) {
