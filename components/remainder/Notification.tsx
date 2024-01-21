@@ -194,8 +194,6 @@ const Notification = (props: any) => {
     }
   };
 
-  console.log(props?.remainder);
-
   return (
     <div
       style={{

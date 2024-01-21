@@ -83,7 +83,7 @@ const ShowNotes = (props: any) => {
         position: "top-right",
       });
     }
-  }, []);
+  }, [contextValue?.user?.notifications]);
 
   return (
     <div className="ml-[20px] max-md:ml-[20px] ">

@@ -57,7 +57,7 @@ const Pinned = () => {
           >
             {contextValue?.pinnedNote?.map((pinned: any) => (
               <div
-                className="relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5f6368] break-words mb-[25px] rounded-[10px] max-sm:w-[90%] "
+                className="relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5f6368] break-words mb-[25px] rounded-[10px] max-md:max-w-[230px] "
                 style={{
                   backgroundColor: pinned?.bgColor
                     ? pinned?.bgColor

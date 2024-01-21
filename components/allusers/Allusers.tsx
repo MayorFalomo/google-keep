@@ -62,7 +62,6 @@ const Allusers = (props: any) => {
 };
 
 const User = ({ user }: any) => {
-  console.log(user, "This is user");
   return (
     <div className="flex justify-center items-center flex-col gap-[7px] ">
       <div
@@ -76,11 +75,7 @@ const User = ({ user }: any) => {
         }}
         className="rounded-full"
       ></div>
-      {/* <img
-        src={user?.profilePic}
-        className="flex justify-center w-[70px] h-[70px] rounded-full"
-        alt="img"
-      /> */}
+
       <p className="text-[18px] font-medium text-center mt-2 ">
         {user.username}
       </p>
