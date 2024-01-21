@@ -39,7 +39,7 @@ const Notifications = (props: Props) => {
 
   //   console.log(currentUser, "This is current");
   return (
-    <div className=" mt-[10px] mb-[200px] ml-[40px] max-md:ml-[20px] ">
+    <div className=" mt-[10px] mb-[200px] ml-[40px] max-md:ml-[20px]">
       <h1 className="flex items-start justify-start text-[22px]  mb-[20px] max-sm:text-[16px] max-[850px]:ml-[0px] ">
         New Notifications
       </h1>

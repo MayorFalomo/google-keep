@@ -40,7 +40,7 @@ const Remainders = (props: any) => {
   // console.log(currentUser, "This is current");
 
   return (
-    <div className=" mt-[10px] mb-[50px] ml-[40px] max-md:ml-[20px] ">
+    <div className=" mt-[10px] mb-[50px] ml-[40px] max-md:ml-[20px]  max-sm:w-[90%]  ">
       <h1 className="flex items-start justify-start text-[22px]  mb-[20px] max-sm:text-[16px] max-[850px]:ml-[0px] ">
         Pending Remainders
       </h1>
@@ -49,7 +49,7 @@ const Remainders = (props: any) => {
           onClick={() => {
             contextValue.setOpenTextArea(false);
           }}
-          className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
+          className="flex items-start gap-4 mb-[150px] flex-wrap w-[100%] "
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
