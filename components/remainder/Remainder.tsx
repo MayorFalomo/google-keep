@@ -194,8 +194,6 @@ const Remainder = (props: any) => {
     }
   };
 
-  console.log(props?.remainder);
-
   return (
     <div
       style={{
