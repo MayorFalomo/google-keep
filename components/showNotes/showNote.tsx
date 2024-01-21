@@ -324,14 +324,14 @@ const ShowNote = (props: any) => {
       title: props.note?.title,
       note: props.note?.note,
       picture: props.note?.picture,
-      drawing: props.note?.drawing,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.label,
+      label: props.note?.label,
       location: props.note?.location,
       createdAt: props?.note.createdAt,
+      canvas: props?.canvas?.canvas,
     };
     try {
       await axios

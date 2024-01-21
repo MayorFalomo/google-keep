@@ -513,6 +513,9 @@ const Archive = (props: any) => {
       className="mapped"
     >
       <div onClick={handleClick} className="subContainer">
+        {props?.archived?.canvas?.map((canvas: any, index: number) => {
+          return <CanvasImage key={index} canvas={canvas} />;
+        })}
         {props?.archived?.picture ? (
           <Image
             className="w-[100%] max-h-[150px]"
@@ -869,7 +872,7 @@ const Archive = (props: any) => {
           </motion.div>
         ) : null}
       </AnimatePresence>
-      {showCollaboratorModal ? (
+      {/* {showCollaboratorModal ? (
         <AnimatePresence>
           <motion.div
             exit={{ opacity: 0 }}
@@ -877,15 +880,12 @@ const Archive = (props: any) => {
             animate={{ opacity: 1 }}
             className=" "
           >
-            {/* <Collaborators
-              noteUrlParams={props.noteUrlParams}
-              setShowCollaboratorModal={setShowCollaboratorModal}
-            /> */}
+          
           </motion.div>
         </AnimatePresence>
       ) : (
         ""
-      )}
+      )} */}
 
       {props?.showBgModal ? (
         <AnimatePresence>
@@ -893,15 +893,7 @@ const Archive = (props: any) => {
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-          >
-            {/* <Background
-              noteUrlParams={props?.noteUrlParams}
-              showBgModal={props?.showBgModal}
-              setShowBgModal={props?.setShowBgModal}
-              overLay={props?.overLay}
-              setOverLay={props?.setOverLay}
-            /> */}
-          </motion.div>
+          ></motion.div>
         </AnimatePresence>
       ) : (
         ""
@@ -917,7 +909,6 @@ const Archive = (props: any) => {
       ) : (
         ""
       )}
-      {/* {props?.pinnedSuccess && <ToastContainer />} */}
       <Toaster
         position="bottom-left"
         toastOptions={{
@@ -930,6 +921,25 @@ const Archive = (props: any) => {
           },
         }}
       />
+    </div>
+  );
+};
+
+const CanvasImage = (canvas: any) => {
+  return (
+    <div>
+      {canvas.canvas.map((canvas: any, index: number) => {
+        return <ShowCanvasImage key={index} canvas={canvas} />;
+      })}
+      {/* <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" /> */}
+    </div>
+  );
+};
+
+const ShowCanvasImage = (canvas: any) => {
+  return (
+    <div className="w-[100%] h-[100%]">
+      <img src={canvas.canvas?.imageDataURL} className="w-[100%] h-[100%]" />
     </div>
   );
 };
