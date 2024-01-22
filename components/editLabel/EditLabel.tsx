@@ -18,8 +18,6 @@ const EditLabel = (props: any) => {
     (element: any) => element.labelId?.length > 1
   );
 
-  console.log(filteredArray, "this is filtered array");
-
   return (
     <div className="editLabelContainer">
       <h1 className="text-[22px] py-2">Edit Labels </h1>

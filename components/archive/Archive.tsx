@@ -1,3 +1,4 @@
+"use client";
 import { useAppContext } from "@/helpers/Helpers";
 import Tippy from "@tippyjs/react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -135,12 +136,12 @@ const Archive = (props: any) => {
       title: props.note?.title,
       note: props.note?.note,
       picture: props.note?.picture,
-      drawing: props.note?.drawing,
+      canvas: props.note?.canvas,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.labels,
+      label: props.note?.label,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -166,12 +167,12 @@ const Archive = (props: any) => {
       title: props.note?.title,
       note: props.note?.note,
       picture: props.note?.picture,
-      drawing: props.note?.drawing,
+      canvas: props.note?.canvas,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.labels,
+      label: props.note?.label,
       location: props.note?.location,
       createdAt: new Date(),
     };
@@ -214,16 +215,16 @@ const Archive = (props: any) => {
     e.preventDefault();
     const country = {
       _id: props.note?._id,
-      userId: props.note?.userId,
-      note: props.note?.note,
-      title: props.note?.title,
-      picture: props.note?.picture,
-      bgImage: props.note?.bgImage,
-      bgColor: props.note?.bgColor,
-      remainder: props.note?.remainder,
-      collaborator: props.note.collaborator,
-      labels: props.note?.labels,
-      location: countryValue?.labels || props.note?.location || "",
+      // userId: props.note?.userId,
+      // note: props.note?.note,
+      // title: props.note?.title,
+      // picture: props.note?.picture,
+      // bgImage: props.note?.bgImage,
+      // bgColor: props.note?.bgColor,
+      // remainder: props.note?.remainder,
+      // collaborator: props.note.collaborator,
+      // label: props.note?.label,
+      location: props.note?.location || "",
     };
     try {
       axios.put(
@@ -450,7 +451,7 @@ const Archive = (props: any) => {
       title: props.archived?.title,
       note: props.archived?.note,
       picture: props.archived?.picture,
-      drawing: props.archived?.drawing,
+      canvas: props.archived?.canvas,
       bgImage: props.archived?.bgImage,
       bgColor: props.archived?.bgColor,
       remainder: props.archived?.remainder,
@@ -458,7 +459,7 @@ const Archive = (props: any) => {
       label: props.archived?.label,
       labelId: props?.archived?.labelId,
       location: props.archived?.location,
-      createdAt: props?.archived.createdAt,
+      createdAt: props?.archived?.createdAt,
     };
     try {
       await axios
@@ -493,14 +494,15 @@ const Archive = (props: any) => {
       title: props.note?.title,
       note: props.note?.note,
       picture: props.note?.picture,
-      drawing: props.note?.drawing,
+      canvas: props?.note?.canvas,
       bgImage: props.note?.bgImage,
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.labels,
+      label: props.note?.label,
+      labelId: props?.note?.label,
       location: props.note?.location,
-      createdAt: props?.note.createdAt,
+      createdAt: props?.note?.createdAt,
     });
     setOpenOptionsModal(!openOptionsModal);
   };
@@ -517,15 +519,17 @@ const Archive = (props: any) => {
           return <CanvasImage key={index} canvas={canvas} />;
         })}
         {props?.archived?.picture ? (
-          <Image
-            className="w-[100%] max-h-[150px]"
-            width={200}
-            height={120}
-            src={props?.archived?.picture}
-            loading="lazy"
-            // objectFit="cover"
-            alt=" "
-          />
+          <div className="w-[100%]">
+            <Image
+              className="w-[100%]"
+              width={120}
+              height={120}
+              src={props?.archived?.picture}
+              loading="lazy"
+              // objectFit="cover"
+              alt=" "
+            />
+          </div>
         ) : (
           ""
         )}

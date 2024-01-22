@@ -55,8 +55,10 @@ const ListView = (props: any) => {
   const [masonryLoaded, setMasonryLoaded] = useState(false);
 
   return (
-    <div className="ml-[50px] max-md:ml-[10px]">
-      <h1 className="text-[#8A949E] text-[20px]  mb-[20px]">OTHERS </h1>
+    <div className="ml-[20px] max-md:ml-[10px]">
+      <h1 className="text-[#8A949E] text-[20px]  max-sm:text-[17px] font-bold mb-[20px]">
+        OTHERS{" "}
+      </h1>
       <AnimatePresence>
         {
           <motion.div
