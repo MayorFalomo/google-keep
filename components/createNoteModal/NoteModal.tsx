@@ -33,7 +33,6 @@ const NoteModal = (props: any) => {
   const [editNote, setEditNote] = useState<string>("");
   const [editPicture, setEditPicture] = useState<string>("");
   const [editVideo, setEditVideo] = useState<string>("");
-  const [editDrawing, setEditDrawing] = useState<string>("");
   const [editBgImage, setEditBGImage] = useState<string>("");
   const [editBgColor, setEditBGColor] = useState<string>("");
   const [editRemainder, setEditRemainder] = useState<boolean>(false);
@@ -42,8 +41,6 @@ const NoteModal = (props: any) => {
   const [noteCanvas, setNoteCanvas] = useState<any>([]);
   const [closeIcon, setCloseIcon] = useState(false);
   const [editLocation, EditLocation] = useState<string>("");
-  const [id, setId] = useState<string>(props.noteUrlParams);
-  const [row, setRow] = useState<boolean>(false);
 
   const storeId = props.noteUrlParams;
 
@@ -175,7 +172,7 @@ const NoteModal = (props: any) => {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="fixed z-20 h-fit w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#5F6368] p-[8px] max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none max-[600px]:overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
+      className="fixed top-[10px] left-0 z-20 h-fit w-1/2 m-auto inset-x-0 inset-y-0 rounded-[10px] border-2 border-red-600 p-[8px] max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-2 max-[600px]:overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
     >
       {singleNote?.canvas?.map((canvas: any, index: number) => {
         return <CanvasImage key={index} canvas={canvas} />;
@@ -204,7 +201,10 @@ const NoteModal = (props: any) => {
         ""
       )}
       <div className="h-[100%]">
-        <form className="h-full max-sm:mt-[10px] " onSubmit={handleEditNote}>
+        <form
+          className="h-full mt-[10px] border-3 border-green-600 "
+          onSubmit={handleEditNote}
+        >
           <div className="flex items-center max-[600px]:mt-5px  ">
             <input
               className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"

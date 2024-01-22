@@ -66,7 +66,7 @@ const Archives = (props: any) => {
   };
 
   return (
-    <div className=" mt-[10px] mb-[200px] ml-[40px] max-md:ml-[20px] ">
+    <div className=" mt-[10px] mb-[200px] ml-[20px] max-md:ml-[20px] ">
       <h1 className="flex items-center justify-center text-center ml-[20px] text-[20px]  mb-[20px] max-sm:text-[16px] max-[850px]:ml-[0px] ">
         <i>
           Notes in Trash are deleted after 1 day{" "}
@@ -83,7 +83,7 @@ const Archives = (props: any) => {
           onClick={() => {
             contextValue.setOpenTextArea(false);
           }}
-          className="flex items-start gap-4 mb-[150px] flex-wrap w-[95%] "
+          className="flex items-start gap-4 mb-[150px] flex-wrap w-[90%] max-[450px]:justify-center  max-[450px]:mx-auto "
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -104,7 +104,7 @@ const Archives = (props: any) => {
                     setShowIconsOnHover(true);
                     setShowId(trash?._id);
                   }}
-                  className=" relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] break-words "
+                  className=" relative max-w-[300px] min-w-[300px] h-fit min-h-[140px] border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] break-words  max-md:w-[300px] max-sm:min-w-[100%] max-[450px]:mr-0 "
                   style={{
                     backgroundColor: trash?.bgColor
                       ? trash?.bgColor

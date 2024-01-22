@@ -38,7 +38,7 @@ const Pinned = () => {
   return (
     <div className="ml-[20px] max-md:ml-[20px] max-sm:w-[90%] ">
       {contextValue?.pinnedNote?.length > 0 ? (
-        <h1 className="text-[#8A949E] text-[20px] mb-[20px]  max-sm:text-[18px] ">
+        <h1 className="text-[#8A949E] text-[20px] mb-[20px] font-semibold  max-sm:text-[17px] ">
           PINNED{" "}
         </h1>
       ) : (

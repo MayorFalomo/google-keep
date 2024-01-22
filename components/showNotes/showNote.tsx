@@ -331,7 +331,7 @@ const ShowNote = (props: any) => {
       label: props.note?.label,
       location: props.note?.location,
       createdAt: props?.note.createdAt,
-      canvas: props?.canvas?.canvas,
+      canvas: props?.note?.canvas,
     };
     try {
       await axios

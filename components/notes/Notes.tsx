@@ -404,7 +404,7 @@ const Notes = (props: Props) => {
                 className="bg-transparent text-white w-full text-[18px] border-none outline-none resize-none whitespace-break-spaces [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
                 placeholder="Take a note..."
               />
-              <div className="flex item-center gap-6 max-[620px]:gap-2 max-sm:gap-2 max-[360px]:gap-[5px] ">
+              <div className="relative flex item-center gap-6 max-[620px]:gap-2 max-sm:gap-2 max-[360px]:gap-[5px] ">
                 <Tippy placement="bottom" content="Remind me">
                   <span className="p-3 rounded-full cursor-not-allowed max-nav:p-2 max-[400px]:p-1 ">
                     {
@@ -452,10 +452,10 @@ const Notes = (props: Props) => {
                       exit={{ opacity: 0 }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="bg-[#2D2E30] fixed z-30 h-fit max-h-[200px] w-fit m-auto inset-x-0 inset-y-0 rounded-[10px]"
+                      className="bg-[#2D2E30] absolute bottom-[-150px] left-0 z-30 h-fit max-h-[200px] w-fit m-auto inset-x-0 inset-y-0 rounded-[10px] max-[1100px]:bottom-[-230px] "
                     >
-                      <div className="flex flex-col items-start justify-center gap-2 h-full p-1">
-                        <div className="flex items-start gap-3">
+                      <div className="bg-[#2D2E30]  flex flex-col items-start justify-center gap-2 h-full p-1">
+                        <div className="flex items-start flex-wrap gap-3">
                           {colors?.map((bgColor: any) => {
                             return (
                               <div key={bgColor?.id}>
@@ -473,7 +473,7 @@ const Notes = (props: Props) => {
                           style={{ border: "1px solid #5F6368" }}
                           className="w-full "
                         ></div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center flex-wrap gap-3">
                           {bgImages.map((bgImage: any) => {
                             return (
                               <div className="" key={bgImage?.id}>

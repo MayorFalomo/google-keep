@@ -74,7 +74,7 @@ const ShowNotes = (props: any) => {
 
   return (
     <div className="ml-[20px] max-md:ml-[20px] ">
-      <h1 className="text-[#8A949E] text-[20px]  mb-[20px] max-sm:text-[18px] ">
+      <h1 className="text-[#8A949E] text-[20px]  mb-[20px] font-semibold max-sm:text-[17px] ">
         OTHERS{" "}
       </h1>
       <AnimatePresence>
