@@ -560,11 +560,7 @@ const Notes = (props: Props) => {
                 </Tippy>
               </div>
               <div className=" flex justify-end">
-                <button
-                  type="submit"
-                  // onClick={() => }
-                  className="cursor-pointer "
-                >
+                <button type="submit" className="cursor-pointer ">
                   Save{" "}
                 </button>
               </div>
@@ -584,7 +580,7 @@ const Notes = (props: Props) => {
                 type="text"
                 placeholder="Take a note..."
               />
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 max-sm:gap-2">
                 <Tippy placement="bottom" content="New list ">
                   <span className="p-4  rounded-full hover:bg-[#28292C]  cursor-not-allowed max-md:p-[5px] ">
                     {
