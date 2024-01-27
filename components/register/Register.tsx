@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { doc, setDoc } from "firebase/firestore";
+
 type Props = {};
 
 const Register = (props: any) => {

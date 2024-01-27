@@ -142,6 +142,48 @@ const NoteModal = (props: any) => {
     }
   };
 
+  //Function to pin note
+  const pinNote = async (e: any) => {
+    e.preventDefault();
+
+    const pinThisNote = {
+      _id: props.noteUrlParams,
+      userId: singleNote?.userId, //This is not unique, The value is the same thing across all the pinned note, since it's the users id number, we need it to get all the pinned notes belonging to the particular user
+      username: singleNote?.username,
+      title: singleNote?.title,
+      note: singleNote?.note,
+      picture: singleNote?.picture,
+      video: singleNote?.video,
+      drawing: singleNote?.drawing,
+      bgImage: singleNote?.bgImage,
+      bgColor: singleNote?.bgColor,
+      remainder: singleNote?.remainder,
+      collaborator: singleNote?.collaborator,
+      label: singleNote?.label,
+      location: singleNote?.location,
+      canvas: singleNote?.canvas,
+      createdAt: new Date(),
+    };
+
+    try {
+      await axios
+        .post(
+          `https://keep-backend-theta.vercel.app/api/notes/add-pinned`,
+          pinThisNote
+        )
+        .then(() =>
+          contextValue.setPinnedNote(
+            [...contextValue?.pinnedNote, pinThisNote].reverse()
+          )
+        )
+        .catch((err) => console.log(err));
+
+      toast.success("Note Pinned Successfully!");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   //Function for responsive/resizable note modal based on the content inside
   const calculateColumns = (noteLength: number) => {
     // Define your breakpoints and corresponding column numbers
@@ -214,7 +256,10 @@ const NoteModal = (props: any) => {
                 // e.stopPropagation();
               }}
             />
-            <span className="p-3 rounded-full hover:bg-[#313236] cursor-pointer">
+            <span
+              onClick={pinNote}
+              className="p-3 rounded-full hover:bg-[#313236] cursor-pointer"
+            >
               {
                 <BsPin
                   className=" text-[#9AA0A6] text-[22px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl "

@@ -19,6 +19,9 @@
     .container{
         grid-template-columns: 80px auto;
     }
+     .notesContain::-webkit-scrollbar{
+    width: 0;
+    }
 }
 
 @media (max-width: 550px ) {

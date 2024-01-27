@@ -38,7 +38,7 @@ const ShowPinned = (props: any) => {
   const handleClick = (e: any) => {
     e.preventDefault();
     setNoteUrlParams(props.pinned?._id);
-    props?.setPinnedModal(true);
+    // props?.setPinnedModal(true);
     setOverLayBg(true);
   };
 
@@ -361,9 +361,11 @@ const ShowPinned = (props: any) => {
 
             <Tippy placement="bottom" content="Background options ">
               <span
-                onClick={() => {
+                onClick={(e) => {
                   setNoteUrlParams(props.pinned?._id);
                   setOpenBgModal(true);
+                  e.stopPropagation();
+                  setOverLayBg(true);
                 }}
                 className="p-2 rounded-full hover:bg-[#28292C] transition ease-in-out delay-150 cursor-pointer "
               >
@@ -478,6 +480,7 @@ const ShowPinned = (props: any) => {
             <BgPin
               noteUrlParams={noteUrlParams}
               setOpenBgModal={setOpenBgModal}
+              setOverLayBg={setOverLayBg}
             />
           </div>
         ) : (

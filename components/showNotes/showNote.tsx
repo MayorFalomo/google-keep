@@ -93,7 +93,7 @@ const ShowNote = (props: any) => {
       bgColor: props.note?.bgColor,
       remainder: props.note?.remainder,
       collaborator: props.note?.collaborator,
-      labels: props.note?.label,
+      label: props.note?.label,
       location: props.note?.location,
       canvas: props.note?.canvas,
       createdAt: new Date(),
@@ -138,7 +138,6 @@ const ShowNote = (props: any) => {
       canvas: props?.note?.canvas,
       createdAt: new Date(),
     };
-    console.log(noteRemainder, "note remainder");
     try {
       axios
         .post(
@@ -150,7 +149,7 @@ const ShowNote = (props: any) => {
         ...prevUser?.pending,
         noteRemainder,
       ]);
-      toast.success("Remainder set for tomorrow ");
+      toast.success("Remainder set for later ");
       setOpenNotifyModal(false);
     } catch (error) {
       console.log(error, "This did not work");
@@ -177,7 +176,6 @@ const ShowNote = (props: any) => {
       canvas: props?.note?.canvas,
       createdAt: new Date(),
     };
-    console.log(noteRemainder, "note remainder");
     try {
       axios
         .post(
@@ -227,7 +225,7 @@ const ShowNote = (props: any) => {
         ...prevUser?.pending,
         noteRemainder,
       ]);
-      toast.success("Remainder set for tomorrow ");
+      toast.success("Remainder set for next week ");
     } catch (error) {
       console.log(error, "This did not work");
     }

@@ -2,6 +2,7 @@
 import { useAppContext } from "@/helpers/Helpers";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import "./allusers.css";
 
 type Props = {};
 
@@ -27,36 +28,38 @@ const Allusers = (props: any) => {
   const gridRef = useRef<any>(null);
   const masonryRef = useRef<any>(null);
 
-  const switchLayout = () => {
-    let masonryInstance: any = null;
+  // const switchLayout = () => {
+  //   let masonryInstance: any = null;
 
-    if (typeof window !== "undefined") {
-      import("masonry-layout").then((module) => {
-        const Masonry = module.default;
-        masonryInstance = new Masonry(gridRef.current, {
-          // options
-          // itemSelector: ".grid-item",
-          // columnWidth: 160,
-          // gutter: 20,
-        });
+  //   if (typeof window !== "undefined") {
+  //     import("masonry-layout").then((module) => {
+  //       const Masonry = module.default;
+  //       masonryInstance = new Masonry(gridRef.current, {
+  //         // options
+  //         // itemSelector: ".grid-item",
+  //         // columnWidth: 160,
+  //         // gutter: 20,
+  //       });
 
-        masonryRef.current = masonryInstance;
-      });
-    }
-  };
+  //       masonryRef.current = masonryInstance;
+  //     });
+  //   }
+  // };
 
-  switchLayout();
+  // switchLayout();
 
   return (
-    <div ref={gridRef} className="grid">
-      {allUsers.map((user: any) => (
-        <div
-          className="max-w-[250px] min-w-[200px] h-fit min-h-[120px] p-3 border-2 border-[#5F6368] mr-[25px] mb-[25px] rounded-[10px] "
-          key={user?._id}
-        >
-          <User user={user} />
-        </div>
-      ))}
+    <div className="grid">
+      <div className="w-full flex flex-wrap ">
+        {allUsers.map((user: any) => (
+          <div
+            className="w-fit min-w-200px h-fit min-h-[120px] p-3 border-2 border-[#5F6368] mr-[20px] ml-[5px] mb-[25px] rounded-[10px] max-[600px]:max-w-95%  max-[600px]:w-full max-[600px]:mr-0 "
+            key={user?._id}
+          >
+            <User user={user} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

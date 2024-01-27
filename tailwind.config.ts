@@ -7,9 +7,9 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    fontFamily: {
-       display: ["Roboto", "sans serif"],
-    },
+    // fontFamily: {
+    //    display: ["Roboto", "sans serif"],
+    // },
     extend: {
       screens: {
       sm: "480px",
