@@ -51,7 +51,7 @@ const SetBgPin = (props: any) => {
       // );
       toast.success("Bg color set successfully");
       props?.setOpenBgModal(false);
-      props?.setOverLay(false);
+      props?.setOverLayBg(false);
     } catch (error) {
       console.error("Error updating bgColor:", error);
     }
@@ -65,38 +65,13 @@ const SetBgPin = (props: any) => {
       >
         <Tippy placement="bottom" content={`${props?.color?.name}`}>
           <button
-            type="submit"
+            onClick={appendBgColorToPin}
+            // type="submit"
             className={`w-[40px] h-[40px] hover:border-2 border-white outline-none border-none rounded-full`}
             style={{ backgroundColor: props?.color?.color }}
           ></button>
         </Tippy>
       </form>
-      <Toaster
-        position="bottom-left"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#313235",
-            color: "#fff",
-            width: "350px",
-            height: "70px",
-          },
-        }}
-      >
-        {(t) => (
-          <ToastBar toast={t}>
-            {({ icon, message }: any) => (
-              <>
-                {icon}
-                {message}
-                {t.type !== "loading" && (
-                  <button onClick={() => toast.dismiss(t.id)}>X</button>
-                )}
-              </>
-            )}
-          </ToastBar>
-        )}
-      </Toaster>
     </div>
   );
 };

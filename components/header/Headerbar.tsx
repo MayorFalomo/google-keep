@@ -51,7 +51,7 @@ const Headerbar = (props: any) => {
   };
 
   return (
-    <nav className="fixed z-10 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode max-[550px]:mb-2 max-[550px]:p-2 ">
+    <nav className="fixed z-20 top-0 left-0 w-full flex justify-between mb-4 p-4 bg-darkmode max-[550px]:mb-2 max-[550px]:p-2 ">
       <div className="flex items-center justify-between gap-16 w-[60%] min-[850px]:  ">
         {mobileSearchBar ? (
           <form className=" bg-white flex items-center rounded-xl px-4 ">

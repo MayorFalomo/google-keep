@@ -114,7 +114,7 @@ const PinnedModal = (props: any) => {
 
   return (
     <div
-      className="fixed z-30 min-h-[200px] h-fit w-1/2 border-2 border-[#5F6368] m-auto inset-x-0 inset-y-0 rounded-[10px] p-[8px]  max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none max-[600px]:overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
+      className="fixed z-30 min-h-[200px] bg-darkmode h-fit w-1/2 border-2 border-[#5F6368] m-auto inset-x-0 inset-y-0 rounded-[10px] p-[8px]  max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none max-[600px]:overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']  "
       style={{
         backgroundColor: singleNote?.bgColor ? singleNote?.bgColor : "#202124",
         backgroundImage: `url(${
@@ -155,7 +155,7 @@ const PinnedModal = (props: any) => {
         ""
       )}
       <div className="h-[100%]">
-        <form className="h-full max-sm:mt-[10px]" onSubmit={handleEditNote}>
+        <form className="h-full max-sm:mt-[20px]" onSubmit={handleEditNote}>
           <div className="flex items-center">
             <input
               className="w-full bg-transparent p-2 text-[22px] font-semibold border-none outline-none"
@@ -167,7 +167,7 @@ const PinnedModal = (props: any) => {
             <span className="p-3 rounded-full hover:bg-[#28292C]">
               {
                 <BsPin
-                  className="  text-[#9AA0A6] text-[22px] max-sm:text-[20px] max-md:text-[30px] lg:text-3xl  "
+                  className="  text-[#9AA0A6] text-[22px] max-sm:text-[20px] max-md:text-[16px] lg:text-3xl cursor-not-allowed "
                   cursor="pointer"
                 />
               }{" "}
