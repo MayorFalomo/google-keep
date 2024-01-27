@@ -206,7 +206,8 @@ const NoteModal = (props: any) => {
   return (
     <div
       style={{
-        backgroundColor: singleNote?.bgColor ? singleNote?.bgColor : "#202124",
+        backgroundColor:
+          singleNote?.bgColor.length > 0 ? singleNote?.bgColor : "#202124",
         backgroundImage: `url(${
           singleNote?.bgImage ? singleNote?.bgImage : ""
         })`,
@@ -214,7 +215,9 @@ const NoteModal = (props: any) => {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="fixed top-[10px] left-0 z-20 h-fit w-1/2 m-auto border-[#5F6368] inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#] p-[8px] max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none max-[600px]:border-2 max-[600px]:overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] "
+      className={`${
+        singleNote?.bgColor.length > 0 ? singleNote?.bgColor : "#202124"
+      } fixed top-[10px] left-0 z-20 h-fit w-1/2 m-auto border-[#5F6368] inset-x-0 inset-y-0 rounded-[10px] border-2 border-[#] p-[8px] max-[1000px]:w-[80%] max-[600px]:h-screen max-[600px]:w-full max-[600px]:rounded-none max-[600px]:border-none max-[600px]:border-2 max-[600px]:overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] `}
     >
       {singleNote?.canvas?.map((canvas: any, index: number) => {
         return <CanvasImage key={index} canvas={canvas} />;
