@@ -37,7 +37,7 @@ const Remainders = (props: any) => {
     }
   }, [contextValue?.user?.userId]);
 
-  // console.log(currentUser, "This is current");
+  console.log(contextValue?.user?.userId, "This is current");
 
   return (
     <div className=" mt-[10px] mb-[50px] ml-[40px] max-md:ml-[20px]  max-sm:w-[90%]  ">
