@@ -374,6 +374,7 @@ const ShowPinned = (props: any) => {
                 }{" "}
               </span>
             </Tippy>
+
             <Tippy placement="bottom" content="Add image">
               <label
                 onClick={() => {
@@ -487,6 +488,7 @@ const ShowPinned = (props: any) => {
           ""
         )}
       </div>
+
       {overLayBg && (
         <AnimatePresence>
           <motion.div
