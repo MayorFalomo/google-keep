@@ -53,7 +53,7 @@ const Allusers = (props: any) => {
       <div className="w-full flex flex-wrap ">
         {allUsers.map((user: any) => (
           <div
-            className="w-fit min-w-200px h-fit min-h-[120px] p-3 border-2 border-[#5F6368] mr-[20px] ml-[5px] mb-[25px] rounded-[10px] max-[600px]:max-w-95%  max-[600px]:w-full max-[600px]:mr-0 "
+            className="w-fit min-w-[200px] h-fit min-h-[120px] p-3 border-2 border-[#5F6368] mr-[20px] ml-[5px] mb-[25px] rounded-[10px] break-words max-[600px]:max-w-[95%] max-sm:min-w-[100%]  max-[600px]:w-full max-[600px]:mr-0 "
             key={user?._id}
           >
             <User user={user} />
