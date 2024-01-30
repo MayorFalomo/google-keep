@@ -50,7 +50,6 @@ const Pinned = () => {
             onClick={() => contextValue.setOpenTextArea(false)}
             style={{ position: "relative" }}
             className="relative flex items-start flex-wrap gap-[20px] "
-            // className="relative ml-[50px] flex items-start flex-wrap gap-20px "
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -228,7 +228,6 @@ const NoteModal = (props: any) => {
           width={200}
           height={120}
           src={singleNote?.picture}
-          // objectFit="cover"
           alt=" "
         />
       ) : (
@@ -256,7 +255,6 @@ const NoteModal = (props: any) => {
               autoFocus
               onChange={(e: any) => {
                 setEditTitle(e.target.value);
-                // e.stopPropagation();
               }}
             />
             <span
@@ -275,11 +273,9 @@ const NoteModal = (props: any) => {
             <textarea
               typeof="text"
               className="max-h-[100%] bg-transparent text-white h-100% whitespace-break-spaces  w-full text-[16px] font-medium outline-none resize-none overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-[600px]:h-[100%] "
-              // className="bg-darkmode w-full "
               defaultValue={singleNote?.note || editNote}
               placeholder="Note"
               rows={columns}
-              // rows={singleNote?.note.length > 300 ? 6 : 4}
               onChange={(e: any) => {
                 setEditNote(e.target.value);
                 // e.stopPropagation();
