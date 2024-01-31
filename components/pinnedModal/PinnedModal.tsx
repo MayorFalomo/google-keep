@@ -33,8 +33,6 @@ const PinnedModal = (props: any) => {
   const [label, setLabel] = useState<any>("");
   const [location, setLocation] = useState<string>("");
 
-  // console.log(props?.noteUrlParams, "this is url params");
-
   useEffect(() => {
     if (props?.noteUrlParams) {
       axios
@@ -135,7 +133,6 @@ const PinnedModal = (props: any) => {
             width={200}
             height={120}
             src={singleNote?.picture}
-            // objectFit="cover"
             alt=" "
           />
         </div>
@@ -149,7 +146,6 @@ const PinnedModal = (props: any) => {
           height={120}
           controls
           src={singleNote?.video}
-          // objectFit="cover"
         ></video>
       ) : (
         ""
@@ -268,19 +264,16 @@ const PinnedModal = (props: any) => {
 };
 
 const CanvasImage = (canvas: any) => {
-  // console.log(canvas.canvas, "canvasImage");
   return (
     <div className=" ">
       {canvas.canvas.map((canvas: any, index: number) => {
         return <ShowCanvasImage key={index} canvas={canvas} />;
       })}
-      {/* <img src={canvas?.canvas?.imageDataURL} className="w-[100%] h-[100%]" /> */}
     </div>
   );
 };
 
 const ShowCanvasImage = (canvas: any) => {
-  // console.log(draw.draw?.imageDataURL, "canvasImage");
   return (
     <div className="w-[100%] h-[100%] max-[600px]:h-[100%] ">
       <img
